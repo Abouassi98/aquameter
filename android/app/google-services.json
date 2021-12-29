@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "862644530715",
+    "project_id": "aquameter-94eef",
+    "storage_bucket": "aquameter-94eef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862644530715:android:50ac90c18463794cee12be",
+        "android_client_info": {
+          "package_name": "com.aquameter.aquameter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862644530715-i04djfa2anh1eki6m99dac6ufsn9iv91.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aquameter.aquameter",
+            "certificate_hash": "1c9c965c9db01a4808455a172684039dc5bf8929"
+          }
+        },
+        {
+          "client_id": "862644530715-u6kgfqi835cndkbalefk2supvc8nokui.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxd5_FzKjdOUnJTFGUYJ1hfNDQR_TGXvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862644530715-u6kgfqi835cndkbalefk2supvc8nokui.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
