@@ -7,7 +7,6 @@ import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
 import 'package:aquameter/features/profile/presentation/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
 
-
 class ShopItem extends StatelessWidget {
   final String name, address;
   final int num;
@@ -93,9 +92,8 @@ class ShopItem extends StatelessWidget {
                         // Shop name and distance
                         Text(
                           name,
-                          style: MainTheme.headingTextStyle.copyWith(
-                            fontSize: 10,
-                          ),
+                          style: MainTheme.headingTextStyle
+                              .copyWith(fontSize: 10, color: Colors.black),
                         ),
                         const SizedBox(height: 10),
                         Text(
@@ -132,7 +130,8 @@ class ShopItem extends StatelessWidget {
                             ),
                             Text(
                               '${num.toString()} %',
-                              style: MainTheme.headingTextStyle.copyWith(fontSize: 10),
+                              style: MainTheme.headingTextStyle
+                                  .copyWith(fontSize: 10),
                             ),
                           ],
                         ),

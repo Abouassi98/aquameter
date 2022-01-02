@@ -79,7 +79,7 @@ class MyApp extends StatelessWidget {
                     ],
 
                     debugShowCheckedModeBanner: false,
-                    title: 'aquameter',
+                    title: 'AquaMeter',
                     navigatorKey: navigator,
                     theme: appTheme,
                     home: const SplashView(),

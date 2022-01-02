@@ -7,6 +7,7 @@ import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_country_code_picker.dart';
+import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
 
 import 'package:aquameter/core/utils/widgets/custom_map.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
@@ -96,13 +97,8 @@ class AddClient extends HookConsumerWidget {
                             margin: const EdgeInsets.all(20),
                             child: Column(
                               children: <Widget>[
-                                  Text(
-                      "عينه الاسماك",
-                      style: MainTheme.headingTextStyle
-                          .copyWith(color: Colors.black),
-                    ),
-                                Text("إضافة عميل جديد",
-                                    style: MainTheme.headingTextStyle),
+                                const CustomHeaderTitle(
+                                    title: "إضافة عميل جديد"),
                                 const SizedBox(height: 15),
                                 CustomTextField(
                                   width: SizeConfig.screenWidth * 0.7,
@@ -180,7 +176,8 @@ class AddClient extends HookConsumerWidget {
                                       ),
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Text(location.address ?? 'العنوان'),
                                         Padding(
@@ -279,12 +276,15 @@ class AddClient extends HookConsumerWidget {
                                       padding: EdgeInsets.only(
                                           top: SizeConfig.screenHeight * 0.04),
                                       child: const CustomTextField(
-                                        hint: 'اسم الشركه',
+                                        hint: 'نوع العلف',
                                       ),
                                     ),
-                                    CustomBottomSheet(
-                                      name: 'نوع العلف',
-                                      list: listofMeasuer,
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: SizeConfig.screenHeight * 0.04),
+                                      child: const CustomTextField(
+                                        hint: 'اسم الشركه',
+                                      ),
                                     ),
                                   ],
                                 ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class MainTheme {
   static TextStyle buttonTextStyle = const TextStyle(
-      fontSize: 10,
+      fontSize: 12,
       fontWeight: FontWeight.bold,
       color: Colors.white,
       fontFamily: 'Tajawal');
@@ -14,7 +14,7 @@ class MainTheme {
       fontFamily: 'Tajawal');
 
   static TextStyle headingTextStyle = const TextStyle(
-    color: Colors.black,
+    color: Colors.white,
     fontSize: 18,
     fontWeight: FontWeight.bold,
   );

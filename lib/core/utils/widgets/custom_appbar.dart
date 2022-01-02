@@ -33,7 +33,7 @@ class CustomAppBar extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.02,
+            height: SizeConfig.screenHeight * 0.04,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,

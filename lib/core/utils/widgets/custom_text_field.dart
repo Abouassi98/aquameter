@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../limit_range.dart';
 import '../size_config.dart';
+import 'decimal_text_input_formatter.dart';
 
 class CustomTextField extends StatelessWidget {
-  final String? hint, errorText;
-  final int? maxLength, maxLines;
+  final String? hint;
+  final int? maxLength, maxLines, minRange, maxRange;
   final IconData? icon;
   final TextInputType? type;
   final ValueChanged<String>? onChange;
-  final bool? edit, enabled, visibility, numbersOnly;
+  final bool? edit, enabled, visibility, numbersOnly, calculator, paste;
   final Widget? suffixIcon;
   final double? height, width;
   final Function? onChangeCountry, onInit;
   final TextEditingController? controller;
   final Color? fillColor;
   final String? Function(String?)? validator;
+  final AutovalidateMode? autovalidateMode;
   const CustomTextField(
       {Key? key,
       this.hint,
@@ -23,7 +26,6 @@ class CustomTextField extends StatelessWidget {
       this.type,
       this.maxLines,
       this.numbersOnly,
-      this.errorText,
       this.onChange,
       this.edit,
       this.enabled,
@@ -36,6 +38,11 @@ class CustomTextField extends StatelessWidget {
       this.height,
       this.width,
       this.maxLength,
+      this.calculator,
+      this.paste,
+      this.minRange,
+      this.maxRange,
+      this.autovalidateMode,
       this.suffixIcon})
       : super(key: key);
 
@@ -46,17 +53,37 @@ class CustomTextField extends StatelessWidget {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: TextFormField(
+          toolbarOptions: ToolbarOptions(
+            copy: true,
+            cut: true,
+            paste: paste ?? true,
+          ),
           controller: controller,
           obscureText: visibility ?? false,
           enabled: enabled ?? true,
           textAlign: TextAlign.right,
-          inputFormatters: numbersOnly == true
-              ? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]
-              : null,
+          inputFormatters: calculator == true
+              ? <TextInputFormatter>[
+                  DecimalTextInputFormatter(decimalRange: 2),
+                  if (maxRange != null)
+                    LimitRangeTextInputFormatter(minRange!, maxRange!),
+                ]
+              : numbersOnly == true
+                  ? <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly,
+                    ]
+                  : null,
           keyboardType: type,
           onChanged: onChange,
+          autovalidateMode: autovalidateMode,
           validator: validator,
           decoration: InputDecoration(
+            errorBorder: const OutlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.red,
+                width: 1.0,
+              ),
+            ),
             filled: true,
             helperText: '',
             prefixIcon: icon != null
@@ -75,12 +102,11 @@ class CustomTextField extends StatelessWidget {
               fontSize: 10,
               fontWeight: FontWeight.bold,
             ),
-            errorText: errorText,
             floatingLabelBehavior: hint != null
                 ? FloatingLabelBehavior.always
                 : FloatingLabelBehavior.auto,
             contentPadding: EdgeInsets.only(
-                top: icon != null ? SizeConfig.screenHeight * 0.045 : 0.0,
+                top: icon != null ? SizeConfig.screenHeight * 0.04 : 0.0,
                 right: 5),
             border: InputBorder.none,
           ),

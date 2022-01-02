@@ -10,10 +10,12 @@ class CustomDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      scrollable: true,
+      
       title: Text(
         title!,
         textAlign: TextAlign.center,
-        style: MainTheme.headingTextStyle.copyWith(color: Colors.black),
+        style: MainTheme.headingTextStyle.copyWith(color: Colors.red),
       ),
       actions: widget,
     );

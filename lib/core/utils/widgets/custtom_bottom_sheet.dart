@@ -22,6 +22,7 @@ class CustomBottomSheet extends HookConsumerWidget {
 
     return Container(
       height: SizeConfig.screenHeight * 0.08,
+      width: SizeConfig.screenWidth * 0.3,
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: Colors.black38),
         borderRadius: const BorderRadius.all(

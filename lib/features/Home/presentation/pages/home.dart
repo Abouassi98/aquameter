@@ -63,8 +63,8 @@ class Home extends HookConsumerWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'خطتك هذا الاسبوع',
-                          style:
-                              MainTheme.headingTextStyle.copyWith(fontSize: 13),
+                          style: MainTheme.headingTextStyle
+                              .copyWith(fontSize: 13, color: Colors.black),
                         ),
                       ),
                       Expanded(child: DaysItem()),
@@ -82,8 +82,15 @@ class Home extends HookConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const SizedBox(
-                      height: 15,
+                    Container(
+                      width: SizeConfig.screenHeight,
+                      alignment: Alignment.bottomLeft,
+                      child: TextButton(
+                        onPressed: () {
+                          push(const SearchScreen());
+                        },
+                        child: const Text('اضافه عميل'),
+                      ),
                     ),
                     ListView.builder(
                       primary: false,
@@ -97,16 +104,6 @@ class Home extends HookConsumerWidget {
                     ),
                     const SizedBox(
                       height: 20,
-                    ),
-                    Container(
-                      width: SizeConfig.screenHeight,
-                      alignment: Alignment.bottomLeft,
-                      child: TextButton(
-                        onPressed: () {
-                          push(const SearchScreen());
-                        },
-                        child: const Text('اضافه عميل'),
-                      ),
                     ),
                   ],
                 ),

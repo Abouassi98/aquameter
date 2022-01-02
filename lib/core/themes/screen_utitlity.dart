@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class MainStyle {
   static const Color primaryColor = Color(0xff91dced);
-  static const Color selectedIconColor =  Color(0xff42A5F5);
+  static const Color selectedIconColor = Color.fromRGBO(16, 107, 172, 1);
   static const Color backGroundColor = Color(0xffe5e5e5);
 
   static const Color mainGray = Color(0xff9EA3A1);

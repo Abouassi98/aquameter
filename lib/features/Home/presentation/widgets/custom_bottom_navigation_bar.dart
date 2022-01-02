@@ -26,7 +26,7 @@ class _CustomBottomNavigationbBarState
         unselectedLabelStyle: MainTheme.subTextStyle2,
         unselectedIconTheme: const IconThemeData(color: Colors.grey, size: 25),
         unselectedItemColor: Colors.black,
-      
+        selectedItemColor: const Color.fromRGBO(16, 107, 172, 1),
         iconSize: 25,
         currentIndex: widget.inx,
         type: BottomNavigationBarType.fixed,

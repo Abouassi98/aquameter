@@ -75,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   focusedDay: DateTime.now(),
                   lastDay: DateTime(2030),
                   onDaySelected: (e, d) {
-                    push(const Calculator());
+                    push( Calculator());
                   },
                 ),
               ),
@@ -97,10 +97,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Directionality(
                   textDirection: TextDirection.ltr,
                   child: DateTimeComboLinePointChart.withSampleData()),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  CustomTextButton(title: 'احصد الآن', function: () {},),
+                  CustomTextButton(
+                    title: 'احصد الآن',
+                    function: () {},
+                  ),
                   CustomTextButton(title: 'دورة جديده', function: () {}),
                 ],
               ),

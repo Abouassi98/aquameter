@@ -124,7 +124,7 @@ class LoginScreen extends HookConsumerWidget {
                 child: const Text(' نسيت كلمة السر ؟ ',
                     style: TextStyle(color: Colors.black, fontSize: 15.0)),
                 onPressed: () {
-                  push(SendCodeScreen(inx: 1));
+                  push(SendCodeScreen(inx: 1),);
                 },
               ),
             ),

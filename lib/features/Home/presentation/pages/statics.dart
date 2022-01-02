@@ -133,15 +133,15 @@ class Statics extends StatelessWidget {
               child: const ListSelectorWidget()),
         ),
         SizedBox(
-          height: context.height * .02,
+          height: context.height * .03,
         ),
         Center(
           child: SizedBox(
-              width: SizeConfig.screenWidth * 0.2,
+              width: SizeConfig.screenWidth * 0.3,
               child: CustomTextButton(title: "تحميل التقرير", function: () {})),
         ),
         SizedBox(
-          height: context.height * .01,
+          height: context.height * .06,
         ),
       ],
     );
