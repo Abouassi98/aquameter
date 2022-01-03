@@ -12,12 +12,12 @@ import '../size_config.dart';
 // import 'defaultAppbar.dart';
 
 class CustomAppBar extends StatelessWidget {
-  final bool? search;
-  final bool? back;
+  final bool? search, back,drawer;
+
 
   final void Function(String)? onChange;
 
-  const CustomAppBar({Key? key, this.search, this.onChange, this.back})
+  const CustomAppBar({Key? key, this.search, this.onChange, this.back,this.drawer})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -38,6 +38,11 @@ class CustomAppBar extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              if(drawer==true)
+              InkWell(
+                child: const Icon(Icons.menu),
+                onTap: () => Scaffold.of(context).openDrawer(),
+              ),
               if (back == true)
                 InkWell(
                   child: const Icon(Icons.arrow_back_ios),

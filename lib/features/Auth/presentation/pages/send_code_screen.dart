@@ -63,6 +63,7 @@ class SendCodeScreen extends ConsumerWidget {
                   Center(
                     child: CustomTextField(
                       icon: Icons.phone,
+                        showCounterTxt: true,
                       hint: "رقم الموبايل",
                       width: SizeConfig.screenWidth * 0.7,
                       maxLength: 11,

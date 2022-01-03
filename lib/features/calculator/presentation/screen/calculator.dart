@@ -127,6 +127,8 @@ class Calculator extends HookConsumerWidget {
                                       CustomTextField(
                                         hint: 'درجة حرارة المياه',
                                         numbersOnly: true,
+                                        type: TextInputType.number,
+                                        calculator: true,
                                         onChange: (v) {
                                           try {
                                             tempreatureOfWater =
@@ -182,6 +184,8 @@ class Calculator extends HookConsumerWidget {
                                       CustomTextField(
                                         hint: 'اكسجين',
                                         numbersOnly: true,
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
                                         onChange: (v) {
                                           try {
                                             oxygen = num.parse(v);
@@ -330,13 +334,13 @@ class Calculator extends HookConsumerWidget {
 
                                               if (warningPh == false ||
                                                   warningS == false ||
+                                                  warningOxygen == false ||
                                                   warningTotalAmmonia ==
                                                       false ||
                                                   warningTempreatureOfWater ==
                                                       false) {
                                                 await showDialog(
                                                     context: context,
-                                                   
                                                     builder: (context) =>
                                                         CustomDialog(
                                                           title:

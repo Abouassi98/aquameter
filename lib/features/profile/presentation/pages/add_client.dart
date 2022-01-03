@@ -108,6 +108,7 @@ class AddClient extends HookConsumerWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 CustomTextField(
+                                  showCounterTxt: true,
                                   hint: 'رقم الموبايل',
                                   icon: Icons.phone,
                                   type: TextInputType.phone,
@@ -304,7 +305,7 @@ class AddClient extends HookConsumerWidget {
                           CustomTextButton(
                             title: "حفظ",
                             function: () {
-                              push(const ProfileScreen());
+                              push( ProfileScreen());
                             },
                           ),
                           const SizedBox(

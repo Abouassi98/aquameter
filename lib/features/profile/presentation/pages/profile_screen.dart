@@ -1,32 +1,37 @@
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/size_config.dart';
+import 'package:aquameter/core/utils/widgets/custom_btn.dart';
+import 'package:aquameter/core/utils/widgets/custom_dialog.dart';
+
+import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
 import 'package:aquameter/features/profile/presentation/widgets/chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:table_calendar/table_calendar.dart';
 
 import 'add_client.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+// ignore: must_be_immutable
+class ProfileScreen extends HookConsumerWidget {
+  ProfileScreen({Key? key}) : super(key: key);
 
-  @override
-  _ProfileScreenState createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  List<Map<String, dynamic>> listofMeasuer = [
+  final List<Map<String, dynamic>> listofMeasuer = [
     {'name': 'معدل الملوحه', 'id': 1},
     {'name': 'معدلات الامونيا', 'id': 2},
   ];
+  final GlobalKey<FormState> _averageWeight = GlobalKey<FormState>();
   String? selctedMeasuer;
-
+  num totalWeight = 0.0;
+  int totalFishes = 0;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ValueNotifier<num> averageWeight = useState<num>(0.0);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -73,9 +78,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   availableGestures: AvailableGestures.horizontalSwipe,
                   firstDay: DateTime(2021),
                   focusedDay: DateTime.now(),
+                  onFormatChanged: (c) {},
                   lastDay: DateTime(2030),
                   onDaySelected: (e, d) {
-                    push( Calculator());
+                    push(Calculator());
                   },
                 ),
               ),
@@ -105,7 +111,141 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   CustomTextButton(
                     title: 'احصد الآن',
-                    function: () {},
+                    function: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) => CustomDialog(
+                                title: 'احصد الآن',
+                                widget: [
+                                  Form(
+                                    key: _averageWeight,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        CustomTextField(
+                                          hint: 'اجمالي وزن السمك بالكيلو',
+                                          width: SizeConfig.screenWidth * 0.3,
+                                          calculator: true,
+                                          onChange: (v) {
+                                            try {
+                                              totalWeight = num.parse(v);
+                                            } on FormatException {
+                                              debugPrint('Format error!');
+                                            }
+                                          },
+                                          validator: (v) {
+                                            if (v!.isEmpty) {
+                                              return 'لا يجب ترك الحقل فارغ';
+                                            }
+                                            return null;
+                                          },
+                                          numbersOnly: true,
+                                          type: TextInputType.number,
+                                          paste: false,
+                                        ),
+                                        CustomTextField(
+                                          hint: 'اعداد السمك',
+                                          width: SizeConfig.screenWidth * 0.3,
+                                          onChange: (v) {
+                                            try {
+                                              totalFishes = int.parse(v);
+                                            } on FormatException {
+                                              debugPrint('Format error!');
+                                            }
+                                          },
+                                          validator: (v) {
+                                            if (v!.isEmpty) {
+                                              return 'لا يجب ترك الحقل فارغ';
+                                            }
+                                            return null;
+                                          },
+                                          numbersOnly: true,
+                                          type: TextInputType.number,
+                                          paste: false,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CustomBtn(
+                                        text: averageWeight.value == 0.0
+                                            ? '0.0 = متوسط الوزن'
+                                            : averageWeight.value
+                                                    .toStringAsFixed(2) +
+                                                ' = متوسط الوزن',
+                                      ),
+                                      const SizedBox(
+                                        width: 20,
+                                      ),
+                                      CustomTextButton(
+                                          width: SizeConfig.screenWidth * 0.1,
+                                          title: ' = ',
+                                          function: () {
+                                            if (_averageWeight.currentState!
+                                                .validate()) {
+                                              averageWeight.value =
+                                                  totalWeight / totalFishes;
+                                            }
+                                          }),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Center(
+                                    child: CustomTextField(
+                                      hint: 'اجمالي وزن العلف بالكيلو',
+                                      calculator: true,
+                                      onChange: (v) {
+                                        try {
+                                          totalWeight = num.parse(v);
+                                        } on FormatException {
+                                          debugPrint('Format error!');
+                                        }
+                                      },
+                                      validator: (v) {
+                                        if (v!.isEmpty) {
+                                          return 'لا يجب ترك الحقل فارغ';
+                                        }
+                                        return null;
+                                      },
+                                      numbersOnly: true,
+                                      type: TextInputType.number,
+                                      paste: false,
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CustomBtn(
+                                        text: averageWeight.value == 0.0
+                                            ? '0.0 = معدل النحويل'
+                                            : averageWeight.value
+                                                    .toStringAsFixed(2) +
+                                                ' = معدل النحويل',
+                                      ),
+                                      const SizedBox(
+                                        width: 20,
+                                      ),
+                                      CustomTextButton(
+                                          width: SizeConfig.screenWidth * 0.1,
+                                          title: ' = ',
+                                          function: () {}),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Center(
+                                    child: CustomTextButton(
+                                        title: 'حفظ', function: () {}),
+                                  )
+                                ],
+                              ));
+                    },
                   ),
                   CustomTextButton(title: 'دورة جديده', function: () {}),
                 ],

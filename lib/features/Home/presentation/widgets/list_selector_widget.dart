@@ -1,3 +1,4 @@
+import 'package:aquameter/core/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
@@ -72,13 +73,31 @@ class _ListSelectorWidgetState extends State<ListSelectorWidget> {
       listType: MultiSelectListType.LIST,
       initialChildSize: 0.7,
       maxChildSize: 0.95,
-      title: TextButton(
-        child: const Text("مسح الكل"),
-        onPressed: () async {},
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextButton(
+            child: const Text("مسح الكل"),
+            onPressed: () async {},
+          ),
+          SizedBox(
+            width: SizeConfig.screenWidth * 0.2,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 3.0),
+            child: TextButton(
+              child: const Text("تحديد الكل"),
+              onPressed: () async {},
+            ),
+          ),
+        ],
       ),
       buttonText: const Text(
         'اختار العميل',
-        style: TextStyle(fontSize: 10),
+        style: TextStyle(
+          fontSize: 10,
+        ),
       ),
       items: list.map((e) => MultiSelectItem(e, e['name'])).toList(),
       searchable: true,

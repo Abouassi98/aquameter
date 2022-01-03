@@ -11,7 +11,13 @@ class CustomTextField extends StatelessWidget {
   final IconData? icon;
   final TextInputType? type;
   final ValueChanged<String>? onChange;
-  final bool? edit, enabled, visibility, numbersOnly, calculator, paste;
+  final bool? edit,
+      enabled,
+      visibility,
+      numbersOnly,
+      calculator,
+      paste,
+      showCounterTxt;
   final Widget? suffixIcon;
   final double? height, width;
   final Function? onChangeCountry, onInit;
@@ -43,6 +49,7 @@ class CustomTextField extends StatelessWidget {
       this.minRange,
       this.maxRange,
       this.autovalidateMode,
+      this.showCounterTxt,
       this.suffixIcon})
       : super(key: key);
 
@@ -64,7 +71,7 @@ class CustomTextField extends StatelessWidget {
           textAlign: TextAlign.right,
           inputFormatters: calculator == true
               ? <TextInputFormatter>[
-                  DecimalTextInputFormatter(decimalRange: 2),
+                  DecimalTextInputFormatter(decimalRange: 3),
                   if (maxRange != null)
                     LimitRangeTextInputFormatter(minRange!, maxRange!),
                 ]
@@ -78,6 +85,7 @@ class CustomTextField extends StatelessWidget {
           autovalidateMode: autovalidateMode,
           validator: validator,
           decoration: InputDecoration(
+            counterText: showCounterTxt == true ? null : '',
             errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(
                 color: Colors.red,

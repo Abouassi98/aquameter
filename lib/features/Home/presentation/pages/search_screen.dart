@@ -4,6 +4,7 @@ import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_appbar.dart';
 
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
+import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
 
@@ -142,6 +143,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         shrinkWrap: true,
                         itemCount: 7,
                         itemBuilder: (context, index) => ShopItem(
+                          func: () {
+                            push(const MainPage());
+                          },
                           num: 6,
                           name: list[index]['name'],
                           address: list[index]['address'],

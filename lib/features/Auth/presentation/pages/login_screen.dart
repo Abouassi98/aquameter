@@ -52,6 +52,7 @@ class LoginScreen extends HookConsumerWidget {
               numbersOnly: true,
               width: SizeConfig.screenWidth * 0.7,
               icon: Icons.phone,
+              showCounterTxt: true,
               hint: "رقم الموبايل",
               maxLength: 11,
               validator: (v) {
@@ -124,7 +125,9 @@ class LoginScreen extends HookConsumerWidget {
                 child: const Text(' نسيت كلمة السر ؟ ',
                     style: TextStyle(color: Colors.black, fontSize: 15.0)),
                 onPressed: () {
-                  push(SendCodeScreen(inx: 1),);
+                  push(
+                    SendCodeScreen(inx: 1),
+                  );
                 },
               ),
             ),

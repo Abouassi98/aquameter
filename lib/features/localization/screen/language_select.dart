@@ -1,3 +1,4 @@
+
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/providers.dart';
@@ -98,19 +99,16 @@ class LanguageSelect extends HookConsumerWidget {
                 ],
               ),
             ),
-            Visibility(
-              visible: changelang != null,
-              child: Positioned(
-                top: 40,
-                left: 20,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.black87,
-                  ),
+            Positioned(
+              top: 40,
+              right: 20,
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.black87,
                 ),
               ),
             )

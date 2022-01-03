@@ -9,6 +9,7 @@ import 'package:aquameter/features/Home/presentation/manager/departments_notifie
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
 import 'package:aquameter/features/Home/presentation/widgets/days_item.dart';
 import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
+import 'package:aquameter/features/profile/presentation/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -97,6 +98,9 @@ class Home extends HookConsumerWidget {
                       shrinkWrap: true,
                       itemCount: name.length,
                       itemBuilder: (context, i) => ShopItem(
+                        func: () {
+                          push(ProfileScreen());
+                        },
                         num: 6,
                         name: name[i] as String,
                         address: address[i] as String,

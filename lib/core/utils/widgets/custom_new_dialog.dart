@@ -1,7 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 
-class CustomDialog {
+class CustomWarningDialog {
   Future<dynamic> showWarningDialog(
       {required BuildContext context,
       required String msg,

@@ -112,7 +112,6 @@ class HelperFunctions {
   static Future saveApplicationInformation(String name, String value) async {
     await GetStorage.init().then((value) {
       GetStorage().write(storageKey + name, value);
-      debugPrint(GetStorage().read(kIsFirstTime));
     });
   }
 

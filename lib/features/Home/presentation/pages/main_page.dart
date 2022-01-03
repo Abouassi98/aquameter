@@ -2,6 +2,7 @@ import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_appbar.dart';
 import 'package:aquameter/core/utils/widgets/custom_option_dialog.dart';
+import 'package:aquameter/features/Drawer/drawer_menu.dart';
 import 'package:aquameter/features/localization/manager/app_localization.dart';
 import 'package:aquameter/features/profile/presentation/pages/add_client.dart';
 import 'package:flutter/material.dart';
@@ -60,9 +61,11 @@ class _MainPageState extends State<MainPage> {
             ? TextDirection.ltr
             : TextDirection.rtl,
         child: Scaffold(
+          drawer: const DrawerMenu(),
           extendBodyBehindAppBar: true,
           appBar: PreferredSize(
             child: const CustomAppBar(
+              drawer: true,
               search: false,
             ),
             preferredSize: Size.fromHeight(SizeConfig.screenHeight * 0.2),

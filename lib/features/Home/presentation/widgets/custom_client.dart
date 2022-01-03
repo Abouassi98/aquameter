@@ -2,23 +2,23 @@
 
 import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/themes/themes.dart';
-import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
-import 'package:aquameter/features/profile/presentation/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 class ShopItem extends StatelessWidget {
   final String name, address;
   final int num;
+  final  void Function() func;
   const ShopItem({
     Key? key,
     required this.name,
     required this.address,
     required this.num,
+    required this.func
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final CustomDialog _dialog = CustomDialog();
+    final CustomWarningDialog _dialog = CustomWarningDialog();
 
     return Dismissible(
       key: const ValueKey(0),
@@ -38,9 +38,7 @@ class ShopItem extends StatelessWidget {
             });
       },
       child: InkWell(
-        onTap: () {
-          push(const ProfileScreen());
-        },
+        onTap:func,
         child: Card(
           color: Colors.white,
           elevation: 10,
