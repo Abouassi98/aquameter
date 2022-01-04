@@ -182,6 +182,9 @@ class ProfileScreen extends HookConsumerWidget {
                                       ),
                                       CustomTextButton(
                                           width: SizeConfig.screenWidth * 0.1,
+                                          hieght:
+                                              SizeConfig.screenHeight * 0.05,
+                                          radius: 15,
                                           title: ' = ',
                                           function: () {
                                             if (_averageWeight.currentState!
@@ -232,6 +235,9 @@ class ProfileScreen extends HookConsumerWidget {
                                       ),
                                       CustomTextButton(
                                           width: SizeConfig.screenWidth * 0.1,
+                                          hieght:
+                                              SizeConfig.screenHeight * 0.05,
+                                          radius: 15,
                                           title: ' = ',
                                           function: () {}),
                                     ],

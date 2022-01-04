@@ -302,6 +302,9 @@ class Calculator extends HookConsumerWidget {
                                       ),
                                       CustomTextButton(
                                           width: SizeConfig.screenWidth * 0.1,
+                                          hieght:
+                                              SizeConfig.screenHeight * 0.05,
+                                          radius: 15,
                                           title: ' = ',
                                           function: () async {
                                             if (s == 0.0 ||
@@ -516,6 +519,8 @@ class Calculator extends HookConsumerWidget {
                                 ),
                                 CustomTextButton(
                                     width: SizeConfig.screenWidth * 0.1,
+                                    hieght: SizeConfig.screenHeight * 0.05,
+                                    radius: 15,
                                     title: ' = ',
                                     function: () {
                                       if (_formKey.currentState!.validate()) {
@@ -549,6 +554,8 @@ class Calculator extends HookConsumerWidget {
                                 ),
                                 CustomTextButton(
                                     width: SizeConfig.screenWidth * 0.1,
+                                    hieght: SizeConfig.screenHeight * 0.05,
+                                    radius: 15,
                                     title: ' = ',
                                     function: () {}),
                               ],
@@ -573,6 +580,8 @@ class Calculator extends HookConsumerWidget {
                                 ),
                                 CustomTextButton(
                                     width: SizeConfig.screenWidth * 0.1,
+                                    hieght: SizeConfig.screenHeight * 0.05,
+                                    radius: 15,
                                     title: ' = ',
                                     function: () {}),
                               ],

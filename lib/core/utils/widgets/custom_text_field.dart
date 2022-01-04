@@ -114,7 +114,7 @@ class CustomTextField extends StatelessWidget {
                 ? FloatingLabelBehavior.always
                 : FloatingLabelBehavior.auto,
             contentPadding: EdgeInsets.only(
-                top: icon != null ? SizeConfig.screenHeight * 0.04 : 0.0,
+                top: icon != null ? SizeConfig.screenHeight * 0.02 : 0.0,
                 right: 5),
             border: InputBorder.none,
           ),
