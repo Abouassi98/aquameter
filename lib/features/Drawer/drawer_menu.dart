@@ -5,6 +5,7 @@ import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/features/Auth/presentation/pages/change_pass_screen.dart';
 
 import 'package:aquameter/features/Drawer/presentation/pages/about_us.dart';
+import 'package:aquameter/features/Drawer/presentation/pages/archieve.dart';
 import 'package:aquameter/features/localization/manager/app_localization.dart';
 import 'package:aquameter/features/localization/screen/language_select.dart';
 import 'package:aquameter/features/splashScreen/presentation/splah_view.dart';
@@ -62,8 +63,10 @@ class DrawerMenu extends StatelessWidget {
             ),
             DrwaerItem(
                 widget: const Icon(Icons.archive),
-                text: 'الأرشيف',
-                onTap: () => () {}),
+                text: localization.text('archieve')!,
+                onTap: () => push(ArcieveScreen(
+                      title: localization.text('archieve')!,
+                    ))),
             DrwaerItem(
                 widget: const Icon(Icons.password),
                 text: 'تغير كلمة المرور',
