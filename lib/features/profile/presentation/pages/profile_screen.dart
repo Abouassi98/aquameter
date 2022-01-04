@@ -27,11 +27,10 @@ class ProfileScreen extends HookConsumerWidget {
   ];
   final GlobalKey<FormState> _averageWeight = GlobalKey<FormState>();
   String? selctedMeasuer;
-  num totalWeight = 0.0;
+  num totalWeight = 0.0, averageWeight = 0.0;
   int totalFishes = 0;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ValueNotifier<num> averageWeight = useState<num>(0.0);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -114,142 +113,149 @@ class ProfileScreen extends HookConsumerWidget {
                     function: () {
                       showDialog(
                           context: context,
-                          builder: (context) => CustomDialog(
-                                title: 'احصد الآن',
-                                widget: [
-                                  Form(
-                                    key: _averageWeight,
-                                    child: Row(
+                          builder: (context) => StatefulBuilder(
+                                builder: (context, StateSetter setState) =>
+                                    CustomDialog(
+                                  title: 'احصد الآن',
+                                  widget: [
+                                    Form(
+                                      key: _averageWeight,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          CustomTextField(
+                                            hint: 'اجمالي وزن السمك بالكيلو',
+                                            width: SizeConfig.screenWidth * 0.3,
+                                            calculator: true,
+                                            onChange: (v) {
+                                              try {
+                                                totalWeight = num.parse(v);
+                                              } on FormatException {
+                                                debugPrint('Format error!');
+                                              }
+                                            },
+                                            validator: (v) {
+                                              if (v!.isEmpty) {
+                                                return 'لا يجب ترك الحقل فارغ';
+                                              }
+                                              return null;
+                                            },
+                                            numbersOnly: true,
+                                            type: TextInputType.number,
+                                            paste: false,
+                                          ),
+                                          CustomTextField(
+                                            hint: 'اعداد السمك',
+                                            width: SizeConfig.screenWidth * 0.3,
+                                            onChange: (v) {
+                                              try {
+                                                totalFishes = int.parse(v);
+                                              } on FormatException {
+                                                debugPrint('Format error!');
+                                              }
+                                            },
+                                            validator: (v) {
+                                              if (v!.isEmpty) {
+                                                return 'لا يجب ترك الحقل فارغ';
+                                              }
+                                              return null;
+                                            },
+                                            numbersOnly: true,
+                                            type: TextInputType.number,
+                                            paste: false,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.center,
                                       children: [
-                                        CustomTextField(
-                                          hint: 'اجمالي وزن السمك بالكيلو',
-                                          width: SizeConfig.screenWidth * 0.3,
-                                          calculator: true,
-                                          onChange: (v) {
-                                            try {
-                                              totalWeight = num.parse(v);
-                                            } on FormatException {
-                                              debugPrint('Format error!');
-                                            }
-                                          },
-                                          validator: (v) {
-                                            if (v!.isEmpty) {
-                                              return 'لا يجب ترك الحقل فارغ';
-                                            }
-                                            return null;
-                                          },
-                                          numbersOnly: true,
-                                          type: TextInputType.number,
-                                          paste: false,
+                                        CustomBtn(
+                                          text: averageWeight == 0.0
+                                              ? '0.0 = متوسط الوزن'
+                                              : averageWeight
+                                                      .toStringAsFixed(2) +
+                                                  ' = متوسط الوزن',
                                         ),
-                                        CustomTextField(
-                                          hint: 'اعداد السمك',
-                                          width: SizeConfig.screenWidth * 0.3,
-                                          onChange: (v) {
-                                            try {
-                                              totalFishes = int.parse(v);
-                                            } on FormatException {
-                                              debugPrint('Format error!');
-                                            }
-                                          },
-                                          validator: (v) {
-                                            if (v!.isEmpty) {
-                                              return 'لا يجب ترك الحقل فارغ';
-                                            }
-                                            return null;
-                                          },
-                                          numbersOnly: true,
-                                          type: TextInputType.number,
-                                          paste: false,
+                                        const SizedBox(
+                                          width: 20,
                                         ),
+                                        CustomTextButton(
+                                            width: SizeConfig.screenWidth * 0.1,
+                                            hieght:
+                                                SizeConfig.screenHeight * 0.05,
+                                            radius: 15,
+                                            title: ' = ',
+                                            function: () {
+                                              if (_averageWeight.currentState!
+                                                  .validate()) {
+                                                setState(() {
+                                                  averageWeight =
+                                                      totalWeight / totalFishes;
+                                                });
+                                              }
+                                            }),
                                       ],
                                     ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CustomBtn(
-                                        text: averageWeight.value == 0.0
-                                            ? '0.0 = متوسط الوزن'
-                                            : averageWeight.value
-                                                    .toStringAsFixed(2) +
-                                                ' = متوسط الوزن',
-                                      ),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      CustomTextButton(
-                                          width: SizeConfig.screenWidth * 0.1,
-                                          hieght:
-                                              SizeConfig.screenHeight * 0.05,
-                                          radius: 15,
-                                          title: ' = ',
-                                          function: () {
-                                            if (_averageWeight.currentState!
-                                                .validate()) {
-                                              averageWeight.value =
-                                                  totalWeight / totalFishes;
-                                            }
-                                          }),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Center(
-                                    child: CustomTextField(
-                                      hint: 'اجمالي وزن العلف بالكيلو',
-                                      calculator: true,
-                                      onChange: (v) {
-                                        try {
-                                          totalWeight = num.parse(v);
-                                        } on FormatException {
-                                          debugPrint('Format error!');
-                                        }
-                                      },
-                                      validator: (v) {
-                                        if (v!.isEmpty) {
-                                          return 'لا يجب ترك الحقل فارغ';
-                                        }
-                                        return null;
-                                      },
-                                      numbersOnly: true,
-                                      type: TextInputType.number,
-                                      paste: false,
+                                    const SizedBox(
+                                      height: 20,
                                     ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CustomBtn(
-                                        text: averageWeight.value == 0.0
-                                            ? '0.0 = معدل النحويل'
-                                            : averageWeight.value
-                                                    .toStringAsFixed(2) +
-                                                ' = معدل النحويل',
+                                    Center(
+                                      child: CustomTextField(
+                                        hint: 'اجمالي وزن العلف بالكيلو',
+                                        calculator: true,
+                                        onChange: (v) {
+                                          try {
+                                            totalWeight = num.parse(v);
+                                          } on FormatException {
+                                            debugPrint('Format error!');
+                                          }
+                                        },
+                                        validator: (v) {
+                                          if (v!.isEmpty) {
+                                            return 'لا يجب ترك الحقل فارغ';
+                                          }
+                                          return null;
+                                        },
+                                        numbersOnly: true,
+                                        type: TextInputType.number,
+                                        paste: false,
                                       ),
-                                      const SizedBox(
-                                        width: 20,
-                                      ),
-                                      CustomTextButton(
-                                          width: SizeConfig.screenWidth * 0.1,
-                                          hieght:
-                                              SizeConfig.screenHeight * 0.05,
-                                          radius: 15,
-                                          title: ' = ',
-                                          function: () {}),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Center(
-                                    child: CustomTextButton(
-                                        title: 'حفظ', function: () {}),
-                                  )
-                                ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        CustomBtn(
+                                          text: averageWeight == 0.0
+                                              ? '0.0 = معدل النحويل'
+                                              : averageWeight
+                                                      .toStringAsFixed(2) +
+                                                  ' = معدل النحويل',
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        CustomTextButton(
+                                            width: SizeConfig.screenWidth * 0.1,
+                                            hieght:
+                                                SizeConfig.screenHeight * 0.05,
+                                            radius: 15,
+                                            title: ' = ',
+                                            function: () {}),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    Center(
+                                      child: CustomTextButton(
+                                          title: 'حفظ', function: () {}),
+                                    )
+                                  ],
+                                ),
                               ));
                     },
                   ),

@@ -13,7 +13,6 @@ class Statics extends StatelessWidget {
   const Statics({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    
     List<Map<String, dynamic>> list2 = [
       {
         "name": 'المحافظات',

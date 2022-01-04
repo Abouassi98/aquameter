@@ -1,3 +1,4 @@
+import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
 import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
 import 'package:aquameter/features/Auth/presentation/manager/send_code_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/departments_notifier.dart';
@@ -13,6 +14,10 @@ StateNotifierProvider<ChangeLanguageProvider, Object?> languageProvider =
 final AutoDisposeStateNotifierProvider<DepartMentProvider, Object?>
     departMentProvider = StateNotifierProvider.autoDispose(
   (ref) => DepartMentProvider(null),
+);
+final AutoDisposeStateNotifierProvider<AreaAndCitesNotifier, Object?>
+   areaAndCitesNotifier= StateNotifierProvider.autoDispose(
+  (ref) => AreaAndCitesNotifier(null),
 );
 final StateNotifierProvider<LocationProvider, Object?> locationProvider =
     StateNotifierProvider(

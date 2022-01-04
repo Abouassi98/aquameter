@@ -17,7 +17,6 @@ class AuthNotifier extends StateNotifier<void> {
 
   Future<void> login(
       BuildContext context, String phone, String password) async {
-
     ProgressDialog pd = ProgressDialog(context: context);
     pd.show(max: 100, msg: 'loading progress');
     Response response = await _utils.requstData(
@@ -40,7 +39,7 @@ class AuthNotifier extends StateNotifier<void> {
   Future<void> fetchUserData() async {
     Response response = await _utils.requstData(
       get: true,
-      url: 'profile/${HelperFunctions.getUser().data!.id}',
+      url: 'profile',
     );
     if (response.statusCode == 200) {
       HelperFunctions.saveUser(response.data);

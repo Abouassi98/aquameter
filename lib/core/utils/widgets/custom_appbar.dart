@@ -2,6 +2,7 @@
 import 'package:aquameter/core/themes/screen_utitlity.dart';
 
 import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
 import 'package:flutter/material.dart';
@@ -79,16 +80,19 @@ class CustomAppBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
-                    children: const [
+                    children: [
                       Text(
-                        '1.18',
-                        style: TextStyle(
+                        HelperFunctions.getUser()
+                            .clients!
+                            .conversionRate!
+                            .toString(),
+                        style: const TextStyle(
                           color: Color(0xff282759),
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                         ),
                       ),
-                      Text(
+                      const Text(
                         'معدل التحويل',
                         style: TextStyle(
                           color: Color(0xff282759),
@@ -99,16 +103,19 @@ class CustomAppBar extends StatelessWidget {
                     ],
                   ),
                   Column(
-                    children: const [
+                    children: [
                       Text(
-                        '17',
-                        style: TextStyle(
+                        HelperFunctions.getUser()
+                            .clients!
+                            .fishWieght!
+                            .toString(),
+                        style: const TextStyle(
                           color: Color(0xff282759),
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                         ),
                       ),
-                      Text(
+                      const Text(
                         'الاسماك/طن',
                         style: TextStyle(
                           color: Color(0xff282759),
@@ -119,16 +126,19 @@ class CustomAppBar extends StatelessWidget {
                     ],
                   ),
                   Column(
-                    children: const [
+                    children: [
                       Text(
-                        '20',
-                        style: TextStyle(
+                        HelperFunctions.getUser()
+                            .clients!
+                            .totalFeed!
+                            .toString(),
+                        style: const TextStyle(
                           color: Color(0xff282759),
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                         ),
                       ),
-                      Text(
+                      const Text(
                         'الاعلاف/طن',
                         style: TextStyle(
                           color: Color(0xff282759),

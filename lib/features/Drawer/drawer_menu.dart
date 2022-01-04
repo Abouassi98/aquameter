@@ -1,6 +1,7 @@
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/features/Auth/presentation/pages/change_pass_screen.dart';
 
 import 'package:aquameter/features/Drawer/presentation/pages/about_us.dart';
@@ -52,7 +53,7 @@ class DrawerMenu extends StatelessWidget {
             ),
             Center(
               child: Text(
-                'محمد ابوعاصي',
+                HelperFunctions.getUser().data!.name!,
                 style: MainTheme.subTextStyle.copyWith(color: Colors.black26),
               ),
             ),

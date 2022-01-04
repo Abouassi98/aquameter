@@ -1,6 +1,7 @@
 import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 
@@ -56,7 +57,7 @@ class Home extends HookConsumerWidget {
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: SizedBox(
-                  height: SizeConfig.screenHeight * 0.17,
+                  height: SizeConfig.screenHeight * 0.22,
                   width: SizeConfig.screenWidth * 0.8,
                   child: Column(
                     children: [
@@ -97,13 +98,11 @@ class Home extends HookConsumerWidget {
                       primary: false,
                       shrinkWrap: true,
                       itemCount: name.length,
-                      itemBuilder: (context, i) => ShopItem(
+                      itemBuilder: (context, i) => ClientItem(
                         func: () {
                           push(ProfileScreen());
                         },
-                        num: 6,
-                        name: name[i] as String,
-                        address: address[i] as String,
+                        client: HelperFunctions.getUser().data!.clients![i],
                       ),
                     ),
                     const SizedBox(

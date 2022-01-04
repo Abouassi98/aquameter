@@ -3,18 +3,13 @@
 import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
+import 'package:aquameter/features/Auth/data/user_model.dart';
 import 'package:flutter/material.dart';
 
-class ShopItem extends StatelessWidget {
-  final String name, address;
-  final int num;
+class ClientItem extends StatelessWidget {
+  final Client client;
   final void Function() func;
-  const ShopItem(
-      {Key? key,
-      required this.name,
-      required this.address,
-      required this.num,
-      required this.func})
+  const ClientItem({Key? key, required this.client, required this.func})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -89,13 +84,13 @@ class ShopItem extends StatelessWidget {
                       children: [
                         // Shop name and distance
                         Text(
-                          name,
+                          client.name!,
                           style: MainTheme.headingTextStyle
                               .copyWith(fontSize: 10, color: Colors.black),
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          address,
+                          client.address!,
                           style: MainTheme.headingTextStyle.copyWith(
                               fontSize: 10, color: const Color(0xFF8D8E98)),
                         ),
@@ -118,7 +113,7 @@ class ShopItem extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: Slider(
-                                    value: num.toDouble(),
+                                    value: 0,
                                     min: 0,
                                     max: 100,
                                     onChanged: (double newValue) {},
@@ -127,9 +122,9 @@ class ShopItem extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              '${num.toString()} %',
+                              '0 %',
                               style: MainTheme.headingTextStyle
-                                  .copyWith(fontSize: 10),
+                                  .copyWith(fontSize: 10, color: Colors.black),
                             ),
                           ],
                         ),

@@ -27,9 +27,9 @@ class NetworkUtils {
   Future<Response> requstData({
     required String url,
     dynamic body,
-    bool? put,
+   
     bool? get,
-    bool? delete,
+   
   }) async {
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (HttpClient client) {
@@ -38,26 +38,10 @@ class NetworkUtils {
       return client;
     };
     try {
-      if (put == true) {
-        response = await dio.put(
-          baseUrl + url,
-          data: body,
-          options: Options(headers: _headers),
-          onSendProgress: (int sent, int total) {
-            final progress = sent / total;
-            debugPrint('progress: $progress ($sent/$total)');
-          },
-        );
-      } else if (get == true) {
+     if (get == true) {
         response =
             await dio.get(baseUrl + url, options: Options(headers: _headers));
-      } else if (delete == true) {
-        response = await dio.delete(
-          baseUrl + url,
-          data: body,
-          options: Options(headers: _headers),
-        );
-      } else {
+      }  else {
         response = await dio.post(
           baseUrl + url,
           data: body,
