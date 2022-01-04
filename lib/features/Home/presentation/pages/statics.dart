@@ -13,36 +13,7 @@ class Statics extends StatelessWidget {
   const Statics({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> list = [
-      {
-        "name": 'الحاج محمود مصطفي محمد',
-        "address": 'كفرالشيخ - طريق بلطيم الدولي ',
-      },
-      {
-        "name": 'مهندس محمد طارق عباس',
-        "address": 'بورسعيد - مثلث الديبه',
-      },
-      {
-        "name": 'الحاج محمود مصطفي محمد',
-        "address": 'كفرالشيخ - طريق بلطيم الدولي',
-      },
-      {
-        "name": 'مهندس محمد طارق عباس',
-        "address": 'بورسعيد - مثلث الديبه',
-      },
-      {
-        "name": 'الحاج محمود مصطفي محمد',
-        "address": 'كفرالشيخ - طريق بلطيم الدولي',
-      },
-      {
-        "name": 'مهندس محمد طارق عباس',
-        "address": 'بورسعيد - مثلث الديبه',
-      },
-      {
-        "name": 'الحاج محمود مصطفي محمد',
-        "address": 'كفرالشيخ - طريق بلطيم الدولي',
-      },
-    ];
+    
     List<Map<String, dynamic>> list2 = [
       {
         "name": 'المحافظات',

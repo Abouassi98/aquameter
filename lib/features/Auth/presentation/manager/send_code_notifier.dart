@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
-
 class SendCodeNotifier extends StateNotifier<void> {
   SendCodeNotifier(void state) : super(state);
   bool resend = false;

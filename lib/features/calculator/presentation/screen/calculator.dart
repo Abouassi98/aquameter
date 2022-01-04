@@ -364,7 +364,7 @@ class Calculator extends HookConsumerWidget {
                                                                 advice2:
                                                                     ' - اضافه بعض الاحماض او سوبر فوسفات',
                                                                 title:
-                                                                    'درجة الحموضه منخفضه جدا',
+                                                                    'درجة الحموضه مرتفعه جدا',
                                                               ),
                                                             if (0 <=
                                                                     tempreatureOfWater &&

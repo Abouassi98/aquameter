@@ -56,14 +56,13 @@ class SendCodeScreen extends ConsumerWidget {
                                 .copyWith(color: Colors.black45),
                           ),
                         ),
-                        
                       ),
                     ],
                   ),
                   Center(
                     child: CustomTextField(
                       icon: Icons.phone,
-                        showCounterTxt: true,
+                      showCounterTxt: true,
                       hint: "رقم الموبايل",
                       width: SizeConfig.screenWidth * 0.7,
                       maxLength: 11,

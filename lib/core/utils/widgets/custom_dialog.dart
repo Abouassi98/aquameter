@@ -11,7 +11,6 @@ class CustomDialog extends StatelessWidget {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       scrollable: true,
-      
       title: Text(
         title!,
         textAlign: TextAlign.center,

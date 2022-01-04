@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class TotalFishesItem extends StatelessWidget {
   final List list;
 
-  const TotalFishesItem({Key? key,required this.list}) : super(key: key);
+  const TotalFishesItem({Key? key, required this.list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,6 @@ class TotalFishesItem extends StatelessWidget {
           name: 'النوع',
           list: list,
         ),
-      
       ],
     );
   }

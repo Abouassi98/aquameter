@@ -1,93 +1,82 @@
 class UserModel {
-  User? user;
-  bool? authanticated;
-  String? token;
   bool? success;
-  Errors? errors;
-  Msgs? msg;
-  UserModel(
-      {this.user,
-      this.authanticated,
-      this.token,
-      this.success,
-      this.errors,
-      this.msg});
+  String? token, message;
+  Data? data;
+  Clients? clients;
+
+  UserModel({this.success, this.token, this.data, this.clients, this.message});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      user: json['user'] == null
-          ? null
-          : User.fromJson(json['user'] as Map<String, dynamic>),
-      authanticated: json['authanticated'] as bool?,
-      token: json['token'] as String?,
-      success: json['success'] as bool?,
-      errors: json['errors'] == null
-          ? null
-          : Errors.fromJson(json['errors'] as Map<String, dynamic>),
-      msg: json['msgs'] == null
-          ? null
-          : Msgs.fromJson(json['msgs'] as Map<String, dynamic>),
-    );
+        success: json['success'] as bool?,
+        token: json['token'] as String?,
+        data: json['data'] == null
+            ? null
+            : Data.fromJson(json['data'] as Map<String, dynamic>),
+        clients: json['clients'] == null
+            ? null
+            : Clients.fromJson(json['clients'] as Map<String, dynamic>),
+        message: json['message'] as String?);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'success': success,
+      'token': token,
+      'data': data?.toJson(),
+      'clients': clients?.toJson(),
+      'message': message
+    };
   }
 }
 
-class User {
-  String role, id, password, username, phone, email;
-  List<dynamic>? notifications;
-  String? img;
-  int? stock, v;
+class Data {
+  int? id;
+  String? name;
+  String? phone;
+  String? email;
 
-  dynamic resetToken;
-  User({
-    required this.role,
-    this.notifications,
-    this.img,
-    this.stock,
-    required this.id,
-    required this.password,
-    required this.username,
-    required this.phone,
-    required this.email,
-    this.v,
-    this.resetToken,
-  });
+  Data({this.id, this.name, this.phone, this.email});
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      role: json['role'] as String,
-      notifications: json['notifications'] as List<dynamic>?,
-      img: json['img'] as String?,
-      stock: json['stock'] as int?,
-      id: json['_id'] as String,
-      password: json['password'] as String,
-      username: json['username'] as String,
-      phone: json['phone'] as String,
-      email: json['email'] as String,
-      v: json['__v'] as int?,
+  factory Data.fromJson(Map<String, dynamic> json) {
+    return Data(
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      phone: json['phone'] as String?,
+      email: json['email'] as String?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'phone': phone,
+      'email': email,
+    };
   }
 }
 
-class Errors {
-  Msgs msgs;
-  String? error;
-  Errors({required this.msgs, this.error});
-  factory Errors.fromJson(Map<String, dynamic> json) {
-    return Errors(
-        msgs: Msgs.fromJson(json['msgs'] as Map<String, dynamic>),
-        error: json['error']);
-  }
-}
+class Clients {
+  int? fishWieght;
+  int? totalFeed;
+  int? conversionRate;
 
-class Msgs {
-  String ar, eng, kur;
-  Msgs({required this.ar, required this.eng, required this.kur});
+  Clients({this.fishWieght, this.totalFeed, this.conversionRate});
 
-  factory Msgs.fromJson(Map<String, dynamic> json) {
-    return Msgs(
-      ar: json['ar'] as String,
-      eng: json['eng'] as String,
-      kur: json['kur'] as String,
+  factory Clients.fromJson(Map<String, dynamic> json) {
+    return Clients(
+      fishWieght: json['fish_wieght'] as int?,
+      totalFeed: json['total_feed'] as int?,
+      conversionRate: json['conversion_rate'] as int?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'fish_wieght': fishWieght,
+      'total_feed': totalFeed,
+      'conversion_rate': conversionRate,
+    };
   }
 }

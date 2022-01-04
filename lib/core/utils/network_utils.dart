@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 import 'package:aquameter/features/Auth/data/user_model.dart';
 import 'package:aquameter/features/splashScreen/presentation/splah_view.dart';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -29,6 +31,12 @@ class NetworkUtils {
     bool? get,
     bool? delete,
   }) async {
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (HttpClient client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      return client;
+    };
     try {
       if (put == true) {
         response = await dio.put(
@@ -98,9 +106,8 @@ class NetworkUtils {
       if (statusCode == 200 && statusCode < 300) {
         return response;
       } else if (statusCode == 400) {
-        Errors user = Errors.fromJson(response.data);
-        message = user.msgs.ar;
-        Fluttertoast.showToast(msg: message, toastLength: Toast.LENGTH_SHORT);
+        Fluttertoast.showToast(
+            msg: loginData!.message!, toastLength: Toast.LENGTH_SHORT);
         return response;
       } else if (statusCode == 401) {
         UserModel user = UserModel.fromJson(response.data);
@@ -111,7 +118,7 @@ class NetworkUtils {
         loginData = null;
 
         Fluttertoast.showToast(
-            msg: user.errors!.msgs.ar, toastLength: Toast.LENGTH_SHORT);
+            msg: user.message!, toastLength: Toast.LENGTH_SHORT);
         pushAndRemoveUntil(const SplashView());
         return response;
       } else if (statusCode <= 500) {

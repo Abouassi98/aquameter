@@ -1,4 +1,3 @@
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +15,6 @@ class CircleChartState extends State {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        
         Expanded(
           child: AspectRatio(
             aspectRatio: 1.9,
@@ -44,8 +42,6 @@ class CircleChartState extends State {
             ),
           ),
         ),
-
-
       ],
     );
   }

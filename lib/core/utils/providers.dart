@@ -1,3 +1,4 @@
+import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
 import 'package:aquameter/features/Auth/presentation/manager/send_code_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/departments_notifier.dart';
 import 'package:aquameter/features/localization/manager/change_language_provider.dart';
@@ -20,4 +21,9 @@ final StateNotifierProvider<LocationProvider, Object?> locationProvider =
 final AutoDisposeStateNotifierProvider<SendCodeNotifier, Object?>
     sendCodeProvider = StateNotifierProvider.autoDispose(
   (ref) => SendCodeNotifier(null),
+);
+
+final StateNotifierProvider<AuthNotifier, Object?> loginProvider =
+    StateNotifierProvider(
+  (ref) => AuthNotifier(null),
 );

@@ -3,14 +3,15 @@ import 'dart:developer';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english_number.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 
 import 'package:aquameter/core/utils/widgets/custom_country_code_picker.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
+import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
 import 'package:aquameter/features/Auth/presentation/pages/send_code_screen.dart';
 
-import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 import 'package:country_pickers/country.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -29,7 +30,8 @@ class LoginScreen extends HookConsumerWidget {
   ];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String phone = '', countryCode = '+20';
+    String phone = '', countryCode = '+20', password = '';
+    final AuthNotifier login = ref.watch(loginProvider.notifier);
     final ValueNotifier<bool> visabilityNotifier = useState<bool>(true);
     return Scaffold(
       body: Form(
@@ -57,7 +59,7 @@ class LoginScreen extends HookConsumerWidget {
               maxLength: 11,
               validator: (v) {
                 bool phoneNumberAccepted = false;
-                if (v!.length < 10) {
+                if (v!.length < 11) {
                   return 'رقم هاتف قصير';
                 }
                 for (String char in acceptedNumbers) {
@@ -76,14 +78,10 @@ class LoginScreen extends HookConsumerWidget {
               suffixIcon: CustomCountryCodePicker(
                 onChange: (Country value) {
                   countryCode = '+' '${value.phoneCode}';
-                  debugPrint(countryCode);
                 },
               ),
               onChange: (v) {
                 phone = convertToEnglishNumbers(v.trim());
-                if (v.startsWith('0')) {
-                  phone = v.substring(1, v.length);
-                }
               },
             ),
             const SizedBox(
@@ -93,6 +91,15 @@ class LoginScreen extends HookConsumerWidget {
               width: SizeConfig.screenWidth * 0.7,
               icon: Icons.lock,
               hint: "كلمة السر",
+              onChange: (v) {
+                password = v;
+              },
+              validator: (v) {
+                if (v!.isEmpty) {
+                  return ' يجب ملئ الحقل';
+                }
+                return null;
+              },
               visibility: visabilityNotifier.value,
               suffixIcon: Padding(
                 padding: const EdgeInsets.all(6),
@@ -115,7 +122,7 @@ class LoginScreen extends HookConsumerWidget {
                   return;
                 }
                 _form.currentState!.save();
-                pushAndRemoveUntil(const MainPage());
+                login.login(context, phone, password);
               },
               radius: 20,
             ),

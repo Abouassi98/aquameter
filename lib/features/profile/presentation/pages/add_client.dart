@@ -305,7 +305,7 @@ class AddClient extends HookConsumerWidget {
                           CustomTextButton(
                             title: "حفظ",
                             function: () {
-                              push( ProfileScreen());
+                              push(ProfileScreen());
                             },
                           ),
                           const SizedBox(

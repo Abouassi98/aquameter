@@ -1,6 +1,8 @@
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/widgets/image_bg.dart';
+import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
 import 'package:aquameter/features/Auth/presentation/pages/login_screen.dart';
 import 'package:aquameter/features/localization/screen/language_select.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,8 @@ class SplashViewBody extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    determinePage();
+    final AuthNotifier changeLanguage = ref.read(loginProvider.notifier);
+    determinePage(changeLanguage);
     return const ImageBG(
       network: false,
       image: kAppLogo,
@@ -21,9 +24,8 @@ class SplashViewBody extends HookConsumerWidget {
     );
   }
 
-  void determinePage() async {
+  void determinePage(AuthNotifier changeLanguage) async {
     bool isFirstTime = GetStorage().read(kIsFirstTime) ?? true;
-
     if (isFirstTime) {
       Future.delayed(const Duration(seconds: 0), () async {
         pushAndRemoveUntil(const LanguageSelect());
@@ -32,7 +34,7 @@ class SplashViewBody extends HookConsumerWidget {
       bool isLoggedIn = GetStorage().read(kIsLoggedIn) ?? false;
 
       if (isLoggedIn) {
-        //   await changeLanguage.fetchUserData();
+        await changeLanguage.fetchUserData();
       } else {
         Future.delayed(const Duration(seconds: 0), () async {
           pushAndRemoveUntil(LoginScreen());

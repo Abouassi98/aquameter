@@ -120,34 +120,6 @@ class HelperFunctions {
       GetStorage().read(kcashedUserData),
     );
   }
-
-  static updateUser(String x, dynamic value) async {
-    var data = GetStorage().read(kcashedUserData);
-    if (x == 'city' ||
-        x == 'phone' ||
-        x == 'id_number' ||
-        x == 'profile_image' ||
-        x == 'name' ||
-        x == 'email') {
-      if (data['data'] == null) {
-        data['data'] = <String, dynamic>{
-          'city': '',
-          'phone': '',
-          'profile_image': '',
-          'id_number': ''
-        };
-      }
-      data['data'][x] = value;
-    } else {
-      data['data'][x] = value;
-    }
-    debugPrint('$data');
-
-    await GetStorage.init().then((value) {
-      GetStorage().write(kcashedUserData, data);
-      GetStorage().write(kIsLoggedIn, true);
-    });
-  }
 }
 
 TextStyle _titleStyle(BuildContext context, [Color? color]) {

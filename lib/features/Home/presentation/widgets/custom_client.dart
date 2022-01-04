@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 class ShopItem extends StatelessWidget {
   final String name, address;
   final int num;
-  final  void Function() func;
-  const ShopItem({
-    Key? key,
-    required this.name,
-    required this.address,
-    required this.num,
-    required this.func
-  }) : super(key: key);
+  final void Function() func;
+  const ShopItem(
+      {Key? key,
+      required this.name,
+      required this.address,
+      required this.num,
+      required this.func})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final CustomWarningDialog _dialog = CustomWarningDialog();
@@ -38,7 +38,7 @@ class ShopItem extends StatelessWidget {
             });
       },
       child: InkWell(
-        onTap:func,
+        onTap: func,
         child: Card(
           color: Colors.white,
           elevation: 10,

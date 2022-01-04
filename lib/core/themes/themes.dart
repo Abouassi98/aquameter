@@ -22,13 +22,13 @@ class MainTheme {
   static TextStyle subTextStyle =
       TextStyle(fontSize: 15, color: Colors.grey[200], fontFamily: 'Tajawal');
   static TextStyle subTextStyle2 = const TextStyle(
-      fontSize: 10, color: MainStyle.mainGray, fontFamily:'Tajawal');
+      fontSize: 10, color: MainStyle.mainGray, fontFamily: 'Tajawal');
 
   static TextStyle errorTextStyle = const TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.bold,
       color: Colors.red,
-      fontFamily:'Tajawal');
+      fontFamily: 'Tajawal');
   static TextStyle menuTextStyle =
-      const TextStyle(fontSize: 16, color: Colors.white, fontFamily:'Tajawal');
+      const TextStyle(fontSize: 16, color: Colors.white, fontFamily: 'Tajawal');
 }

@@ -39,8 +39,6 @@ class DateTimeComboLinePointChart extends StatelessWidget {
   }
 
   static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData() {
-
-
     final tableSalesData = [
       TimeSeriesSales(DateTime(2017, 9, 19), 10),
       TimeSeriesSales(DateTime(2017, 9, 26), 50),
@@ -56,7 +54,6 @@ class DateTimeComboLinePointChart extends StatelessWidget {
     ];
 
     return [
-  
       charts.Series<TimeSeriesSales, DateTime>(
         id: 'Tablet',
         colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
