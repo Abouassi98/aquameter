@@ -56,7 +56,7 @@ class Home extends HookConsumerWidget {
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 child: SizedBox(
-                  height: SizeConfig.screenHeight * 0.21,
+                  height: SizeConfig.screenHeight * 0.17,
                   width: SizeConfig.screenWidth * 0.8,
                   child: Column(
                     children: [

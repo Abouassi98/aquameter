@@ -5,20 +5,21 @@ import '../size_config.dart';
 
 class CustomTextButton extends StatelessWidget {
   final String? title;
-  final double? width, radius;
+  final double? width,hieght, radius;
   final void Function() function;
   const CustomTextButton(
       {Key? key,
       required this.title,
       required this.function,
       this.width,
-      this.radius})
+      this.radius, this.hieght
+      })
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: SizeConfig.screenHeight * 0.08,
+      height: hieght ??SizeConfig.screenHeight * 0.08,
       width: width ?? SizeConfig.screenWidth * 0.3,
       child: TextButton(
         onPressed: function,
