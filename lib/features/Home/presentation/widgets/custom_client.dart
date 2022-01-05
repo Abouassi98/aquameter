@@ -1,8 +1,7 @@
 
 import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/themes/themes.dart';
-import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
-import 'package:aquameter/features/Auth/data/user_model.dart';
+
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:flutter/material.dart';
 

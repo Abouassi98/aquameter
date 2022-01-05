@@ -17,8 +17,8 @@ class AuthNotifier extends StateNotifier<void> {
 
   final NetworkUtils _utils = NetworkUtils();
 
-  Future<void> login(
-      BuildContext context, String phone, String password, AreaAndCitesNotifier areaAndCites, FishTypesNotifier fishTypes) async {
+  Future<void> login(BuildContext context, String phone, String password,
+      AreaAndCitesNotifier areaAndCites, FishTypesNotifier fishTypes) async {
     ProgressDialog pd = ProgressDialog(context: context);
     pd.show(max: 100, msg: 'loading progress');
     Response response = await _utils.requstData(
@@ -30,13 +30,13 @@ class AuthNotifier extends StateNotifier<void> {
     );
 
     if (response.statusCode == 200) {
-      HelperFunctions.saveUser(response.data);
+    await  HelperFunctions.saveUser(response.data);
 
-      HelperFunctions.saveToken(response.data['token']);
+     await HelperFunctions.saveToken(response.data['token']);
       pd.close();
-      pushAndRemoveUntil(const MainPage());
-                await areaAndCites.getCities();
-        await fishTypes.getFishTypes();
+     await   pushAndRemoveUntil(const MainPage());
+      await areaAndCites.getCities();
+      await fishTypes.getFishTypes();
     } else {}
   }
 
@@ -47,12 +47,12 @@ class AuthNotifier extends StateNotifier<void> {
       url: 'profile',
     );
     if (response.statusCode == 200) {
-      HelperFunctions.saveUser(response.data);
+     await HelperFunctions.saveUser(response.data);
       log('Token >>> ${GetStorage().read(kToken)}');
 
       pushAndRemoveUntil(const MainPage());
-          await areaAndCites.getCities();
-        await fishTypes.getFishTypes();
+      await areaAndCites.getCities();
+      await fishTypes.getFishTypes();
     } else {}
   }
 }

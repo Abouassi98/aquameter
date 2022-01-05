@@ -1,8 +1,8 @@
-import 'dart:developer';
+
 
 import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
-import 'package:aquameter/core/utils/functions/helper_functions.dart';
+
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
@@ -22,15 +22,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SearchScreen extends HookConsumerWidget {
   SearchScreen({Key? key}) : super(key: key);
-  final List<Object> name = [
-    'الحاج محمود مصطفي محمد',
-    'مهندس محمد طارق عباس',
-    'متولي زكريا القاضي',
-    'الحاج محمود مصطفي محمد',
-    'مهندس محمد طارق عباس',
-    'متولي زكريا القاضي',
-    'متولي زكريا القاضي',
-  ];
+ 
   final List<Object> address = [
     'كفرالشيخ - طريق بلطيم الدولي ',
     'بورسعيد - مثلث الديبه',
@@ -93,9 +85,9 @@ class SearchScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Datum datum;
+
     final CustomWarningDialog _dialog = CustomWarningDialog();
-    final GetClientsNotifier Clients = ref.read(getClientsNotifier.notifier);
+    final GetClientsNotifier clients = ref.read(getClientsNotifier.notifier);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -154,8 +146,8 @@ class SearchScreen extends HookConsumerWidget {
                       ref.watch(provider).when(
                             loading: () => const AppLoader(),
                             error: (e, o) {
-                              print(e);
-                              print(o);
+                               debugPrint(e.toString());
+                              debugPrint(o.toString());
                               return const Text('error');
                             },
                             data: (e) => ListView.builder(
@@ -176,7 +168,7 @@ class SearchScreen extends HookConsumerWidget {
                                       context: context,
                                       msg: 'هل ترغب بحذف العميل؟',
                                       okFun: () {
-                                        Clients.deleteClient(e[index].id);
+                                        clients.deleteClient(e[index].id);
                                       },
                                       okMsg: 'نعم',
                                       cancelMsg: 'لا',
