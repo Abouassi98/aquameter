@@ -62,7 +62,7 @@ class AddClient extends HookConsumerWidget {
     ValueNotifier<List<Cities>> listOfCities = useState<List<Cities>>([]);
     ValueNotifier<bool> showSecondField = useState<bool>(false);
     ValueNotifier<bool> showThirdField = useState<bool>(false);
-
+    List<int> totalFishes = [], typeFishes = [];
     return SafeArea(
         child: Scaffold(
       body: Directionality(
@@ -354,18 +354,18 @@ class AddClient extends HookConsumerWidget {
                             CustomTextButton(
                               title: "حفظ",
                               function: () {
-                                addClient.totalFishes!.add(totalFishes1);
-                                addClient.typeFishes!.add(typeFishes1);
+                                totalFishes.add(totalFishes1);
+                                typeFishes.add(typeFishes1);
                                 if (totalFishes2 != null) {
-                                  addClient.totalFishes!.add(totalFishes2!);
-                                  addClient.typeFishes!.add(typeFishes2!);
+                                  totalFishes.add(totalFishes2!);
+                                  typeFishes.add(typeFishes2!);
                                 }
                                 if (totalFishes3 != null) {
-                                  addClient.totalFishes!.add(totalFishes3!);
-                                  addClient.typeFishes!.add(typeFishes3!);
+                                  totalFishes.add(totalFishes3!);
+                                  typeFishes.add(typeFishes3!);
                                 }
-                                
-                   
+                                addClient.totalFishes = totalFishes;
+                                addClient.typeFishes = typeFishes;
                                 addClient.addClient(
                                   context: context,
                                   phone: phone,

@@ -11,9 +11,9 @@ class AddClientNotifier extends StateNotifier<void> {
   AddClientNotifier(void state) : super(state);
 
   final NetworkUtils _utils = NetworkUtils();
-
+  AddClientNotifier? addClientNotifier;
   late String address, lat, long;
-  List<int>? totalFishes, typeFishes;
+  List<int> totalFishes = [], typeFishes = [];
   Future<void> addClient(
       {required BuildContext context,
       required String phone,
@@ -46,8 +46,9 @@ class AddClientNotifier extends StateNotifier<void> {
     );
 
     if (response.statusCode == 200) {
-      totalFishes!.clear();
-      typeFishes!.clear();
+      totalFishes.clear();
+      typeFishes.clear();
+
       pushAndRemoveUntil(const MainPage());
     } else {}
   }

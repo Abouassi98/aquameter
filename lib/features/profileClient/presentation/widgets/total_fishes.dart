@@ -41,11 +41,7 @@ class TotalFishesItem extends StatelessWidget {
           name: 'النوع',
           list: list,
           onChange: (v) {
-            try {
-              onTypeFishesChange!(int.parse(v));
-            } on FormatException {
-              debugPrint('Format error!');
-            }
+            onTypeFishesChange!(v);
           },
         ),
         if (onDelete != null)

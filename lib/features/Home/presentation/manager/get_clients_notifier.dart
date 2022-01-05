@@ -15,11 +15,10 @@ class GetClientsNotifier extends StateNotifier<AsyncValue<List<Datum>>> {
   List<Datum> datums = [];
   Future<List<Datum>> getClients() async {
     datums = [];
-    Response response = await _utils.requstData(
-        url: 'clients');
+    Response response = await _utils.requstData(url: 'clients');
     if (response.statusCode == 200) {
       response.data['data'].forEach(
-            (element) {
+        (element) {
           datums.add(Datum.fromJson(element));
         },
       );
@@ -29,6 +28,7 @@ class GetClientsNotifier extends StateNotifier<AsyncValue<List<Datum>>> {
     }
     return datums.reversed.toList();
   }
+
   deleteClient(int? clientId) async {
     Response response = await _utils.requstData(
       url: 'clients/delete/$clientId',
@@ -41,6 +41,4 @@ class GetClientsNotifier extends StateNotifier<AsyncValue<List<Datum>>> {
       log('error ');
     }
   }
-
-
 }

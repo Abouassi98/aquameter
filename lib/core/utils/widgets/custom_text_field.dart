@@ -51,7 +51,6 @@ class CustomTextField extends StatelessWidget {
       this.maxRange,
       this.autovalidateMode,
       this.showCounterTxt,
-
       this.suffixIcon})
       : super(key: key);
 
@@ -69,7 +68,6 @@ class CustomTextField extends StatelessWidget {
           ),
           controller: controller,
           obscureText: visibility ?? false,
-    
           enabled: enabled ?? true,
           textAlign: TextAlign.right,
           inputFormatters: calculator == true

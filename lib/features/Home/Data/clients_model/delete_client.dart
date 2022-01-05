@@ -1,17 +1,13 @@
 class DeleteClientModel {
-	int? code;
-	String? message;
+  int? code;
+  String? message;
 
-	DeleteClientModel({this.code, this.message});
+  DeleteClientModel({this.code, this.message});
 
-	factory DeleteClientModel.fromJson(Map<String, dynamic> json) {
-		return DeleteClientModel(
-			code: json['code'] as int?,
-			message: json['message'] as String?,
-		);
-	}
-
-
-
-	
+  factory DeleteClientModel.fromJson(Map<String, dynamic> json) {
+    return DeleteClientModel(
+      code: json['code'] as int?,
+      message: json['message'] as String?,
+    );
+  }
 }

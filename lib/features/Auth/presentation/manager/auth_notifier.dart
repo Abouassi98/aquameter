@@ -30,11 +30,11 @@ class AuthNotifier extends StateNotifier<void> {
     );
 
     if (response.statusCode == 200) {
-    await  HelperFunctions.saveUser(response.data);
+      await HelperFunctions.saveUser(response.data);
 
-     await HelperFunctions.saveToken(response.data['token']);
+      await HelperFunctions.saveToken(response.data['token']);
       pd.close();
-     await   pushAndRemoveUntil(const MainPage());
+      await pushAndRemoveUntil(const MainPage());
       await areaAndCites.getCities();
       await fishTypes.getFishTypes();
     } else {}
@@ -47,7 +47,7 @@ class AuthNotifier extends StateNotifier<void> {
       url: 'profile',
     );
     if (response.statusCode == 200) {
-     await HelperFunctions.saveUser(response.data);
+      await HelperFunctions.saveUser(response.data);
       log('Token >>> ${GetStorage().read(kToken)}');
 
       pushAndRemoveUntil(const MainPage());

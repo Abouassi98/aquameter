@@ -44,10 +44,7 @@ final StateNotifierProvider<AddClientNotifier, Object?> addClientNotifier =
     StateNotifierProvider(
   (ref) => AddClientNotifier(null),
 );
-final StateNotifierProvider<GetClientsNotifier, Object?>
-getClientsNotifier =
-StateNotifierProvider<GetClientsNotifier, Object?>(
-        (ref) => GetClientsNotifier(),
+final StateNotifierProvider<GetClientsNotifier, Object?> getClientsNotifier =
+    StateNotifierProvider<GetClientsNotifier, Object?>(
+  (ref) => GetClientsNotifier(),
 );
-
-

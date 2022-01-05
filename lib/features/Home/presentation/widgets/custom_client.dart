@@ -1,4 +1,3 @@
-
 import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/themes/themes.dart';
 
@@ -13,7 +12,6 @@ class ClientItem extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-
     return InkWell(
       onTap: func,
       child: Card(

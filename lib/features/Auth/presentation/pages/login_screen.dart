@@ -32,7 +32,7 @@ class LoginScreen extends HookConsumerWidget {
   ];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-      final AreaAndCitesNotifier areaAndCites = ref.read(
+    final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
     final FishTypesNotifier fishTypes = ref.read(
@@ -128,7 +128,7 @@ class LoginScreen extends HookConsumerWidget {
                   return;
                 }
                 _form.currentState!.save();
-                login.login(context, phone, password,areaAndCites,fishTypes);
+                login.login(context, phone, password, areaAndCites, fishTypes);
               },
               radius: 20,
             ),

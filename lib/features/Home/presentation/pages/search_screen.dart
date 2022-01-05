@@ -1,5 +1,3 @@
-
-
 import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 
@@ -22,7 +20,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SearchScreen extends HookConsumerWidget {
   SearchScreen({Key? key}) : super(key: key);
- 
+
   final List<Object> address = [
     'كفرالشيخ - طريق بلطيم الدولي ',
     'بورسعيد - مثلث الديبه',
@@ -85,7 +83,6 @@ class SearchScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final CustomWarningDialog _dialog = CustomWarningDialog();
     final GetClientsNotifier clients = ref.read(getClientsNotifier.notifier);
     return Directionality(
@@ -146,7 +143,7 @@ class SearchScreen extends HookConsumerWidget {
                       ref.watch(provider).when(
                             loading: () => const AppLoader(),
                             error: (e, o) {
-                               debugPrint(e.toString());
+                              debugPrint(e.toString());
                               debugPrint(o.toString());
                               return const Text('error');
                             },
