@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
+import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
@@ -36,7 +38,8 @@ class AuthNotifier extends StateNotifier<void> {
     } else {}
   }
 
-  Future<void> fetchUserData() async {
+  Future<void> fetchUserData(
+      AreaAndCitesNotifier areaAndCites, FishTypesNotifier fishTypes) async {
     Response response = await _utils.requstData(
       get: true,
       url: 'profile',
@@ -46,6 +49,8 @@ class AuthNotifier extends StateNotifier<void> {
       log('Token >>> ${GetStorage().read(kToken)}');
 
       pushAndRemoveUntil(const MainPage());
+      await areaAndCites.getCities();
+      await fishTypes.getFishTypes();
     } else {}
   }
 }

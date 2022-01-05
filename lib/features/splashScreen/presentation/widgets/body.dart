@@ -44,9 +44,7 @@ class SplashViewBody extends HookConsumerWidget {
       bool isLoggedIn = GetStorage().read(kIsLoggedIn) ?? false;
 
       if (isLoggedIn) {
-        areaAndCites.getCities();
-         fishTypes.getFishTypes();
-        await changeLanguage.fetchUserData();
+        await changeLanguage.fetchUserData(areaAndCites, fishTypes);
       } else {
         Future.delayed(const Duration(seconds: 0), () async {
           pushAndRemoveUntil(LoginScreen());

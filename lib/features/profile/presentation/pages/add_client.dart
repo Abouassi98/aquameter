@@ -148,8 +148,8 @@ class AddClient extends HookConsumerWidget {
                                     CustomBottomSheet(
                                       name: 'المحافظه',
                                       list: areaAndCites.citiesModel!.data!,
-                                      onChange: (v) async{
-                                   await     areaAndCites.getCities(cityId: v);
+                                      onChange: (v) async {
+                                        await areaAndCites.getCities(cityId: v);
                                         listOfCities.value =
                                             areaAndCites.areasModel!.data!;
                                       },
