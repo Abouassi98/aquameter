@@ -38,6 +38,7 @@ class Home extends HookConsumerWidget {
     'كفرالشيخ - طريق بلطيم',
     'بورسعيد - مثلث الديبه'
   ];
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final DepartMentProvider departMent = ref.read(departMentProvider.notifier);
@@ -90,7 +91,7 @@ class Home extends HookConsumerWidget {
                       alignment: Alignment.bottomLeft,
                       child: TextButton(
                         onPressed: () {
-                          push(const SearchScreen());
+                          push( SearchScreen());
                         },
                         child: const Text('اضافه عميل'),
                       ),
@@ -98,13 +99,18 @@ class Home extends HookConsumerWidget {
                     ListView.builder(
                       primary: false,
                       shrinkWrap: true,
-                      itemCount: HelperFunctions.getUser().data!.clients!.length,
-                      itemBuilder: (context, i) => ClientItem(
-                        func: () {
-                          push(ProfileClientScreen());
-                        },
-                        client: HelperFunctions.getUser().data!.clients![i],
-                      ),
+                      itemCount:
+                          HelperFunctions.getUser().data!.clients!.length,
+                      itemBuilder: (context, i) =>
+                          // HelperFunctions.getUser().data!.clients!.isEmpty
+                          //     // ?
+                          const Text('لايوجد عملاء')
+                              // : ClientItem(
+                              //     func: () {
+                              //       push(ProfileClientScreen());
+                              //     },
+                              //     datum: d[i],
+                              //   ),
                     ),
                     const SizedBox(
                       height: 20,

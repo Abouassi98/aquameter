@@ -60,9 +60,10 @@ class CustomAppBar extends StatelessWidget {
                       ),
                     )
                   : IconButton(
+
                       icon: const Icon(Icons.search),
                       onPressed: () {
-                        push(const SearchScreen());
+                        push( SearchScreen());
                       }),
               SizedBox(
                   height: SizeConfig.screenHeight * 0.1,
