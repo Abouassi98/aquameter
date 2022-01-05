@@ -11,17 +11,19 @@ class AreaAndCitesNotifier extends StateNotifier<void> {
   final NetworkUtils _utils = NetworkUtils();
 
   late final AreaAndCitiesModel citiesModel;
+  late final AreaAndCitiesModel areasModel;
 
   Future<AreaAndCitiesModel> getCities({int? cityId}) async {
     Response response = await _utils.requstData(
-    
       url: cityId == null ? 'areas/city' : 'areas/city/$cityId',
     );
     if (response.statusCode == 200) {
-      citiesModel = AreaAndCitiesModel.fromJson(response.data);
-      return citiesModel;
-    } else {
-      return AreaAndCitiesModel.fromJson(response.data);
-    }
+      if (cityId == null) {
+        citiesModel = AreaAndCitiesModel.fromJson(response.data);
+      } else {
+        areasModel = AreaAndCitiesModel.fromJson(response.data);
+      }
+    } else {}
+    return citiesModel;
   }
 }

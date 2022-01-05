@@ -27,9 +27,7 @@ class NetworkUtils {
   Future<Response> requstData({
     required String url,
     dynamic body,
-   
     bool? get,
-   
   }) async {
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (HttpClient client) {
@@ -38,10 +36,10 @@ class NetworkUtils {
       return client;
     };
     try {
-     if (get == true) {
+      if (get == true) {
         response =
             await dio.get(baseUrl + url, options: Options(headers: _headers));
-      }  else {
+      } else {
         response = await dio.post(
           baseUrl + url,
           data: body,

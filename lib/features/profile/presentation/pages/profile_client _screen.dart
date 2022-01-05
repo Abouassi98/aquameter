@@ -10,7 +10,7 @@ import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
 import 'package:aquameter/features/profile/presentation/widgets/chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:table_calendar/table_calendar.dart';
@@ -18,8 +18,8 @@ import 'package:table_calendar/table_calendar.dart';
 import 'add_client.dart';
 
 // ignore: must_be_immutable
-class ProfileScreen extends HookConsumerWidget {
-  ProfileScreen({Key? key}) : super(key: key);
+class ProfileClientScreen extends HookConsumerWidget {
+  ProfileClientScreen({Key? key}) : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [
     {'name': 'معدل الملوحه', 'id': 1},

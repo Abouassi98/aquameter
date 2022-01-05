@@ -30,7 +30,7 @@ class LoginScreen extends HookConsumerWidget {
   ];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String phone = '', countryCode = '+20', password = '';
+    String phone = '', password = '';
     final AuthNotifier login = ref.watch(loginProvider.notifier);
     final ValueNotifier<bool> visabilityNotifier = useState<bool>(true);
     return Scaffold(
@@ -76,9 +76,7 @@ class LoginScreen extends HookConsumerWidget {
                 );
               },
               suffixIcon: CustomCountryCodePicker(
-                onChange: (Country value) {
-                  countryCode = '+' '${value.phoneCode}';
-                },
+                onChange: (Country value) {},
               ),
               onChange: (v) {
                 phone = convertToEnglishNumbers(v.trim());

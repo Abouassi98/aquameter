@@ -1,3 +1,5 @@
+import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
+import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/providers.dart';
@@ -15,7 +17,14 @@ class SplashViewBody extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AuthNotifier changeLanguage = ref.read(loginProvider.notifier);
-    determinePage(changeLanguage);
+    final AreaAndCitesNotifier areaAndCites = ref.read(
+      areaAndCitesNotifier.notifier,
+    );
+    final FishTypesNotifier fishTypes = ref.read(
+      fishTypesNotifier.notifier,
+    );
+
+    determinePage(changeLanguage, areaAndCites, fishTypes);
     return const ImageBG(
       network: false,
       image: kAppLogo,
@@ -24,7 +33,8 @@ class SplashViewBody extends HookConsumerWidget {
     );
   }
 
-  void determinePage(AuthNotifier changeLanguage) async {
+  void determinePage(AuthNotifier changeLanguage,
+      AreaAndCitesNotifier areaAndCites, FishTypesNotifier fishTypes) async {
     bool isFirstTime = GetStorage().read(kIsFirstTime) ?? true;
     if (isFirstTime) {
       Future.delayed(const Duration(seconds: 0), () async {
@@ -34,6 +44,8 @@ class SplashViewBody extends HookConsumerWidget {
       bool isLoggedIn = GetStorage().read(kIsLoggedIn) ?? false;
 
       if (isLoggedIn) {
+        await areaAndCites.getCities();
+        await fishTypes.getFishTypes();
         await changeLanguage.fetchUserData();
       } else {
         Future.delayed(const Duration(seconds: 0), () async {

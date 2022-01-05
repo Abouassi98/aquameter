@@ -10,7 +10,7 @@ import 'package:aquameter/features/Home/presentation/manager/departments_notifie
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
 import 'package:aquameter/features/Home/presentation/widgets/days_item.dart';
 import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
-import 'package:aquameter/features/profile/presentation/pages/profile_screen.dart';
+import 'package:aquameter/features/profile/presentation/pages/profile_client%20_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -100,7 +100,7 @@ class Home extends HookConsumerWidget {
                       itemCount: name.length,
                       itemBuilder: (context, i) => ClientItem(
                         func: () {
-                          push(ProfileScreen());
+                          push(ProfileClientScreen());
                         },
                         client: HelperFunctions.getUser().data!.clients![i],
                       ),

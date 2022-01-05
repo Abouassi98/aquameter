@@ -11,8 +11,7 @@ class AboutUs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-     Directionality(
+    return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -27,6 +26,5 @@ class AboutUs extends StatelessWidget {
             padding: EdgeInsets.all(20), child: AboutItem(text: 'fff')),
       ),
     );
-  
   }
 }
