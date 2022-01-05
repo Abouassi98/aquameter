@@ -10,7 +10,7 @@ class FishTypesNotifier extends StateNotifier<void> {
 
   final NetworkUtils _utils = NetworkUtils();
 
-  FishTypesModel ?fishTypesModel;
+  FishTypesModel? fishTypesModel;
 
   Future<FishTypesModel> getFishTypes() async {
     Response response = await _utils.requstData(

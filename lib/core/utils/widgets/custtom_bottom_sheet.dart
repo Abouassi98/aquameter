@@ -9,10 +9,12 @@ import '../size_config.dart';
 class CustomBottomSheet extends HookConsumerWidget {
   final String name;
   final List list;
- final ValueChanged? onChange;
+  final bool? staticList;
+  final ValueChanged? onChange;
   const CustomBottomSheet({
     Key? key,
     required this.name,
+    this.staticList,
     required this.list,
     this.onChange,
   }) : super(key: key);
@@ -58,14 +60,25 @@ class CustomBottomSheet extends HookConsumerWidget {
                                 InkWell(
                                   onTap: () {
                                     pop();
-                                    selectedLabel.value = list[i].name;
+                                    if (staticList == true) {
+                                      selectedLabel.value = list[i]['name'];
+                                    } else {
+                                      selectedLabel.value = list[i].name;
+                                    }
                                     if (onChange != null) {
+                                      if (staticList == true) {
+                                                   onChange!(list[i]['name']);
+                                      }else{
+
                                       onChange!(list[i].id);
+                                      }
                                     }
                                   },
                                   child: Center(
                                     child: Text(
-                                      list[i].name,
+                                      staticList == true
+                                          ? list[i]['name']
+                                          : list[i].name,
                                       style: const TextStyle(fontSize: 20),
                                     ),
                                   ),

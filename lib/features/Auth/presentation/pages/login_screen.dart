@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
+import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english_number.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
@@ -30,6 +32,12 @@ class LoginScreen extends HookConsumerWidget {
   ];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+      final AreaAndCitesNotifier areaAndCites = ref.read(
+      areaAndCitesNotifier.notifier,
+    );
+    final FishTypesNotifier fishTypes = ref.read(
+      fishTypesNotifier.notifier,
+    );
     String phone = '', password = '';
     final AuthNotifier login = ref.watch(loginProvider.notifier);
     final ValueNotifier<bool> visabilityNotifier = useState<bool>(true);
@@ -120,7 +128,7 @@ class LoginScreen extends HookConsumerWidget {
                   return;
                 }
                 _form.currentState!.save();
-                login.login(context, phone, password);
+                login.login(context, phone, password,areaAndCites,fishTypes);
               },
               radius: 20,
             ),

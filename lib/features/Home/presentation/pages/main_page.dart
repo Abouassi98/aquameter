@@ -4,7 +4,7 @@ import 'package:aquameter/core/utils/widgets/custom_appbar.dart';
 import 'package:aquameter/core/utils/widgets/custom_option_dialog.dart';
 import 'package:aquameter/features/Drawer/drawer_menu.dart';
 import 'package:aquameter/features/localization/manager/app_localization.dart';
-import 'package:aquameter/features/profile/presentation/pages/add_client.dart';
+import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

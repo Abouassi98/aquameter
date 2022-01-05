@@ -8,7 +8,8 @@ import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
-import 'package:aquameter/features/profile/presentation/widgets/chart.dart';
+import 'package:aquameter/features/profileClient/presentation/widgets/chart.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';

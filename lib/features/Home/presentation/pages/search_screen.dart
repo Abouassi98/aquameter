@@ -8,8 +8,8 @@ import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
+import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
 
-import 'package:aquameter/features/profile/presentation/pages/add_client.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatefulWidget {

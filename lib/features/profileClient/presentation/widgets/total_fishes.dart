@@ -15,8 +15,11 @@ class TotalFishesItem extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.04),
-          child: const CustomTextField(
+          child: CustomTextField(
+            type: TextInputType.phone,
+          numbersOnly: true,
             hint: 'إجمالى الأسماك',
+            onChange: (v){},
           ),
         ),
         CustomBottomSheet(
