@@ -46,6 +46,9 @@ class AddClient extends HookConsumerWidget {
   num landSize = 0, targetWeight = 0, startingWeight = 0;
   int governorateId = 0, areaId = 0;
   List<int> totalFishes = [], typeFishes = [];
+  int totalFishes1 = 0, typeFishes1 = 0;
+  int? totalFishes2, totalFishes3, typeFishes2, typeFishes3;
+
   List<TotalFishesItem> totalFishesItem = [];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -58,17 +61,8 @@ class AddClient extends HookConsumerWidget {
     );
 
     ValueNotifier<List<Cities>> listOfCities = useState<List<Cities>>([]);
-    ValueNotifier<List<TotalFishesItem>> listTotalFishesItem =
-        useState<List<TotalFishesItem>>([
-      TotalFishesItem(
-        list: ref
-            .read(
-              fishTypesNotifier.notifier,
-            )
-            .fishTypesModel!
-            .data!,
-      )
-    ]);
+    ValueNotifier<bool> showSecondField = useState<bool>(false);
+    ValueNotifier<bool> showThirdField = useState<bool>(false);
 
     return SafeArea(
         child: Scaffold(
@@ -244,61 +238,78 @@ class AddClient extends HookConsumerWidget {
                                             ),
                                           ],
                                         ),
-                                        ListView.builder(
-                                            primary: false,
-                                            shrinkWrap: true,
-                                            itemCount: listTotalFishesItem
-                                                .value.length,
-                                            itemBuilder: (context, i) {
-                                              return TotalFishesItem(
-                                                list: ref
-                                                    .read(
-                                                      fishTypesNotifier
-                                                          .notifier,
-                                                    )
-                                                    .fishTypesModel!
-                                                    .data!,
-                                              );
-                                            }),
-                                      ],
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      CustomTextButton(
-                                        width: SizeConfig.screenWidth * 0.3,
-                                        title: 'إضافة عدد من نوع آخر ',
-                                        function: () {
-                                          listTotalFishesItem.value
-                                              .add(TotalFishesItem(
+                                        TotalFishesItem(
+                                          list: ref
+                                              .read(
+                                                fishTypesNotifier.notifier,
+                                              )
+                                              .fishTypesModel!
+                                              .data!,
+                                          onTotalFishesChange: (v) {
+                                            totalFishes1 = v;
+                                          },
+                                          onTypeFishesChange: (v) {
+                                            typeFishes1 = v;
+                                          },
+                                        ),
+                                        if (showSecondField.value == true)
+                                          TotalFishesItem(
                                             list: ref
                                                 .read(
                                                   fishTypesNotifier.notifier,
                                                 )
                                                 .fishTypesModel!
                                                 .data!,
-                                          ));
-                                          totalFishesItem =
-                                              listTotalFishesItem.value;
-                                          listTotalFishesItem.value = [
-                                            ...totalFishesItem
-                                          ];
-                                        },
-                                      ),
-                                      if (listTotalFishesItem.value.length > 1)
-                                        CustomTextButton(
-                                          title: 'مسح الحقل الاخير ',
-                                          function: () {
-                                            totalFishesItem.removeLast();
-                                            listTotalFishesItem.value = [
-                                              ...totalFishesItem
-                                            ];
-                                          },
-                                        ),
-                                    ],
+                                            onDelete: () {
+                                              showSecondField.value = false;
+                                              totalFishes2 = null;
+                                              typeFishes2 = null;
+                                            },
+                                            onTotalFishesChange: (v) {
+                                              totalFishes2 = v;
+                                            },
+                                            onTypeFishesChange: (v) {
+                                              typeFishes2 = v;
+                                            },
+                                          ),
+                                        if (showThirdField.value == true)
+                                          TotalFishesItem(
+                                            list: ref
+                                                .read(
+                                                  fishTypesNotifier.notifier,
+                                                )
+                                                .fishTypesModel!
+                                                .data!,
+                                            onDelete: () {
+                                              showThirdField.value = false;
+                                              totalFishes3 = null;
+                                              typeFishes3 = null;
+                                            },
+                                            onTotalFishesChange: (v) {
+                                              totalFishes3 = v;
+                                            },
+                                            onTypeFishesChange: (v) {
+                                              typeFishes3 = v;
+                                            },
+                                          ),
+                                      ],
+                                    ),
                                   ),
+                                  if (showThirdField.value == false ||
+                                      showSecondField.value == false)
+                                    CustomTextButton(
+                                      width: SizeConfig.screenWidth * 0.3,
+                                      title: 'إضافة عدد من نوع آخر ',
+                                      function: () {
+                                        if (showSecondField.value == false) {
+                                          showSecondField.value = true;
+                                        } else if (showSecondField.value ==
+                                                true &&
+                                            showThirdField.value == false) {
+                                          showThirdField.value = true;
+                                        }
+                                      },
+                                    ),
                                   const SizedBox(height: 20),
                                   Row(
                                     mainAxisAlignment:
@@ -344,6 +355,18 @@ class AddClient extends HookConsumerWidget {
                             CustomTextButton(
                               title: "حفظ",
                               function: () {
+                                addClient.totalFishes!.add(totalFishes1);
+                                addClient.typeFishes!.add(typeFishes1);
+                                if (totalFishes2 != null) {
+                                  addClient.totalFishes!.add(totalFishes2!);
+                                  addClient.typeFishes!.add(typeFishes2!);
+                                }
+                                if (totalFishes3 != null) {
+                                  addClient.totalFishes!.add(totalFishes3!);
+                                  addClient.typeFishes!.add(typeFishes3!);
+                                }
+                                
+                   
                                 addClient.addClient(
                                   context: context,
                                   phone: phone,

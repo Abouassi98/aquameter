@@ -25,6 +25,7 @@ class CustomTextField extends StatelessWidget {
   final Color? fillColor;
   final String? Function(String?)? validator;
   final AutovalidateMode? autovalidateMode;
+
   const CustomTextField(
       {Key? key,
       this.hint,
@@ -50,6 +51,7 @@ class CustomTextField extends StatelessWidget {
       this.maxRange,
       this.autovalidateMode,
       this.showCounterTxt,
+
       this.suffixIcon})
       : super(key: key);
 
@@ -67,6 +69,7 @@ class CustomTextField extends StatelessWidget {
           ),
           controller: controller,
           obscureText: visibility ?? false,
+    
           enabled: enabled ?? true,
           textAlign: TextAlign.right,
           inputFormatters: calculator == true

@@ -13,7 +13,7 @@ class AddClientNotifier extends StateNotifier<void> {
   final NetworkUtils _utils = NetworkUtils();
 
   late String address, lat, long;
- late List<int> totalFishes, typeFishes;
+  List<int>? totalFishes, typeFishes;
   Future<void> addClient(
       {required BuildContext context,
       required String phone,
@@ -32,20 +32,22 @@ class AddClientNotifier extends StateNotifier<void> {
         "phone": phone,
         "governorate": governorateId,
         "area": areaId,
-        "address": address,
+        "address": "30.5",
         "land_size": landSize,
         "land_size_type": landSizeType,
         "starting_weight": startingWeight,
         "target_weight": targetWeight,
         "number": totalFishes,
         "type": typeFishes,
-        "lat": lat,
-        "long": long
+        "lat": "30.5",
+        "long": "30.5"
       },
       url: 'clients/create',
     );
 
     if (response.statusCode == 200) {
+      totalFishes!.clear();
+      typeFishes!.clear();
       pushAndRemoveUntil(const MainPage());
     } else {}
   }

@@ -98,7 +98,7 @@ class Home extends HookConsumerWidget {
                     ListView.builder(
                       primary: false,
                       shrinkWrap: true,
-                      itemCount: name.length,
+                      itemCount: HelperFunctions.getUser().data!.clients!.length,
                       itemBuilder: (context, i) => ClientItem(
                         func: () {
                           push(ProfileClientScreen());

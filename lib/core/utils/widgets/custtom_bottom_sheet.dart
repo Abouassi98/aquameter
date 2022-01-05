@@ -67,10 +67,9 @@ class CustomBottomSheet extends HookConsumerWidget {
                                     }
                                     if (onChange != null) {
                                       if (staticList == true) {
-                                                   onChange!(list[i]['name']);
-                                      }else{
-
-                                      onChange!(list[i].id);
+                                        onChange!(list[i]['name']);
+                                      } else {
+                                        onChange!(list[i].id);
                                       }
                                     }
                                   },

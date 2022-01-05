@@ -20,6 +20,7 @@ class NetworkUtils {
   Response? response;
   static UserModel? loginData;
   final Map<String, String> _headers = {
+    'Accept': 'application/json',
     if (GetStorage().read(kIsLoggedIn) == true)
       'Authorization': 'Bearer ${GetStorage().read(kToken)}'
   };
