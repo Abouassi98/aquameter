@@ -1,7 +1,8 @@
 import 'dart:developer';
 
+import 'package:aquameter/core/GlobalApi/AreaAndCities/Data/cities_model/area_and_cities_model.dart';
 import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
-import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
+
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english_number.dart';
@@ -15,6 +16,7 @@ import 'package:aquameter/core/utils/widgets/custom_map.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
+
 import 'package:aquameter/features/profile/presentation/manager/location_notifier.dart';
 import 'package:aquameter/features/profile/presentation/pages/profile_client%20_screen.dart';
 import 'package:aquameter/features/profile/presentation/widgets/total_fishes.dart';
@@ -46,14 +48,17 @@ class AddClient extends HookConsumerWidget {
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
-    final FishTypesNotifier fishTypes = ref.read(
-      fishTypesNotifier.notifier,
-    );
 
-    final ValueNotifier<List<TotalFishesItem>> listTotalFishesItem =
+    ValueNotifier<List<Cities>> listOfCities = useState<List<Cities>>([]);
+    ValueNotifier<List<TotalFishesItem>> listTotalFishesItem =
         useState<List<TotalFishesItem>>([
       TotalFishesItem(
-        list: fishTypes.fishTypesModel.data!,
+        list: ref
+            .read(
+              fishTypesNotifier.notifier,
+            )
+            .fishTypesModel!
+            .data!,
       )
     ]);
 
@@ -141,15 +146,17 @@ class AddClient extends HookConsumerWidget {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     CustomBottomSheet(
-                                      name: 'المنطقه',
-                                      list: areaAndCites.areasModel.data!,
+                                      name: 'المحافظه',
+                                      list: areaAndCites.citiesModel!.data!,
+                                      onChange: (v) async{
+                                   await     areaAndCites.getCities(cityId: v);
+                                        listOfCities.value =
+                                            areaAndCites.areasModel!.data!;
+                                      },
                                     ),
                                     CustomBottomSheet(
-                                      name: 'المحافظه',
-                                      list: areaAndCites.citiesModel.data!,
-                                      onChange: (v) {
-                                        areaAndCites.getCities(cityId: v);
-                                      },
+                                      name: 'المدينه',
+                                      list: listOfCities.value,
                                     ),
                                   ],
                                 ),
@@ -223,8 +230,12 @@ class AddClient extends HookConsumerWidget {
                                               listTotalFishesItem.value.length,
                                           itemBuilder: (context, i) {
                                             return TotalFishesItem(
-                                              list: fishTypes
-                                                  .fishTypesModel.data!,
+                                              list: ref
+                                                  .read(
+                                                    fishTypesNotifier.notifier,
+                                                  )
+                                                  .fishTypesModel!
+                                                  .data!,
                                             );
                                           }),
                                     ],
@@ -240,7 +251,12 @@ class AddClient extends HookConsumerWidget {
                                       function: () {
                                         listTotalFishesItem.value
                                             .add(TotalFishesItem(
-                                          list: fishTypes.fishTypesModel.data!,
+                                          list: ref
+                                              .read(
+                                                fishTypesNotifier.notifier,
+                                              )
+                                              .fishTypesModel!
+                                              .data!,
                                         ));
                                         totalFishesItem =
                                             listTotalFishesItem.value;

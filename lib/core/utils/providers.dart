@@ -16,12 +16,12 @@ final AutoDisposeStateNotifierProvider<DepartMentProvider, Object?>
     departMentProvider = StateNotifierProvider.autoDispose(
   (ref) => DepartMentProvider(null),
 );
-final AutoDisposeStateNotifierProvider<AreaAndCitesNotifier, Object?>
-    areaAndCitesNotifier = StateNotifierProvider.autoDispose(
+final StateNotifierProvider<AreaAndCitesNotifier, Object?>
+    areaAndCitesNotifier = StateNotifierProvider(
   (ref) => AreaAndCitesNotifier(null),
 );
-final AutoDisposeStateNotifierProvider<FishTypesNotifier, Object?>
-    fishTypesNotifier = StateNotifierProvider.autoDispose(
+final StateNotifierProvider<FishTypesNotifier, Object?>
+    fishTypesNotifier = StateNotifierProvider(
   (ref) => FishTypesNotifier(null),
 );
 final StateNotifierProvider<LocationProvider, Object?> locationProvider =

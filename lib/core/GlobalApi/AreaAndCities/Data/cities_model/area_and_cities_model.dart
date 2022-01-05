@@ -18,15 +18,15 @@ class AreaAndCitiesModel {
 
 class Cities {
   int? id;
-  String? names, type;
+  String? name, type;
   dynamic parentId, status;
 
-  Cities({this.id, this.names, this.parentId, this.type, this.status});
+  Cities({this.id, this.name, this.parentId, this.type, this.status});
 
   factory Cities.fromJson(Map<String, dynamic> json) {
     return Cities(
       id: json['id'] as int?,
-      names: json['names'] as String?,
+      name: json['names'] as String?,
       parentId: json['parent_id'] as dynamic,
       type: json['type'] as String?,
       status: json['status'] as dynamic,

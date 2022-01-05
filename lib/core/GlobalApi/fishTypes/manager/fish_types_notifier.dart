@@ -10,7 +10,7 @@ class FishTypesNotifier extends StateNotifier<void> {
 
   final NetworkUtils _utils = NetworkUtils();
 
-  late final FishTypesModel fishTypesModel;
+  FishTypesModel ?fishTypesModel;
 
   Future<FishTypesModel> getFishTypes() async {
     Response response = await _utils.requstData(
@@ -19,6 +19,6 @@ class FishTypesNotifier extends StateNotifier<void> {
     if (response.statusCode == 200) {
       fishTypesModel = FishTypesModel.fromJson(response.data);
     } else {}
-    return fishTypesModel;
+    return fishTypesModel!;
   }
 }

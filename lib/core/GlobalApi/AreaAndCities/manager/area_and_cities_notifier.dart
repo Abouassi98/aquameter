@@ -2,6 +2,7 @@ import 'package:aquameter/core/GlobalApi/AreaAndCities/Data/cities_model/area_an
 
 import 'package:aquameter/core/utils/network_utils.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -10,8 +11,8 @@ class AreaAndCitesNotifier extends StateNotifier<void> {
 
   final NetworkUtils _utils = NetworkUtils();
 
-  late final AreaAndCitiesModel citiesModel;
-  late final AreaAndCitiesModel areasModel;
+  AreaAndCitiesModel? citiesModel;
+  AreaAndCitiesModel? areasModel;
 
   Future<AreaAndCitiesModel> getCities({int? cityId}) async {
     Response response = await _utils.requstData(
@@ -23,7 +24,9 @@ class AreaAndCitesNotifier extends StateNotifier<void> {
       } else {
         areasModel = AreaAndCitiesModel.fromJson(response.data);
       }
-    } else {}
-    return citiesModel;
+    } else {
+      debugPrint('error Loading');
+    }
+    return AreaAndCitiesModel.fromJson(response.data);
   }
 }
