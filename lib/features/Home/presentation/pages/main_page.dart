@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_appbar.dart';
@@ -7,6 +10,7 @@ import 'package:aquameter/features/localization/manager/app_localization.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../widgets/custom_bottom_navigation_bar.dart';
 import 'statics.dart';
@@ -46,6 +50,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    log("555555=${GetStorage().read(kToken)}");
     return WillPopScope(
       onWillPop: () async {
         return await showDialog(

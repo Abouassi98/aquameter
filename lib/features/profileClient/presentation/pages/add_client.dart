@@ -105,6 +105,11 @@ class AddClient extends HookConsumerWidget {
                                     onChange: (v) {
                                       name = v;
                                     },
+                                    validator: (v) {
+                                      if (v!.isEmpty) {
+                                        return 'لا يجب ترك الحقل فارغ';
+                                      }
+                                    },
                                   ),
                                   const SizedBox(height: 10),
                                   CustomTextField(
@@ -169,8 +174,8 @@ class AddClient extends HookConsumerWidget {
                                   const SizedBox(height: 10),
                                   InkWell(
                                     onTap: () {
-                                      push(const CustomMap(
-                                          driverLat: 30.3, driverLong: 31.3));
+                                      push( CustomMap(
+                                       ));
                                     },
                                     child: Container(
                                       height: 35,
@@ -220,6 +225,13 @@ class AddClient extends HookConsumerWidget {
                                                   top: SizeConfig.screenHeight *
                                                       0.04),
                                               child: CustomTextField(
+                                                paste: false,
+                                                type: TextInputType.phone,
+                                                validator: (v) {
+                                                  if (v!.isEmpty) {
+                                                    return 'لا يجب ترك الحقل فارغ';
+                                                  }
+                                                },
                                                 hint: 'مساحة الأرض',
                                                 onChange: (v) {
                                                   landSize = num.parse(v);
@@ -338,6 +350,11 @@ class AddClient extends HookConsumerWidget {
                                     onChange: (v) {
                                       startingWeight = num.parse(v);
                                     },
+                                    validator: (v) {
+                                      if (v!.isEmpty) {
+                                        return 'لا يجب ترك الحقل فارغ';
+                                      }
+                                    },
                                   ),
                                   const SizedBox(
                                     height: 10,
@@ -347,6 +364,11 @@ class AddClient extends HookConsumerWidget {
                                     onChange: (v) {
                                       targetWeight = num.parse(v);
                                     },
+                                    validator: (v) {
+                                      if (v!.isEmpty) {
+                                        return 'لا يجب ترك الحقل فارغ';
+                                      }
+                                    },
                                   ),
                                 ],
                               ),
@@ -354,29 +376,31 @@ class AddClient extends HookConsumerWidget {
                             CustomTextButton(
                               title: "حفظ",
                               function: () {
-                                totalFishes.add(totalFishes1);
-                                typeFishes.add(typeFishes1);
-                                if (totalFishes2 != null) {
-                                  totalFishes.add(totalFishes2!);
-                                  typeFishes.add(typeFishes2!);
+                                if (_formKey.currentState!.validate()) {
+                                  totalFishes.add(totalFishes1);
+                                  typeFishes.add(typeFishes1);
+                                  if (totalFishes2 != null) {
+                                    totalFishes.add(totalFishes2!);
+                                    typeFishes.add(typeFishes2!);
+                                  }
+                                  if (totalFishes3 != null) {
+                                    totalFishes.add(totalFishes3!);
+                                    typeFishes.add(typeFishes3!);
+                                  }
+                                  addClient.totalFishes = totalFishes;
+                                  addClient.typeFishes = typeFishes;
+                                  addClient.addClient(
+                                    context: context,
+                                    phone: phone,
+                                    name: name,
+                                    governorateId: governorateId,
+                                    areaId: areaId,
+                                    landSize: landSize,
+                                    startingWeight: startingWeight,
+                                    targetWeight: targetWeight,
+                                    landSizeType: landSizeType,
+                                  );
                                 }
-                                if (totalFishes3 != null) {
-                                  totalFishes.add(totalFishes3!);
-                                  typeFishes.add(typeFishes3!);
-                                }
-                                addClient.totalFishes = totalFishes;
-                                addClient.typeFishes = typeFishes;
-                                addClient.addClient(
-                                  context: context,
-                                  phone: phone,
-                                  name: name,
-                                  governorateId: governorateId,
-                                  areaId: areaId,
-                                  landSize: landSize,
-                                  startingWeight: startingWeight,
-                                  targetWeight: targetWeight,
-                                  landSizeType: landSizeType,
-                                );
                               },
                             ),
                             const SizedBox(

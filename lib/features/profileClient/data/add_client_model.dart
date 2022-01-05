@@ -1,3 +1,5 @@
+
+
 class AddClientModel {
   int? code;
   String? message;
@@ -26,8 +28,8 @@ class Client {
   String? landSizeType;
   int? startingWeight;
   int? targetWeight;
-  List<int>? number;
-  List<int>? type;
+  List<dynamic>? number;
+  List<dynamic>? type;
   String? lat;
   String? long;
 
@@ -58,8 +60,8 @@ class Client {
       landSizeType: json['land_size_type'] as String?,
       startingWeight: json['starting_weight'] as int?,
       targetWeight: json['target_weight'] as int?,
-      number: json['number'] as List<int>?,
-      type: json['type'] as List<int>?,
+      number: json['number'] as List<dynamic>?,
+      type: json['type'] as List<dynamic>?,
       lat: json['lat'] as String?,
       long: json['long'] as String?,
     );

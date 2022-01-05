@@ -1,6 +1,8 @@
 import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/network_utils.dart';
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
+import 'package:aquameter/features/profileClient/data/add_client_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -11,7 +13,7 @@ class AddClientNotifier extends StateNotifier<void> {
   AddClientNotifier(void state) : super(state);
 
   final NetworkUtils _utils = NetworkUtils();
-  AddClientNotifier? addClientNotifier;
+  AddClientModel? addClientModel;
   late String address, lat, long;
   List<int> totalFishes = [], typeFishes = [];
   Future<void> addClient(
@@ -32,13 +34,13 @@ class AddClientNotifier extends StateNotifier<void> {
         "phone": phone,
         "governorate": governorateId,
         "area": areaId,
-        "address": "30.5",
         "land_size": landSize,
         "land_size_type": landSizeType,
         "starting_weight": startingWeight,
         "target_weight": targetWeight,
         "number": totalFishes,
         "type": typeFishes,
+        "address": "30.5",
         "lat": "30.5",
         "long": "30.5"
       },
@@ -46,10 +48,16 @@ class AddClientNotifier extends StateNotifier<void> {
     );
 
     if (response.statusCode == 200) {
-      totalFishes.clear();
-      typeFishes.clear();
+      addClientModel = AddClientModel.fromJson(response.data);
+      if (addClientModel!.code == 200) {
+        HelperFunctions.successBar(context, message: 'تم الاضافه بنجاح');
+        totalFishes.clear();
+        typeFishes.clear();
 
-      pushAndRemoveUntil(const MainPage());
+        pushAndRemoveUntil(const MainPage());
+      } else {
+        HelperFunctions.errorBar(context, message: 'خطا ف اضافه العميل');
+      }
     } else {}
   }
 }
