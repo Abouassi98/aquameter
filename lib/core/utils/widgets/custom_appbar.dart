@@ -14,11 +14,11 @@ import '../size_config.dart';
 
 class CustomAppBar extends StatelessWidget {
   final bool? search, back, drawer;
-
-  final void Function(String)? onChange;
+  final TextEditingController? controller;
+  final void Function(String)? onChanged;
 
   const CustomAppBar(
-      {Key? key, this.search, this.onChange, this.back, this.drawer})
+      {Key? key, this.search, this.onChanged,this.controller, this.back, this.drawer})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -49,14 +49,15 @@ class CustomAppBar extends StatelessWidget {
                   child: const Icon(Icons.arrow_back_ios),
                   onTap: () {
                     pop();
-                  },
+  },
                 ),
               search == true
                   ? Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: CustomTextField(
+                        controller: controller,
                         hint: 'بحث',
-                        onChange: onChange,
+                        onChange: onChanged,
                       ),
                     )
                   : IconButton(
