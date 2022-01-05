@@ -1,26 +1,28 @@
+import 'dart:developer';
+
 import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
+import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
+import 'package:aquameter/core/utils/widgets/app_loader.dart';
 import 'package:aquameter/core/utils/widgets/custom_appbar.dart';
+import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
 
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
+import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
+import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
 
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SearchScreen extends StatefulWidget {
-  const SearchScreen({Key? key}) : super(key: key);
-
-  @override
-  _SearchScreenState createState() => _SearchScreenState();
-}
-
-class _SearchScreenState extends State<SearchScreen> {
-  List<Object> name = [
+class SearchScreen extends HookConsumerWidget {
+  SearchScreen({Key? key}) : super(key: key);
+  final List<Object> name = [
     'الحاج محمود مصطفي محمد',
     'مهندس محمد طارق عباس',
     'متولي زكريا القاضي',
@@ -29,7 +31,7 @@ class _SearchScreenState extends State<SearchScreen> {
     'متولي زكريا القاضي',
     'متولي زكريا القاضي',
   ];
-  List<Object> address = [
+  final List<Object> address = [
     'كفرالشيخ - طريق بلطيم الدولي ',
     'بورسعيد - مثلث الديبه',
     'كفرالشيخ - طريق بلطيم الدولي ',
@@ -38,7 +40,7 @@ class _SearchScreenState extends State<SearchScreen> {
     'بورسعيد - مثلث الديبه',
     'كفرالشيخ - طريق بلطيم الدولي ',
   ];
-  List<Map<String, dynamic>> list = [
+  final List<Map<String, dynamic>> list = [
     {
       "name": 'الحاج محمود مصطفي محمد',
       "address": 'كفرالشيخ - طريق بلطيم الدولي ',
@@ -82,8 +84,18 @@ class _SearchScreenState extends State<SearchScreen> {
     {'name': 'دمياط', 'id': 11},
     {'name': 'سوهاج', 'id': 12},
   ];
+  final FutureProvider<List<Datum>> provider =
+      FutureProvider<List<Datum>>((ref) async {
+    return await ref
+        .watch(getClientsNotifier.notifier)
+        .getClients(); // may cause `provider` to rebuild
+  });
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    Datum datum;
+    final CustomWarningDialog _dialog = CustomWarningDialog();
+    final GetClientsNotifier Clients = ref.read(getClientsNotifier.notifier);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -139,19 +151,48 @@ class _SearchScreenState extends State<SearchScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const SizedBox(height: 10),
-                      ListView.builder(
-                        primary: false,
-                        shrinkWrap: true,
-                        itemCount:
-                            HelperFunctions.getUser().data!.clients!.length,
-                        itemBuilder: (context, index) => ClientItem(
-                          func: () {
-                            push(const MainPage());
-                          },
-                          client:
-                              HelperFunctions.getUser().data!.clients![index],
-                        ),
-                      ),
+                      ref.watch(provider).when(
+                            loading: () => const AppLoader(),
+                            error: (e, o) {
+                              print(e);
+                              print(o);
+                              return const Text('error');
+                            },
+                            data: (e) => ListView.builder(
+                              primary: false,
+                              shrinkWrap: true,
+                              itemCount: e.length,
+                              itemBuilder: (context, index) => Dismissible(
+                                key: const ValueKey(0),
+                                onDismissed:
+                                    (DismissDirection direction) async {
+                                  if (direction ==
+                                      DismissDirection.startToEnd) {
+                                  } else {}
+                                },
+                                confirmDismiss:
+                                    (DismissDirection direction) async {
+                                  return await _dialog.showOptionDialog(
+                                      context: context,
+                                      msg: 'هل ترغب بحذف العميل؟',
+                                      okFun: () {
+                                        Clients.deleteClient(e[index].id);
+                                      },
+                                      okMsg: 'نعم',
+                                      cancelMsg: 'لا',
+                                      cancelFun: () {
+                                        return;
+                                      });
+                                },
+                                child: ClientItem(
+                                  func: () {
+                                    push(const MainPage());
+                                  },
+                                  datum: e[index],
+                                ),
+                              ),
+                            ),
+                          ),
                     ],
                   ),
                 ),
