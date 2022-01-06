@@ -21,7 +21,7 @@ class NetworkUtils {
   static UserModel? loginData;
   final Map<String, String> _headers = {
     'Accept': 'application/json',
-    'Authorization': 'Bearer ${GetStorage().read(kToken)}'
+    'Authorization': 'Bearer ${GetStorage().read(kToken)}',
   };
 
   Future<Response> requstData({
@@ -40,6 +40,11 @@ class NetworkUtils {
         response =
             await dio.get(baseUrl + url, options: Options(headers: _headers));
       } else {
+        if(GetStorage().read(kIsLoggedIn)==true) {
+          _headers.addAll({
+          'Authorization': 'Bearer ${GetStorage().read(kToken)}',
+        });
+        }
         response = await dio.post(
           baseUrl + url,
           data: body,

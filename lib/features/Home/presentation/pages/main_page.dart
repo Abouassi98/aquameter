@@ -53,13 +53,15 @@ class _MainPageState extends State<MainPage> {
     log("555555=${GetStorage().read(kToken)}");
     return WillPopScope(
       onWillPop: () async {
-        return await showDialog(
+        return await 
+        showDialog(
             context: context,
             useSafeArea: true,
             builder: (context) => CustomOptionDialog(
                   title: 'هل تود الخروج',
                   function: () => SystemNavigator.pop(),
                 ));
+    
       },
       child: Directionality(
         textDirection: localization.currentLanguage.toString() == 'en'

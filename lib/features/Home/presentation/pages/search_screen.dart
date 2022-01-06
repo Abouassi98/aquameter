@@ -20,38 +20,36 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SearchScreen extends HookConsumerWidget {
-  SearchScreen({Key? key}) : super(key: key);
+  final String compareData;
+  SearchScreen({Key? key, required this.compareData}) : super(key: key);
 
-
-
-  final FutureProvider<List<Datum>> provider =
-      FutureProvider<List<Datum>>((ref) async {
+  final FutureProvider<ClientsModel> provider =
+      FutureProvider<ClientsModel>((ref) async {
     return await ref
         .watch(getClientsNotifier.notifier)
         .getClients(); // may cause `provider` to rebuild
   });
-
+  bool filter = false;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController controller = useTextEditingController();
 
-    final ValueNotifier<List<Datum>> selected = useState<List<Datum>>([]);
+    final ValueNotifier<List<Client>> selected = useState<List<Client>>([]);
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
-    ValueNotifier<List<Datum>> listOfCities = useState<List<Datum>>([]);
-
 
     final CustomWarningDialog _dialog = CustomWarningDialog();
     final GetClientsNotifier clients = ref.watch(getClientsNotifier.notifier);
     return ref.watch(provider).when(
-          loading: () => const AppLoader(),
-          error: (e, o) {
-            debugPrint(e.toString());
-            debugPrint(o.toString());
-            return const Text('error');
-          },
-          data: (e) => Directionality(
+        loading: () => const Scaffold(body: AppLoader()),
+        error: (e, o) {
+          debugPrint(e.toString());
+          debugPrint(o.toString());
+          return const Text('error');
+        },
+        data: (e) {
+          return Directionality(
             textDirection: TextDirection.rtl,
             child: Scaffold(
               backgroundColor: MainStyle.backGroundColor,
@@ -72,7 +70,7 @@ class SearchScreen extends HookConsumerWidget {
                     back: true,
                     onChanged: (v) {
                       selected.value = [
-                        ...e
+                        ...e.data!
                             .where(
                               (element) => element.name!.startsWith(v.trim()),
                             )
@@ -94,14 +92,19 @@ class SearchScreen extends HookConsumerWidget {
                       CustomBottomSheet(
                         name: 'المحافظات',
                         list: areaAndCites.citiesModel!.data!,
-                        onChange: (v) async {
-                          await clients.getClients(cityId: v);
-
+                        onChange: (v) {
+                          selected.value = [
+                            ...e.data!
+                                .where(
+                                  (element) => element.governorate!
+                                      .toString()
+                                      .startsWith(v.toString()),
+                                )
+                                .toList()
+                          ];
+                          filter = true;
+                          print(selected.value);
                         },
-                      ),
-                      CustomBottomSheet(
-                        name: 'نوع العلف',
-                        list: areaAndCites.citiesModel!.data!,
                       ),
                       CustomBottomSheet(
                         name: 'نوع السمك',
@@ -111,6 +114,12 @@ class SearchScreen extends HookConsumerWidget {
                             )
                             .fishTypesModel!
                             .data!,
+                        onChange: (v) async {
+                          await clients.getClients(fishTypeId: v);
+
+                          filter = true;
+                          print(selected.value);
+                        },
                       ),
                     ],
                   ),
@@ -127,7 +136,7 @@ class SearchScreen extends HookConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const SizedBox(height: 10),
-                            (selected.value.isNotEmpty && controller.text != '')
+                            (selected.value.isNotEmpty)
                                 ? ListView.builder(
                                     primary: false,
                                     shrinkWrap: true,
@@ -157,8 +166,21 @@ class SearchScreen extends HookConsumerWidget {
                                             });
                                       },
                                       child: ClientItem(
-                                        func: () {
-                                          push(const MainPage());
+                                        func: () async {
+                                          await _dialog.showOptionDialog(
+                                              context: context,
+                                              msg: 'هل ترغب باضافة العميل؟',
+                                              okFun: () {
+                                                clients.createMetting(
+                                                    clientId: selected
+                                                        .value[index].id!,
+                                                    date: compareData);
+                                              },
+                                              okMsg: 'نعم',
+                                              cancelMsg: 'لا',
+                                              cancelFun: () {
+                                                return;
+                                              });
                                         },
                                         datum: selected.value[index],
                                       ),
@@ -166,45 +188,65 @@ class SearchScreen extends HookConsumerWidget {
                                   )
                                 : (selected.value.isEmpty &&
                                         controller.text != '')
-                                    ? const Center(
-                                        child: Text('لا يوجد منتجات'))
-                                    : ListView.builder(
-                                        primary: false,
-                                        shrinkWrap: true,
-                                        itemCount: e.length,
-                                        itemBuilder: (context, index) =>
-                                            Dismissible(
-                                          key: const ValueKey(0),
-                                          onDismissed: (DismissDirection
-                                              direction) async {
-                                            if (direction ==
-                                                DismissDirection.startToEnd) {
-                                            } else {}
-                                          },
-                                          confirmDismiss: (DismissDirection
-                                              direction) async {
-                                            return await _dialog
-                                                .showOptionDialog(
-                                                    context: context,
-                                                    msg: 'هل ترغب بحذف العميل؟',
-                                                    okFun: () {
-                                                      clients.deleteClient(
-                                                          e[index].id);
-                                                    },
-                                                    okMsg: 'نعم',
-                                                    cancelMsg: 'لا',
-                                                    cancelFun: () {
-                                                      return;
-                                                    });
-                                          },
-                                          child: ClientItem(
-                                            func: () {
-                                              push(const MainPage());
-                                            },
-                                            datum: e[index],
+                                    ? const Center(child: Text('لا يوجد عملاء'))
+                                    : (selected.value.isEmpty &&
+                                            controller.text == '' &&
+                                            filter == true)
+                                        ? const Center(
+                                            child: Text('لا يوجد عملاء'))
+                                        : ListView.builder(
+                                            primary: false,
+                                            shrinkWrap: true,
+                                            itemCount: e.data!.length,
+                                            itemBuilder: (context, index) =>
+                                                Dismissible(
+                                              key: const ValueKey(0),
+                                              onDismissed: (DismissDirection
+                                                  direction) async {
+                                                if (direction ==
+                                                    DismissDirection
+                                                        .startToEnd) {
+                                                } else {}
+                                              },
+                                              confirmDismiss: (DismissDirection
+                                                  direction) async {
+                                                return await _dialog
+                                                    .showOptionDialog(
+                                                        context: context,
+                                                        msg:
+                                                            'هل ترغب بحذف العميل؟',
+                                                        okFun: () {
+                                                          clients.deleteClient(e
+                                                              .data![index].id);
+                                                        },
+                                                        okMsg: 'نعم',
+                                                        cancelMsg: 'لا',
+                                                        cancelFun: () {
+                                                          return;
+                                                        });
+                                              },
+                                              child: ClientItem(
+                                                func: () async {
+                                                  await _dialog.showOptionDialog(
+                                                      context: context,
+                                                      msg: 'هل ترغب باضافة العميل؟',
+                                                      okFun: () {
+                                                        clients.createMetting(
+                                                            clientId: e
+                                                                .data![index]
+                                                                .id!,
+                                                            date: compareData);
+                                                      },
+                                                      okMsg: 'نعم',
+                                                      cancelMsg: 'لا',
+                                                      cancelFun: () {
+                                                        return;
+                                                      });
+                                                },
+                                                datum: e.data![index],
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
                           ],
                         ),
                       ),
@@ -213,7 +255,7 @@ class SearchScreen extends HookConsumerWidget {
                 ],
               ),
             ),
-          ),
-        );
+          );
+        });
   }
 }

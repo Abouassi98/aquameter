@@ -5,7 +5,7 @@ import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:flutter/material.dart';
 
 class ClientItem extends StatelessWidget {
-  final Datum datum;
+  final Client datum;
 
   final void Function() func;
   const ClientItem({Key? key, required this.datum, required this.func})

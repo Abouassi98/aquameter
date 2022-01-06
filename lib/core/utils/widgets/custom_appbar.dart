@@ -4,15 +4,18 @@ import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
+import 'package:aquameter/features/Home/presentation/manager/departments_notifier.dart';
 import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../constants.dart';
+import '../providers.dart';
 import '../size_config.dart';
 
 // import 'defaultAppbar.dart';
 
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar extends HookConsumerWidget {
   final bool? search, back, drawer;
   final TextEditingController? controller;
   final void Function(String)? onChanged;
@@ -21,7 +24,8 @@ class CustomAppBar extends StatelessWidget {
       {Key? key, this.search, this.onChanged,this.controller, this.back, this.drawer})
       : super(key: key);
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+      final DepartMentProvider departMent = ref.read(departMentProvider.notifier);
     return Container(
       decoration: const BoxDecoration(
         color: MainStyle.primaryColor,
@@ -63,7 +67,7 @@ class CustomAppBar extends StatelessWidget {
                   : IconButton(
                       icon: const Icon(Icons.search),
                       onPressed: () {
-                        push(SearchScreen());
+                        push(SearchScreen(compareData: departMent.dayCompare,));
                       }),
               SizedBox(
                   height: SizeConfig.screenHeight * 0.1,

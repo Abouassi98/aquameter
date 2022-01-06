@@ -1,17 +1,23 @@
 import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
-import 'package:aquameter/core/utils/functions/helper_functions.dart';
+
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
+import 'package:aquameter/core/utils/widgets/app_loader.dart';
+
+import 'package:aquameter/features/Home/Data/home_clients_model/home_clients_model.dart';
 
 import 'package:aquameter/features/Home/Data/transaction_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/departments_notifier.dart';
+import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/days_item.dart';
 import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
+import 'package:aquameter/features/profileClient/presentation/pages/profile_client%20_screen.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Home extends HookConsumerWidget {
@@ -29,97 +35,130 @@ class Home extends HookConsumerWidget {
     }).toList();
   }
 
-  final List<Object> name = [
-    'الحاج محمود مصطفي محمد',
-    'مهندس محمد طارق عباس',
-  ];
-  final List<Object> address = [
-    'كفرالشيخ - طريق بلطيم',
-    'بورسعيد - مثلث الديبه'
-  ];
-
+  final FutureProvider<HomeClientsModel> provider =
+      FutureProvider<HomeClientsModel>((ref) async {
+    return await ref
+        .watch(getHomeClientsNotifier.notifier)
+        .getHomeClients(); // may cause `provider` to rebuild
+  });
+  String compareData = '';
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final DepartMentProvider departMent = ref.read(departMentProvider.notifier);
     departMent.recentTransactions = recentTransactions;
-
+    ValueNotifier<List<MeetingClient>> filterClients =
+        useState<List<MeetingClient>>([]);
+    ValueNotifier<bool> filter = useState<bool>(false);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: MainStyle.backGroundColor,
-        body: ListView(
-          primary: false,
-          shrinkWrap: true,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: SizedBox(
-                  height: SizeConfig.screenHeight * 0.22,
-                  width: SizeConfig.screenWidth * 0.8,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'خطتك هذا الاسبوع',
-                          style: MainTheme.headingTextStyle
-                              .copyWith(fontSize: 13, color: Colors.black),
+        body: ref.watch(provider).when(
+              loading: () => const AppLoader(),
+              error: (e, o) {
+                debugPrint(e.toString());
+                debugPrint(o.toString());
+                return const Text('error');
+              },
+              data: (e) => ListView(
+                primary: false,
+                shrinkWrap: true,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: SizedBox(
+                        height: SizeConfig.screenHeight * 0.22,
+                        width: SizeConfig.screenWidth * 0.8,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'خطتك هذا الاسبوع',
+                                style: MainTheme.headingTextStyle.copyWith(
+                                    fontSize: 13, color: Colors.black),
+                              ),
+                            ),
+                            Expanded(child: DaysItem(
+                              onChaned: (v) {
+                                filterClients.value = [...e.data!]
+                                    .where(
+                                      (element) =>
+                                          element.meeting!.startsWith(v),
+                                    )
+                                    .toList();
+                                filter.value = true;
+                                compareData = v;
+                              },
+                            )),
+                          ],
                         ),
                       ),
-                      Expanded(child: DaysItem()),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: SizeConfig.screenHeight,
-                      alignment: Alignment.bottomLeft,
-                      child: TextButton(
-                        onPressed: () {
-                          push(SearchScreen());
-                        },
-                        child: const Text('اضافه عميل'),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            width: SizeConfig.screenHeight,
+                            alignment: Alignment.bottomLeft,
+                            child: TextButton(
+                              onPressed: () {
+                                push(SearchScreen(compareData: compareData,));
+                              },
+                              child: const Text('اضافه عميل'),
+                            ),
+                          ),
+                          filter.value == true
+                              ? ListView.builder(
+                                  primary: false,
+                                  shrinkWrap: true,
+                                  itemCount: filterClients.value.length,
+                                  itemBuilder: (context, i) => filterClients
+                                          .value.isEmpty
+                                      ? const Center(
+                                          child: Text('لايوجد عملاء'))
+                                      : ClientItem(
+                                          func: () {
+                                            push(ProfileClientScreen());
+                                          },
+                                          datum: filterClients.value[i].client!,
+                                        ),
+                                )
+                              : ListView.builder(
+                                  primary: false,
+                                  shrinkWrap: true,
+                                  itemCount: e.data!.length,
+                                  itemBuilder: (context, i) => e.data!.isEmpty
+                                      ? const Center(
+                                          child: Text('لايوجد عملاء'))
+                                      : ClientItem(
+                                          func: () {
+                                            push(ProfileClientScreen());
+                                          },
+                                          datum: e.data![i].client!,
+                                        ),
+                                ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
                       ),
                     ),
-                    ListView.builder(
-                        primary: false,
-                        shrinkWrap: true,
-                        itemCount:
-                            HelperFunctions.getUser().data!.clients!.length,
-                        itemBuilder: (context, i) =>
-                            // HelperFunctions.getUser().data!.clients!.isEmpty
-                            //     // ?
-                            const Text('لايوجد عملاء')
-                        // : ClientItem(
-                        //     func: () {
-                        //       push(ProfileClientScreen());
-                        //     },
-                        //     datum: d[i],
-                        //   ),
-                        ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
       ),
     );
   }

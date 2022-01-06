@@ -1,7 +1,7 @@
 class ClientsModel {
   int? code;
   String? message;
-  List<Datum>? data;
+  List<Client>? data;
 
   ClientsModel({this.code, this.message, this.data});
 
@@ -10,7 +10,7 @@ class ClientsModel {
       code: json['code'] as int?,
       message: json['message'] as String?,
       data: (json['data'] as List<dynamic>?)
-          ?.map((e) => Datum.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => Client.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -30,7 +30,7 @@ class AreaData {
   }
 }
 
-class Datum {
+class Client {
   int? id;
   String? name;
   int? phone;
@@ -54,8 +54,9 @@ class Datum {
   dynamic totalFeed;
   GovernorateData? governorateData;
   AreaData? areaData;
+  List<Fish>? fish;
 
-  Datum({
+  Client({
     this.id,
     this.name,
     this.phone,
@@ -79,10 +80,11 @@ class Datum {
     this.totalFeed,
     this.governorateData,
     this.areaData,
+    this.fish,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) {
-    return Datum(
+  factory Client.fromJson(Map<String, dynamic> json) {
+    return Client(
       id: json['id'] as int?,
       name: json['name'] as String?,
       phone: json['phone'] as int?,
@@ -111,6 +113,9 @@ class Datum {
       areaData: json['area_data'] == null
           ? null
           : AreaData.fromJson(json['area_data'] as Map<String, dynamic>),
+      fish: (json['fish'] as List<dynamic>?)
+          ?.map((e) => Fish.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
@@ -125,6 +130,42 @@ class GovernorateData {
     return GovernorateData(
       id: json['id'] as int?,
       names: json['names'] as String?,
+    );
+  }
+}
+
+class Fish {
+  int? id;
+  String? number;
+  int? type;
+  int? clientId;
+  FishType? fishType;
+
+  Fish({this.id, this.number, this.type, this.clientId, this.fishType});
+
+  factory Fish.fromJson(Map<String, dynamic> json) {
+    return Fish(
+      id: json['id'] as int?,
+      number: json['number'] as String?,
+      type: json['type'] as int?,
+      clientId: json['client_id'] as int?,
+      fishType: json['fish_type'] == null
+          ? null
+          : FishType.fromJson(json['fish_type'] as Map<String, dynamic>),
+    );
+  }
+}
+
+class FishType {
+  int? id;
+  String? name;
+
+  FishType({this.id, this.name});
+
+  factory FishType.fromJson(Map<String, dynamic> json) {
+    return FishType(
+      id: json['id'] as int?,
+      name: json['name'] as String?,
     );
   }
 }
