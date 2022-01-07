@@ -10,13 +10,14 @@ class MeetingAllNotifier extends StateNotifier<void> {
   final NetworkUtils _utils = NetworkUtils();
   MeetingAllModel? meetingAllModel;
   Map<DateTime, List<MeetingClient>> selectedEvents = {};
-  List<MeetingClient> _getEventsfromDay(DateTime date) {
+  List<MeetingClient> getEventsfromDay(DateTime date) {
     return selectedEvents[date] ?? [];
   }
 
   DateTime selectedDay = DateTime.now();
   int? id;
   Future<MeetingAllModel> meetingAll({DateTime? start, DateTime? end}) async {
+    selectedEvents.clear();
     Response response = await _utils.requstData(
       body: FormData.fromMap({
         if (id != null) 'id': id,
@@ -29,9 +30,12 @@ class MeetingAllNotifier extends StateNotifier<void> {
     if (response.statusCode == 200) {
       meetingAllModel = MeetingAllModel.fromJson(response.data);
       for (int i = 0; i < meetingAllModel!.data!.length; i++) {
-        selectedEvents['date${[i]}']!.add(meetingAllModel!.data![i]);
+        selectedEvents[
+            DateTime.parse('${meetingAllModel!.data![i].meeting!}.000Z')] = [
+          meetingAllModel!.data![i]
+        ];
       }
-      print(selectedEvents);
+      print(selectedEvents[DateTime.parse('2022-01-09 22:22:22.000Z')]);
     } else {}
     return meetingAllModel!;
   }

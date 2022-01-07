@@ -89,30 +89,48 @@ class ProfileClientScreen extends HookConsumerWidget {
                     shrinkWrap: true,
                     //scrollDirection: Axis.horizontal,
                     children: [
+                  
                       const SizedBox(
                         height: 20,
                       ),
                       Directionality(
                         textDirection: TextDirection.ltr,
                         child: TableCalendar(
-                          availableGestures: AvailableGestures.horizontalSwipe,
                           firstDay: DateTime(2022),
                           focusedDay: DateTime.now(),
-                          // eventLoader: _getEventsfromDay,
+                         // calendarBuilders:CalendarBuilders(markerBuilder: (context, day, events) => ,) ,
+                          eventLoader: meetingAll.getEventsfromDay,
+                          startingDayOfWeek: StartingDayOfWeek.saturday,
                           onFormatChanged: (c) {},
+                          calendarStyle: CalendarStyle(
+                            todayDecoration: BoxDecoration(
+                              color: Colors.purpleAccent,
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            defaultDecoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                          ),
                           lastDay: DateTime(2030),
                           onDaySelected: (e, d) {
                             push(Calculator());
                           },
+                          headerStyle: HeaderStyle(
+                            formatButtonVisible: true,
+                            titleCentered: true,
+                            formatButtonShowsNext: false,
+                            formatButtonDecoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                            formatButtonTextStyle: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
-                      // ..._getEventsfromDay(selectedDay).map(
-                      //   (MeetingClient event) => ListTile(
-                      //     title: Text(
-                      //       event.meeting!,
-                      //     ),
-                      //   ),
-                      // ),
                       const SizedBox(
                         height: 20,
                       ),
