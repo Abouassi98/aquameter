@@ -19,14 +19,15 @@ import 'package:aquameter/features/profileClient/presentation/manager/meeting_al
 import 'package:aquameter/features/profileClient/presentation/pages/view_client.dart';
 import 'package:aquameter/features/profileClient/presentation/widgets/chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_calendar/flutter_clean_calendar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'add_client.dart';
 
 // ignore: must_be_immutable
 class ProfileClientScreen extends HookConsumerWidget {
-   final Client client;
-  ProfileClientScreen({Key? key,required this.client}) : super(key: key);
+  final Client client;
+  ProfileClientScreen({Key? key, required this.client}) : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [
     {'name': 'معدل الملوحه', 'id': 1},
@@ -97,40 +98,26 @@ class ProfileClientScreen extends HookConsumerWidget {
                       ),
                       Directionality(
                         textDirection: TextDirection.ltr,
-                        child: TableCalendar(
-                          firstDay: DateTime(2022),
-                          focusedDay: DateTime.now(),
-                        
-                          eventLoader: meetingAll.getEventsfromDay,
-                          startingDayOfWeek: StartingDayOfWeek.saturday,
-                          onFormatChanged: (c) {},
-                          calendarStyle: CalendarStyle(
-                            todayDecoration: BoxDecoration(
-                              color: Colors.purpleAccent,
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(5.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                            SizedBox(
+                              height: SizeConfig.screenHeight * 0.7,
+                              child: Calendar(
+                                events: meetingAll.selectedEvents,
+                                eventDoneColor: Colors.red,
+                                selectedColor: Colors.pink,
+                                todayColor: Colors.blue,
+                                eventColor: Colors.red,
+                                locale: 'en_EN',
+                                expandableDateFormat: 'EEEE, dd. MMMM yyyy',
+                                dayOfWeekStyle: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 11),
+                              ),
                             ),
-                            defaultDecoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                          ),
-                          lastDay: DateTime(2030),
-                          onDaySelected: (e, d) {
-                            push(Calculator());
-                          },
-                          headerStyle: HeaderStyle(
-                            formatButtonVisible: true,
-                            titleCentered: true,
-                            formatButtonShowsNext: false,
-                            formatButtonDecoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                            formatButtonTextStyle: const TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
+                          ],
                         ),
                       ),
                       const SizedBox(

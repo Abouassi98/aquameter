@@ -2,6 +2,8 @@ import 'package:aquameter/core/utils/network_utils.dart';
 
 import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_clean_calendar/flutter_clean_calendar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MeetingAllNotifier extends StateNotifier<void> {
@@ -9,10 +11,7 @@ class MeetingAllNotifier extends StateNotifier<void> {
 
   final NetworkUtils _utils = NetworkUtils();
   MeetingAllModel? meetingAllModel;
-  Map<DateTime, List<MeetingClient>> selectedEvents = {};
-  List<MeetingClient> getEventsfromDay(DateTime date) {
-    return selectedEvents[date] ?? [];
-  }
+  Map<DateTime, List<CleanCalendarEvent>> selectedEvents = {};
 
   bool isInit = false;
   DateTime selectedDay = DateTime.now();
@@ -31,12 +30,29 @@ class MeetingAllNotifier extends StateNotifier<void> {
     if (response.statusCode == 200) {
       meetingAllModel = MeetingAllModel.fromJson(response.data);
       for (int i = 0; i < meetingAllModel!.data!.length; i++) {
-        selectedEvents[
-            DateTime.parse('${meetingAllModel!.data![i].meeting!}.000Z')] = [
-          meetingAllModel!.data![i]
-        ];
+        selectedEvents.addAll({
+          DateTime(
+              int.parse(meetingAllModel!.data![i].meeting!.substring(0, 4)),
+              int.parse(meetingAllModel!.data![i].meeting!.substring(6, 7)),
+              int.parse(meetingAllModel!.data![i].meeting!.substring(8, 10))): [
+            CleanCalendarEvent('Event H',
+                startTime: DateTime(
+                  int.parse(meetingAllModel!.data![i].meeting!.substring(0, 4)),
+                  int.parse(meetingAllModel!.data![i].meeting!.substring(6, 7)),
+                  int.parse(
+                      meetingAllModel!.data![i].meeting!.substring(8, 10)),
+                ),
+                endTime: DateTime(
+                    int.parse(
+                        meetingAllModel!.data![i].meeting!.substring(0, 4)),
+                    int.parse(
+                        meetingAllModel!.data![i].meeting!.substring(6, 7)),
+                    int.parse(
+                        meetingAllModel!.data![i].meeting!.substring(8, 10))),
+                color: Colors.brown)
+          ]
+        });
       }
-      print(selectedEvents[DateTime.parse('2022-01-09 22:22:22.000Z')]);
     } else {}
     return meetingAllModel!;
   }
