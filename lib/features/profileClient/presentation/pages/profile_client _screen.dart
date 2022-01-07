@@ -21,7 +21,7 @@ import 'package:aquameter/features/profileClient/presentation/widgets/chart.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_calendar/flutter_clean_calendar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:table_calendar/table_calendar.dart';
+
 import 'add_client.dart';
 
 // ignore: must_be_immutable
@@ -55,7 +55,9 @@ class ProfileClientScreen extends HookConsumerWidget {
           appBar: AppBar(
             title: InkWell(
                 onTap: () {
-                  push(ViewClient(client: client,));
+                  push(ViewClient(
+                    client: client,
+                  ));
                 },
                 child: Text(
                   client.name!,
@@ -109,6 +111,11 @@ class ProfileClientScreen extends HookConsumerWidget {
                                 selectedColor: Colors.pink,
                                 todayColor: Colors.blue,
                                 eventColor: Colors.red,
+                                isExpanded: true,
+                                onDateSelected: (v) {
+                                  push(Calculator());
+                                },
+                                isExpandable: true,
                                 locale: 'en_EN',
                                 expandableDateFormat: 'EEEE, dd. MMMM yyyy',
                                 dayOfWeekStyle: const TextStyle(
@@ -121,7 +128,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                       Center(
                         child: SizedBox(
