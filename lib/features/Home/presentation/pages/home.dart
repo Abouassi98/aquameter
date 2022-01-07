@@ -123,6 +123,7 @@ class Home extends HookConsumerWidget {
                                   shrinkWrap: true,
                                   itemCount: filterClients.value.length,
                                   itemBuilder: (context, i) => ClientItem(
+
                                     func: () {
                                       meetingAll.id =
                                           filterClients.value[i].id;

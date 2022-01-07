@@ -55,7 +55,7 @@ class ProfileClientScreen extends HookConsumerWidget {
           appBar: AppBar(
             title: InkWell(
                 onTap: () {
-                  push(ViewClient());
+                  push(ViewClient(client: client,));
                 },
                 child: Text(
                   client.name!,

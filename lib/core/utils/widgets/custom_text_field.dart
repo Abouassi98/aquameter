@@ -7,6 +7,7 @@ import 'decimal_text_input_formatter.dart';
 
 class CustomTextField extends StatelessWidget {
   final String? hint;
+  final String? initialValue;
   final int? maxLength, maxLines, minRange, maxRange;
   final IconData? icon;
   final TextInputType? type;
@@ -30,6 +31,7 @@ class CustomTextField extends StatelessWidget {
       {Key? key,
       this.hint,
       this.icon,
+      this.initialValue,
       this.type,
       this.maxLines,
       this.numbersOnly,
@@ -69,6 +71,8 @@ class CustomTextField extends StatelessWidget {
           controller: controller,
           obscureText: visibility ?? false,
           enabled: enabled ?? true,
+        initialValue: initialValue,
+
           textAlign: TextAlign.right,
           inputFormatters: calculator == true
               ? <TextInputFormatter>[
@@ -106,6 +110,7 @@ class CustomTextField extends StatelessWidget {
                 : null,
             suffixIcon: suffixIcon,
             hintText: hint,
+
             hintStyle: const TextStyle(
               color: Colors.grey,
               fontSize: 10,
