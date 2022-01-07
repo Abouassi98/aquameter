@@ -5,7 +5,7 @@ import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/features/Auth/presentation/pages/change_pass_screen.dart';
 
 import 'package:aquameter/features/Drawer/presentation/pages/about_us.dart';
-import 'package:aquameter/features/Drawer/presentation/pages/archieve.dart';
+import '../archieve/presentation/pages/archieve.dart';
 import 'package:aquameter/features/localization/manager/app_localization.dart';
 import 'package:aquameter/features/localization/screen/language_select.dart';
 import 'package:aquameter/features/splashScreen/presentation/splah_view.dart';
