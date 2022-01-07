@@ -16,6 +16,7 @@ class AddClientNotifier extends StateNotifier<void> {
   AddClientModel? addClientModel;
   late String address, lat, long;
   List<int> totalFishes = [], typeFishes = [];
+
   Future<void> addClient(
       {required BuildContext context,
       required String phone,
@@ -59,5 +60,50 @@ class AddClientNotifier extends StateNotifier<void> {
         HelperFunctions.errorBar(context, message: 'خطا ف اضافه العميل');
       }
     } else {}
+  }
+
+  Future<void> updateClient(
+      {required BuildContext context,
+      required int clientId,
+      required String phone,
+      required String name,
+      required int governorateId,
+      required int areaId,
+      required num landSize,
+      required String landSizeType,
+      required num targetWeight,
+      required num startingWeight}) async {
+    ProgressDialog pd = ProgressDialog(context: context);
+    pd.show(max: 100, msg: 'loading progress');
+    Response response = await _utils.requstData(
+      body: {
+        "id": clientId,
+        "name": name,
+        "phone": phone,
+        "governorate": governorateId,
+        "area": areaId,
+        "land_size": landSize,
+        "land_size_type": landSizeType,
+        "starting_weight": startingWeight,
+        "target_weight": targetWeight,
+        "number": totalFishes,
+        "type": typeFishes,
+        "address": address,
+        "lat": lat,
+        "long": long
+      },
+      url: 'clients/update',
+    );
+
+    addClientModel = AddClientModel.fromJson(response.data);
+    if (addClientModel!.code == 200) {
+      HelperFunctions.successBar(context, message: 'تم التعديل بنجاح');
+      totalFishes.clear();
+      typeFishes.clear();
+
+      pushAndRemoveUntil(const MainPage());
+    } else {
+      HelperFunctions.errorBar(context, message: 'خطا ف تعديل بيانات العميل');
+    }
   }
 }

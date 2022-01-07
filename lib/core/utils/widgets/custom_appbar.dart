@@ -39,7 +39,6 @@ class CustomAppBar extends HookConsumerWidget {
         ),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
             height: SizeConfig.screenHeight * 0.04,

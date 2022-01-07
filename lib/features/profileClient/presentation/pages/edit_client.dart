@@ -57,7 +57,7 @@ class EditClient extends HookConsumerWidget {
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
-    final AddClientNotifier addClient = ref.read(
+    final AddClientNotifier updateClient = ref.read(
       addClientNotifier.notifier,
     );
 
@@ -97,12 +97,12 @@ class EditClient extends HookConsumerWidget {
                               child: Column(
                                 children: <Widget>[
                                   const CustomHeaderTitle(
-                                      title: " تعديل بيانات العميل "),
+                                      title: "تعديل بيانات العميل "),
                                   const SizedBox(height: 15),
                                   CustomTextField(
                                     width: SizeConfig.screenWidth * 0.7,
                                     icon: Icons.person,
-                                    hint: "اسم العميل",
+                                    initialValue: client.name,
                                     type: TextInputType.text,
                                     onChange: (v) {
                                       name = v;
@@ -116,7 +116,7 @@ class EditClient extends HookConsumerWidget {
                                   const SizedBox(height: 10),
                                   CustomTextField(
                                     showCounterTxt: true,
-                                    hint: 'رقم الموبايل',
+                                    initialValue: client.phone.toString(),
                                     icon: Icons.phone,
                                     type: TextInputType.phone,
                                     numbersOnly: true,
@@ -233,7 +233,7 @@ class EditClient extends HookConsumerWidget {
                                                     return 'لا يجب ترك الحقل فارغ';
                                                   }
                                                 },
-                                                hint: 'مساحة الأرض',
+                                                initialValue: client.landSize.toString(),
                                                 onChange: (v) {
                                                   landSize = num.parse(v);
                                                 },
@@ -251,6 +251,7 @@ class EditClient extends HookConsumerWidget {
                                           ],
                                         ),
                                         TotalFishesItem(
+                                          initialvalue: client.totalNumber,
                                           list: ref
                                               .read(
                                                 fishTypesNotifier.notifier,
@@ -266,6 +267,8 @@ class EditClient extends HookConsumerWidget {
                                         ),
                                         if (showSecondField.value == true)
                                           TotalFishesItem(
+                                            initialvalue: client.totalNumber,
+
                                             list: ref
                                                 .read(
                                                   fishTypesNotifier.notifier,
@@ -286,6 +289,8 @@ class EditClient extends HookConsumerWidget {
                                           ),
                                         if (showThirdField.value == true)
                                           TotalFishesItem(
+                                            initialvalue: client.totalNumber,
+
                                             list: ref
                                                 .read(
                                                   fishTypesNotifier.notifier,
@@ -347,7 +352,7 @@ class EditClient extends HookConsumerWidget {
                                   ),
                                   const SizedBox(height: 20),
                                   CustomTextField(
-                                    hint: 'وزن السمكة الابتدائى بالجرام',
+                                   initialValue: client.startingWeight.toString(),
                                     onChange: (v) {
                                       startingWeight = num.parse(v);
                                     },
@@ -361,7 +366,7 @@ class EditClient extends HookConsumerWidget {
                                     height: 10,
                                   ),
                                   CustomTextField(
-                                    hint: 'وزن السمكة المستهدف بالجرام',
+                                    initialValue: client.targetWeight.toString(),
                                     onChange: (v) {
                                       targetWeight = num.parse(v);
                                     },
@@ -388,10 +393,11 @@ class EditClient extends HookConsumerWidget {
                                     totalFishes.add(totalFishes3!);
                                     typeFishes.add(typeFishes3!);
                                   }
-                                  addClient.totalFishes = totalFishes;
-                                  addClient.typeFishes = typeFishes;
-                                  addClient.addClient(
+                                  updateClient.totalFishes = totalFishes;
+                                  updateClient.typeFishes = typeFishes;
+                                  updateClient.updateClient(
                                     context: context,
+                                    clientId: client.id!,
                                     phone: phone,
                                     name: name,
                                     governorateId: governorateId,

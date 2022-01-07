@@ -15,6 +15,7 @@ import 'package:aquameter/features/calculator/presentation/screen/calculator.dar
 
 import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
+import 'package:aquameter/features/profileClient/presentation/pages/edit_client.dart';
 
 import 'package:aquameter/features/profileClient/presentation/pages/view_client.dart';
 import 'package:aquameter/features/profileClient/presentation/widgets/chart.dart';
@@ -68,7 +69,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  push(AddClient());
+                  push(EditClient(client:client));
                 },
               ),
               IconButton(
