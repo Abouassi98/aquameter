@@ -5,10 +5,10 @@ import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:flutter/material.dart';
 
 class ClientItem extends StatelessWidget {
-  final Client datum;
+  final Client client;
 
   final void Function() func;
-  const ClientItem({Key? key, required this.datum, required this.func})
+  const ClientItem({Key? key, required this.client, required this.func})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -64,13 +64,13 @@ class ClientItem extends StatelessWidget {
                     children: [
                       // Shop name and distance
                       Text(
-                        datum.name!,
+                        client.name!,
                         style: MainTheme.headingTextStyle
                             .copyWith(fontSize: 10, color: Colors.black),
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        datum.address!,
+                        client.address!,
                         style: MainTheme.headingTextStyle.copyWith(
                             fontSize: 10, color: const Color(0xFF8D8E98)),
                       ),

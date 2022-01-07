@@ -9,12 +9,13 @@ import 'package:aquameter/core/utils/widgets/custom_dialog.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
+import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
 
 import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
-import 'package:aquameter/features/profileClient/presentation/pages/edit_client.dart';
+
 import 'package:aquameter/features/profileClient/presentation/pages/view_client.dart';
 import 'package:aquameter/features/profileClient/presentation/widgets/chart.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,8 @@ import 'add_client.dart';
 
 // ignore: must_be_immutable
 class ProfileClientScreen extends HookConsumerWidget {
-  ProfileClientScreen({Key? key}) : super(key: key);
+   final Client client;
+  ProfileClientScreen({Key? key,required this.client}) : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [
     {'name': 'معدل الملوحه', 'id': 1},
@@ -55,7 +57,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                   push(ViewClient());
                 },
                 child: Text(
-                  meetingAll.meetingAllModel!.data![0].client!.name.toString(),
+                  client.name!,
                   style:
                       MainTheme.headingTextStyle.copyWith(color: Colors.white),
                 )),
@@ -98,12 +100,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                         child: TableCalendar(
                           firstDay: DateTime(2022),
                           focusedDay: DateTime.now(),
-                          calendarBuilders: CalendarBuilders(
-                            markerBuilder: (context, day, events) =>
-                                CircleAvatar(
-                              backgroundColor: Colors.black,
-                            ),
-                          ),
+                        
                           eventLoader: meetingAll.getEventsfromDay,
                           startingDayOfWeek: StartingDayOfWeek.saturday,
                           onFormatChanged: (c) {},

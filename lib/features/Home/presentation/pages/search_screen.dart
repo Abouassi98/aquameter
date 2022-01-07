@@ -177,7 +177,7 @@ class SearchScreen extends HookConsumerWidget {
                                                   return;
                                                 });
                                           },
-                                          datum: selected.value[index],
+                                          client: selected.value[index],
                                         ),
                                       ),
                                     )
@@ -243,7 +243,7 @@ class SearchScreen extends HookConsumerWidget {
                                                           return;
                                                         });
                                                   },
-                                                  datum: clients.clientsModel!.data![index],
+                                                  client: clients.clientsModel!.data![index],
                                                 ),
                                               ),
                                             ),

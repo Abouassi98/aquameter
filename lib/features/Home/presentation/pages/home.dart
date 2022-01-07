@@ -126,9 +126,9 @@ class Home extends HookConsumerWidget {
                                     func: () {
                                       meetingAll.id =
                                           filterClients.value[i].id;
-                                      push(ProfileClientScreen());
+                                      push(ProfileClientScreen(client: filterClients.value[i].client!,));
                                     },
-                                    datum: filterClients.value[i].client!,
+                                    client: filterClients.value[i].client!,
                                   ),
                                 ),
                           const SizedBox(
