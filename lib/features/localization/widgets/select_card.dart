@@ -44,8 +44,6 @@ class SelectCard extends HookConsumerWidget {
                     changeLanguage.changeLang('ar');
                   } else if (listOflocalizationModel[index].id == 2) {
                     changeLanguage.changeLang('en');
-                  } else {
-                    changeLanguage.changeLang('or');
                   }
                 },
                 child: Row(

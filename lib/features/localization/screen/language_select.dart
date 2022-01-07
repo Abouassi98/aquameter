@@ -35,14 +35,7 @@ class LanguageSelect extends HookConsumerWidget {
         image: 'assets/images/en.jpg',
       ),
     );
-    _lang.add(
-      LocalizationModel(
-        id: 3,
-        label: 'اردو',
-        image: 'assets/images/or.png',
-        selected: false,
-      ),
-    );
+   
 
     return Directionality(
       textDirection: localization.currentLanguage.toString() == 'en'

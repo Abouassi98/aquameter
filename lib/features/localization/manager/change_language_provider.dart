@@ -31,17 +31,11 @@ class ChangeLanguageProvider extends StateNotifier<void> {
   void changeLanguage(String newLang, BuildContext context) {
     var currentLanguage = localization.currentLanguage.toString();
     if (newLang == 'العربية' && currentLanguage == 'ar' ||
-        newLang == 'Urdu' && currentLanguage == 'ur' ||
-        newLang == 'English' && currentLanguage == 'en') {
+        newLang == 'Urdu' && currentLanguage == 'ur') {
       log('message');
       return;
     }
-    changeLang(newLang.contains('English')
-            ? 'en'
-            : newLang.contains('العربية')
-                ? 'ar'
-                : 'ur')
-        .then(
+    changeLang(newLang.contains('English') ? 'en' : 'ar').then(
       (value) async {
         await localization.setNewLanguage(lang, true);
         selectLang = false;
