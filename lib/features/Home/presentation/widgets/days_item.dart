@@ -2,8 +2,9 @@ import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/features/Home/Data/departments_model.dart';
 
-import 'package:aquameter/features/Home/presentation/manager/get_home_clients_notifier.dart';
+
 import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
+import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -25,8 +26,8 @@ class DaysItem extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final GetHomeClientsNotifier getHomeClients =
-        ref.read(getHomeClientsNotifier.notifier);
+    final MeetingAllNotifier getHomeClients =
+        ref.read(meetingAllNotifier.notifier);
     String dayCompare = '';
     final PlanOfWeekNotifier departMents =
         ref.watch(departMentProvider.notifier);

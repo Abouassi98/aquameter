@@ -9,7 +9,6 @@ import 'package:aquameter/core/utils/widgets/custom_dialog.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
-import 'package:aquameter/features/Home/Data/home_clients_model/home_clients_model.dart';
 
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
 
@@ -89,7 +88,6 @@ class ProfileClientScreen extends HookConsumerWidget {
                     shrinkWrap: true,
                     //scrollDirection: Axis.horizontal,
                     children: [
-                  
                       const SizedBox(
                         height: 20,
                       ),
@@ -98,7 +96,12 @@ class ProfileClientScreen extends HookConsumerWidget {
                         child: TableCalendar(
                           firstDay: DateTime(2022),
                           focusedDay: DateTime.now(),
-                         // calendarBuilders:CalendarBuilders(markerBuilder: (context, day, events) => ,) ,
+                          calendarBuilders: CalendarBuilders(
+                            markerBuilder: (context, day, events) =>
+                                CircleAvatar(
+                              backgroundColor: Colors.black,
+                            ),
+                          ),
                           eventLoader: meetingAll.getEventsfromDay,
                           startingDayOfWeek: StartingDayOfWeek.saturday,
                           onFormatChanged: (c) {},

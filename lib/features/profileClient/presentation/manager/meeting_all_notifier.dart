@@ -14,6 +14,7 @@ class MeetingAllNotifier extends StateNotifier<void> {
     return selectedEvents[date] ?? [];
   }
 
+  bool isInit = false;
   DateTime selectedDay = DateTime.now();
   int? id;
   Future<MeetingAllModel> meetingAll({DateTime? start, DateTime? end}) async {

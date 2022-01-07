@@ -1,9 +1,9 @@
-import 'package:aquameter/core/utils/providers.dart';
+
 import 'package:aquameter/core/utils/size_config.dart';
 
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
-import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
+
 
 import 'package:aquameter/features/Home/presentation/widgets/circle_chart.dart';
 import 'package:aquameter/features/Home/presentation/widgets/list_selector_widget.dart';

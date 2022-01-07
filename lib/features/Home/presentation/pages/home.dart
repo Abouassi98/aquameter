@@ -6,7 +6,7 @@ import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 
-import 'package:aquameter/features/Home/Data/home_clients_model/home_clients_model.dart';
+
 
 import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
 
@@ -14,6 +14,7 @@ import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart'
 
 import 'package:aquameter/features/Home/presentation/widgets/days_item.dart';
 import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
+import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/profile_client%20_screen.dart';
 
@@ -25,11 +26,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class Home extends HookConsumerWidget {
   Home({Key? key}) : super(key: key);
 
-  final FutureProvider<HomeClientsModel> provider =
-      FutureProvider<HomeClientsModel>((ref) async {
+  final FutureProvider<MeetingAllModel> provider =
+      FutureProvider<MeetingAllModel>((ref) async {
     return await ref
-        .watch(getHomeClientsNotifier.notifier)
-        .getHomeClients(); // may cause `provider` to rebuild
+        .watch(meetingAllNotifier.notifier)
+        .meetingAll(); // may cause `provider` to rebuild
   });
 
   @override
@@ -124,7 +125,7 @@ class Home extends HookConsumerWidget {
                                   itemBuilder: (context, i) => ClientItem(
                                     func: () {
                                       meetingAll.id =
-                                          filterClients.value[i].clientId;
+                                          filterClients.value[i].id;
                                       push(ProfileClientScreen());
                                     },
                                     datum: filterClients.value[i].client!,
