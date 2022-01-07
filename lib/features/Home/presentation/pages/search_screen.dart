@@ -3,7 +3,6 @@ import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
-import 'package:aquameter/core/utils/widgets/app_loader.dart';
 import 'package:aquameter/core/utils/widgets/custom_appbar.dart';
 import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
 
@@ -24,12 +23,7 @@ class SearchScreen extends HookConsumerWidget {
     Key? key,
   }) : super(key: key);
 
-  final FutureProvider<ClientsModel> provider =
-      FutureProvider<ClientsModel>((ref) async {
-    return await ref
-        .watch(getClientsNotifier.notifier)
-        .getClients(); // may cause `provider` to rebuild
-  });
+
   bool filter = false;
   dynamic fishType;
   @override
@@ -74,15 +68,8 @@ class SearchScreen extends HookConsumerWidget {
                 },
               ),
               preferredSize: Size.fromHeight(SizeConfig.screenHeight * 0.2)),
-          body: ref.watch(provider).when(
-              loading: () => const Scaffold(body: AppLoader()),
-              error: (e, o) {
-                debugPrint(e.toString());
-                debugPrint(o.toString());
-                return const Text('error');
-              },
-              data: (e) {
-                return ListView(
+          body:
+                 ListView(
                   primary: false,
                   shrinkWrap: true,
                   children: [
@@ -95,7 +82,7 @@ class SearchScreen extends HookConsumerWidget {
                           list: areaAndCites.citiesModel!.data!,
                           onChange: (v) {
                             selected.value = [
-                              ...e.data!
+                              ...clients.clientsModel!.data!
                                   .where(
                                     (element) => element.governorate!
                                         .toString()
@@ -116,7 +103,7 @@ class SearchScreen extends HookConsumerWidget {
                               .data!,
                           onChange: (v) async {
                             selected.value = [
-                              ...e.data!.where((element) {
+                              ...clients.clientsModel!.data!.where((element) {
                                 for (int i = 0; i < element.fish!.length; i++) {
                                   fishType = element.fish![i].fishType!.id
                                       .toString()
@@ -206,7 +193,7 @@ class SearchScreen extends HookConsumerWidget {
                                           : ListView.builder(
                                               primary: false,
                                               shrinkWrap: true,
-                                              itemCount: e.data!.length,
+                                              itemCount: clients.clientsModel!.data!.length,
                                               itemBuilder: (context, index) =>
                                                   Dismissible(
                                                 key: const ValueKey(0),
@@ -227,7 +214,7 @@ class SearchScreen extends HookConsumerWidget {
                                                               'هل ترغب بحذف العميل؟',
                                                           okFun: () {
                                                             clients
-                                                                .deleteClient(e
+                                                                .deleteClient(clients.clientsModel!
                                                                     .data![
                                                                         index]
                                                                     .id);
@@ -245,7 +232,7 @@ class SearchScreen extends HookConsumerWidget {
                                                         msg: 'هل ترغب باضافة العميل؟',
                                                         okFun: () {
                                                           clients.createMetting(
-                                                            clientId: e
+                                                            clientId: clients.clientsModel!
                                                                 .data![index]
                                                                 .id!,
                                                           );
@@ -256,7 +243,7 @@ class SearchScreen extends HookConsumerWidget {
                                                           return;
                                                         });
                                                   },
-                                                  datum: e.data![index],
+                                                  datum: clients.clientsModel!.data![index],
                                                 ),
                                               ),
                                             ),
@@ -266,8 +253,8 @@ class SearchScreen extends HookConsumerWidget {
                       ),
                     ),
                   ],
-                );
-              }),
+                )
+
         ));
   }
 }

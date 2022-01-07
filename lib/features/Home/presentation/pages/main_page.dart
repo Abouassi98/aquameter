@@ -31,7 +31,7 @@ class _MainPageState extends State<MainPage> {
   String? appBartitle = localization.text('follow_order');
   List<Widget> widgets = [
     Home(),
-    const Statics(),
+     Statics(),
   ];
   int _bottomNavIndex = 0;
   void selectedpage() {

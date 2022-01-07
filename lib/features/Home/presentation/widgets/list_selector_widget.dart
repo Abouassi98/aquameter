@@ -1,18 +1,17 @@
+import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
+import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
-class ListSelectorWidget extends StatefulWidget {
-  const ListSelectorWidget({
+class ListSelectorWidget extends HookConsumerWidget {
+   ListSelectorWidget({
     Key? key,
   }) : super(key: key);
 
-  @override
-  State<ListSelectorWidget> createState() => _ListSelectorWidgetState();
-}
-
-class _ListSelectorWidgetState extends State<ListSelectorWidget> {
-  List list = [
+  final List list = [
     {
       "name": 'الحاج محمود مصطفي محمد',
       "address": 'كفرالشيخ - طريق بلطيم الدولي ',
@@ -42,27 +41,19 @@ class _ListSelectorWidgetState extends State<ListSelectorWidget> {
       "address": 'كفرالشيخ - طريق بلطيم الدولي',
     },
   ];
-  String categoryName = '';
+final  String categoryName = '';
 
   final _multiSelectKey = GlobalKey<FormFieldState>();
-  List _selectedItems = [];
-  int slected = 0;
-  int subCatgoryId = 0;
-  @override
-  void initState() {
-    super.initState();
-  }
 
-  String branId = '';
-  String categoryId = '';
-  String modelId = '';
-  String regionId = '';
-  String attributesId = '';
-  List<int> ids = [];
-  String names = '';
+
   @override
-  Widget build(BuildContext context) {
-    return MultiSelectBottomSheetField(
+  Widget build(BuildContext context, WidgetRef ref) {
+     ValueNotifier<List> _selectedItems = useState<List>([]);
+     List<int> ids = [];
+     final GetClientsNotifier clients = ref.watch(getClientsNotifier.notifier);
+
+
+     return MultiSelectBottomSheetField(
       key: _multiSelectKey,
       buttonIcon: const Icon(
         Icons.arrow_back_ios_new,
@@ -99,15 +90,16 @@ class _ListSelectorWidgetState extends State<ListSelectorWidget> {
           fontSize: 10,
         ),
       ),
-      items: list.map((e) => MultiSelectItem(e, e['name'])).toList(),
+      items: clients.clientsModel!.data!.map((e) => MultiSelectItem(e, e.name.toString())).toList(),
       searchable: true,
       onConfirm: (values) async {
         ids = [];
 
+
         debugPrint('sdfsfdsfd${values.length}');
         if (values.isNotEmpty) {
           for (int i = 0; i < values.length; i++) {
-            _selectedItems = values;
+            _selectedItems.value = values;
           }
           ids = ids.toSet().toList();
           for (int i = 0; i < ids.length; i++) {}
@@ -118,12 +110,14 @@ class _ListSelectorWidgetState extends State<ListSelectorWidget> {
       chipDisplay: MultiSelectChipDisplay(
         alignment: Alignment.topRight,
         onTap: (item) {
-          setState(() {
-            _selectedItems.remove(item);
-          });
+
+            _selectedItems.value.remove(item);
+
           _multiSelectKey.currentState!.validate();
         },
       ),
     );
+
   }
 }
+

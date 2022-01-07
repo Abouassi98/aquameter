@@ -1,30 +1,35 @@
+import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
+import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/circle_chart.dart';
 import 'package:aquameter/features/Home/presentation/widgets/list_selector_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Statics extends StatelessWidget {
-  const Statics({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    List<Map<String, dynamic>> list2 = [
-      {
-        "name": 'المحافظات',
-      },
-      {
-        "name": 'انواع السمك',
-      },
-      {
-        "name": 'انواع العلف',
-      },
-    ];
-    return ListView(
+class Statics extends HookConsumerWidget {
+   Statics({Key? key}) : super(key: key);
+  final List<Map<String, dynamic>> list2 = [
+    {
+      "name": 'المحافظات',
+    },
+    {
+      "name": 'انواع السمك',
+    },
+    {
+      "name": 'انواع العلف',
+    },
+  ];
+
+   @override
+  Widget build(BuildContext context, WidgetRef ref) {
+
+     return ListView(
       children: [
         SizedBox(
           width: context.width * .6,
@@ -100,7 +105,7 @@ class Statics extends StatelessWidget {
         Center(
           child: SizedBox(
               width: SizeConfig.screenWidth * 0.6,
-              child: const ListSelectorWidget()),
+              child:  ListSelectorWidget()),
         ),
         SizedBox(
           height: context.height * .03,
