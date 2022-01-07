@@ -8,7 +8,6 @@ import 'package:aquameter/core/utils/widgets/app_loader.dart';
 
 import 'package:aquameter/features/Home/Data/home_clients_model/home_clients_model.dart';
 
-
 import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
@@ -26,7 +25,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class Home extends HookConsumerWidget {
   Home({Key? key}) : super(key: key);
 
-
   final FutureProvider<HomeClientsModel> provider =
       FutureProvider<HomeClientsModel>((ref) async {
     return await ref
@@ -36,13 +34,11 @@ class Home extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-   
     final GetClientsNotifier getClients = ref.read(getClientsNotifier.notifier);
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final ValueNotifier<List<MeetingClient>> filterClients =
         useState<List<MeetingClient>>([]);
 
- 
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -77,8 +73,7 @@ class Home extends HookConsumerWidget {
                                     fontSize: 13, color: Colors.black),
                               ),
                             ),
-                            Expanded(
-                                child: DaysItem(
+                            Expanded(child: DaysItem(
                               onChaned: (v) {
                                 filterClients.value = [...e.data!]
                                     .where(
@@ -89,7 +84,6 @@ class Home extends HookConsumerWidget {
 
                                 getClients.date = v;
                               },
-                         
                             )),
                           ],
                         ),
@@ -115,22 +109,27 @@ class Home extends HookConsumerWidget {
                               child: const Text('اضافه عميل'),
                             ),
                           ),
-                          ListView.builder(
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount: filterClients.value.length,
-                            itemBuilder: (context, i) =>
-                                filterClients.value.isEmpty
-                                    ? const Center(child: Text('لايوجد عملاء'))
-                                    : ClientItem(
-                                        func: () {
-                                          meetingAll.id =
-                                              filterClients.value[i].clientId;
-                                          push(ProfileClientScreen());
-                                        },
-                                        datum: filterClients.value[i].client!,
-                                      ),
-                          ),
+                          filterClients.value.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    'لايوجد عملاء',
+                                    style: MainTheme.headingTextStyle
+                                        .copyWith(color: Colors.black),
+                                  ),
+                                )
+                              : ListView.builder(
+                                  primary: false,
+                                  shrinkWrap: true,
+                                  itemCount: filterClients.value.length,
+                                  itemBuilder: (context, i) => ClientItem(
+                                    func: () {
+                                      meetingAll.id =
+                                          filterClients.value[i].clientId;
+                                      push(ProfileClientScreen());
+                                    },
+                                    datum: filterClients.value[i].client!,
+                                  ),
+                                ),
                           const SizedBox(
                             height: 20,
                           ),
