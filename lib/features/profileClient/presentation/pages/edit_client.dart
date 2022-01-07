@@ -15,6 +15,7 @@ import 'package:aquameter/core/utils/widgets/custom_map.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
+import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/location_notifier.dart';
 
@@ -25,9 +26,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-// ignore: must_be_immutable
 class EditClient extends HookConsumerWidget {
-  EditClient({Key? key}) : super(key: key);
+  final Client client;
+
+  EditClient({required this.client, Key? key}) : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [
     {'name': 'فدان', 'id': 1},
@@ -95,7 +97,7 @@ class EditClient extends HookConsumerWidget {
                               child: Column(
                                 children: <Widget>[
                                   const CustomHeaderTitle(
-                                      title: "إضافة عميل جديد"),
+                                      title: " تعديل بيانات العميل "),
                                   const SizedBox(height: 15),
                                   CustomTextField(
                                     width: SizeConfig.screenWidth * 0.7,

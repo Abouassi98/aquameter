@@ -7,11 +7,17 @@ import 'package:flutter/material.dart';
 
 class TotalFishesItem extends StatelessWidget {
   final List<FishType> list;
+  final String? hint;
+  final String? typeOfFish;
+
   final void Function()? onDelete;
   final ValueChanged<int>? onTotalFishesChange, onTypeFishesChange;
+
   const TotalFishesItem({
     Key? key,
     required this.list,
+    this.hint,
+    this.typeOfFish,
     required this.onTotalFishesChange,
     required this.onTypeFishesChange,
     this.onDelete,
@@ -27,7 +33,7 @@ class TotalFishesItem extends StatelessWidget {
           child: CustomTextField(
             type: TextInputType.phone,
             numbersOnly: true,
-            hint: 'إجمالى الأسماك',
+            hint: hint ?? 'إجمالى الأسماك',
             onChange: (v) {
               try {
                 onTotalFishesChange!(int.parse(v));
@@ -38,7 +44,7 @@ class TotalFishesItem extends StatelessWidget {
           ),
         ),
         CustomBottomSheet(
-          name: 'النوع',
+          name: typeOfFish??'النوع',
           list: list,
           onChange: (v) {
             onTypeFishesChange!(v);
