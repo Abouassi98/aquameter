@@ -4,7 +4,7 @@ import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
-import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
+
 import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

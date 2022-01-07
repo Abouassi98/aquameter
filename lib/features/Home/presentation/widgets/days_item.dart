@@ -1,7 +1,8 @@
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/features/Home/Data/departments_model.dart';
-import 'package:aquameter/features/Home/Data/home_clients_model/home_clients_model.dart';
+
+import 'package:aquameter/features/Home/presentation/manager/get_home_clients_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -10,9 +11,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DaysItem extends HookConsumerWidget {
-  final ValueNotifier<List<MeetingClient>> filterClients;
+
   final ValueChanged onChaned;
-  DaysItem({Key? key, required this.onChaned, required this.filterClients})
+  DaysItem({Key? key, required this.onChaned,})
       : super(key: key);
 
   final FutureProvider<List<PlanOfWeek>> provider =
@@ -24,6 +25,8 @@ class DaysItem extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final GetHomeClientsNotifier getHomeClients =
+        ref.read(getHomeClientsNotifier.notifier);
     String dayCompare = '';
     final PlanOfWeekNotifier departMents =
         ref.watch(departMentProvider.notifier);
@@ -31,13 +34,15 @@ class DaysItem extends HookConsumerWidget {
         useState<List<PlanOfWeek>>(departMents.departments);
     return ref.watch(provider).when(
           data: (e) {
-            if (filterClients.value.isEmpty) {
-              Future.delayed(const Duration(seconds: 1), () {
+            if (getHomeClients.isInit == false) {
+              Future.delayed(const Duration(seconds: 0), () {
                 e[0].selected = true;
                 dayCompare = departMents.groupedTransactionValues[0]
                     ['dayCompare'] as String;
                 onChaned(dayCompare);
+
                 selected.value = [...e];
+                getHomeClients.isInit = true;
               });
             }
             return ListView.builder(

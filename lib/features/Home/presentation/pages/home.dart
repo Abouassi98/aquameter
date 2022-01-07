@@ -8,9 +8,9 @@ import 'package:aquameter/core/utils/widgets/app_loader.dart';
 
 import 'package:aquameter/features/Home/Data/home_clients_model/home_clients_model.dart';
 
-import 'package:aquameter/features/Home/Data/transaction_model.dart';
+
 import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
-import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
+
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/days_item.dart';
@@ -26,17 +26,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class Home extends HookConsumerWidget {
   Home({Key? key}) : super(key: key);
 
-  final List<Transaction> _userTransactions = [];
-
-  List<Transaction> get recentTransactions {
-    return _userTransactions.where((tx) {
-      return tx.date.isAfter(
-        DateTime.now().subtract(
-          const Duration(days: 7),
-        ),
-      );
-    }).toList();
-  }
 
   final FutureProvider<HomeClientsModel> provider =
       FutureProvider<HomeClientsModel>((ref) async {
@@ -47,13 +36,13 @@ class Home extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final PlanOfWeekNotifier departMent = ref.read(departMentProvider.notifier);
+   
     final GetClientsNotifier getClients = ref.read(getClientsNotifier.notifier);
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
-    ValueNotifier<List<MeetingClient>> filterClients =
+    final ValueNotifier<List<MeetingClient>> filterClients =
         useState<List<MeetingClient>>([]);
-    ValueNotifier<bool> filter = useState<bool>(false);
-    departMent.recentTransactions = recentTransactions;
+
+ 
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -90,7 +79,6 @@ class Home extends HookConsumerWidget {
                             ),
                             Expanded(
                                 child: DaysItem(
-                              filterClients: filterClients,
                               onChaned: (v) {
                                 filterClients.value = [...e.data!]
                                     .where(
@@ -98,9 +86,10 @@ class Home extends HookConsumerWidget {
                                           element.meeting!.startsWith(v),
                                     )
                                     .toList();
-                                filter.value = true;
+
                                 getClients.date = v;
                               },
+                         
                             )),
                           ],
                         ),
@@ -126,39 +115,22 @@ class Home extends HookConsumerWidget {
                               child: const Text('اضافه عميل'),
                             ),
                           ),
-                          filter.value == true
-                              ? ListView.builder(
-                                  primary: false,
-                                  shrinkWrap: true,
-                                  itemCount: filterClients.value.length,
-                                  itemBuilder: (context, i) => filterClients
-                                          .value.isEmpty
-                                      ? const Center(
-                                          child: Text('لايوجد عملاء'))
-                                      : ClientItem(
-                                          func: () {
-                                            meetingAll.id =
-                                                filterClients.value[i].clientId;
-                                            push(ProfileClientScreen());
-                                          },
-                                          datum: filterClients.value[i].client!,
-                                        ),
-                                )
-                              : ListView.builder(
-                                  primary: false,
-                                  shrinkWrap: true,
-                                  itemCount: e.data!.length,
-                                  itemBuilder: (context, i) => e.data!.isEmpty
-                                      ? const Center(
-                                          child: Text('لايوجد عملاء'))
-                                      : ClientItem(
-                                          func: () {
-                                            meetingAll.id = e.data![i].clientId;
-                                            push(ProfileClientScreen());
-                                          },
-                                          datum: e.data![i].client!,
-                                        ),
-                                ),
+                          ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            itemCount: filterClients.value.length,
+                            itemBuilder: (context, i) =>
+                                filterClients.value.isEmpty
+                                    ? const Center(child: Text('لايوجد عملاء'))
+                                    : ClientItem(
+                                        func: () {
+                                          meetingAll.id =
+                                              filterClients.value[i].clientId;
+                                          push(ProfileClientScreen());
+                                        },
+                                        datum: filterClients.value[i].client!,
+                                      ),
+                          ),
                           const SizedBox(
                             height: 20,
                           ),

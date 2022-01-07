@@ -9,14 +9,24 @@ class PlanOfWeekNotifier extends StateNotifier<void> {
   int? id;
   String name = '', month = '', day = '', dayCompare = '';
   bool selected = false;
-  List<Transaction> recentTransactions = [];
+  final List<Transaction> _userTransactions = [];
   List<PlanOfWeek> departments = [];
-
+  List<Transaction> get recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          const Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
   List<Map<String, Object>> get groupedTransactionValues {
+    
     return List.generate(7, (index) {
       final weekDay = DateTime.now().add(
         Duration(days: index),
       );
+
 
       for (var i = 0; i < recentTransactions.length; i++) {
         if (recentTransactions[i].date.day == weekDay.day &&

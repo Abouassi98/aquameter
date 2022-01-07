@@ -8,9 +8,9 @@ import 'package:aquameter/core/utils/widgets/custom_dialog.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
-import 'package:aquameter/features/Home/Data/home_clients_model/home_clients_model.dart';
+
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
-import 'package:aquameter/features/profileClient/data/event_model.dart';
+
 import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/widgets/chart.dart';
@@ -42,7 +42,7 @@ class ProfileClientScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
         final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     // List<MeetingClient> _getEventsfromDay(DateTime date) {
-    //   return  meetingAll.meetingAllModel.data[] ?? [];
+    //   return  meetingAll.meetingAllModel.data.?? [];
     // }
 
     return Directionality(
@@ -100,12 +100,12 @@ class ProfileClientScreen extends HookConsumerWidget {
                 ),
               ),
               // ..._getEventsfromDay(selectedDay).map(
-              //   (Event event) => ListTile(
+              //   (MeetingClient event) => ListTile(
               //     title: Text(
-              //       event.title,
+              //       event.meeting!,
               //     ),
               //   ),
-            // ),
+              // ),
               const SizedBox(
                 height: 20,
               ),
