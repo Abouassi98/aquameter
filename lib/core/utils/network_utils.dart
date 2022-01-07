@@ -7,9 +7,7 @@ import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:get_storage/get_storage.dart';
-
 import 'constants.dart';
 import 'functions/helper.dart';
 
@@ -36,15 +34,15 @@ class NetworkUtils {
       return client;
     };
     try {
+      if (GetStorage().read(kIsLoggedIn) == true) {
+        _headers.addAll({
+          'Authorization': 'Bearer ${GetStorage().read(kToken)}',
+        });
+      }
       if (get == true) {
         response =
             await dio.get(baseUrl + url, options: Options(headers: _headers));
       } else {
-        if(GetStorage().read(kIsLoggedIn)==true) {
-          _headers.addAll({
-          'Authorization': 'Bearer ${GetStorage().read(kToken)}',
-        });
-        }
         response = await dio.post(
           baseUrl + url,
           data: body,

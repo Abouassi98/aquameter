@@ -40,9 +40,9 @@ class AddClientNotifier extends StateNotifier<void> {
         "target_weight": targetWeight,
         "number": totalFishes,
         "type": typeFishes,
-        "address": "30.5",
-        "lat": "30.5",
-        "long": "30.5"
+        "address": address,
+        "lat": lat,
+        "long": long
       },
       url: 'clients/create',
     );

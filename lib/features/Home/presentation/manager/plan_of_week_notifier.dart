@@ -4,10 +4,10 @@ import 'package:aquameter/features/Home/Data/transaction_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class DepartMentProvider extends StateNotifier<void> {
-  DepartMentProvider(void state) : super(state);
+class PlanOfWeekNotifier extends StateNotifier<void> {
+  PlanOfWeekNotifier(void state) : super(state);
   int? id;
-  String name='', month='', day='', dayCompare='';
+  String name = '', month = '', day = '', dayCompare = '';
   bool selected = false;
   List<Transaction> recentTransactions = [];
   List<PlanOfWeek> departments = [];
@@ -48,20 +48,8 @@ class DepartMentProvider extends StateNotifier<void> {
               selected: false,
               day: element['name'] as String?));
         }
-   
       });
     }
     return departments;
-  }
-
-  void changeDate(
-      {required String nameofDay,
-      required String dayNum,
-      required String monthNum,
-      required String dayCompareNum}) {
-    name = nameofDay;
-    day = dayNum;
-    month = monthNum;
-    dayCompare = dayCompareNum;
   }
 }

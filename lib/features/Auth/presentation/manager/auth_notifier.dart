@@ -34,7 +34,7 @@ class AuthNotifier extends StateNotifier<void> {
 
       await HelperFunctions.saveToken(response.data['token']);
       pd.close();
-      
+
       pushAndRemoveUntil(const MainPage());
       await areaAndCites.getCities();
       await fishTypes.getFishTypes();

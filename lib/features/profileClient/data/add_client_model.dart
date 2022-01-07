@@ -1,5 +1,3 @@
-
-
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 
 class AddClientModel {
@@ -19,4 +17,3 @@ class AddClientModel {
     );
   }
 }
-

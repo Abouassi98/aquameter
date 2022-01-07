@@ -15,19 +15,14 @@ class GetHomeClientsNotifier extends StateNotifier<AsyncValue<ClientsModel>> {
   Future<HomeClientsModel> getHomeClients() async {
     Response response = await _utils.requstData(
       url: 'meeting/all',
-      
     );
     if (response.statusCode == 200) {
-
       homeClientsModel = HomeClientsModel.fromJson(response.data);
- 
+
       log('correct getHomeClientsModel data');
     } else {
       log('error getHomeClientsModel data');
     }
     return homeClientsModel!;
   }
-
-  
 }
-

@@ -4,13 +4,13 @@ import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
-import 'package:aquameter/features/Home/presentation/manager/departments_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
 import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../constants.dart';
-import '../providers.dart';
+
 import '../size_config.dart';
 
 // import 'defaultAppbar.dart';
@@ -21,11 +21,15 @@ class CustomAppBar extends HookConsumerWidget {
   final void Function(String)? onChanged;
 
   const CustomAppBar(
-      {Key? key, this.search, this.onChanged,this.controller, this.back, this.drawer})
+      {Key? key,
+      this.search,
+      this.onChanged,
+      this.controller,
+      this.back,
+      this.drawer})
       : super(key: key);
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
-      final DepartMentProvider departMent = ref.read(departMentProvider.notifier);
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: const BoxDecoration(
         color: MainStyle.primaryColor,
@@ -53,7 +57,7 @@ class CustomAppBar extends HookConsumerWidget {
                   child: const Icon(Icons.arrow_back_ios),
                   onTap: () {
                     pop();
-  },
+                  },
                 ),
               search == true
                   ? Padding(
@@ -67,7 +71,7 @@ class CustomAppBar extends HookConsumerWidget {
                   : IconButton(
                       icon: const Icon(Icons.search),
                       onPressed: () {
-                        push(SearchScreen(compareData: departMent.dayCompare,));
+                        push(SearchScreen());
                       }),
               SizedBox(
                   height: SizeConfig.screenHeight * 0.1,

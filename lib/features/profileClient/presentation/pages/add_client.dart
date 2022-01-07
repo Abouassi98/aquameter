@@ -174,8 +174,7 @@ class AddClient extends HookConsumerWidget {
                                   const SizedBox(height: 10),
                                   InkWell(
                                     onTap: () {
-                                      push( CustomMap(
-                                       ));
+                                      push(CustomMap());
                                     },
                                     child: Container(
                                       height: 35,

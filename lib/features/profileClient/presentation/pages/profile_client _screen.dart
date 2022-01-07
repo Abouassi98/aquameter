@@ -1,5 +1,6 @@
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_btn.dart';
 import 'package:aquameter/core/utils/widgets/custom_dialog.dart';
@@ -7,15 +8,15 @@ import 'package:aquameter/core/utils/widgets/custom_dialog.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
+import 'package:aquameter/features/Home/Data/home_clients_model/home_clients_model.dart';
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
+import 'package:aquameter/features/profileClient/data/event_model.dart';
+import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
+import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/widgets/chart.dart';
-
 import 'package:flutter/material.dart';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:table_calendar/table_calendar.dart';
-
 import 'add_client.dart';
 
 // ignore: must_be_immutable
@@ -30,8 +31,20 @@ class ProfileClientScreen extends HookConsumerWidget {
   String? selctedMeasuer;
   num totalWeight = 0.0, averageWeight = 0.0;
   int totalFishes = 0;
+  DateTime selectedDay = DateTime.now();
+  final FutureProvider<MeetingAllModel> provider =
+      FutureProvider<MeetingAllModel>((ref) async {
+    return await ref
+        .read(meetingAllNotifier.notifier)
+        .meetingAll(); //; may cause `provider` to rebuild
+  });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+        final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
+    // List<MeetingClient> _getEventsfromDay(DateTime date) {
+    //   return  meetingAll.meetingAllModel.data[] ?? [];
+    // }
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -76,8 +89,9 @@ class ProfileClientScreen extends HookConsumerWidget {
                 textDirection: TextDirection.ltr,
                 child: TableCalendar(
                   availableGestures: AvailableGestures.horizontalSwipe,
-                  firstDay: DateTime(2021),
+                  firstDay: DateTime(2022),
                   focusedDay: DateTime.now(),
+                 // eventLoader: _getEventsfromDay,
                   onFormatChanged: (c) {},
                   lastDay: DateTime(2030),
                   onDaySelected: (e, d) {
@@ -85,6 +99,13 @@ class ProfileClientScreen extends HookConsumerWidget {
                   },
                 ),
               ),
+              // ..._getEventsfromDay(selectedDay).map(
+              //   (Event event) => ListTile(
+              //     title: Text(
+              //       event.title,
+              //     ),
+              //   ),
+            // ),
               const SizedBox(
                 height: 20,
               ),
