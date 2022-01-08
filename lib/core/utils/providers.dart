@@ -4,7 +4,7 @@ import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart'
 import 'package:aquameter/features/Auth/presentation/manager/send_code_notifier.dart';
 import 'package:aquameter/features/CustomMap/presentation/manager/map_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
-import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/getandDeleteclients_createmettingandperiod_notifier.dart';
 
 import 'package:aquameter/features/localization/manager/change_language_provider.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
@@ -51,9 +51,9 @@ final StateNotifierProvider<AddClientNotifier, Object?> addClientNotifier =
     StateNotifierProvider(
   (ref) => AddClientNotifier(null),
 );
-final StateNotifierProvider<GetClientsNotifier, Object?> getClientsNotifier =
-    StateNotifierProvider<GetClientsNotifier, Object?>(
-  (ref) => GetClientsNotifier(),
+final StateNotifierProvider<GetAndDeleteClientsCreateMettingAndPeriodNotifier, Object?> getClientsNotifier =
+    StateNotifierProvider<GetAndDeleteClientsCreateMettingAndPeriodNotifier, Object?>(
+  (ref) => GetAndDeleteClientsCreateMettingAndPeriodNotifier(),
 );
 
 final StateNotifierProvider<MeetingAllNotifier, Object?> meetingAllNotifier =

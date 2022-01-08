@@ -8,7 +8,7 @@ import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
 
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
-import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/getandDeleteclients_createmettingandperiod_notifier.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
@@ -35,7 +35,7 @@ class SearchScreen extends HookConsumerWidget {
     );
 
     final CustomWarningDialog _dialog = CustomWarningDialog();
-    final GetClientsNotifier clients = ref.watch(getClientsNotifier.notifier);
+    final GetAndDeleteClientsCreateMettingAndPeriodNotifier clients = ref.watch(getClientsNotifier.notifier);
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(

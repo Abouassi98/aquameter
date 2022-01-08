@@ -13,7 +13,7 @@ import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
 import 'package:aquameter/features/Auth/presentation/pages/send_code_screen.dart';
-import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/getandDeleteclients_createmettingandperiod_notifier.dart';
 
 import 'package:country_pickers/country.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +39,7 @@ class LoginScreen extends HookConsumerWidget {
     final FishTypesNotifier fishTypes = ref.read(
       fishTypesNotifier.notifier,
     );
-    final GetClientsNotifier clients = ref.watch(getClientsNotifier.notifier);
+    final GetAndDeleteClientsCreateMettingAndPeriodNotifier clients = ref.watch(getClientsNotifier.notifier);
 
     String phone = '', password = '';
     final AuthNotifier login = ref.watch(loginProvider.notifier);

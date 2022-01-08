@@ -5,7 +5,7 @@ import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/network_utils.dart';
-import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/getandDeleteclients_createmettingandperiod_notifier.dart';
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,7 +24,7 @@ class AuthNotifier extends StateNotifier<void> {
       String password,
       AreaAndCitesNotifier areaAndCites,
       FishTypesNotifier fishTypes,
-      GetClientsNotifier getClients) async {
+      GetAndDeleteClientsCreateMettingAndPeriodNotifier getClients) async {
     ProgressDialog pd = ProgressDialog(context: context);
     pd.show(max: 100, msg: 'loading progress');
     Response response = await _utils.requstData(
@@ -49,7 +49,7 @@ class AuthNotifier extends StateNotifier<void> {
   }
 
   Future<void> fetchUserData(AreaAndCitesNotifier areaAndCites,
-      FishTypesNotifier fishTypes, GetClientsNotifier getClients) async {
+      FishTypesNotifier fishTypes, GetAndDeleteClientsCreateMettingAndPeriodNotifier getClients) async {
     Response response = await _utils.requstData(
       get: true,
       url: 'profile',
