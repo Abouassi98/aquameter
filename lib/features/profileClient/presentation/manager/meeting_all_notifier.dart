@@ -32,9 +32,12 @@ class MeetingAllNotifier extends StateNotifier<void> {
       for (int i = 0; i < meetingAllModel!.data!.length; i++) {
         selectedEvents.addAll({
           DateTime(
-              int.parse(meetingAllModel!.data![i].meeting!.substring(0, 4)),
-              int.parse(meetingAllModel!.data![i].meeting!.substring(6, 7)),
-              int.parse(meetingAllModel!.data![i].meeting!.substring(8, 10))): [
+            int.parse(meetingAllModel!.data![i].meeting!.substring(0, 4)),
+            int.parse(meetingAllModel!.data![i].meeting!.substring(6, 7)),
+            int.parse(
+              meetingAllModel!.data![i].meeting!.substring(8, 10),
+            ),
+          ): [
             CleanCalendarEvent('Event H',
                 startTime: DateTime(
                   int.parse(meetingAllModel!.data![i].meeting!.substring(0, 4)),

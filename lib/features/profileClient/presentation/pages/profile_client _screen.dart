@@ -23,7 +23,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_calendar/flutter_clean_calendar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'add_client.dart';
 
 // ignore: must_be_immutable
 class ProfileClientScreen extends HookConsumerWidget {
@@ -72,7 +71,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  push(EditClient(client:client));
+                  push(EditClient(client: client));
                 },
               ),
               IconButton(
@@ -114,7 +113,17 @@ class ProfileClientScreen extends HookConsumerWidget {
                                 eventColor: Colors.red,
                                 isExpanded: true,
                                 onDateSelected: (v) {
-                                  push(Calculator());
+                                  if (meetingAll.selectedEvents[DateTime(
+                                        int.parse(v.toString().substring(0, 4)),
+                                        int.parse(v.toString().substring(6, 7)),
+                                        int.parse(
+                                          v.toString().substring(8, 10),
+                                        ),
+                                      )] !=
+                                      null) {
+                                  } else {
+                                    push(Calculator());
+                                  }
                                 },
                                 isExpandable: true,
                                 locale: 'en_EN',

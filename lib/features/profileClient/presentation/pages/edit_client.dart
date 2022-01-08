@@ -154,7 +154,7 @@ class EditClient extends HookConsumerWidget {
                                         MainAxisAlignment.spaceAround,
                                     children: [
                                       CustomBottomSheet(
-                                        name: 'المحافظه',
+                                        name: client.governorateData!.names!,
                                         list: areaAndCites.citiesModel!.data!,
                                         onChange: (v) async {
                                           await areaAndCites.getCities(
@@ -165,7 +165,7 @@ class EditClient extends HookConsumerWidget {
                                         },
                                       ),
                                       CustomBottomSheet(
-                                        name: 'المدينه',
+                                        name:client.areaData!.names!,
                                         list: listOfCities.value,
                                         onChange: (v) {
                                           areaId = v;
@@ -191,7 +191,7 @@ class EditClient extends HookConsumerWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Text(location.address ?? 'العنوان'),
+                                          Text(location.address ?? client.address!),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: CircleAvatar(
@@ -241,7 +241,7 @@ class EditClient extends HookConsumerWidget {
                                             ),
                                             CustomBottomSheet(
                                               staticList: true,
-                                              name: 'فدان/ م',
+                                              name: client.landSizeType!,
                                               list: listofMeasuer,
                                               onChange: (v) {
                                                 landSizeType = v;

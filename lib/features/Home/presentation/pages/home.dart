@@ -6,8 +6,6 @@ import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 
-
-
 import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
@@ -123,11 +121,12 @@ class Home extends HookConsumerWidget {
                                   shrinkWrap: true,
                                   itemCount: filterClients.value.length,
                                   itemBuilder: (context, i) => ClientItem(
-
                                     func: () {
                                       meetingAll.id =
-                                          filterClients.value[i].id;
-                                      push(ProfileClientScreen(client: filterClients.value[i].client!,));
+                                          filterClients.value[i].clientId;
+                                      push(ProfileClientScreen(
+                                        client: filterClients.value[i].client!,
+                                      ));
                                     },
                                     client: filterClients.value[i].client!,
                                   ),
