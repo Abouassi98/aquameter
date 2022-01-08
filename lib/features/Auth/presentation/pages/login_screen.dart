@@ -131,7 +131,8 @@ class LoginScreen extends HookConsumerWidget {
                   return;
                 }
                 _form.currentState!.save();
-                login.login(context, phone, password, areaAndCites, fishTypes,clients);
+                login.login(
+                    context, phone, password, areaAndCites, fishTypes, clients);
               },
               radius: 20,
             ),

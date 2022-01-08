@@ -71,8 +71,7 @@ class CustomTextField extends StatelessWidget {
           controller: controller,
           obscureText: visibility ?? false,
           enabled: enabled ?? true,
-        initialValue: initialValue,
-
+          initialValue: initialValue,
           textAlign: TextAlign.right,
           inputFormatters: calculator == true
               ? <TextInputFormatter>[
@@ -110,7 +109,6 @@ class CustomTextField extends StatelessWidget {
                 : null,
             suffixIcon: suffixIcon,
             hintText: hint,
-
             hintStyle: const TextStyle(
               color: Colors.grey,
               fontSize: 10,

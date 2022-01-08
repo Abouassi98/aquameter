@@ -24,7 +24,7 @@ class GetAndDeleteClientsCreateMettingAndPeriodNotifier extends StateNotifier<As
     Response response = await _utils.requstData(url: 'clients', body: {});
     if (response.statusCode == 200) {
       clientsModel = ClientsModel.fromJson(response.data);
-   
+
       log('correct get data');
     } else {
       log('error get data');

@@ -51,7 +51,6 @@ final StateNotifierProvider<GetAndDeleteClientsCreateMettingAndPeriodNotifier, O
   (ref) => GetAndDeleteClientsCreateMettingAndPeriodNotifier(),
 );
 
-
 final StateNotifierProvider<MeetingAllNotifier, Object?> meetingAllNotifier =
     StateNotifierProvider<MeetingAllNotifier, Object?>(
   (ref) => MeetingAllNotifier(null),

@@ -1,19 +1,19 @@
-
 import 'package:aquameter/core/utils/size_config.dart';
 
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
+import 'package:aquameter/features/Home/Data/chart_data_model.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
-
-import 'package:aquameter/features/Home/presentation/widgets/circle_chart.dart';
 import 'package:aquameter/features/Home/presentation/widgets/list_selector_widget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Statics extends HookConsumerWidget {
-   Statics({Key? key}) : super(key: key);
+  Statics({Key? key}) : super(key: key);
   final List<Map<String, dynamic>> list2 = [
     {
       "name": 'المحافظات',
@@ -25,11 +25,15 @@ class Statics extends HookConsumerWidget {
       "name": 'انواع العلف',
     },
   ];
-
-   @override
+  final List<ChartData> chartData = [
+    ChartData('USA', 10, '70%'),
+    ChartData('China', 11, '60%'),
+    ChartData('Russia', 9, '52%'),
+    ChartData('Germany', 10, '40%')
+  ];
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-     return ListView(
+    return ListView(
       children: [
         SizedBox(
           width: context.width * .6,
@@ -46,7 +50,15 @@ class Statics extends HookConsumerWidget {
               SizedBox(
                 height: SizeConfig.screenHeight * .01,
               ),
-              const CircleChart(),
+              SfCircularChart(series: <CircularSeries>[
+                PieSeries<ChartData, String>(
+                  
+                    dataSource: chartData,
+                    xValueMapper: (ChartData data, _) => data.x,
+                    yValueMapper: (ChartData data, _) => data.y,
+                    groupMode: CircularChartGroupMode.point,
+                    groupTo: 2)
+              ]),
             ],
           ),
         ),
@@ -104,8 +116,7 @@ class Statics extends HookConsumerWidget {
         ),
         Center(
           child: SizedBox(
-              width: SizeConfig.screenWidth * 0.6,
-              child:  ListSelectorWidget()),
+              width: SizeConfig.screenWidth * 0.6, child: ListSelectorWidget()),
         ),
         SizedBox(
           height: context.height * .03,

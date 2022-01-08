@@ -20,13 +20,12 @@ class PlanOfWeekNotifier extends StateNotifier<void> {
       );
     }).toList();
   }
+
   List<Map<String, Object>> get groupedTransactionValues {
-    
     return List.generate(7, (index) {
       final weekDay = DateTime.now().add(
         Duration(days: index),
       );
-
 
       for (var i = 0; i < recentTransactions.length; i++) {
         if (recentTransactions[i].date.day == weekDay.day &&

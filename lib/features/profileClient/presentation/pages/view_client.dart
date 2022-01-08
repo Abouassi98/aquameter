@@ -20,8 +20,8 @@ class ViewClient extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final List areaAndCites = [];
- final List listOfCities = [];
-  final  List listofMeasuer = [];
+  final List listOfCities = [];
+  final List listofMeasuer = [];
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class ViewClient extends StatelessWidget {
                                     enabled: false,
                                     width: SizeConfig.screenWidth * 0.7,
                                     icon: Icons.person,
-                                    hint:client.name,
+                                    hint: client.name,
                                     type: TextInputType.text,
                                   ),
                                   const SizedBox(height: 10),
@@ -106,35 +106,40 @@ class ViewClient extends StatelessWidget {
                                               padding: EdgeInsets.only(
                                                   top: SizeConfig.screenHeight *
                                                       0.04),
-                                              child:  CustomTextField(
+                                              child: CustomTextField(
                                                 paste: false,
                                                 type: TextInputType.phone,
-                                                hint: client.landSize.toString(),
+                                                hint:
+                                                    client.landSize.toString(),
                                                 enabled: false,
                                               ),
                                             ),
                                             IgnorePointer(
                                               child: CustomBottomSheet(
                                                 staticList: true,
-                                                name: client.landSizeType.toString(),
+                                                name: client.landSizeType
+                                                    .toString(),
                                                 list: listofMeasuer,
                                               ),
                                             ),
                                           ],
                                         ),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children:  [
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
                                             CustomTextField(
                                               paste: false,
                                               type: TextInputType.phone,
-                                              hint: client.fish?[0].number.toString() ,
+                                              hint: client.fish?[0].number
+                                                  .toString(),
                                               enabled: false,
                                             ),
                                             CustomTextField(
                                               paste: false,
                                               type: TextInputType.phone,
-                                              hint: client.fish?[0].type.toString(),
+                                              hint: client.fish?[0].type
+                                                  .toString(),
                                               enabled: false,
                                             ),
                                           ],
@@ -167,14 +172,14 @@ class ViewClient extends StatelessWidget {
                                   //   ],
                                   // ),
                                   const SizedBox(height: 20),
-                                   CustomTextField(
+                                  CustomTextField(
                                     hint: client.startingWeight.toString(),
                                     enabled: false,
                                   ),
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                   CustomTextField(
+                                  CustomTextField(
                                     hint: client.targetWeight.toString(),
                                     enabled: false,
                                   ),

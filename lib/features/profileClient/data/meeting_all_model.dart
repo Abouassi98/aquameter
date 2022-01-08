@@ -1,5 +1,3 @@
-
-
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 
 class MeetingAllModel {
@@ -19,6 +17,7 @@ class MeetingAllModel {
     );
   }
 }
+
 class MeetingClient {
   int? id;
   String? meeting;
