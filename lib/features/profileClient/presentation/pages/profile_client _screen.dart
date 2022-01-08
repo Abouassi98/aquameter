@@ -1,3 +1,4 @@
+import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/providers.dart';
@@ -47,7 +48,9 @@ class ProfileClientScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
-
+    final AreaAndCitesNotifier areaAndCites = ref.read(
+      areaAndCitesNotifier.notifier,
+    );
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -69,7 +72,8 @@ class ProfileClientScreen extends HookConsumerWidget {
                   Icons.edit,
                   color: Colors.white,
                 ),
-                onPressed: () {
+                onPressed: ()async {
+                await  areaAndCites.getCities(cityId: client.governorate);
                   push(EditClient(client: client));
                 },
               ),
@@ -94,9 +98,6 @@ class ProfileClientScreen extends HookConsumerWidget {
                     shrinkWrap: true,
                     //scrollDirection: Axis.horizontal,
                     children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
                       Directionality(
                         textDirection: TextDirection.ltr,
                         child: Column(
@@ -105,11 +106,14 @@ class ProfileClientScreen extends HookConsumerWidget {
                             SizedBox(
                               height: SizeConfig.screenHeight * 0.7,
                               child: Calendar(
+                                onEventSelected: (v) {},
                                 events: meetingAll.selectedEvents,
+                                hideBottomBar: true,
                                 eventDoneColor: Colors.red,
                                 selectedColor: Colors.pink,
                                 todayColor: Colors.blue,
                                 eventColor: Colors.red,
+                                hideTodayIcon: true,
                                 isExpanded: true,
                                 onDateSelected: (v) {
                                   if (meetingAll.selectedEvents[DateTime(
@@ -130,14 +134,11 @@ class ProfileClientScreen extends HookConsumerWidget {
                                 dayOfWeekStyle: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w800,
-                                    fontSize: 11),
+                                    fontSize: 10),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
                       ),
                       Center(
                         child: SizedBox(

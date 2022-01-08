@@ -18,6 +18,7 @@ import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/location_notifier.dart';
+import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 
 import 'package:aquameter/features/profileClient/presentation/widgets/total_fishes.dart';
 
@@ -53,6 +54,7 @@ class AddClient extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final LocationProvider location = ref.watch(locationProvider.notifier);
+    final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
@@ -154,7 +156,7 @@ class AddClient extends HookConsumerWidget {
                                     children: [
                                       CustomBottomSheet(
                                         name: 'المحافظه',
-                                        list: areaAndCites.citiesModel!.data!,
+                                        list: areaAndCites.governorateModel!.data!,
                                         onChange: (v) async {
                                           await areaAndCites.getCities(
                                               cityId: v);
@@ -394,12 +396,20 @@ class AddClient extends HookConsumerWidget {
                             CustomTextButton(
                               title: "حفظ",
                               function: () {
-                                if (addClient.address == null) {
+                                if (landSizeType == '') {
+                                  HelperFunctions.errorBar(context,
+                                      message: 'يجب عليك تحديد نوع الارض اولا');
+                                } else if (areaId == 0) {
+                                  HelperFunctions.errorBar(context,
+                                      message: 'يجب عليك تحديد المدينه اولا');
+                                } else if (typeFishes1 == 0) {
+                                  HelperFunctions.errorBar(context,
+                                      message: 'يجب عليك تحديد نوع السمك اولا');
+                                } else if (addClient.address == null) {
                                   HelperFunctions.errorBar(context,
                                       message:
                                           'يجب عليك تحديد الموقع للعمل اولا');
-                                }
-                               else if (_formKey.currentState!.validate()) {
+                                } else if (_formKey.currentState!.validate()) {
                                   totalFishes.add(totalFishes1);
                                   typeFishes.add(typeFishes1);
                                   if (totalFishes2 != null) {
@@ -412,6 +422,7 @@ class AddClient extends HookConsumerWidget {
                                   }
                                   addClient.totalFishes = totalFishes;
                                   addClient.typeFishes = typeFishes;
+                                  meetingAll.isInit = false;
                                   addClient.addClient(
                                     context: context,
                                     phone: phone,

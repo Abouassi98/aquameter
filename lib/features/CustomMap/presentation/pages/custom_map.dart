@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:aquameter/core/themes/themes.dart';
+import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
+import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -14,8 +16,10 @@ import '../../../../core/utils/providers.dart';
 import '../../../../core/utils/widgets/maps_sheet.dart';
 
 class CustomMap extends HookConsumerWidget {
+  final double? intialLat, intialLoong;
   CustomMap({
     Key? key,
+    this.intialLat,this.intialLoong
   }) : super(key: key);
 
   final FutureProvider<Position> provider =
@@ -72,7 +76,7 @@ class CustomMap extends HookConsumerWidget {
                       },
                       initialCameraPosition: CameraPosition(
                         zoom: 14,
-                        target: LatLng(e.latitude, e.longitude),
+                        target: LatLng( intialLat??e.latitude,intialLoong?? e.longitude),
                       ),
                     ),
                     pin(),
@@ -83,7 +87,7 @@ class CustomMap extends HookConsumerWidget {
                                 context: context,
                                 onMapTap: (map) {
                                   map.showMarker(
-                                    coords: Coords(e.latitude, e.longitude),
+                                    coords: Coords(intialLat??e.latitude,intialLoong?? e.longitude),
                                     title: '  ',
                                     // zoom: zoom,
                                   );
@@ -109,6 +113,17 @@ class CustomMap extends HookConsumerWidget {
                   ],
                 ),
               ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CustomTextButton(
+              title: 'حفظ',
+              function: () {
+                pop();
+              },
+            ),
+          ),
         ));
   }
 

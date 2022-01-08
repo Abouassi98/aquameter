@@ -77,7 +77,7 @@ class SearchScreen extends HookConsumerWidget {
                   children: [
                     CustomBottomSheet(
                       name: 'المحافظات',
-                      list: areaAndCites.citiesModel!.data!,
+                      list: areaAndCites.governorateModel!.data!,
                       onChange: (v) {
                         selected.value = [
                           ...clients.clientsModel!.data!

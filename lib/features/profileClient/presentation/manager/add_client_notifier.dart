@@ -14,8 +14,9 @@ class AddClientNotifier extends StateNotifier<void> {
 
   final NetworkUtils _utils = NetworkUtils();
   AddClientModel? addClientModel;
-   String ? address, lat, long;
+  String? address, lat, long;
   List<int> totalFishes = [], typeFishes = [];
+  List<int> totalFishesupdate = [], typeFishesupdate = [];
 
   Future<void> addClient(
       {required BuildContext context,
@@ -74,7 +75,9 @@ class AddClientNotifier extends StateNotifier<void> {
       required int governorateId,
       required int areaId,
       required num landSize,
-      required String landSizeType,
+      String? landSizeType,
+      String? feed,
+      String? company,
       required num targetWeight,
       required num startingWeight}) async {
     ProgressDialog pd = ProgressDialog(context: context);
@@ -87,14 +90,16 @@ class AddClientNotifier extends StateNotifier<void> {
         "governorate": governorateId,
         "area": areaId,
         "land_size": landSize,
-        "land_size_type": landSizeType,
+        if (landSizeType != null) "land_size_type": landSizeType,
         "starting_weight": startingWeight,
         "target_weight": targetWeight,
-        "number": totalFishes,
-        "type": typeFishes,
+        if (totalFishesupdate.isNotEmpty) "number": totalFishesupdate,
+        if (typeFishesupdate.isNotEmpty) "type": typeFishesupdate,
         "address": address,
         "lat": lat,
-        "long": long
+        "long": long,
+        if (feed != null) "feed": feed,
+        if (company != null) "company": company
       },
       url: 'clients/update',
     );

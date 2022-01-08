@@ -11,7 +11,7 @@ class AreaAndCitesNotifier extends StateNotifier<void> {
 
   final NetworkUtils _utils = NetworkUtils();
 
-  AreaAndCitiesModel? citiesModel;
+  AreaAndCitiesModel? governorateModel;
   AreaAndCitiesModel? areasModel;
 
   Future<AreaAndCitiesModel> getCities({int? cityId}) async {
@@ -20,7 +20,7 @@ class AreaAndCitesNotifier extends StateNotifier<void> {
     );
     if (response.statusCode == 200) {
       if (cityId == null) {
-        citiesModel = AreaAndCitiesModel.fromJson(response.data);
+        governorateModel = AreaAndCitiesModel.fromJson(response.data);
       } else {
         areasModel = AreaAndCitiesModel.fromJson(response.data);
       }

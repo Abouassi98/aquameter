@@ -33,7 +33,7 @@ class AreaData {
 class Client {
   int? id;
   String? name;
-  dynamic  phone;
+  dynamic phone;
   int? governorate;
   int? area;
   String? address;
@@ -48,6 +48,8 @@ class Client {
   dynamic totalNumber;
   dynamic conversionRate;
   dynamic numberOfDead;
+  dynamic feed;
+  dynamic company;
   dynamic lat;
   dynamic long;
   int? userId;
@@ -81,6 +83,8 @@ class Client {
     this.governorateData,
     this.areaData,
     this.fish,
+    this.feed,
+    this.company,
   });
 
   factory Client.fromJson(Map<String, dynamic> json) {
@@ -116,6 +120,8 @@ class Client {
       fish: (json['fish'] as List<dynamic>?)
           ?.map((e) => Fish.fromJson(e as Map<String, dynamic>))
           .toList(),
+      feed: json['feed'] as dynamic,
+      company: json[' company'] as dynamic,
     );
   }
 }
