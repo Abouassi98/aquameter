@@ -11,6 +11,7 @@ import 'package:aquameter/features/profileClient/presentation/manager/add_client
 
 import 'package:aquameter/features/profileClient/presentation/manager/location_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
+import 'package:aquameter/features/profileClient/presentation/manager/updateAndEndPeriod_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // general
@@ -59,4 +60,10 @@ final StateNotifierProvider<GetAndDeleteClientsCreateMettingAndPeriodNotifier, O
 final StateNotifierProvider<MeetingAllNotifier, Object?> meetingAllNotifier =
     StateNotifierProvider<MeetingAllNotifier, Object?>(
   (ref) => MeetingAllNotifier(null),
+);
+
+
+final StateNotifierProvider<UpdateAndDeletePeriodNotifier, Object?> updateAndDeletePeriodNotifier =
+StateNotifierProvider<UpdateAndDeletePeriodNotifier, Object?>(
+        (ref) => UpdateAndDeletePeriodNotifier(),
 );

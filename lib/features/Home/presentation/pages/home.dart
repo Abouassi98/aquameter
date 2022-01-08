@@ -23,7 +23,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // ignore: must_be_immutable
 class Home extends HookConsumerWidget {
   Home({Key? key}) : super(key: key);
-
+  MeetingAllModel? meetingAllModel;
   final FutureProvider<MeetingAllModel> provider =
       FutureProvider<MeetingAllModel>((ref) async {
     return await ref
@@ -126,6 +126,7 @@ class Home extends HookConsumerWidget {
                                           filterClients.value[i].clientId;
                                       push(ProfileClientScreen(
                                         client: filterClients.value[i].client!,
+                                        meetingClient: filterClients.value[i]
                                       ));
                                     },
                                     client: filterClients.value[i].client!,

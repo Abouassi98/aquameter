@@ -25,6 +25,7 @@ class MeetingClient {
   String? createdAt;
   String? updatedAt;
   int? userId;
+  int? periodId;
   Client? client;
 
   MeetingClient({
@@ -34,6 +35,7 @@ class MeetingClient {
     this.createdAt,
     this.updatedAt,
     this.userId,
+    this.periodId,
     this.client,
   });
 
@@ -45,6 +47,7 @@ class MeetingClient {
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
       userId: json['user_id'] as int?,
+      periodId: json['period_id'] as int?,
       client: json['client'] == null
           ? null
           : Client.fromJson(json['client'] as Map<String, dynamic>),

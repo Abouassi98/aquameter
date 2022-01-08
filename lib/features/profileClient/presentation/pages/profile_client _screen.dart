@@ -6,16 +6,21 @@ import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 import 'package:aquameter/core/utils/widgets/custom_btn.dart';
 import 'package:aquameter/core/utils/widgets/custom_dialog.dart';
+import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
 
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
+import 'package:aquameter/features/Home/presentation/manager/getandDeleteclients_createmettingandperiod_notifier.dart';
+import 'package:aquameter/features/Home/presentation/pages/home.dart';
+import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
 
 import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
+import 'package:aquameter/features/profileClient/presentation/manager/updateAndEndPeriod_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/edit_client.dart';
 
 import 'package:aquameter/features/profileClient/presentation/pages/view_client.dart';
@@ -27,7 +32,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // ignore: must_be_immutable
 class ProfileClientScreen extends HookConsumerWidget {
   final Client client;
-  ProfileClientScreen({Key? key, required this.client}) : super(key: key);
+  final MeetingClient meetingClient;
+  final CustomWarningDialog _dialog = CustomWarningDialog();
+
+  ProfileClientScreen(
+      {required this.meetingClient, Key? key, required this.client})
+      : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [
     {'name': 'معدل الملوحه', 'id': 1},
@@ -47,10 +57,15 @@ class ProfileClientScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final GetAndDeleteClientsCreateMettingAndPeriodNotifier clients =
+        ref.read(getClientsNotifier.notifier);
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
+    final UpdateAndDeletePeriodNotifier updateAndDeletePeriod =
+        ref.read(updateAndDeletePeriodNotifier.notifier);
+
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -335,7 +350,27 @@ class ProfileClientScreen extends HookConsumerWidget {
                             },
                           ),
                           CustomTextButton(
-                              title: 'دورة جديده', function: () {}),
+                              title: 'دورة جديده',
+                              function: () async {
+                                await _dialog.showOptionDialog(
+                                    context: context,
+                                    msg: 'هل ترغب بانهاء الدوره وعمل دوره جديده ؟',
+                                    okFun: () async {
+                                      await updateAndDeletePeriod.endPeriod(
+                                          periodId: meetingClient.periodId);
+                                      await clients.createPeriod(
+                                        userId: meetingClient.userId,
+                                        clientId: meetingClient.clientId,
+                                      );
+                                      pushAndRemoveUntil(const MainPage());
+
+                                    },
+                                    okMsg: 'نعم',
+                                    cancelMsg: 'لا',
+                                    cancelFun: () {
+                                      return;
+                                    });
+                              }),
                         ],
                       ),
                       const SizedBox(
