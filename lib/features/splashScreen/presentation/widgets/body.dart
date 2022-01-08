@@ -6,7 +6,7 @@ import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/widgets/image_bg.dart';
 import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
 import 'package:aquameter/features/Auth/presentation/pages/login_screen.dart';
-import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/getandDeleteclients_createmettingandperiod_notifier.dart';
 import 'package:aquameter/features/localization/screen/language_select.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -21,7 +21,7 @@ class SplashViewBody extends HookConsumerWidget {
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
-    final GetClientsNotifier clients = ref.watch(getClientsNotifier.notifier);
+    final GetAndDeleteClientsCreateMettingAndPeriodNotifier clients = ref.watch(getClientsNotifier.notifier);
 
     final FishTypesNotifier fishTypes = ref.read(
       fishTypesNotifier.notifier,
@@ -40,7 +40,7 @@ class SplashViewBody extends HookConsumerWidget {
       AuthNotifier changeLanguage,
       AreaAndCitesNotifier areaAndCites,
       FishTypesNotifier fishTypes,
-      GetClientsNotifier getClients) async {
+      GetAndDeleteClientsCreateMettingAndPeriodNotifier getClients) async {
     bool isFirstTime = GetStorage().read(kIsFirstTime) ?? true;
     if (isFirstTime) {
       Future.delayed(const Duration(seconds: 0), () async {
