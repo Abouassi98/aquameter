@@ -43,7 +43,7 @@ class EditClient extends HookConsumerWidget {
     '010',
   ];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String phone = '', name = '', landSizeType = '';
+  String phone='', name = '', landSizeType = '';
   num landSize = 0, targetWeight = 0, startingWeight = 0;
   int governorateId = 0, areaId = 0;
   List<int> totalFishes = [], typeFishes = [];
@@ -399,13 +399,13 @@ class EditClient extends HookConsumerWidget {
                                     context: context,
                                     clientId: client.id!,
                                     phone: phone,
-                                    name: name,
+                                    name: name.toString(),
                                     governorateId: governorateId,
                                     areaId: areaId,
                                     landSize: landSize,
                                     startingWeight: startingWeight,
                                     targetWeight: targetWeight,
-                                    landSizeType: landSizeType,
+                                    landSizeType: landSizeType.toString(),
                                   );
                                 }
                               },

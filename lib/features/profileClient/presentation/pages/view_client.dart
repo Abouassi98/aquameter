@@ -1,9 +1,6 @@
-import 'dart:developer';
 
 import 'package:aquameter/core/utils/constants.dart';
-import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english_number.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
-import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_country_code_picker.dart';
 import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
@@ -11,7 +8,6 @@ import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
-import 'package:aquameter/features/profileClient/presentation/widgets/total_fishes.dart';
 
 import 'package:country_pickers/country.dart';
 import 'package:flutter/material.dart';

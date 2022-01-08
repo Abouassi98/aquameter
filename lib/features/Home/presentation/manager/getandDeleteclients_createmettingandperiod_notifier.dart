@@ -11,8 +11,8 @@ import 'package:dio/dio.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class GetClientsNotifier extends StateNotifier<AsyncValue<ClientsModel>> {
-  GetClientsNotifier() : super(const AsyncValue.loading());
+class GetAndDeleteClientsCreateMettingAndPeriodNotifier extends StateNotifier<AsyncValue<ClientsModel>> {
+  GetAndDeleteClientsCreateMettingAndPeriodNotifier() : super(const AsyncValue.loading());
   final NetworkUtils _utils = NetworkUtils();
 
   DeleteClientModel? _model;

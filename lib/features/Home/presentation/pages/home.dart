@@ -6,7 +6,7 @@ import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 
-import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/getandDeleteclients_createmettingandperiod_notifier.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
 
@@ -33,7 +33,7 @@ class Home extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final GetClientsNotifier getClients = ref.read(getClientsNotifier.notifier);
+    final GetAndDeleteClientsCreateMettingAndPeriodNotifier getClients = ref.read(getClientsNotifier.notifier);
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final ValueNotifier<List<MeetingClient>> filterClients =
         useState<List<MeetingClient>>([]);
