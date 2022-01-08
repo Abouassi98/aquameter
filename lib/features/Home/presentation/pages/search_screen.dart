@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'main_page.dart';
+
 // ignore: must_be_immutable
 class SearchScreen extends HookConsumerWidget {
   SearchScreen({
@@ -25,6 +27,7 @@ class SearchScreen extends HookConsumerWidget {
 
   bool filter = false;
   dynamic fishType;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController controller = useTextEditingController();
@@ -35,7 +38,8 @@ class SearchScreen extends HookConsumerWidget {
     );
 
     final CustomWarningDialog _dialog = CustomWarningDialog();
-    final GetAndDeleteClientsCreateMettingAndPeriodNotifier clients = ref.watch(getClientsNotifier.notifier);
+    final GetAndDeleteClientsCreateMettingAndPeriodNotifier clients =
+        ref.watch(getClientsNotifier.notifier);
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -226,9 +230,9 @@ class SearchScreen extends HookConsumerWidget {
                                                     context: context,
                                                     msg:
                                                         'هل ترغب باضافة دوره جديده',
-                                                    okFun: () async{
-
-                                                      await clients.createPeriod(
+                                                    okFun: () async {
+                                                      await clients
+                                                          .createPeriod(
                                                         userId: clients
                                                             .clientsModel!
                                                             .data![index]
@@ -238,12 +242,15 @@ class SearchScreen extends HookConsumerWidget {
                                                             .data![index]
                                                             .id!,
                                                       );
-                                                       clients.createMetting(
+                                                      await clients
+                                                          .createMetting(
                                                         clientId: clients
                                                             .clientsModel!
                                                             .data![index]
                                                             .id!,
                                                       );
+                                                      pushAndRemoveUntil(const MainPage());
+
                                                     },
                                                     okMsg: 'نعم',
                                                     cancelMsg: 'لا',

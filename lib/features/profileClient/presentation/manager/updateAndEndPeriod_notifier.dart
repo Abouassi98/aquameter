@@ -10,7 +10,7 @@ class UpdateAndDeletePeriodNotifier extends StateNotifier<AsyncValue<ClientsMode
 
   ClientsModel? clientsModel;
 
-  endPeriod({required int periodId}) async {
+  endPeriod({required int? periodId}) async {
     Response response = await _utils
         .requstData(url: 'periods/update', body: {"id": periodId, "status": 0});
     if (response.statusCode == 200) {

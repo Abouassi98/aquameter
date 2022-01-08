@@ -51,12 +51,12 @@ class GetAndDeleteClientsCreateMettingAndPeriodNotifier extends StateNotifier<As
         url: 'meeting/create', body: {"meeting": date, "client_id": clientId});
     if (response.statusCode == 200) {
       log('meeting create');
-      pushAndRemoveUntil(const MainPage());
+      // pushAndRemoveUntil(const MainPage());
     } else {
       log('error ');
     }
   }
-  createPeriod({required int clientId,required int? userId,}) async {
+  createPeriod({required int? clientId,required int? userId,}) async {
     Response response = await _utils.requstData(
         url: 'periods/create', body: {
       "mceeting": date,
