@@ -27,6 +27,8 @@ class HelperFunctions {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: Flash(
+            behavior: FlashBehavior.fixed,
+            position: FlashPosition.bottom,
             controller: controller,
             horizontalDismissDirection: HorizontalDismissDirection.horizontal,
             backgroundColor: Colors.black87,
@@ -58,7 +60,8 @@ class HelperFunctions {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: Flash(
-            alignment: Alignment.bottomCenter,
+            position: FlashPosition.bottom,
+            behavior: FlashBehavior.fixed,
             controller: controller,
             horizontalDismissDirection: HorizontalDismissDirection.horizontal,
             backgroundColor: Colors.black87,

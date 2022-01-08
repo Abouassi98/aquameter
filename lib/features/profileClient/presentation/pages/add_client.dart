@@ -6,6 +6,7 @@ import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_n
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english_number.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_country_code_picker.dart';
@@ -41,11 +42,11 @@ class AddClient extends HookConsumerWidget {
     '010',
   ];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String phone = '', name = '', landSizeType = '';
-  num landSize = 0, targetWeight = 0, startingWeight = 0;
+  String phone = '', name = '', landSizeType = '', company = '', feed = '';
+  num landSize = 0;
   int governorateId = 0, areaId = 0;
   List<int> totalFishes = [], typeFishes = [];
-  int totalFishes1 = 0, typeFishes1 = 0;
+  int totalFishes1 = 0, typeFishes1 = 0, targetWeight = 0, startingWeight = 0;
   int? totalFishes2, totalFishes3, typeFishes2, typeFishes3;
 
   List<TotalFishesItem> totalFishesItem = [];
@@ -329,25 +330,42 @@ class AddClient extends HookConsumerWidget {
                                         padding: EdgeInsets.only(
                                             top:
                                                 SizeConfig.screenHeight * 0.04),
-                                        child: const CustomTextField(
+                                        child: CustomTextField(
                                           hint: 'نوع العلف',
+                                          onChange: (v) {
+                                            feed = v;
+                                          },
+                                          validator: (v) {
+                                            if (v!.isEmpty) {
+                                              return 'لا يجب ترك الحقل فارغ';
+                                            }
+                                          },
                                         ),
                                       ),
                                       Padding(
                                         padding: EdgeInsets.only(
                                             top:
                                                 SizeConfig.screenHeight * 0.04),
-                                        child: const CustomTextField(
+                                        child: CustomTextField(
                                           hint: 'اسم الشركه',
+                                          onChange: (v) {
+                                            company = v;
+                                          },
+                                          validator: (v) {
+                                            if (v!.isEmpty) {
+                                              return 'لا يجب ترك الحقل فارغ';
+                                            }
+                                          },
                                         ),
                                       ),
                                     ],
                                   ),
                                   const SizedBox(height: 20),
                                   CustomTextField(
+                                    numbersOnly: true,
                                     hint: 'وزن السمكة الابتدائى بالجرام',
                                     onChange: (v) {
-                                      startingWeight = num.parse(v);
+                                      startingWeight = int.parse(v);
                                     },
                                     validator: (v) {
                                       if (v!.isEmpty) {
@@ -359,9 +377,10 @@ class AddClient extends HookConsumerWidget {
                                     height: 10,
                                   ),
                                   CustomTextField(
+                                    numbersOnly: true,
                                     hint: 'وزن السمكة المستهدف بالجرام',
                                     onChange: (v) {
-                                      targetWeight = num.parse(v);
+                                      targetWeight = int.parse(v);
                                     },
                                     validator: (v) {
                                       if (v!.isEmpty) {
@@ -375,7 +394,12 @@ class AddClient extends HookConsumerWidget {
                             CustomTextButton(
                               title: "حفظ",
                               function: () {
-                                if (_formKey.currentState!.validate()) {
+                                if (addClient.address == null) {
+                                  HelperFunctions.errorBar(context,
+                                      message:
+                                          'يجب عليك تحديد الموقع للعمل اولا');
+                                }
+                               else if (_formKey.currentState!.validate()) {
                                   totalFishes.add(totalFishes1);
                                   typeFishes.add(typeFishes1);
                                   if (totalFishes2 != null) {
@@ -398,6 +422,8 @@ class AddClient extends HookConsumerWidget {
                                     startingWeight: startingWeight,
                                     targetWeight: targetWeight,
                                     landSizeType: landSizeType,
+                                    company: company,
+                                    feed: feed,
                                   );
                                 }
                               },

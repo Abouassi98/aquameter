@@ -14,7 +14,7 @@ class AddClientNotifier extends StateNotifier<void> {
 
   final NetworkUtils _utils = NetworkUtils();
   AddClientModel? addClientModel;
-  late String address, lat, long;
+   String ? address, lat, long;
   List<int> totalFishes = [], typeFishes = [];
 
   Future<void> addClient(
@@ -25,8 +25,10 @@ class AddClientNotifier extends StateNotifier<void> {
       required int areaId,
       required num landSize,
       required String landSizeType,
-      required num targetWeight,
-      required num startingWeight}) async {
+      required String feed,
+      required String company,
+      required int targetWeight,
+      required int startingWeight}) async {
     ProgressDialog pd = ProgressDialog(context: context);
     pd.show(max: 100, msg: 'loading progress');
     Response response = await _utils.requstData(
@@ -43,7 +45,9 @@ class AddClientNotifier extends StateNotifier<void> {
         "type": typeFishes,
         "address": address,
         "lat": lat,
-        "long": long
+        "long": long,
+        "feed": feed,
+        "company": company
       },
       url: 'clients/create',
     );
