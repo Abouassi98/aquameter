@@ -33,7 +33,7 @@ class AreaData {
 class Client {
   int? id;
   String? name;
-  int? phone;
+  dynamic  phone;
   int? governorate;
   int? area;
   String? address;
@@ -87,7 +87,7 @@ class Client {
     return Client(
       id: json['id'] as int?,
       name: json['name'] as String?,
-      phone: json['phone'] as int?,
+      phone: json['phone'] as dynamic,
       governorate: json['governorate'] as int?,
       area: json['area'] as int?,
       address: json['address'] as String?,

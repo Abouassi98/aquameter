@@ -1,7 +1,8 @@
 import 'dart:developer';
 import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english_number.dart';
-import 'package:aquameter/core/utils/functions/error_bar.dart';
+
 import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/functions/helper_functions.dart';
 //import 'package:aquameter/features/Auth/presentation/pages/change_pass_screen.dart';
 import 'package:aquameter/features/Auth/presentation/pages/forget_pass_screen.dart';
 import 'package:aquameter/features/Auth/presentation/pages/verifty_phone_screen.dart';
@@ -94,22 +95,22 @@ class SendCodeNotifier extends StateNotifier<void> {
           pd.close();
           debugPrint('Gideon test 8');
         } else {
-          errorBar(context,
+         HelperFunctions.errorBar(context,
               message: localization.text('invalid_phone_number')!,
               duration: const Duration(seconds: 10),
-              position: FlashPosition.top);
+              );
         }
       } else {
-        errorBar(context,
+         HelperFunctions.errorBar(context,
             message: localization.text('invalid_phone_number')!,
             duration: const Duration(seconds: 10),
-            position: FlashPosition.top);
+           );
       }
     } on FirebaseException catch (e) {
-      errorBar(context,
+       HelperFunctions.errorBar(context,
           message: e.message!,
           duration: const Duration(seconds: 10),
-          position: FlashPosition.top);
+         );
     }
   }
 
@@ -144,10 +145,10 @@ class SendCodeNotifier extends StateNotifier<void> {
           },
         )
         .catchError((e) {
-      errorBar(context,
+       HelperFunctions.errorBar(context,
           message: e.message!,
           duration: const Duration(seconds: 10),
-          position: FlashPosition.top);
+          );
     });
   }
 }
