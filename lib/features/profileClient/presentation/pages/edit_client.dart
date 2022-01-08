@@ -11,7 +11,7 @@ import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_country_code_picker.dart';
 import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
 
-import 'package:aquameter/core/utils/widgets/custom_map.dart';
+import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';

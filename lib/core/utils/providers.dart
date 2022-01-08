@@ -2,6 +2,7 @@ import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_n
 import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
 import 'package:aquameter/features/Auth/presentation/manager/send_code_notifier.dart';
+import 'package:aquameter/features/CustomMap/presentation/manager/map_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_clients_notifier.dart';
 
@@ -20,6 +21,10 @@ StateNotifierProvider<ChangeLanguageProvider, Object?> languageProvider =
 final StateNotifierProvider<PlanOfWeekNotifier, Object?> departMentProvider =
     StateNotifierProvider(
   (ref) => PlanOfWeekNotifier(null),
+);
+final StateNotifierProvider<MapNotifier, Object?> mapNotifier =
+    StateNotifierProvider(
+  (ref) => MapNotifier(null),
 );
 final StateNotifierProvider<AreaAndCitesNotifier, Object?>
     areaAndCitesNotifier = StateNotifierProvider(
