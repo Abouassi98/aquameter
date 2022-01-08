@@ -15,6 +15,7 @@ import 'package:aquameter/features/calculator/presentation/screen/calculator.dar
 
 import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
+import 'package:aquameter/features/profileClient/presentation/manager/updateAndEndPeriod_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/edit_client.dart';
 
 import 'package:aquameter/features/profileClient/presentation/pages/view_client.dart';
@@ -26,6 +27,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // ignore: must_be_immutable
 class ProfileClientScreen extends HookConsumerWidget {
   final Client client;
+
   ProfileClientScreen({Key? key, required this.client}) : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [
@@ -47,6 +49,7 @@ class ProfileClientScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
+    final UpdateAndDeletePeriodNotifier updateAndDeletePeriod = ref.read(updateAndDeletePeriodNotifier.notifier);
 
     return Directionality(
         textDirection: TextDirection.rtl,
@@ -334,7 +337,9 @@ class ProfileClientScreen extends HookConsumerWidget {
                             },
                           ),
                           CustomTextButton(
-                              title: 'دورة جديده', function: () {}),
+                              title: 'دورة جديده', function: () {
+                                updateAndDeletePeriod.endPeriod(periodId: );
+                          }),
                         ],
                       ),
                       const SizedBox(

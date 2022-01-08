@@ -225,9 +225,20 @@ class SearchScreen extends HookConsumerWidget {
                                                 await _dialog.showOptionDialog(
                                                     context: context,
                                                     msg:
-                                                        'هل ترغب باضافة العميل؟',
-                                                    okFun: () {
-                                                      clients.createMetting(
+                                                        'هل ترغب باضافة دوره جديده',
+                                                    okFun: () async{
+
+                                                      await clients.createPeriod(
+                                                        userId: clients
+                                                            .clientsModel!
+                                                            .data![index]
+                                                            .userId,
+                                                        clientId: clients
+                                                            .clientsModel!
+                                                            .data![index]
+                                                            .id!,
+                                                      );
+                                                       clients.createMetting(
                                                         clientId: clients
                                                             .clientsModel!
                                                             .data![index]

@@ -56,4 +56,19 @@ class GetAndDeleteClientsCreateMettingAndPeriodNotifier extends StateNotifier<As
       log('error ');
     }
   }
+  createPeriod({required int clientId,required int? userId,}) async {
+    Response response = await _utils.requstData(
+        url: 'periods/create', body: {
+      "mceeting": date,
+      "client_id" : clientId,
+      "user_id" : userId
+
+    });
+    if (response.statusCode == 200) {
+      log('period create');
+
+    } else {
+      log('error ');
+    }
+  }
 }
