@@ -27,7 +27,7 @@ class SplashViewBody extends HookConsumerWidget {
       fishTypesNotifier.notifier,
     );
 
-    determinePage(changeLanguage, areaAndCites, fishTypes,clients);
+    determinePage(changeLanguage, areaAndCites, fishTypes, clients);
     return const ImageBG(
       network: false,
       image: kAppLogo,
@@ -36,8 +36,11 @@ class SplashViewBody extends HookConsumerWidget {
     );
   }
 
-  void determinePage(AuthNotifier changeLanguage,
-      AreaAndCitesNotifier areaAndCites, FishTypesNotifier fishTypes,GetClientsNotifier getClients) async {
+  void determinePage(
+      AuthNotifier changeLanguage,
+      AreaAndCitesNotifier areaAndCites,
+      FishTypesNotifier fishTypes,
+      GetClientsNotifier getClients) async {
     bool isFirstTime = GetStorage().read(kIsFirstTime) ?? true;
     if (isFirstTime) {
       Future.delayed(const Duration(seconds: 0), () async {
@@ -47,7 +50,7 @@ class SplashViewBody extends HookConsumerWidget {
       bool isLoggedIn = GetStorage().read(kIsLoggedIn) ?? false;
 
       if (isLoggedIn) {
-        await changeLanguage.fetchUserData(areaAndCites, fishTypes,getClients);
+        await changeLanguage.fetchUserData(areaAndCites, fishTypes, getClients);
       } else {
         Future.delayed(const Duration(seconds: 0), () async {
           pushAndRemoveUntil(LoginScreen());

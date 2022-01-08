@@ -35,7 +35,6 @@ class LanguageSelect extends HookConsumerWidget {
         image: 'assets/images/en.jpg',
       ),
     );
-   
 
     return Directionality(
       textDirection: localization.currentLanguage.toString() == 'en'

@@ -33,7 +33,7 @@ class TotalFishesItem extends StatelessWidget {
           child: CustomTextField(
             type: TextInputType.phone,
             numbersOnly: true,
-            initialValue: initialvalue?? 'إجمالى الأسماك',
+            initialValue: initialvalue ?? 'إجمالى الأسماك',
             onChange: (v) {
               try {
                 onTotalFishesChange!(int.parse(v));
@@ -44,7 +44,7 @@ class TotalFishesItem extends StatelessWidget {
           ),
         ),
         CustomBottomSheet(
-          name: typeOfFish??'النوع',
+          name: typeOfFish ?? 'النوع',
           list: list,
           onChange: (v) {
             onTypeFishesChange!(v);

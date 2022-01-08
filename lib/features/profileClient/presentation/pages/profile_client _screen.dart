@@ -23,7 +23,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_calendar/flutter_clean_calendar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-
 // ignore: must_be_immutable
 class ProfileClientScreen extends HookConsumerWidget {
   final Client client;
@@ -152,9 +151,8 @@ class ProfileClientScreen extends HookConsumerWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      Directionality(
-                          textDirection: TextDirection.ltr,
-                          child: DateTimeComboLinePointChart.withSampleData()),
+                      const Directionality(
+                          textDirection: TextDirection.ltr, child: Chart()),
                       const SizedBox(
                         height: 10,
                       ),

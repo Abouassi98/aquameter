@@ -18,8 +18,13 @@ class AuthNotifier extends StateNotifier<void> {
 
   final NetworkUtils _utils = NetworkUtils();
 
-  Future<void> login(BuildContext context, String phone, String password,
-      AreaAndCitesNotifier areaAndCites, FishTypesNotifier fishTypes,GetClientsNotifier getClients) async {
+  Future<void> login(
+      BuildContext context,
+      String phone,
+      String password,
+      AreaAndCitesNotifier areaAndCites,
+      FishTypesNotifier fishTypes,
+      GetClientsNotifier getClients) async {
     ProgressDialog pd = ProgressDialog(context: context);
     pd.show(max: 100, msg: 'loading progress');
     Response response = await _utils.requstData(
@@ -43,8 +48,8 @@ class AuthNotifier extends StateNotifier<void> {
     } else {}
   }
 
-  Future<void> fetchUserData(
-      AreaAndCitesNotifier areaAndCites, FishTypesNotifier fishTypes,GetClientsNotifier getClients) async {
+  Future<void> fetchUserData(AreaAndCitesNotifier areaAndCites,
+      FishTypesNotifier fishTypes, GetClientsNotifier getClients) async {
     Response response = await _utils.requstData(
       get: true,
       url: 'profile',
@@ -57,7 +62,6 @@ class AuthNotifier extends StateNotifier<void> {
       await areaAndCites.getCities();
       await fishTypes.getFishTypes();
       await getClients.getClients();
-
     } else {}
   }
 }

@@ -23,7 +23,6 @@ class SearchScreen extends HookConsumerWidget {
     Key? key,
   }) : super(key: key);
 
-
   bool filter = false;
   dynamic fishType;
   @override
@@ -40,221 +39,218 @@ class SearchScreen extends HookConsumerWidget {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          backgroundColor: MainStyle.backGroundColor,
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              push(AddClient());
-            },
-            child: const Icon(
-              Icons.add,
-              size: 40,
-            ),
-            backgroundColor: const Color(0xff91dced),
-          ),
-          appBar: PreferredSize(
-              child: CustomAppBar(
-                controller: controller,
-                search: true,
-                back: true,
-                onChanged: (v) {
-                  selected.value = [
-                    ...clients.clientsModel!.data!
-                        .where(
-                          (element) => element.name!.startsWith(v.trim()),
-                        )
-                        .toList()
-                  ];
-                  debugPrint(selected.value.toString());
-                },
+            backgroundColor: MainStyle.backGroundColor,
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                push(AddClient());
+              },
+              child: const Icon(
+                Icons.add,
+                size: 40,
               ),
-              preferredSize: Size.fromHeight(SizeConfig.screenHeight * 0.2)),
-          body:
-                 ListView(
-                  primary: false,
-                  shrinkWrap: true,
+              backgroundColor: const Color(0xff91dced),
+            ),
+            appBar: PreferredSize(
+                child: CustomAppBar(
+                  controller: controller,
+                  search: true,
+                  back: true,
+                  onChanged: (v) {
+                    selected.value = [
+                      ...clients.clientsModel!.data!
+                          .where(
+                            (element) => element.name!.startsWith(v.trim()),
+                          )
+                          .toList()
+                    ];
+                    debugPrint(selected.value.toString());
+                  },
+                ),
+                preferredSize: Size.fromHeight(SizeConfig.screenHeight * 0.2)),
+            body: ListView(
+              primary: false,
+              shrinkWrap: true,
+              children: [
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        CustomBottomSheet(
-                          name: 'المحافظات',
-                          list: areaAndCites.citiesModel!.data!,
-                          onChange: (v) {
-                            selected.value = [
-                              ...clients.clientsModel!.data!
-                                  .where(
-                                    (element) => element.governorate!
-                                        .toString()
-                                        .startsWith(v.toString()),
-                                  )
-                                  .toList()
-                            ];
-                            filter = true;
-                          },
-                        ),
-                        CustomBottomSheet(
-                          name: 'نوع السمك',
-                          list: ref
-                              .read(
-                                fishTypesNotifier.notifier,
+                    CustomBottomSheet(
+                      name: 'المحافظات',
+                      list: areaAndCites.citiesModel!.data!,
+                      onChange: (v) {
+                        selected.value = [
+                          ...clients.clientsModel!.data!
+                              .where(
+                                (element) => element.governorate!
+                                    .toString()
+                                    .startsWith(v.toString()),
                               )
-                              .fishTypesModel!
-                              .data!,
-                          onChange: (v) async {
-                            selected.value = [
-                              ...clients.clientsModel!.data!.where((element) {
-                                for (int i = 0; i < element.fish!.length; i++) {
-                                  fishType = element.fish![i].fishType!.id
-                                      .toString()
-                                      .startsWith(v.toString());
-                                }
-                                return fishType;
-                              }).toList()
-                            ];
-
-                            filter = true;
-                          },
-                        ),
-                      ],
+                              .toList()
+                        ];
+                        filter = true;
+                      },
                     ),
-                    Center(
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        width: SizeConfig.screenWidth * .9,
-                        child: Card(
-                          margin: const EdgeInsets.only(
-                            left: 10,
-                            right: 10,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const SizedBox(height: 10),
-                              (selected.value.isNotEmpty)
-                                  ? ListView.builder(
-                                      primary: false,
-                                      shrinkWrap: true,
-                                      itemCount: selected.value.length,
-                                      itemBuilder: (context, index) =>
-                                          Dismissible(
-                                        key: const ValueKey(0),
-                                        onDismissed:
-                                            (DismissDirection direction) async {
-                                          if (direction ==
-                                              DismissDirection.startToEnd) {
-                                          } else {}
-                                        },
-                                        confirmDismiss:
-                                            (DismissDirection direction) async {
-                                          return await _dialog.showOptionDialog(
-                                              context: context,
-                                              msg: 'هل ترغب بحذف العميل؟',
-                                              okFun: () {
-                                                clients.deleteClient(
-                                                    selected.value[index].id);
-                                              },
-                                              okMsg: 'نعم',
-                                              cancelMsg: 'لا',
-                                              cancelFun: () {
-                                                return;
-                                              });
-                                        },
-                                        child: ClientItem(
-                                          func: () async {
-                                            await _dialog.showOptionDialog(
-                                                context: context,
-                                                msg: 'هل ترغب باضافة العميل؟',
-                                                okFun: () {
-                                                  clients.createMetting(
-                                                    clientId: selected
-                                                        .value[index].id!,
-                                                  );
-                                                },
-                                                okMsg: 'نعم',
-                                                cancelMsg: 'لا',
-                                                cancelFun: () {
-                                                  return;
-                                                });
-                                          },
-                                          client: selected.value[index],
-                                        ),
-                                      ),
-                                    )
-                                  : (selected.value.isEmpty &&
-                                          controller.text != '')
-                                      ? const Center(
-                                          child: Text('لا يوجد عملاء'))
-                                      : (selected.value.isEmpty &&
-                                              controller.text == '' &&
-                                              filter == true)
-                                          ? const Center(
-                                              child: Text('لا يوجد عملاء'))
-                                          : ListView.builder(
-                                              primary: false,
-                                              shrinkWrap: true,
-                                              itemCount: clients.clientsModel!.data!.length,
-                                              itemBuilder: (context, index) =>
-                                                  Dismissible(
-                                                key: const ValueKey(0),
-                                                onDismissed: (DismissDirection
-                                                    direction) async {
-                                                  if (direction ==
-                                                      DismissDirection
-                                                          .startToEnd) {
-                                                  } else {}
-                                                },
-                                                confirmDismiss:
-                                                    (DismissDirection
-                                                        direction) async {
-                                                  return await _dialog
-                                                      .showOptionDialog(
-                                                          context: context,
-                                                          msg:
-                                                              'هل ترغب بحذف العميل؟',
-                                                          okFun: () {
-                                                            clients
-                                                                .deleteClient(clients.clientsModel!
-                                                                    .data![
-                                                                        index]
-                                                                    .id);
-                                                          },
-                                                          okMsg: 'نعم',
-                                                          cancelMsg: 'لا',
-                                                          cancelFun: () {
-                                                            return;
-                                                          });
-                                                },
-                                                child: ClientItem(
-                                                  func: () async {
-                                                    await _dialog.showOptionDialog(
-                                                        context: context,
-                                                        msg: 'هل ترغب باضافة العميل؟',
-                                                        okFun: () {
-                                                          clients.createMetting(
-                                                            clientId: clients.clientsModel!
-                                                                .data![index]
-                                                                .id!,
-                                                          );
-                                                        },
-                                                        okMsg: 'نعم',
-                                                        cancelMsg: 'لا',
-                                                        cancelFun: () {
-                                                          return;
-                                                        });
-                                                  },
-                                                  client: clients.clientsModel!.data![index],
-                                                ),
-                                              ),
-                                            ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    CustomBottomSheet(
+                      name: 'نوع السمك',
+                      list: ref
+                          .read(
+                            fishTypesNotifier.notifier,
+                          )
+                          .fishTypesModel!
+                          .data!,
+                      onChange: (v) async {
+                        selected.value = [
+                          ...clients.clientsModel!.data!.where((element) {
+                            for (int i = 0; i < element.fish!.length; i++) {
+                              fishType = element.fish![i].fishType!.id
+                                  .toString()
+                                  .startsWith(v.toString());
+                            }
+                            return fishType;
+                          }).toList()
+                        ];
+
+                        filter = true;
+                      },
                     ),
                   ],
-                )
-
-        ));
+                ),
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    width: SizeConfig.screenWidth * .9,
+                    child: Card(
+                      margin: const EdgeInsets.only(
+                        left: 10,
+                        right: 10,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const SizedBox(height: 10),
+                          (selected.value.isNotEmpty)
+                              ? ListView.builder(
+                                  primary: false,
+                                  shrinkWrap: true,
+                                  itemCount: selected.value.length,
+                                  itemBuilder: (context, index) => Dismissible(
+                                    key: const ValueKey(0),
+                                    onDismissed:
+                                        (DismissDirection direction) async {
+                                      if (direction ==
+                                          DismissDirection.startToEnd) {
+                                      } else {}
+                                    },
+                                    confirmDismiss:
+                                        (DismissDirection direction) async {
+                                      return await _dialog.showOptionDialog(
+                                          context: context,
+                                          msg: 'هل ترغب بحذف العميل؟',
+                                          okFun: () {
+                                            clients.deleteClient(
+                                                selected.value[index].id);
+                                          },
+                                          okMsg: 'نعم',
+                                          cancelMsg: 'لا',
+                                          cancelFun: () {
+                                            return;
+                                          });
+                                    },
+                                    child: ClientItem(
+                                      func: () async {
+                                        await _dialog.showOptionDialog(
+                                            context: context,
+                                            msg: 'هل ترغب باضافة العميل؟',
+                                            okFun: () {
+                                              clients.createMetting(
+                                                clientId:
+                                                    selected.value[index].id!,
+                                              );
+                                            },
+                                            okMsg: 'نعم',
+                                            cancelMsg: 'لا',
+                                            cancelFun: () {
+                                              return;
+                                            });
+                                      },
+                                      client: selected.value[index],
+                                    ),
+                                  ),
+                                )
+                              : (selected.value.isEmpty &&
+                                      controller.text != '')
+                                  ? const Center(child: Text('لا يوجد عملاء'))
+                                  : (selected.value.isEmpty &&
+                                          controller.text == '' &&
+                                          filter == true)
+                                      ? const Center(
+                                          child: Text('لا يوجد عملاء'))
+                                      : ListView.builder(
+                                          primary: false,
+                                          shrinkWrap: true,
+                                          itemCount: clients
+                                              .clientsModel!.data!.length,
+                                          itemBuilder: (context, index) =>
+                                              Dismissible(
+                                            key: const ValueKey(0),
+                                            onDismissed: (DismissDirection
+                                                direction) async {
+                                              if (direction ==
+                                                  DismissDirection.startToEnd) {
+                                              } else {}
+                                            },
+                                            confirmDismiss: (DismissDirection
+                                                direction) async {
+                                              return await _dialog
+                                                  .showOptionDialog(
+                                                      context: context,
+                                                      msg:
+                                                          'هل ترغب بحذف العميل؟',
+                                                      okFun: () {
+                                                        clients.deleteClient(
+                                                            clients
+                                                                .clientsModel!
+                                                                .data![index]
+                                                                .id);
+                                                      },
+                                                      okMsg: 'نعم',
+                                                      cancelMsg: 'لا',
+                                                      cancelFun: () {
+                                                        return;
+                                                      });
+                                            },
+                                            child: ClientItem(
+                                              func: () async {
+                                                await _dialog.showOptionDialog(
+                                                    context: context,
+                                                    msg:
+                                                        'هل ترغب باضافة العميل؟',
+                                                    okFun: () {
+                                                      clients.createMetting(
+                                                        clientId: clients
+                                                            .clientsModel!
+                                                            .data![index]
+                                                            .id!,
+                                                      );
+                                                    },
+                                                    okMsg: 'نعم',
+                                                    cancelMsg: 'لا',
+                                                    cancelFun: () {
+                                                      return;
+                                                    });
+                                              },
+                                              client: clients
+                                                  .clientsModel!.data![index],
+                                            ),
+                                          ),
+                                        ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )));
   }
 }

@@ -165,7 +165,7 @@ class EditClient extends HookConsumerWidget {
                                         },
                                       ),
                                       CustomBottomSheet(
-                                        name:client.areaData!.names!,
+                                        name: client.areaData!.names!,
                                         list: listOfCities.value,
                                         onChange: (v) {
                                           areaId = v;
@@ -191,7 +191,8 @@ class EditClient extends HookConsumerWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Text(location.address ?? client.address!),
+                                          Text(location.address ??
+                                              client.address!),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: CircleAvatar(
@@ -233,7 +234,8 @@ class EditClient extends HookConsumerWidget {
                                                     return 'لا يجب ترك الحقل فارغ';
                                                   }
                                                 },
-                                                initialValue: client.landSize.toString(),
+                                                initialValue:
+                                                    client.landSize.toString(),
                                                 onChange: (v) {
                                                   landSize = num.parse(v);
                                                 },
@@ -268,7 +270,6 @@ class EditClient extends HookConsumerWidget {
                                         if (showSecondField.value == true)
                                           TotalFishesItem(
                                             initialvalue: client.totalNumber,
-
                                             list: ref
                                                 .read(
                                                   fishTypesNotifier.notifier,
@@ -290,7 +291,6 @@ class EditClient extends HookConsumerWidget {
                                         if (showThirdField.value == true)
                                           TotalFishesItem(
                                             initialvalue: client.totalNumber,
-
                                             list: ref
                                                 .read(
                                                   fishTypesNotifier.notifier,
@@ -352,7 +352,8 @@ class EditClient extends HookConsumerWidget {
                                   ),
                                   const SizedBox(height: 20),
                                   CustomTextField(
-                                   initialValue: client.startingWeight.toString(),
+                                    initialValue:
+                                        client.startingWeight.toString(),
                                     onChange: (v) {
                                       startingWeight = num.parse(v);
                                     },
@@ -366,7 +367,8 @@ class EditClient extends HookConsumerWidget {
                                     height: 10,
                                   ),
                                   CustomTextField(
-                                    initialValue: client.targetWeight.toString(),
+                                    initialValue:
+                                        client.targetWeight.toString(),
                                     onChange: (v) {
                                       targetWeight = num.parse(v);
                                     },

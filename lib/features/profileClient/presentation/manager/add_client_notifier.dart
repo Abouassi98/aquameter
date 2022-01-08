@@ -77,7 +77,6 @@ class AddClientNotifier extends StateNotifier<void> {
     pd.show(max: 100, msg: 'loading progress');
     Response response = await _utils.requstData(
       body: {
-        
         "id": clientId,
         "name": name,
         "phone": phone,

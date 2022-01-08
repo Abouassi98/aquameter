@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class ListSelectorWidget extends HookConsumerWidget {
-   ListSelectorWidget({
+  ListSelectorWidget({
     Key? key,
   }) : super(key: key);
 
@@ -41,19 +41,17 @@ class ListSelectorWidget extends HookConsumerWidget {
       "address": 'كفرالشيخ - طريق بلطيم الدولي',
     },
   ];
-final  String categoryName = '';
+  final String categoryName = '';
 
   final _multiSelectKey = GlobalKey<FormFieldState>();
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-     ValueNotifier<List> _selectedItems = useState<List>([]);
-     List<int> ids = [];
-     final GetClientsNotifier clients = ref.watch(getClientsNotifier.notifier);
+    ValueNotifier<List> _selectedItems = useState<List>([]);
+    List<int> ids = [];
+    final GetClientsNotifier clients = ref.watch(getClientsNotifier.notifier);
 
-
-     return MultiSelectBottomSheetField(
+    return MultiSelectBottomSheetField(
       key: _multiSelectKey,
       buttonIcon: const Icon(
         Icons.arrow_back_ios_new,
@@ -90,11 +88,12 @@ final  String categoryName = '';
           fontSize: 10,
         ),
       ),
-      items: clients.clientsModel!.data!.map((e) => MultiSelectItem(e, e.name.toString())).toList(),
+      items: clients.clientsModel!.data!
+          .map((e) => MultiSelectItem(e, e.name.toString()))
+          .toList(),
       searchable: true,
       onConfirm: (values) async {
         ids = [];
-
 
         debugPrint('sdfsfdsfd${values.length}');
         if (values.isNotEmpty) {
@@ -110,14 +109,11 @@ final  String categoryName = '';
       chipDisplay: MultiSelectChipDisplay(
         alignment: Alignment.topRight,
         onTap: (item) {
-
-            _selectedItems.value.remove(item);
+          _selectedItems.value.remove(item);
 
           _multiSelectKey.currentState!.validate();
         },
       ),
     );
-
   }
 }
-

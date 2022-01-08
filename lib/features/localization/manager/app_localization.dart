@@ -10,7 +10,6 @@ import 'package:get_storage/get_storage.dart';
 const List<String> _supportedLanguages = [
   'en',
   'ar',
-  
 ];
 
 class GlobalTranslations {

@@ -51,7 +51,6 @@ final StateNotifierProvider<GetClientsNotifier, Object?> getClientsNotifier =
   (ref) => GetClientsNotifier(),
 );
 
-
 final StateNotifierProvider<MeetingAllNotifier, Object?> meetingAllNotifier =
     StateNotifierProvider<MeetingAllNotifier, Object?>(
   (ref) => MeetingAllNotifier(null),

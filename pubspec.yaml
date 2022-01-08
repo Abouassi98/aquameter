@@ -37,7 +37,6 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.4
   flutter_spinkit: ^5.1.0
-  charts_flutter: ^0.12.0
   google_maps_flutter: ^2.1.1
   geolocator: ^8.0.1
   flutter_staggered_animations: ^1.0.0
@@ -62,7 +61,7 @@ dependencies:
   firebase_crashlytics: ^2.4.4
   firebase_performance: ^0.8.0+3
   flutter_phoenix: ^1.0.0
-  fl_chart: ^0.40.6
+  syncfusion_flutter_charts: ^19.4.41
   pin_code_fields: ^7.3.0
   slide_countdown: ^0.0.9
   sn_progress_dialog: ^1.0.3
