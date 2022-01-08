@@ -6,7 +6,7 @@ import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 
-import 'package:aquameter/features/Home/presentation/manager/getandDeleteclients_createmettingandperiod_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/get_&_deleteclients_createmetting_&_period_notifier.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
 

@@ -8,9 +8,10 @@ import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
 
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
-import 'package:aquameter/features/Home/presentation/manager/getandDeleteclients_createmettingandperiod_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/get_&_deleteclients_createmetting_&_period_notifier.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
+import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
 
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class SearchScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController controller = useTextEditingController();
-
+    final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final ValueNotifier<List<Client>> selected = useState<List<Client>>([]);
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
@@ -212,6 +213,8 @@ class SearchScreen extends HookConsumerWidget {
                                                       msg:
                                                           'هل ترغب بحذف العميل؟',
                                                       okFun: () {
+                                                        meetingAll.isInit =
+                                                            false;
                                                         clients.deleteClient(
                                                             clients
                                                                 .clientsModel!
@@ -231,6 +234,7 @@ class SearchScreen extends HookConsumerWidget {
                                                     msg:
                                                         'هل ترغب باضافة دوره جديده',
                                                     okFun: () async {
+                                                      meetingAll.isInit = false;
                                                       await clients
                                                           .createPeriod(
                                                         userId: clients
@@ -249,8 +253,8 @@ class SearchScreen extends HookConsumerWidget {
                                                             .data![index]
                                                             .id!,
                                                       );
-                                                      pushAndRemoveUntil(const MainPage());
-
+                                                      pushAndRemoveUntil(
+                                                          const MainPage());
                                                     },
                                                     okMsg: 'نعم',
                                                     cancelMsg: 'لا',

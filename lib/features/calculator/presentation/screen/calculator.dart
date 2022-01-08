@@ -9,6 +9,7 @@ import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
 
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
+import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/calculator/presentation/widgets.dart/alert_calculator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -16,7 +17,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // ignore: must_be_immutable
 class Calculator extends HookConsumerWidget {
-  Calculator({Key? key}) : super(key: key);
+  final Client client;
+  Calculator({Key? key, required this.client}) : super(key: key);
   num tempreatureOfWater = 0.0,
       ph = 0.0,
       s = 0.0,
@@ -25,7 +27,7 @@ class Calculator extends HookConsumerWidget {
       molalIconicStrength = 0.0,
       pka = 0.0,
       theUnIonizedAmmonia = 0.0,
-      totalWeight = 0.0;
+      totalWeightFishes = 0.0;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -40,6 +42,8 @@ class Calculator extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<num> nH3 = useState<num>(0.0);
     final ValueNotifier<num> averageWeight = useState<num>(0.0);
+    final ValueNotifier<num> totalWeight = useState<num>(0.0);
+    final ValueNotifier<num> conversionRate = useState<num>(0.0);
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -483,7 +487,7 @@ class Calculator extends HookConsumerWidget {
                                   hint: 'الوزن الكلي ',
                                   onChange: (v) {
                                     try {
-                                      totalWeight = num.parse(v);
+                                      totalWeightFishes = num.parse(v);
                                     } on FormatException {
                                       debugPrint('Format error!');
                                     }
@@ -525,7 +529,7 @@ class Calculator extends HookConsumerWidget {
                                     function: () {
                                       if (_formKey.currentState!.validate()) {
                                         averageWeight.value =
-                                            totalWeight / totalFishes;
+                                            totalWeightFishes / totalFishes;
                                       }
                                     }),
                               ],
@@ -542,13 +546,23 @@ class Calculator extends HookConsumerWidget {
                                   debugPrint('Format error!');
                                 }
                               },
+                              validator: (v) {
+                                if (v!.isEmpty) {
+                                  return 'لا يجب ترك الحقل فارغ';
+                                }
+                                return null;
+                              },
+                              type: TextInputType.number,
+                              maxLength: 5,
+                              numbersOnly: true,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const CustomBtn(
-                                  text: '0.0 = اجمالي الوزن',
-                                ),
+                                CustomBtn(
+                                    text: totalWeight.value == 0.0
+                                        ? '0.0 = اجمالي الوزن'
+                                        : '${totalWeight.value.toStringAsFixed(2)} = اجمالي الوزن}'),
                                 const SizedBox(
                                   width: 20,
                                 ),
@@ -563,8 +577,25 @@ class Calculator extends HookConsumerWidget {
                             const SizedBox(
                               height: 20,
                             ),
-                            const CustomTextField(
+                           CustomTextField(
                               hint: 'اجمالي العلف',
+                               onChange: (v) {
+                                try {
+                                  dieFishes = int.parse(v);
+                                } on FormatException {
+                                  debugPrint('Format error!');
+                                }
+                              },
+                              validator: (v) {
+                                if (v!.isEmpty) {
+                                  return 'لا يجب ترك الحقل فارغ';
+                                }
+                                return null;
+                              },
+                              type: TextInputType.number,
+                              maxLength: 5,
+                              numbersOnly: true,
+
                             ),
                             const SizedBox(
                               height: 20,
@@ -572,9 +603,10 @@ class Calculator extends HookConsumerWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const CustomBtn(
-                                  text: '0.0 = معدل التحويل',
-                                ),
+                                CustomBtn(
+                                    text: conversionRate.value == 0.0
+                                        ? '0.0 = معدل التحويل'
+                                        : '${conversionRate.value.toStringAsFixed(2)} = معدل التحويل}'),
                                 const SizedBox(
                                   width: 20,
                                 ),
@@ -583,7 +615,10 @@ class Calculator extends HookConsumerWidget {
                                     hieght: SizeConfig.screenHeight * 0.05,
                                     radius: 15,
                                     title: ' = ',
-                                    function: () {}),
+                                    function: () {
+                                      conversionRate.value =
+                                          client.feed / totalWeightFishes;
+                                    }),
                               ],
                             ),
                             const SizedBox(

@@ -1,6 +1,7 @@
 import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
@@ -12,8 +13,8 @@ import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
-import 'package:aquameter/features/Home/presentation/manager/getandDeleteclients_createmettingandperiod_notifier.dart';
-import 'package:aquameter/features/Home/presentation/pages/home.dart';
+import 'package:aquameter/features/Home/presentation/manager/get_&_deleteclients_createmetting_&_period_notifier.dart';
+
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
@@ -44,9 +45,11 @@ class ProfileClientScreen extends HookConsumerWidget {
     {'name': 'معدلات الامونيا', 'id': 2},
   ];
   final GlobalKey<FormState> _averageWeight = GlobalKey<FormState>();
+  final GlobalKey<FormState> _conversionRate = GlobalKey<FormState>();
   String? selctedMeasuer;
-  num totalWeight = 0.0, averageWeight = 0.0;
-  int totalFishes = 0;
+  num totalWeight = 0.0, conversionRate = 0.0;
+
+  int totalFishes = 0, averageWeight = 0, totalFeed = 0;
 
   final FutureProvider<MeetingAllModel> provider =
       FutureProvider<MeetingAllModel>((ref) async {
@@ -59,6 +62,7 @@ class ProfileClientScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final GetAndDeleteClientsCreateMettingAndPeriodNotifier clients =
         ref.read(getClientsNotifier.notifier);
+
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
@@ -87,8 +91,8 @@ class ProfileClientScreen extends HookConsumerWidget {
                   Icons.edit,
                   color: Colors.white,
                 ),
-                onPressed: ()async {
-                await  areaAndCites.getCities(cityId: client.governorate);
+                onPressed: () async {
+                  await areaAndCites.getCities(cityId: client.governorate);
                   push(EditClient(client: client));
                 },
               ),
@@ -140,7 +144,9 @@ class ProfileClientScreen extends HookConsumerWidget {
                                       )] !=
                                       null) {
                                   } else {
-                                    push(Calculator());
+                                    push(Calculator(
+                                      client: client,
+                                    ));
                                   }
                                 },
                                 isExpandable: true,
@@ -276,8 +282,9 @@ class ProfileClientScreen extends HookConsumerWidget {
                                                           .validate()) {
                                                         setState(() {
                                                           averageWeight =
-                                                              totalWeight /
-                                                                  totalFishes;
+                                                              (totalWeight /
+                                                                      totalFishes)
+                                                                  .round();
                                                         });
                                                       }
                                                     }),
@@ -286,27 +293,31 @@ class ProfileClientScreen extends HookConsumerWidget {
                                             const SizedBox(
                                               height: 20,
                                             ),
-                                            Center(
-                                              child: CustomTextField(
-                                                hint:
-                                                    'اجمالي وزن العلف بالكيلو',
-                                                calculator: true,
-                                                onChange: (v) {
-                                                  try {
-                                                    totalWeight = num.parse(v);
-                                                  } on FormatException {
-                                                    debugPrint('Format error!');
-                                                  }
-                                                },
-                                                validator: (v) {
-                                                  if (v!.isEmpty) {
-                                                    return 'لا يجب ترك الحقل فارغ';
-                                                  }
-                                                  return null;
-                                                },
-                                                numbersOnly: true,
-                                                type: TextInputType.number,
-                                                paste: false,
+                                            Form(
+                                              key: _conversionRate,
+                                              child: Center(
+                                                child: CustomTextField(
+                                                  hint:
+                                                      'اجمالي وزن العلف بالكيلو',
+                                                  calculator: true,
+                                                  onChange: (v) {
+                                                    try {
+                                                      totalFeed = int.parse(v);
+                                                    } on FormatException {
+                                                      debugPrint(
+                                                          'Format error!');
+                                                    }
+                                                  },
+                                                  validator: (v) {
+                                                    if (v!.isEmpty) {
+                                                      return 'لا يجب ترك الحقل فارغ';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  numbersOnly: true,
+                                                  type: TextInputType.number,
+                                                  
+                                                ),
                                               ),
                                             ),
                                             Row(
@@ -314,9 +325,9 @@ class ProfileClientScreen extends HookConsumerWidget {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 CustomBtn(
-                                                  text: averageWeight == 0.0
+                                                  text: conversionRate == 0.0
                                                       ? '0.0 = معدل النحويل'
-                                                      : averageWeight
+                                                      : conversionRate
                                                               .toStringAsFixed(
                                                                   2) +
                                                           ' = معدل النحويل',
@@ -333,7 +344,17 @@ class ProfileClientScreen extends HookConsumerWidget {
                                                         0.05,
                                                     radius: 15,
                                                     title: ' = ',
-                                                    function: () {}),
+                                                    function: () {
+                                                      if (_conversionRate
+                                                          .currentState!
+                                                          .validate()) {
+                                                        setState(() {
+                                                          conversionRate =
+                                                              totalFeed /
+                                                                  totalWeight;
+                                                        });
+                                                      }
+                                                    }),
                                               ],
                                             ),
                                             const SizedBox(
@@ -342,7 +363,44 @@ class ProfileClientScreen extends HookConsumerWidget {
                                             Center(
                                               child: CustomTextButton(
                                                   title: 'حفظ',
-                                                  function: () {}),
+                                                  function: () async {
+                                                    if (conversionRate == 0.0) {
+                                                      HelperFunctions.successBar(
+                                                          context,
+                                                          message:
+                                                              'يجب عليك اظهار ناتج معدل التحويل');
+                                                    } else if (averageWeight ==
+                                                        0.0) {
+                                                      HelperFunctions.successBar(
+                                                          context,
+                                                          message:
+                                                              'يجب عليك اظهار ناتج متوسط الوزن');
+                                                    }
+                                                    if (_averageWeight
+                                                            .currentState!
+                                                            .validate() &&
+                                                        _conversionRate
+                                                            .currentState!
+                                                            .validate()) {
+                                                      meetingAll.isInit = false;
+                                                      await updateAndDeletePeriod
+                                                          .endPeriod(
+                                                              periodId:
+                                                                  meetingClient
+                                                                      .periodId!,
+                                                              clientId:
+                                                                  meetingClient
+                                                                      .clientId,
+                                                              averageFooder:
+                                                                  totalFeed,
+                                                              averageWeight:
+                                                                  averageWeight,
+                                                              totalWeight:
+                                                                  totalWeight);
+                                                      pushAndRemoveUntil(
+                                                          const MainPage());
+                                                    }
+                                                  }),
                                             )
                                           ],
                                         ),
@@ -354,16 +412,17 @@ class ProfileClientScreen extends HookConsumerWidget {
                               function: () async {
                                 await _dialog.showOptionDialog(
                                     context: context,
-                                    msg: 'هل ترغب بانهاء الدوره وعمل دوره جديده ؟',
+                                    msg:
+                                        'هل ترغب بانهاء الدوره وانشاء دوره جديده ؟',
                                     okFun: () async {
+                                      meetingAll.isInit = false;
                                       await updateAndDeletePeriod.endPeriod(
-                                          periodId: meetingClient.periodId);
+                                          periodId: meetingClient.periodId!);
                                       await clients.createPeriod(
                                         userId: meetingClient.userId,
                                         clientId: meetingClient.clientId,
                                       );
                                       pushAndRemoveUntil(const MainPage());
-
                                     },
                                     okMsg: 'نعم',
                                     cancelMsg: 'لا',

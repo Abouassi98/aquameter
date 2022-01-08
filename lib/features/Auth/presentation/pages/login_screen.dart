@@ -13,7 +13,7 @@ import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
 import 'package:aquameter/features/Auth/presentation/pages/send_code_screen.dart';
-import 'package:aquameter/features/Home/presentation/manager/getandDeleteclients_createmettingandperiod_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/get_&_deleteclients_createmetting_&_period_notifier.dart';
 
 import 'package:country_pickers/country.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +67,7 @@ class LoginScreen extends HookConsumerWidget {
               icon: Icons.phone,
               showCounterTxt: true,
               hint: "رقم الموبايل",
+              type: TextInputType.phone,
               maxLength: 11,
               validator: (v) {
                 bool phoneNumberAccepted = false;
