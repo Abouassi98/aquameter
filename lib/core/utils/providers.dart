@@ -1,7 +1,7 @@
 import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
 import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
-import 'package:aquameter/features/Auth/presentation/manager/send_code_notifier.dart';
+
 import 'package:aquameter/features/CustomMap/presentation/manager/map_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
@@ -39,10 +39,6 @@ final StateNotifierProvider<LocationProvider, Object?> locationProvider =
     StateNotifierProvider(
   (ref) => LocationProvider(null),
 );
-final AutoDisposeStateNotifierProvider<SendCodeNotifier, Object?>
-    sendCodeProvider = StateNotifierProvider.autoDispose(
-  (ref) => SendCodeNotifier(null),
-);
 
 final StateNotifierProvider<AuthNotifier, Object?> loginProvider =
     StateNotifierProvider(
@@ -57,8 +53,8 @@ final StateNotifierProvider<GetAndDeleteClientsCreateMettingAndPeriodNotifier, O
   (ref) => GetAndDeleteClientsCreateMettingAndPeriodNotifier(),
 );
 
-final AutoDisposeStateNotifierProvider<MeetingAllNotifier, Object?> meetingAllNotifier =
-    StateNotifierProvider.autoDispose<MeetingAllNotifier, Object?>(
+final StateNotifierProvider<MeetingAllNotifier, Object?> meetingAllNotifier =
+    StateNotifierProvider<MeetingAllNotifier, Object?>(
   (ref) => MeetingAllNotifier(null),
 );
 

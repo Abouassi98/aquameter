@@ -72,7 +72,7 @@ class CustomAppBar extends HookConsumerWidget {
                     child: IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
-                          push(SearchScreen());
+                          push(SearchScreen(viewProfile: true,));
                         }),
                   ),
               SizedBox(

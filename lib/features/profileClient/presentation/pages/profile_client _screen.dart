@@ -18,6 +18,7 @@ import 'package:aquameter/features/Home/presentation/manager/get_&_delete_client
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
+import 'package:aquameter/features/calculator/presentation/screen/show_calculator.dart';
 
 import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
@@ -33,11 +34,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // ignore: must_be_immutable
 class ProfileClientScreen extends HookConsumerWidget {
   final Client client;
-  final MeetingClient meetingClient;
+  final MeetingClient? meetingClient;
   final CustomWarningDialog _dialog = CustomWarningDialog();
 
-  ProfileClientScreen(
-      {required this.meetingClient, Key? key, required this.client})
+  ProfileClientScreen({this.meetingClient, Key? key, required this.client})
       : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [
@@ -51,8 +51,8 @@ class ProfileClientScreen extends HookConsumerWidget {
 
   int totalFishes = 0, averageWeight = 0, totalFeed = 0;
 
-  final FutureProvider<MeetingAllModel> provider =
-      FutureProvider<MeetingAllModel>((ref) async {
+  final AutoDisposeFutureProvider<MeetingAllModel> provider =
+      FutureProvider.autoDispose<MeetingAllModel>((ref) async {
     return await ref
         .read(meetingAllNotifier.notifier)
         .meetingAll(); //; may cause `provider` to rebuild
@@ -74,6 +74,11 @@ class ProfileClientScreen extends HookConsumerWidget {
         textDirection: TextDirection.rtl,
         child: Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+                onPressed: () {
+                  pushAndRemoveUntil(const MainPage());
+                },
+                icon: const Icon(Icons.arrow_back)),
             title: InkWell(
                 onTap: () async {
                   await areaAndCites.getCities(cityId: client.governorate);
@@ -108,7 +113,8 @@ class ProfileClientScreen extends HookConsumerWidget {
                         context: context,
                         msg: 'هل ترغب بمسح العميل ؟',
                         okFun: () async {
-                          await clients.deleteClient(clientId: client.id);
+                          await clients.deleteClient(clientId: client.id!);
+                          pushAndRemoveUntil(const MainPage());
                         },
                         okMsg: 'نعم',
                         cancelMsg: 'لا',
@@ -127,6 +133,7 @@ class ProfileClientScreen extends HookConsumerWidget {
               },
               data: (e) {
                 meetingAll.id = null;
+      meetingAll.isInit = false;
                 return ListView(
                   primary: false,
                   shrinkWrap: true,
@@ -138,11 +145,21 @@ class ProfileClientScreen extends HookConsumerWidget {
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
                           SizedBox(
-                            height: SizeConfig.screenHeight * 0.7,
+                            height: SizeConfig.screenHeight * 0.6,
                             child: Calendar(
                               onEventSelected: (v) {},
-                              events: meetingAll.selectedEvents,
                               hideBottomBar: true,
+                              events: meetingAll.selectedEvents,
+                              startOnMonday: true,
+                              weekDays: const [
+                                'الاثنين',
+                                'الثلاثاء',
+                                'الاربعاء',
+                                'الخميس',
+                                'الجمعه',
+                                'السبت',
+                                'الحد'
+                              ],
                               eventDoneColor: Colors.red,
                               selectedColor: Colors.pink,
                               todayColor: Colors.blue,
@@ -158,15 +175,15 @@ class ProfileClientScreen extends HookConsumerWidget {
                                       ),
                                     )] !=
                                     null) {
+                                  push(ShowCalculator(
+                                    client: client,
+                                  ));
                                 } else {
                                   push(Calculator(
                                     client: client,
                                   ));
                                 }
                               },
-                              isExpandable: true,
-                              locale: 'en_EN',
-                              expandableDateFormat: 'EEEE, dd. MMMM yyyy',
                               dayOfWeekStyle: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w800,
@@ -394,15 +411,14 @@ class ProfileClientScreen extends HookConsumerWidget {
                                                       _conversionRate
                                                           .currentState!
                                                           .validate()) {
-                                                    meetingAll.isInit = false;
-                                                    meetingAll.id = null;
+                                              
                                                     await updateAndDeletePeriod
                                                         .endPeriod(
                                                             periodId:
-                                                                meetingClient
+                                                                meetingClient!
                                                                     .periodId!,
                                                             clientId:
-                                                                meetingClient
+                                                                meetingClient!
                                                                     .clientId,
                                                             averageFooder:
                                                                 totalFeed,
@@ -423,18 +439,17 @@ class ProfileClientScreen extends HookConsumerWidget {
                         CustomTextButton(
                             title: 'دورة جديده',
                             function: () async {
+                              
                               await _dialog.showOptionDialog(
                                   context: context,
                                   msg:
                                       'هل ترغب بانهاء الدوره وانشاء دوره جديده ؟',
                                   okFun: () async {
-                                    meetingAll.isInit = false;
-                                  
                                     await updateAndDeletePeriod.endPeriod(
-                                        periodId: meetingClient.periodId!);
+                                        periodId: meetingClient!.periodId!);
                                     await clients.createPeriod(
-                                      userId: meetingClient.userId,
-                                      clientId: meetingClient.clientId,
+                                      userId: meetingClient!.userId,
+                                      clientId: meetingClient!.clientId,
                                     );
                                     pushAndRemoveUntil(const MainPage());
                                   },

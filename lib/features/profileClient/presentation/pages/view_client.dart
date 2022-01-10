@@ -6,6 +6,7 @@ import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
 
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
+import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 
 import 'package:flutter/material.dart';
@@ -46,6 +47,8 @@ class ViewClient extends StatelessWidget {
                               width: 120,
                               fit: BoxFit.cover,
                             ),
+                            const SizedBox(height: 15),
+                            const CustomHeaderTitle(title: 'بيانات العميل'),
                             const SizedBox(height: 15),
                             Container(
                               alignment: Alignment.center,
@@ -103,11 +106,19 @@ class ViewClient extends StatelessWidget {
                                     ],
                                   ),
                                   const SizedBox(height: 10),
-                                  CustomTextField(
-                                    enabled: false,
-                                    width: SizeConfig.screenWidth * 0.7,
-                                    icon: Icons.location_pin,
-                                    hint: client.address,
+                                  InkWell(
+                                    onTap: () {
+                                      push(CustomMap(
+                                        intialLat: client.lat,
+                                        intialLoong: client.long,
+                                      ));
+                                    },
+                                    child: CustomTextField(
+                                      enabled: false,
+                                      width: SizeConfig.screenWidth * 0.7,
+                                      icon: Icons.location_pin,
+                                      hint: client.address,
+                                    ),
                                   ),
                                   const SizedBox(height: 15),
                                   const CustomHeaderTitle(

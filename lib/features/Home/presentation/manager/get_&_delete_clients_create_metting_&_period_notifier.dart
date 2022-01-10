@@ -1,17 +1,14 @@
 import 'dart:developer';
-
-import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/network_utils.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/Home/Data/clients_model/delete_client.dart';
-import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
-
 import 'package:dio/dio.dart';
-
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class GetAndDeleteClientsCreateMettingAndPeriodNotifier extends StateNotifier<AsyncValue<ClientsModel>> {
-  GetAndDeleteClientsCreateMettingAndPeriodNotifier() : super(const AsyncValue.loading());
+class GetAndDeleteClientsCreateMettingAndPeriodNotifier
+    extends StateNotifier<AsyncValue<ClientsModel>> {
+  GetAndDeleteClientsCreateMettingAndPeriodNotifier()
+      : super(const AsyncValue.loading());
   final NetworkUtils _utils = NetworkUtils();
 
   DeleteClientModel? _model;
@@ -31,14 +28,14 @@ class GetAndDeleteClientsCreateMettingAndPeriodNotifier extends StateNotifier<As
     return clientsModel!;
   }
 
-  deleteClient({required int? clientId}) async {
+  deleteClient({required int clientId}) async {
     Response response = await _utils.requstData(
       url: 'clients/delete/$clientId',
     );
     _model = DeleteClientModel.fromJson(response.data);
     if (response.statusCode == 200) {
       log('order deleteded');
-      pushReplacement(SearchScreen());
+ 
       return _model;
     } else {
       log('error ');
@@ -55,17 +52,16 @@ class GetAndDeleteClientsCreateMettingAndPeriodNotifier extends StateNotifier<As
       log('error ');
     }
   }
-  createPeriod({required int? clientId,required int? userId,}) async {
-    Response response = await _utils.requstData(
-        url: 'periods/create', body: {
-      "mceeting": date,
-      "client_id" : clientId,
-      "user_id" : userId
 
-    });
+  createPeriod({
+    required int? clientId,
+    required int? userId,
+  }) async {
+    Response response = await _utils.requstData(
+        url: 'periods/create',
+        body: {"mceeting": date, "client_id": clientId, "user_id": userId});
     if (response.statusCode == 200) {
       log('period create');
-
     } else {
       log('error ');
     }

@@ -1,4 +1,4 @@
-import 'dart:io';
+
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
@@ -11,16 +11,13 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:map_launcher/map_launcher.dart';
+
 import '../../../../core/utils/providers.dart';
-import '../../../../core/utils/widgets/maps_sheet.dart';
+
 
 class CustomMap extends HookConsumerWidget {
   final double? intialLat, intialLoong;
-  CustomMap({
-    Key? key,
-    this.intialLat,this.intialLoong
-  }) : super(key: key);
+  CustomMap({Key? key, this.intialLat, this.intialLoong}) : super(key: key);
 
   final FutureProvider<Position> provider =
       FutureProvider<Position>((ref) async {
@@ -48,7 +45,9 @@ class CustomMap extends HookConsumerWidget {
                 error: (e, o) {
                   debugPrint(e.toString());
                   debugPrint(o.toString());
-                  return const Text('error');
+                  return const Center(
+                      child: Text(
+                          'بعد الموافقه ع اذن الوصول للخرائط يرجي الرجوع ودخول نفس الصفحه مره اخري'));
                 },
                 loading: () => const AppLoader(),
                 data: (e) => Stack(
@@ -67,61 +66,39 @@ class CustomMap extends HookConsumerWidget {
                         ),
                       },
                       onCameraMove: (v) {
-                        addClient.lat = v.target.latitude.toString();
-                        addClient.long = v.target.longitude.toString();
-                        placemarkFromCoordinates(
-                                v.target.latitude, v.target.longitude)
-                            .then((value) =>
-                                addClient.address = value[0].street!);
+                        if (intialLat == null) {
+                          addClient.lat = v.target.latitude.toString();
+                          addClient.long = v.target.longitude.toString();
+                          placemarkFromCoordinates(
+                                  v.target.latitude, v.target.longitude)
+                              .then((value) =>
+                                  addClient.address = value[0].street!);
+                        }
                       },
                       initialCameraPosition: CameraPosition(
                         zoom: 14,
-                        target: LatLng( intialLat??e.latitude,intialLoong?? e.longitude),
+                        target: LatLng(intialLat ?? e.latitude,
+                            intialLoong ?? e.longitude),
                       ),
                     ),
                     pin(),
-                    Platform.isIOS
-                        ? InkWell(
-                            onTap: () {
-                              MapsSheet.show(
-                                context: context,
-                                onMapTap: (map) {
-                                  map.showMarker(
-                                    coords: Coords(intialLat??e.latitude,intialLoong?? e.longitude),
-                                    title: '  ',
-                                    // zoom: zoom,
-                                  );
-                                },
-                              );
-                            },
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 8.0, top: 10),
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: InkWell(
-                                  child: Icon(
-                                    Icons.location_on,
-                                    size: 30,
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        : Container()
+                    
                   ],
                 ),
               ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CustomTextButton(
-              title: 'حفظ',
-              function: () {
-                pop();
-              },
+          floatingActionButtonLocation: intialLat == null
+              ? FloatingActionButtonLocation.centerDocked
+              : null,
+          floatingActionButton: Visibility(
+            visible: intialLat == null,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomTextButton(
+                title: 'حفظ',
+                function: () {
+                  pop();
+                },
+              ),
             ),
           ),
         ));

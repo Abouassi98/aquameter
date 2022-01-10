@@ -8,7 +8,7 @@ import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
-import 'package:aquameter/core/utils/widgets/custom_country_code_picker.dart';
+
 import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
 
 import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart';
@@ -20,7 +20,7 @@ import 'package:aquameter/features/profileClient/presentation/manager/add_client
 import 'package:aquameter/features/profileClient/presentation/manager/location_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/widgets/total_fishes.dart';
-import 'package:country_pickers/country.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -51,7 +51,7 @@ class EditClient extends HookConsumerWidget {
   List<TotalFishesItem> totalFishesItem = [];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-        final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
+    final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final LocationProvider location = ref.watch(locationProvider.notifier);
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
@@ -137,9 +137,7 @@ class EditClient extends HookConsumerWidget {
                                       phoneNumberAccepted.toString(),
                                     );
                                   },
-                                  suffixIcon: CustomCountryCodePicker(
-                                    onChange: (Country value) {},
-                                  ),
+                              
                                   onChange: (v) {
                                     phone = convertToEnglishNumbers(v.trim());
                                   },
@@ -260,7 +258,6 @@ class EditClient extends HookConsumerWidget {
                                         ],
                                       ),
                                       TotalFishesItem(
-                                      
                                         initialvalue:
                                             client.totalNumber.toString(),
                                         list: ref
@@ -323,18 +320,21 @@ class EditClient extends HookConsumerWidget {
                                 ),
                                 if (showThirdField.value == false ||
                                     showSecondField.value == false)
-                                  CustomTextButton(
-                                    width: SizeConfig.screenWidth * 0.3,
-                                    title: 'إضافة عدد من نوع آخر ',
-                                    function: () {
-                                      if (showSecondField.value == false) {
-                                        showSecondField.value = true;
-                                      } else if (showSecondField.value ==
-                                              true &&
-                                          showThirdField.value == false) {
-                                        showThirdField.value = true;
-                                      }
-                                    },
+                                  Container(
+                                    alignment: Alignment.centerRight,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        if (showSecondField.value == false) {
+                                          showSecondField.value = true;
+                                        } else if (showSecondField.value ==
+                                                true &&
+                                            showThirdField.value == false) {
+                                          showThirdField.value = true;
+                                        }
+                                      },
+                                      child:
+                                          const Text('إضافة عدد من نوع آخر '),
+                                    ),
                                   ),
                                 const SizedBox(height: 20),
                                 Row(
@@ -408,7 +408,7 @@ class EditClient extends HookConsumerWidget {
                               }
                               updateClient.totalFishesupdate = totalFishes;
                               updateClient.typeFishesupdate = typeFishes;
-                                    meetingAll.isInit = false;
+                              meetingAll.isInit = false;
                               updateClient.updateClient(
                                 context: context,
                                 clientId: client.id!,

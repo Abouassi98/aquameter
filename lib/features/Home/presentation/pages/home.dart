@@ -24,8 +24,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class Home extends HookConsumerWidget {
   Home({Key? key}) : super(key: key);
 
-  final AutoDisposeFutureProvider<MeetingAllModel> provider =
-      FutureProvider.autoDispose<MeetingAllModel>((ref) async {
+  final FutureProvider<MeetingAllModel> provider =
+      FutureProvider<MeetingAllModel>((ref) async {
     return await ref
         .watch(meetingAllNotifier.notifier)
         .meetingAll(); // may cause `provider` to rebuild
@@ -104,7 +104,9 @@ class Home extends HookConsumerWidget {
                             alignment: Alignment.bottomLeft,
                             child: TextButton(
                               onPressed: () {
-                                push(SearchScreen());
+                                push(SearchScreen(
+                                  viewProfile: false,
+                                ),);
                               },
                               child: const Text('اضافه عميل'),
                             ),

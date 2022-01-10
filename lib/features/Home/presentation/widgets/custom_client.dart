@@ -51,7 +51,7 @@ class ClientItem extends StatelessWidget {
                 // Shop Image
                 fishTypes != null
                     ? FadeInImage.assetNetwork(
-                        height: SizeConfig.screenHeight * 0.15,
+                        height: SizeConfig.screenHeight * 0.13,
                         image: fishTypes!.fishTypesModel!.data!
                             .firstWhere((element) =>
                                 element.id == client.fish![0].fishType!.id)

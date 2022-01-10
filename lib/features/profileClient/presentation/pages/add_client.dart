@@ -9,7 +9,7 @@ import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
-import 'package:aquameter/core/utils/widgets/custom_country_code_picker.dart';
+
 import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
 
 import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart';
@@ -22,7 +22,6 @@ import 'package:aquameter/features/profileClient/presentation/manager/meeting_al
 
 import 'package:aquameter/features/profileClient/presentation/widgets/total_fishes.dart';
 
-import 'package:country_pickers/country.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -142,9 +141,7 @@ class AddClient extends HookConsumerWidget {
                                         phoneNumberAccepted.toString(),
                                       );
                                     },
-                                    suffixIcon: CustomCountryCodePicker(
-                                      onChange: (Country value) {},
-                                    ),
+                                  
                                     onChange: (v) {
                                       phone = convertToEnglishNumbers(v.trim());
                                     },
@@ -320,7 +317,6 @@ class AddClient extends HookConsumerWidget {
                                     Container(
                                       alignment: Alignment.centerRight,
                                       child: TextButton(
-                                       
                                         onPressed: () {
                                           if (showSecondField.value == false) {
                                             showSecondField.value = true;
@@ -329,7 +325,9 @@ class AddClient extends HookConsumerWidget {
                                               showThirdField.value == false) {
                                             showThirdField.value = true;
                                           }
-                                        }, child: const Text('إضافة عدد من نوع آخر '),
+                                        },
+                                        child:
+                                            const Text('إضافة عدد من نوع آخر '),
                                       ),
                                     ),
                                   const SizedBox(height: 20),
@@ -375,6 +373,7 @@ class AddClient extends HookConsumerWidget {
                                   CustomTextField(
                                     calculator: true,
                                     paste: false,
+                                    type: TextInputType.number,
                                     numbersOnly: true,
                                     hint: 'وزن السمكة الابتدائى بالجرام',
                                     onChange: (v) {
@@ -397,6 +396,7 @@ class AddClient extends HookConsumerWidget {
                                     numbersOnly: true,
                                     calculator: true,
                                     paste: false,
+                                    type: TextInputType.number,
                                     hint: 'وزن السمكة المستهدف بالجرام',
                                     onChange: (v) {
                                       try {

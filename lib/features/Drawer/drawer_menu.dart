@@ -2,6 +2,7 @@ import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
+import 'package:aquameter/features/Auth/presentation/pages/change_pass_screen.dart';
 
 import 'package:aquameter/features/Drawer/presentation/pages/about_us.dart';
 import '../archieve/presentation/pages/archieve.dart';
@@ -23,13 +24,12 @@ class DrawerMenu extends StatelessWidget {
     Key? key,
   }) : super(key: key);
   _sendWhatsApp() async {
-    var url =
-        "https://wa.me/+201069072590";
+    var url = "https://wa.me/+201069072590";
     await canLaunch(url) ? launch(url) : debugPrint('No WhatsAPP');
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Directionality(
       textDirection: localization.currentLanguage.toString() == 'en'
           ? TextDirection.ltr
@@ -52,8 +52,8 @@ class DrawerMenu extends StatelessWidget {
                   bottomLeft: Radius.circular(50)),
           color: Colors.white,
         ),
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             const SizedBox(
               height: 15,
@@ -68,15 +68,19 @@ class DrawerMenu extends StatelessWidget {
               height: 15,
             ),
             DrwaerItem(
-                widget: const Icon(Icons.archive),
-                text: localization.text('archieve')!,
-                onTap: () => push(ArcieveScreen(
-                      title: localization.text('archieve')!,
-                    ))),
+              widget: const Icon(Icons.archive),
+              text: localization.text('archieve')!,
+              onTap: () => push(
+                ArcieveScreen(
+                  title: localization.text('archieve')!,
+                ),
+              ),
+            ),
             DrwaerItem(
-                widget: const Icon(Icons.password),
-                text: 'تغير كلمة المرور',
-                onTap: _sendWhatsApp),
+              widget: const Icon(Icons.password),
+              text: 'تغير كلمة المرور',
+              onTap: () => push(const ChangePassScreen()),
+            ),
             DrwaerItem(
                 widget: const Icon(Icons.settings),
                 text: localization.text('change_language')!,
@@ -94,7 +98,7 @@ class DrawerMenu extends StatelessWidget {
                 widget:
                     const ImageIcon(AssetImage('assets/images/contact.png')),
                 text: localization.text('contact_us')!,
-                onTap: () {}),
+                onTap: _sendWhatsApp),
             DrwaerItem(
                 widget:
                     const ImageIcon(AssetImage('assets/images/polices.png')),

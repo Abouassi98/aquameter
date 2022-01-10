@@ -7,13 +7,13 @@ import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 
-import 'package:aquameter/core/utils/widgets/custom_country_code_picker.dart';
+
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
-import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
 
-import 'package:country_pickers/country.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -42,7 +42,7 @@ class LoginScreen extends HookConsumerWidget {
     final FishTypesNotifier fishTypes = ref.read(
       fishTypesNotifier.notifier,
     );
-    final GetAndDeleteClientsCreateMettingAndPeriodNotifier clients = ref.watch(getClientsNotifier.notifier);
+  
 
     String phone = '', password = '';
     final AuthNotifier login = ref.watch(loginProvider.notifier);
@@ -66,6 +66,7 @@ class LoginScreen extends HookConsumerWidget {
             ),
             CustomTextField(
               numbersOnly: true,
+              type: TextInputType.phone,
               width: SizeConfig.screenWidth * 0.7,
               icon: Icons.phone,
               showCounterTxt: true,
@@ -89,9 +90,7 @@ class LoginScreen extends HookConsumerWidget {
                   phoneNumberAccepted.toString(),
                 );
               },
-              suffixIcon: CustomCountryCodePicker(
-                onChange: (Country value) {},
-              ),
+            
               onChange: (v) {
                 phone = convertToEnglishNumbers(v.trim());
               },
@@ -135,7 +134,7 @@ class LoginScreen extends HookConsumerWidget {
                 }
                 _form.currentState!.save();
                 login.login(
-                    context, phone, password, areaAndCites, fishTypes, clients);
+                    context, phone, password, areaAndCites, fishTypes, );
               },
               radius: 20,
             ),

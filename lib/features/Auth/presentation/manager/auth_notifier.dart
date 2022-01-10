@@ -5,7 +5,7 @@ import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/network_utils.dart';
-import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
+
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,12 +19,12 @@ class AuthNotifier extends StateNotifier<void> {
   final NetworkUtils _utils = NetworkUtils();
 
   Future<void> login(
-      BuildContext context,
-      String phone,
-      String password,
-      AreaAndCitesNotifier areaAndCites,
-      FishTypesNotifier fishTypes,
-      GetAndDeleteClientsCreateMettingAndPeriodNotifier getClients) async {
+    BuildContext context,
+    String phone,
+    String password,
+    AreaAndCitesNotifier areaAndCites,
+    FishTypesNotifier fishTypes,
+  ) async {
     ProgressDialog pd = ProgressDialog(context: context);
     pd.show(max: 100, msg: 'loading progress');
     Response response = await _utils.requstData(
@@ -42,14 +42,16 @@ class AuthNotifier extends StateNotifier<void> {
       pd.close();
 
       pushAndRemoveUntil(const MainPage());
-      await getClients.getClients();
+
       await fishTypes.getFishTypes();
       await areaAndCites.getCities();
     } else {}
   }
 
-  Future<void> fetchUserData(AreaAndCitesNotifier areaAndCites,
-      FishTypesNotifier fishTypes, GetAndDeleteClientsCreateMettingAndPeriodNotifier getClients) async {
+  Future<void> fetchUserData(
+    AreaAndCitesNotifier areaAndCites,
+    FishTypesNotifier fishTypes,
+  ) async {
     Response response = await _utils.requstData(
       get: true,
       url: 'profile',
@@ -59,7 +61,7 @@ class AuthNotifier extends StateNotifier<void> {
       log('Token >>> ${GetStorage().read(kToken)}');
 
       pushAndRemoveUntil(const MainPage());
-      await getClients.getClients();
+
       await fishTypes.getFishTypes();
       await areaAndCites.getCities();
     } else {}
