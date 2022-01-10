@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:fcm_config/fcm_config.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,6 +14,15 @@ import 'features/localization/manager/app_localization.dart';
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   debugPrint('Handling a background message: ${message.messageId}');
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
 }
 
 void main() async {
@@ -41,6 +51,7 @@ void main() async {
       FCMConfig.instance.messaging.subscribeToTopic('test_fcm_topic');
     });
     WidgetsFlutterBinding.ensureInitialized();
+    HttpOverrides.global = MyHttpOverrides();
     await localization.init();
     WidgetsFlutterBinding.ensureInitialized();
     await GetStorage.init();

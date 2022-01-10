@@ -18,7 +18,7 @@ class MeetingAllNotifier extends StateNotifier<void> {
   int? id;
   Future<MeetingAllModel> meetingAll({DateTime? start, DateTime? end}) async {
     isInit = false;
-    print('3333333=$id');
+
     selectedEvents.clear();
     Response response = await _utils.requstData(
       body: FormData.fromMap({

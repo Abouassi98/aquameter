@@ -42,9 +42,9 @@ class AuthNotifier extends StateNotifier<void> {
       pd.close();
 
       pushAndRemoveUntil(const MainPage());
-      await areaAndCites.getCities();
-      await fishTypes.getFishTypes();
       await getClients.getClients();
+      await fishTypes.getFishTypes();
+      await areaAndCites.getCities();
     } else {}
   }
 
@@ -59,9 +59,9 @@ class AuthNotifier extends StateNotifier<void> {
       log('Token >>> ${GetStorage().read(kToken)}');
 
       pushAndRemoveUntil(const MainPage());
-      await areaAndCites.getCities();
-      await fishTypes.getFishTypes();
       await getClients.getClients();
+      await fishTypes.getFishTypes();
+      await areaAndCites.getCities();
     } else {}
   }
 }

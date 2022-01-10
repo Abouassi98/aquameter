@@ -1,4 +1,5 @@
 import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
+import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/providers.dart';
@@ -35,7 +36,9 @@ class SearchScreen extends HookConsumerWidget {
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
-
+  final FishTypesNotifier fishTypes = ref.read(
+    fishTypesNotifier.notifier,
+    );
     final CustomWarningDialog _dialog = CustomWarningDialog();
     final GetAndDeleteClientsCreateMettingAndPeriodNotifier clients =
         ref.watch(getClientsNotifier.notifier);
@@ -137,16 +140,8 @@ class SearchScreen extends HookConsumerWidget {
                                   primary: false,
                                   shrinkWrap: true,
                                   itemCount: selected.value.length,
-                                  itemBuilder: (context, index) => Dismissible(
-                                    key: const ValueKey(0),
-                                    onDismissed:
-                                        (DismissDirection direction) async {
-                                      if (direction ==
-                                          DismissDirection.startToEnd) {
-                                      } else {}
-                                    },
-                                    confirmDismiss:
-                                        (DismissDirection direction) async {
+                                  itemBuilder: (context, index) =>  ClientItem(
+                                      confirmDismiss: (DismissDirection direction) async {
                                       return await _dialog.showOptionDialog(
                                           context: context,
                                           msg: 'هل ترغب بحذف العميل؟',
@@ -160,7 +155,7 @@ class SearchScreen extends HookConsumerWidget {
                                             return;
                                           });
                                     },
-                                    child: ClientItem(
+                                      fishTypes: fishTypes,
                                       func: () async {
                                         await _dialog.showOptionDialog(
                                             context: context,
@@ -179,7 +174,7 @@ class SearchScreen extends HookConsumerWidget {
                                       },
                                       client: selected.value[index],
                                     ),
-                                  ),
+                                  
                                 )
                               : (selected.value.isEmpty &&
                                       controller.text != '')
@@ -195,15 +190,9 @@ class SearchScreen extends HookConsumerWidget {
                                           itemCount: clients
                                               .clientsModel!.data!.length,
                                           itemBuilder: (context, index) =>
-                                              Dismissible(
-                                            key: const ValueKey(0),
-                                            onDismissed: (DismissDirection
-                                                direction) async {
-                                              if (direction ==
-                                                  DismissDirection.startToEnd) {
-                                              } else {}
-                                            },
-                                            confirmDismiss: (DismissDirection
+                                             
+                                             ClientItem(
+                                               confirmDismiss:  (DismissDirection
                                                 direction) async {
                                               return await _dialog
                                                   .showOptionDialog(
@@ -223,7 +212,7 @@ class SearchScreen extends HookConsumerWidget {
                                                         return;
                                                       });
                                             },
-                                            child: ClientItem(
+                                              fishTypes: fishTypes,
                                               func: () async {
                                                 await _dialog.showOptionDialog(
                                                     context: context,
@@ -262,7 +251,7 @@ class SearchScreen extends HookConsumerWidget {
                                                   .clientsModel!.data![index],
                                             ),
                                           ),
-                                        ),
+                                        
                         ],
                       ),
                     ),

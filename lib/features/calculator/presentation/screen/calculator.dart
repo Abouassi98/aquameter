@@ -485,7 +485,7 @@ class Calculator extends HookConsumerWidget {
                                   paste: false,
                                 ),
                                 CustomTextField(
-                                  hint: 'الوزن الكلي ',
+                                  hint: 'الوزن الكلي بالجرام',
                                   onChange: (v) {
                                     try {
                                       totalWeightFishes = num.parse(v);
@@ -588,7 +588,7 @@ class Calculator extends HookConsumerWidget {
                           Form(
                             key: _conversionRate,
                             child: CustomTextField(
-                              hint: 'اجمالي العلف',
+                              hint: 'اجمالي العلف بالكجم',
                               paste: false,
                               calculator: true,
                               onChange: (v) {
