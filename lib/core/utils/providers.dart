@@ -4,7 +4,7 @@ import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart'
 import 'package:aquameter/features/Auth/presentation/manager/send_code_notifier.dart';
 import 'package:aquameter/features/CustomMap/presentation/manager/map_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
-import 'package:aquameter/features/Home/presentation/manager/get_&_deleteclients_createmetting_&_period_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
 
 import 'package:aquameter/features/localization/manager/change_language_provider.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
