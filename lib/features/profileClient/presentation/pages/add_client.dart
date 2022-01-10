@@ -44,10 +44,10 @@ class AddClient extends HookConsumerWidget {
   ];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String phone = '', name = '', landSizeType = '', company = '', feed = '';
-  num landSize = 0;
+  num landSize = 0, targetWeight = 0, startingWeight = 0;
   int governorateId = 0, areaId = 0;
   List<int> totalFishes = [], typeFishes = [];
-  int totalFishes1 = 0, typeFishes1 = 0, targetWeight = 0, startingWeight = 0;
+  int totalFishes1 = 0, typeFishes1 = 0;
   int? totalFishes2, totalFishes3, typeFishes2, typeFishes3;
 
   List<TotalFishesItem> totalFishesItem = [];
@@ -156,7 +156,8 @@ class AddClient extends HookConsumerWidget {
                                     children: [
                                       CustomBottomSheet(
                                         name: 'المحافظه',
-                                        list: areaAndCites.governorateModel!.data!,
+                                        list: areaAndCites
+                                            .governorateModel!.data!,
                                         onChange: (v) async {
                                           await areaAndCites.getCities(
                                               cityId: v);
@@ -227,6 +228,8 @@ class AddClient extends HookConsumerWidget {
                                                   top: SizeConfig.screenHeight *
                                                       0.04),
                                               child: CustomTextField(
+                                                numbersOnly: true,
+                                                calculator: true,
                                                 paste: false,
                                                 type: TextInputType.phone,
                                                 validator: (v) {
@@ -236,7 +239,11 @@ class AddClient extends HookConsumerWidget {
                                                 },
                                                 hint: 'مساحة الأرض',
                                                 onChange: (v) {
-                                                  landSize = num.parse(v);
+                                                  try {
+                                                    landSize = num.parse(v);
+                                                  } on FormatException {
+                                                    debugPrint('Format error!');
+                                                  }
                                                 },
                                               ),
                                             ),
@@ -364,10 +371,16 @@ class AddClient extends HookConsumerWidget {
                                   ),
                                   const SizedBox(height: 20),
                                   CustomTextField(
+                                    calculator: true,
+                                    paste: false,
                                     numbersOnly: true,
                                     hint: 'وزن السمكة الابتدائى بالجرام',
                                     onChange: (v) {
-                                      startingWeight = int.parse(v);
+                                      try {
+                                        startingWeight = num.parse(v);
+                                      } on FormatException {
+                                        debugPrint('Format error!');
+                                      }
                                     },
                                     validator: (v) {
                                       if (v!.isEmpty) {
@@ -380,9 +393,15 @@ class AddClient extends HookConsumerWidget {
                                   ),
                                   CustomTextField(
                                     numbersOnly: true,
+                                    calculator: true,
+                                    paste: false,
                                     hint: 'وزن السمكة المستهدف بالجرام',
                                     onChange: (v) {
-                                      targetWeight = int.parse(v);
+                                      try {
+                                        targetWeight = num.parse(v);
+                                      } on FormatException {
+                                        debugPrint('Format error!');
+                                      }
                                     },
                                     validator: (v) {
                                       if (v!.isEmpty) {

@@ -17,8 +17,8 @@ class DaysItem extends HookConsumerWidget {
     required this.onChaned,
   }) : super(key: key);
 
-  final FutureProvider<List<PlanOfWeek>> provider =
-      FutureProvider<List<PlanOfWeek>>((ref) async {
+  final AutoDisposeFutureProvider<List<PlanOfWeek>> provider =
+      FutureProvider.autoDispose<List<PlanOfWeek>>((ref) async {
     return await ref
         .read(departMentProvider.notifier)
         .assigndepartMent(); //; may cause `provider` to rebuild

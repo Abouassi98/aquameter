@@ -28,8 +28,8 @@ class AddClientNotifier extends StateNotifier<void> {
       required String landSizeType,
       required String feed,
       required String company,
-      required int targetWeight,
-      required int startingWeight}) async {
+      required num targetWeight,
+      required num startingWeight}) async {
     ProgressDialog pd = ProgressDialog(context: context);
     pd.show(max: 100, msg: 'loading progress');
     Response response = await _utils.requstData(

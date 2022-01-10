@@ -24,8 +24,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class Home extends HookConsumerWidget {
   Home({Key? key}) : super(key: key);
   MeetingAllModel? meetingAllModel;
-  final FutureProvider<MeetingAllModel> provider =
-      FutureProvider<MeetingAllModel>((ref) async {
+  final AutoDisposeFutureProvider<MeetingAllModel> provider =
+      FutureProvider.autoDispose<MeetingAllModel>((ref) async {
     return await ref
         .watch(meetingAllNotifier.notifier)
         .meetingAll(); // may cause `provider` to rebuild

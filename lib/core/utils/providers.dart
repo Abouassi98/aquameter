@@ -19,8 +19,8 @@ StateNotifierProvider<ChangeLanguageProvider, Object?> languageProvider =
     StateNotifierProvider(
   (ref) => ChangeLanguageProvider(null),
 );
-final StateNotifierProvider<PlanOfWeekNotifier, Object?> departMentProvider =
-    StateNotifierProvider(
+final AutoDisposeStateNotifierProvider<PlanOfWeekNotifier, Object?> departMentProvider =
+    StateNotifierProvider.autoDispose(
   (ref) => PlanOfWeekNotifier(null),
 );
 final StateNotifierProvider<MapNotifier, Object?> mapNotifier =
@@ -57,8 +57,8 @@ final StateNotifierProvider<GetAndDeleteClientsCreateMettingAndPeriodNotifier, O
   (ref) => GetAndDeleteClientsCreateMettingAndPeriodNotifier(),
 );
 
-final StateNotifierProvider<MeetingAllNotifier, Object?> meetingAllNotifier =
-    StateNotifierProvider<MeetingAllNotifier, Object?>(
+final AutoDisposeStateNotifierProvider<MeetingAllNotifier, Object?> meetingAllNotifier =
+    StateNotifierProvider.autoDispose<MeetingAllNotifier, Object?>(
   (ref) => MeetingAllNotifier(null),
 );
 
