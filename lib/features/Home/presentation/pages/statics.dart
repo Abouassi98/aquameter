@@ -1,8 +1,11 @@
+import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
+import 'package:aquameter/core/utils/widgets/app_loader.dart';
 
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Home/Data/chart_data_model.dart';
+import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/list_selector_widget.dart';
@@ -25,6 +28,12 @@ class Statics extends HookConsumerWidget {
       "name": 'انواع العلف',
     },
   ];
+  final FutureProvider<ClientsModel> provider =
+      FutureProvider<ClientsModel>((ref) async {
+    return await ref
+        .read(getClientsNotifier.notifier)
+        .getClients(); //; may cause `provider` to rebuild
+  });
   final List<ChartData> chartData = [
     ChartData('USA', 10, '70%'),
     ChartData('China', 11, '60%'),
@@ -52,7 +61,6 @@ class Statics extends HookConsumerWidget {
               ),
               SfCircularChart(series: <CircularSeries>[
                 PieSeries<ChartData, String>(
-                  
                     dataSource: chartData,
                     xValueMapper: (ChartData data, _) => data.x,
                     yValueMapper: (ChartData data, _) => data.y,
@@ -114,10 +122,20 @@ class Statics extends HookConsumerWidget {
         SizedBox(
           height: context.height * .01,
         ),
-        Center(
-          child: SizedBox(
-              width: SizeConfig.screenWidth * 0.6, child: ListSelectorWidget()),
-        ),
+        ref.watch(provider).when(
+           loading: () => const  AppLoader(),
+              error: (e, o) {
+                debugPrint(e.toString());
+                debugPrint(o.toString());
+                return const Text('error');
+              },
+              data: (e) => Center(
+                child: SizedBox(
+                  width: SizeConfig.screenWidth * 0.6,
+                  child: ListSelectorWidget(clientsModel: e,),
+                ),
+              ),
+            ),
         SizedBox(
           height: context.height * .03,
         ),

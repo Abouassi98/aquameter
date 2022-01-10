@@ -51,8 +51,8 @@ class ProfileClientScreen extends HookConsumerWidget {
 
   int totalFishes = 0, averageWeight = 0, totalFeed = 0;
 
-  final AutoDisposeFutureProvider<MeetingAllModel> provider =
-      FutureProvider.autoDispose<MeetingAllModel>((ref) async {
+  final FutureProvider<MeetingAllModel> provider =
+      FutureProvider<MeetingAllModel>((ref) async {
     return await ref
         .read(meetingAllNotifier.notifier)
         .meetingAll(); //; may cause `provider` to rebuild
@@ -125,7 +125,7 @@ class ProfileClientScreen extends HookConsumerWidget {
             ],
           ),
           body: ref.watch(provider).when(
-              loading: () => const Scaffold(body: AppLoader()),
+              loading: () => const AppLoader(),
               error: (e, o) {
                 debugPrint(e.toString());
                 debugPrint(o.toString());
@@ -133,7 +133,7 @@ class ProfileClientScreen extends HookConsumerWidget {
               },
               data: (e) {
                 meetingAll.id = null;
-      meetingAll.isInit = false;
+                meetingAll.isInit = false;
                 return ListView(
                   primary: false,
                   shrinkWrap: true,
@@ -411,7 +411,6 @@ class ProfileClientScreen extends HookConsumerWidget {
                                                       _conversionRate
                                                           .currentState!
                                                           .validate()) {
-                                              
                                                     await updateAndDeletePeriod
                                                         .endPeriod(
                                                             periodId:
@@ -439,7 +438,6 @@ class ProfileClientScreen extends HookConsumerWidget {
                         CustomTextButton(
                             title: 'دورة جديده',
                             function: () async {
-                              
                               await _dialog.showOptionDialog(
                                   context: context,
                                   msg:
