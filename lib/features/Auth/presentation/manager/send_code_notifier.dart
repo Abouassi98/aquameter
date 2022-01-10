@@ -7,7 +7,6 @@ import 'package:aquameter/features/Auth/presentation/pages/forget_pass_screen.da
 import 'package:aquameter/features/Auth/presentation/pages/verifty_phone_screen.dart';
 import 'package:aquameter/features/localization/manager/app_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sn_progress_dialog/sn_progress_dialog.dart';

@@ -2,7 +2,6 @@ import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
-import 'package:aquameter/features/Auth/presentation/pages/change_pass_screen.dart';
 
 import 'package:aquameter/features/Drawer/presentation/pages/about_us.dart';
 import '../archieve/presentation/pages/archieve.dart';
@@ -17,13 +16,20 @@ import 'package:share/share.dart';
 import '../../core/utils/size_config.dart';
 
 import 'drawer_item.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DrawerMenu extends StatelessWidget {
   const DrawerMenu({
     Key? key,
   }) : super(key: key);
+  _sendWhatsApp() async {
+    var url =
+        "https://wa.me/+201069072590";
+    await canLaunch(url) ? launch(url) : debugPrint('No WhatsAPP');
+  }
   @override
   Widget build(BuildContext context) {
+
     return Directionality(
       textDirection: localization.currentLanguage.toString() == 'en'
           ? TextDirection.ltr
@@ -70,7 +76,7 @@ class DrawerMenu extends StatelessWidget {
             DrwaerItem(
                 widget: const Icon(Icons.password),
                 text: 'تغير كلمة المرور',
-                onTap: () => push(const ChangePassScreen())),
+                onTap: _sendWhatsApp),
             DrwaerItem(
                 widget: const Icon(Icons.settings),
                 text: localization.text('change_language')!,

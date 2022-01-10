@@ -1,16 +1,14 @@
-
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/size_config.dart';
-import 'package:aquameter/core/utils/widgets/custom_country_code_picker.dart';
 import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
 
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 
-import 'package:country_pickers/country.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewClient extends StatelessWidget {
   final Client client;
@@ -74,11 +72,20 @@ class ViewClient extends StatelessWidget {
                                     numbersOnly: true,
                                     width: SizeConfig.screenWidth * 0.7,
                                     maxLength: 11,
-                                    suffixIcon: CustomCountryCodePicker(
-                                      onChange: (Country value) {},
-                                    ),
                                   ),
                                   const SizedBox(height: 10),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(" اتصل بالعميل "),
+                                      IconButton(
+                                        icon: const Icon(Icons.call),
+                                        onPressed: () async {
+                                          await launch("tel:+20${client.phone}");
+                                        },
+                                      ),
+                                    ],
+                                  ),
                                   CustomTextField(
                                     hint: client.governorateData?.names,
                                   ),

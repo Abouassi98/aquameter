@@ -4,7 +4,6 @@ import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/network_utils.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/Home/Data/clients_model/delete_client.dart';
-
 import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
 
 import 'package:dio/dio.dart';
@@ -32,7 +31,7 @@ class GetAndDeleteClientsCreateMettingAndPeriodNotifier extends StateNotifier<As
     return clientsModel!;
   }
 
-  deleteClient(int? clientId) async {
+  deleteClient({required int? clientId}) async {
     Response response = await _utils.requstData(
       url: 'clients/delete/$clientId',
     );

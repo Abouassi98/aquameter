@@ -4,7 +4,6 @@ import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_n
 import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english_number.dart';
-import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 
@@ -12,19 +11,23 @@ import 'package:aquameter/core/utils/widgets/custom_country_code_picker.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
-import 'package:aquameter/features/Auth/presentation/pages/send_code_screen.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_&_deleteclients_createmetting_&_period_notifier.dart';
 
 import 'package:country_pickers/country.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoginScreen extends HookConsumerWidget {
   final _form = GlobalKey<FormState>();
 
   LoginScreen({Key? key}) : super(key: key);
-
+  _sendWhatsApp() async {
+    var url =
+        "https://wa.me/+201069072590";
+    await canLaunch(url) ? launch(url) : debugPrint('No WhatsAPP');
+  }
   final List<String> acceptedNumbers = [
     '012',
     '011',
@@ -67,7 +70,6 @@ class LoginScreen extends HookConsumerWidget {
               icon: Icons.phone,
               showCounterTxt: true,
               hint: "رقم الموبايل",
-              type: TextInputType.phone,
               maxLength: 11,
               validator: (v) {
                 bool phoneNumberAccepted = false;
@@ -143,9 +145,10 @@ class LoginScreen extends HookConsumerWidget {
                 child: const Text(' نسيت كلمة السر ؟ ',
                     style: TextStyle(color: Colors.black, fontSize: 15.0)),
                 onPressed: () {
-                  push(
-                    SendCodeScreen(inx: 1),
-                  );
+                  _sendWhatsApp();
+                  // push(
+                  //   SendCodeScreen(inx: 1),
+                  // );
                 },
               ),
             ),

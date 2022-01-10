@@ -101,7 +101,26 @@ class ProfileClientScreen extends HookConsumerWidget {
                   Icons.delete,
                   color: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () async{
+
+
+                    await _dialog.showOptionDialog(
+                        context: context,
+                        msg: 'هل ترغب بمسح العميل ؟',
+                        okFun: () async {
+
+
+                          await clients.deleteClient(
+                              clientId: client.id
+                          );
+                        },
+                        okMsg: 'نعم',
+                        cancelMsg: 'لا',
+                        cancelFun: () {
+                          return;
+                        });
+                  }
+
               ),
             ],
           ),
