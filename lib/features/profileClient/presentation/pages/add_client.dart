@@ -317,18 +317,20 @@ class AddClient extends HookConsumerWidget {
                                   ),
                                   if (showThirdField.value == false ||
                                       showSecondField.value == false)
-                                    CustomTextButton(
-                                      width: SizeConfig.screenWidth * 0.3,
-                                      title: 'إضافة عدد من نوع آخر ',
-                                      function: () {
-                                        if (showSecondField.value == false) {
-                                          showSecondField.value = true;
-                                        } else if (showSecondField.value ==
-                                                true &&
-                                            showThirdField.value == false) {
-                                          showThirdField.value = true;
-                                        }
-                                      },
+                                    Container(
+                                      alignment: Alignment.centerRight,
+                                      child: TextButton(
+                                       
+                                        onPressed: () {
+                                          if (showSecondField.value == false) {
+                                            showSecondField.value = true;
+                                          } else if (showSecondField.value ==
+                                                  true &&
+                                              showThirdField.value == false) {
+                                            showThirdField.value = true;
+                                          }
+                                        }, child: const Text('إضافة عدد من نوع آخر '),
+                                      ),
                                     ),
                                   const SizedBox(height: 20),
                                   Row(

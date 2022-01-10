@@ -1,9 +1,10 @@
+import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
+import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
 
-import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 
@@ -12,14 +13,11 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ViewClient extends StatelessWidget {
   final Client client;
-
-  ViewClient({Key? key, required this.client}) : super(key: key);
+  final AreaAndCitesNotifier areaAndCites;
+  ViewClient({Key? key, required this.client, required this.areaAndCites})
+      : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  final List areaAndCites = [];
-  final List listOfCities = [];
-  final List listofMeasuer = [];
 
   @override
   Widget build(BuildContext context) {
@@ -60,18 +58,13 @@ class ViewClient extends StatelessWidget {
                                     width: SizeConfig.screenWidth * 0.7,
                                     icon: Icons.person,
                                     hint: client.name,
-                                    type: TextInputType.text,
                                   ),
                                   const SizedBox(height: 10),
                                   CustomTextField(
                                     enabled: false,
-                                    showCounterTxt: true,
                                     hint: client.phone.toString(),
-                                    icon: Icons.phone,
-                                    type: TextInputType.phone,
-                                    numbersOnly: true,
+                                    icon: Icons.call,
                                     width: SizeConfig.screenWidth * 0.7,
-                                    maxLength: 11,
                                   ),
                                   const SizedBox(height: 10),
                                   Row(
@@ -81,21 +74,40 @@ class ViewClient extends StatelessWidget {
                                       IconButton(
                                         icon: const Icon(Icons.call),
                                         onPressed: () async {
-                                          await launch("tel:+20${client.phone}");
+                                          await launch(
+                                              "tel:+20${client.phone}");
                                         },
                                       ),
                                     ],
                                   ),
-                                  CustomTextField(
-                                    hint: client.governorateData?.names,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      CustomTextField(
+                                        hint: areaAndCites
+                                            .governorateModel!.data!
+                                            .firstWhere((element) =>
+                                                element.id ==
+                                                client.governorate)
+                                            .name
+                                            .toString(),
+                                      ),
+                                      CustomTextField(
+                                        hint: areaAndCites.areasModel!.data!
+                                            .firstWhere((element) =>
+                                                element.id == client.area)
+                                            .name
+                                            .toString(),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(height: 10),
                                   CustomTextField(
                                     enabled: false,
                                     width: SizeConfig.screenWidth * 0.7,
-                                    icon: Icons.person,
+                                    icon: Icons.location_pin,
                                     hint: client.address,
-                                    type: TextInputType.text,
                                   ),
                                   const SizedBox(height: 15),
                                   const CustomHeaderTitle(
@@ -107,27 +119,44 @@ class ViewClient extends StatelessWidget {
                                       children: [
                                         Row(
                                           mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text(
+                                              'مساحه الارض',
+                                              style: MainTheme.hintTextStyle,
+                                            ),
+                                            Text(
+                                              'نوع/م',
+                                              style: MainTheme.hintTextStyle,
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: SizeConfig.screenHeight *
-                                                      0.04),
-                                              child: CustomTextField(
-                                                paste: false,
-                                                type: TextInputType.phone,
-                                                hint:
-                                                    client.landSize.toString(),
-                                                enabled: false,
-                                              ),
+                                            CustomTextField(
+                                              initialValue:
+                                                  client.landSize.toString(),
+                                              enabled: false,
                                             ),
-                                            IgnorePointer(
-                                              child: CustomBottomSheet(
-                                                staticList: true,
-                                                name: client.landSizeType
-                                                    .toString(),
-                                                list: listofMeasuer,
-                                              ),
+                                            CustomTextField(
+                                              initialValue: client.landSizeType,
+                                              enabled: false,
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Text(
+                                              'اجمالي الاسماك',
+                                              style: MainTheme.hintTextStyle,
+                                            ),
+                                            Text(
+                                              'النوع',
+                                              style: MainTheme.hintTextStyle,
                                             ),
                                           ],
                                         ),
@@ -154,37 +183,49 @@ class ViewClient extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  // Row(
-                                  //   mainAxisAlignment:
-                                  //       MainAxisAlignment.spaceEvenly,
-                                  //   children: [
-                                  //     Padding(
-                                  //       padding: EdgeInsets.only(
-                                  //           top:
-                                  //               SizeConfig.screenHeight * 0.04),
-                                  //       child:  CustomTextField(
-                                  //         hint: client.fish[0].type.toString(),
-                                  //         enabled: false,
-                                  //       ),
-                                  //     ),
-                                  //     Padding(
-                                  //       padding: EdgeInsets.only(
-                                  //           top:
-                                  //               SizeConfig.screenHeight * 0.04),
-                                  //       child: const CustomTextField(
-                                  //         hint: 'اسم الشركه',
-                                  //         enabled: false,
-                                  //       ),
-                                  //     ),
-                                  //   ],
-                                  // ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(
+                                        'نوع العلف',
+                                        style: MainTheme.hintTextStyle,
+                                      ),
+                                      Text(
+                                        'اسم الشركه',
+                                        style: MainTheme.hintTextStyle,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      CustomTextField(
+                                        hint: client.feed ?? '',
+                                        enabled: false,
+                                      ),
+                                      CustomTextField(
+                                        hint: client.company ?? '',
+                                        enabled: false,
+                                      ),
+                                    ],
+                                  ),
                                   const SizedBox(height: 20),
+                                  Text(
+                                    'وزن السمكه الابتدائي بالجرام',
+                                    style: MainTheme.hintTextStyle,
+                                  ),
                                   CustomTextField(
                                     hint: client.startingWeight.toString(),
                                     enabled: false,
                                   ),
                                   const SizedBox(
                                     height: 10,
+                                  ),
+                                  Text(
+                                    'وزن السمكه المستهدف بالجرام',
+                                    style: MainTheme.hintTextStyle,
                                   ),
                                   CustomTextField(
                                     hint: client.targetWeight.toString(),

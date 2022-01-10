@@ -6,8 +6,8 @@ import '../size_config.dart';
 import 'decimal_text_input_formatter.dart';
 
 class CustomTextField extends StatelessWidget {
-  final String? hint;
-  final String? initialValue;
+  final String? hint, initialValue;
+
   final int? maxLength, maxLines, minRange, maxRange;
   final IconData? icon;
   final TextInputType? type;

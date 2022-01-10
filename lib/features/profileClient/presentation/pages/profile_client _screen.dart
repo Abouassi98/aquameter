@@ -75,9 +75,12 @@ class ProfileClientScreen extends HookConsumerWidget {
         child: Scaffold(
           appBar: AppBar(
             title: InkWell(
-                onTap: () {
+                onTap: () async{
+                    await areaAndCites.getCities(cityId: client.governorate);
                   push(ViewClient(
+                    
                     client: client,
+                    areaAndCites: areaAndCites,
                   ));
                 },
                 child: Text(
