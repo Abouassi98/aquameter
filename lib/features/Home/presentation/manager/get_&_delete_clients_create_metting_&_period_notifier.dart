@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/network_utils.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/Home/Data/clients_model/delete_client.dart';
@@ -35,7 +36,7 @@ class GetAndDeleteClientsCreateMettingAndPeriodNotifier
     _model = DeleteClientModel.fromJson(response.data);
     if (response.statusCode == 200) {
       log('order deleteded');
- 
+
       return _model;
     } else {
       log('error ');
@@ -55,11 +56,11 @@ class GetAndDeleteClientsCreateMettingAndPeriodNotifier
 
   createPeriod({
     required int? clientId,
-    required int? userId,
+    
   }) async {
     Response response = await _utils.requstData(
         url: 'periods/create',
-        body: {"mceeting": date, "client_id": clientId, "user_id": userId});
+        body: {"mceeting": date, "client_id": clientId, "user_id": HelperFunctions.getUser().data!.id});
     if (response.statusCode == 200) {
       log('period create');
     } else {

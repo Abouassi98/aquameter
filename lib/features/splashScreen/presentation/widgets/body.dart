@@ -21,7 +21,8 @@ class SplashViewBody extends HookConsumerWidget {
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
-    final GetAndDeleteClientsCreateMettingAndPeriodNotifier clients = ref.watch(getClientsNotifier.notifier);
+    final GetAndDeleteClientsCreateMettingAndPeriodNotifier clients =
+        ref.watch(getClientsNotifier.notifier);
 
     final FishTypesNotifier fishTypes = ref.read(
       fishTypesNotifier.notifier,
@@ -50,7 +51,10 @@ class SplashViewBody extends HookConsumerWidget {
       bool isLoggedIn = GetStorage().read(kIsLoggedIn) ?? false;
 
       if (isLoggedIn) {
-        await changeLanguage.fetchUserData(areaAndCites, fishTypes,);
+        await changeLanguage.fetchUserData(
+          areaAndCites,
+          fishTypes,
+        );
       } else {
         Future.delayed(const Duration(seconds: 0), () async {
           pushAndRemoveUntil(LoginScreen());

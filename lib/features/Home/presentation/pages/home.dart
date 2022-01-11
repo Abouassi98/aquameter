@@ -104,9 +104,11 @@ class Home extends HookConsumerWidget {
                             alignment: Alignment.bottomLeft,
                             child: TextButton(
                               onPressed: () {
-                                push(SearchScreen(
-                                  viewProfile: false,
-                                ),);
+                                push(
+                                  SearchScreen(
+                                    viewProfile: false,
+                                  ),
+                                );
                               },
                               child: const Text('اضافه عميل'),
                             ),
@@ -142,8 +144,7 @@ class Home extends HookConsumerWidget {
                                       push(ProfileClientScreen(
                                           client:
                                               filterClients.value[i].client!,
-                                          meetingClient:
-                                              filterClients.value[i]));
+                                       ));
                                     },
                                     client: filterClients.value[i].client!,
                                   ),

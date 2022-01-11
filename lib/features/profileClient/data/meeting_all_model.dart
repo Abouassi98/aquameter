@@ -26,6 +26,7 @@ class MeetingClient {
   String? updatedAt;
   int? userId;
   int? periodId;
+  List<MeetingResult>? meetingResult;
   Client? client;
 
   MeetingClient({
@@ -36,6 +37,7 @@ class MeetingClient {
     this.updatedAt,
     this.userId,
     this.periodId,
+    this.meetingResult,
     this.client,
   });
 
@@ -48,9 +50,74 @@ class MeetingClient {
       updatedAt: json['updated_at'] as String?,
       userId: json['user_id'] as int?,
       periodId: json['period_id'] as int?,
+      meetingResult: (json['meeting_result'] as List<dynamic>?)
+          ?.map((e) => MeetingResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
       client: json['client'] == null
           ? null
           : Client.fromJson(json['client'] as Map<String, dynamic>),
+    );
+  }
+}
+
+class MeetingResult {
+  int? id;
+  int? meetingId;
+   num? temperature;
+   num? ph;
+   num? salinity;
+   num? oxygen;
+  num? ammonia;
+   num? averageWeight;
+   num? totalWeight;
+   num? conversionRate;
+  String? createdAt;
+  String? updatedAt;
+  num? feed;
+  int? deadFish;
+  String? notes;
+  dynamic totalNumber;
+  double? toxicAmmonia;
+
+  MeetingResult({
+    this.id,
+    this.meetingId,
+    this.temperature,
+    this.ph,
+    this.salinity,
+    this.oxygen,
+    this.ammonia,
+    this.averageWeight,
+    this.totalWeight,
+    this.conversionRate,
+    this.createdAt,
+    this.updatedAt,
+    this.feed,
+    this.deadFish,
+    this.notes,
+    this.totalNumber,
+    this.toxicAmmonia,
+  });
+
+  factory MeetingResult.fromJson(Map<String, dynamic> json) {
+    return MeetingResult(
+      id: json['id'] as int?,
+      meetingId: json['meeting_id'] as int?,
+      temperature: (json['temperature'] as num?)?.toDouble(),
+      ph: (json['ph'] as num?)?.toDouble(),
+      salinity: (json['salinity'] as num?)?.toDouble(),
+      oxygen: (json['oxygen'] as num?)?.toDouble(),
+      ammonia: (json['ammonia'] as num?)?.toDouble(),
+      averageWeight: json['average_weight'] as dynamic,
+      totalWeight: (json['total_weight'] as num?)?.toDouble(),
+      conversionRate: (json['conversion_rate'] as num?)?.toDouble(),
+      createdAt: json['created_at'] as String?,
+      updatedAt: json['updated_at'] as String?,
+      feed: json['feed'] as int?,
+      deadFish: json['dead_fish'] as int?,
+      notes: json['notes'] as String?,
+      totalNumber: json['total_number'] as dynamic,
+      toxicAmmonia: (json['toxic_ammonia'] as num?)?.toDouble(),
     );
   }
 }

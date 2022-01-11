@@ -5,6 +5,7 @@ import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart'
 import 'package:aquameter/features/CustomMap/presentation/manager/map_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
+import 'package:aquameter/features/calculator/presentation/manager/create_meeting_result_notifier.dart';
 
 import 'package:aquameter/features/localization/manager/change_language_provider.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
@@ -19,8 +20,8 @@ StateNotifierProvider<ChangeLanguageProvider, Object?> languageProvider =
     StateNotifierProvider(
   (ref) => ChangeLanguageProvider(null),
 );
-final AutoDisposeStateNotifierProvider<PlanOfWeekNotifier, Object?> departMentProvider =
-    StateNotifierProvider.autoDispose(
+final AutoDisposeStateNotifierProvider<PlanOfWeekNotifier, Object?>
+    departMentProvider = StateNotifierProvider.autoDispose(
   (ref) => PlanOfWeekNotifier(null),
 );
 final StateNotifierProvider<MapNotifier, Object?> mapNotifier =
@@ -48,18 +49,26 @@ final StateNotifierProvider<AddClientNotifier, Object?> addClientNotifier =
     StateNotifierProvider(
   (ref) => AddClientNotifier(null),
 );
-final StateNotifierProvider<GetAndDeleteClientsCreateMettingAndPeriodNotifier, Object?> getClientsNotifier =
-    StateNotifierProvider<GetAndDeleteClientsCreateMettingAndPeriodNotifier, Object?>(
+final StateNotifierProvider<GetAndDeleteClientsCreateMettingAndPeriodNotifier,
+        Object?> getClientsNotifier =
+    StateNotifierProvider<GetAndDeleteClientsCreateMettingAndPeriodNotifier,
+        Object?>(
   (ref) => GetAndDeleteClientsCreateMettingAndPeriodNotifier(),
 );
 
-final AutoDisposeStateNotifierProvider<MeetingAllNotifier, Object?> meetingAllNotifier =
+final AutoDisposeStateNotifierProvider<MeetingAllNotifier, Object?>
+    meetingAllNotifier =
     StateNotifierProvider.autoDispose<MeetingAllNotifier, Object?>(
   (ref) => MeetingAllNotifier(null),
 );
 
-
-final StateNotifierProvider<UpdateAndDeletePeriodNotifier, Object?> updateAndDeletePeriodNotifier =
-StateNotifierProvider<UpdateAndDeletePeriodNotifier, Object?>(
-        (ref) => UpdateAndDeletePeriodNotifier(null),
+final StateNotifierProvider<UpdateAndDeletePeriodNotifier, Object?>
+    updateAndDeletePeriodNotifier =
+    StateNotifierProvider<UpdateAndDeletePeriodNotifier, Object?>(
+  (ref) => UpdateAndDeletePeriodNotifier(null),
+);
+final StateNotifierProvider<CreateMeetingResultNotifier, Object?>
+    createMeetingResultNotifier =
+    StateNotifierProvider<CreateMeetingResultNotifier, Object?>(
+  (ref) => CreateMeetingResultNotifier(null),
 );

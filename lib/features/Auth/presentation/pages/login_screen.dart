@@ -7,12 +7,9 @@ import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 
-
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
-
-
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -24,10 +21,10 @@ class LoginScreen extends HookConsumerWidget {
 
   LoginScreen({Key? key}) : super(key: key);
   _sendWhatsApp() async {
-    var url =
-        "https://wa.me/+201069072590";
+    var url = "https://wa.me/+201069072590";
     await canLaunch(url) ? launch(url) : debugPrint('No WhatsAPP');
   }
+
   final List<String> acceptedNumbers = [
     '012',
     '011',
@@ -42,7 +39,6 @@ class LoginScreen extends HookConsumerWidget {
     final FishTypesNotifier fishTypes = ref.read(
       fishTypesNotifier.notifier,
     );
-  
 
     String phone = '', password = '';
     final AuthNotifier login = ref.watch(loginProvider.notifier);
@@ -90,7 +86,6 @@ class LoginScreen extends HookConsumerWidget {
                   phoneNumberAccepted.toString(),
                 );
               },
-            
               onChange: (v) {
                 phone = convertToEnglishNumbers(v.trim());
               },
@@ -134,7 +129,12 @@ class LoginScreen extends HookConsumerWidget {
                 }
                 _form.currentState!.save();
                 login.login(
-                    context, phone, password, areaAndCites, fishTypes, );
+                  context,
+                  phone,
+                  password,
+                  areaAndCites,
+                  fishTypes,
+                );
               },
               radius: 20,
             ),

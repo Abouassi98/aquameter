@@ -34,11 +34,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // ignore: must_be_immutable
 class ProfileClientScreen extends HookConsumerWidget {
   final Client client;
-  final MeetingClient? meetingClient;
+
   final CustomWarningDialog _dialog = CustomWarningDialog();
 
-  ProfileClientScreen({this.meetingClient, Key? key, required this.client})
-      : super(key: key);
+  ProfileClientScreen({Key? key, required this.client}) : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [
     {'name': 'معدل الملوحه', 'id': 1},
@@ -47,9 +46,9 @@ class ProfileClientScreen extends HookConsumerWidget {
   final GlobalKey<FormState> _averageWeight = GlobalKey<FormState>();
   final GlobalKey<FormState> _conversionRate = GlobalKey<FormState>();
   String? selctedMeasuer;
-  num totalWeight = 0.0, conversionRate = 0.0;
+  num totalWeight = 0.0, conversionRate = 0.0, totalFeed = 0;
 
-  int totalFishes = 0, averageWeight = 0, totalFeed = 0;
+  int totalFishes = 0, averageWeight = 0;
 
   final FutureProvider<MeetingAllModel> provider =
       FutureProvider<MeetingAllModel>((ref) async {
@@ -176,11 +175,22 @@ class ProfileClientScreen extends HookConsumerWidget {
                                     )] !=
                                     null) {
                                   push(ShowCalculator(
-                                    client: client,
+                                    meetingResult: e.data![0].meetingResult!
+                                        .firstWhere((e) =>
+                                            e.createdAt!.substring(0, 10) ==
+                                            v.toString().substring(0, 10)),
                                   ));
                                 } else {
+                                  for (int i = 0;
+                                      i < e.data![0].meetingResult!.length;
+                                      i++) {
+                                    totalFeed +=
+                                        e.data![0].meetingResult![i].feed!;
+                                  }
+
                                   push(Calculator(
-                                    client: client,
+                                    totalFeed: totalFeed,
+                                    meetingId: e.data![0].id!,
                                   ));
                                 }
                               },
@@ -413,12 +423,10 @@ class ProfileClientScreen extends HookConsumerWidget {
                                                           .validate()) {
                                                     await updateAndDeletePeriod
                                                         .endPeriod(
-                                                            periodId:
-                                                                meetingClient!
-                                                                    .periodId!,
-                                                            clientId:
-                                                                meetingClient!
-                                                                    .clientId,
+                                                            periodId: e.data![0]
+                                                                .periodId!,
+                                                            clientId: e.data![0]
+                                                                .clientId,
                                                             averageFooder:
                                                                 totalFeed,
                                                             averageWeight:
@@ -444,10 +452,9 @@ class ProfileClientScreen extends HookConsumerWidget {
                                       'هل ترغب بانهاء الدوره وانشاء دوره جديده ؟',
                                   okFun: () async {
                                     await updateAndDeletePeriod.endPeriod(
-                                        periodId: meetingClient!.periodId!);
+                                        periodId: e.data![0].periodId!);
                                     await clients.createPeriod(
-                                      userId: meetingClient!.userId,
-                                      clientId: meetingClient!.clientId,
+                                      clientId: e.data![0].clientId,
                                     );
                                     pushAndRemoveUntil(const MainPage());
                                   },

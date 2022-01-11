@@ -1,3 +1,4 @@
+import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 
@@ -8,13 +9,14 @@ import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
 
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 
-import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
+import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
 
 import 'package:flutter/material.dart';
 
 class ShowCalculator extends StatelessWidget {
-  final Client client;
-  const ShowCalculator({Key? key, required this.client}) : super(key: key);
+  final MeetingResult meetingResult;
+  const ShowCalculator({Key? key, required this.meetingResult})
+      : super(key: key);
 
   @override
   Widget build(
@@ -55,14 +57,28 @@ class ShowCalculator extends StatelessWidget {
                             children: [
                               Row(
                                 mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text(
+                                    'معدل ph',
+                                    style: MainTheme.hintTextStyle,
+                                  ),
+                                  Text(
+                                    'درجة حرارة المياه',
+                                    style: MainTheme.hintTextStyle,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
-                                children: const [
+                                children: [
                                   CustomTextField(
-                                    hint: 'معدل ph',
+                                    hint: meetingResult.ph.toString(),
                                     enabled: false,
                                   ),
                                   CustomTextField(
-                                    hint: 'درجة حرارة المياه',
+                                    hint: meetingResult.temperature.toString(),
                                     enabled: false,
                                   ),
                                 ],
@@ -70,31 +86,52 @@ class ShowCalculator extends StatelessWidget {
                               const SizedBox(height: 15),
                               Row(
                                 mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text(
+                                    'اكسجين',
+                                    style: MainTheme.hintTextStyle,
+                                  ),
+                                  Text(
+                                    'الملوحه',
+                                    style: MainTheme.hintTextStyle,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
-                                children: const [
+                                children: [
                                   CustomTextField(
-                                    hint: 'اكسجين',
+                                    hint: meetingResult.oxygen.toString(),
                                     enabled: false,
                                   ),
                                   CustomTextField(
-                                    hint: 'الملوحه',
+                                    hint: meetingResult.salinity.toString(),
                                     enabled: false,
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 15),
-                              const Center(
+                              Center(
+                                child: Text(
+                                  'امونيات كليه',
+                                  style: MainTheme.hintTextStyle,
+                                ),
+                              ),
+                              Center(
                                 child: CustomTextField(
-                                  hint: 'امونيات كلية',
+                                  hint: meetingResult.ammonia.toString(),
                                   enabled: false,
                                 ),
                               ),
                               const SizedBox(
                                 height: 20,
                               ),
-                              const Center(
+                              Center(
                                 child: CustomBtn(
-                                  text: '0.0 = امونيات السامه',
+                                  text:
+                                      '${meetingResult.toxicAmmonia} = امونيات السامه',
                                 ),
                               ),
                               const SizedBox(
@@ -105,14 +142,27 @@ class ShowCalculator extends StatelessWidget {
                           const CustomHeaderTitle(title: "عينه الاسماك"),
                           const SizedBox(height: 15),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                'اعداد السمك',
+                                style: MainTheme.hintTextStyle,
+                              ),
+                              Text(
+                                'الوزن الكلي بالجرام',
+                                style: MainTheme.hintTextStyle,
+                              ),
+                            ],
+                          ),
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
+                            children: [
                               CustomTextField(
-                                hint: 'اعداد السمك',
+                                hint: meetingResult.totalNumber.toString(),
                                 enabled: false,
                               ),
                               CustomTextField(
-                                hint: 'الوزن الكلي بالجرام',
+                                hint: meetingResult.totalWeight.toString(),
                                 enabled: false,
                               ),
                             ],
@@ -120,33 +170,46 @@ class ShowCalculator extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          const Center(
+                          Center(
                             child: CustomBtn(
-                              text: '0.0 = متوسط الوزن',
+                              text:
+                                  '${meetingResult.averageWeight} = متوسط الوزن',
                             ),
                           ),
                           const SizedBox(
                             height: 20,
                           ),
-                          const CustomTextField(
-                            hint: 'عدد السمك النافق',
+                          Text(
+                            'الوزن الكلي بالجرام',
+                            style: MainTheme.hintTextStyle,
+                          ),
+                          CustomTextField(
+                            hint: meetingResult.deadFish.toString(),
                             enabled: false,
                           ),
-                          const Center(
-                            child: CustomBtn(text: '0.0 = اجمالي الوزن'),
+                          Center(
+                            child: CustomBtn(
+                                text:
+                                    '${meetingResult.totalWeight} = اجمالي الوزن'),
                           ),
                           const SizedBox(
                             height: 20,
                           ),
-                          const CustomTextField(
-                            hint: 'اجمالي العلف بالكجم',
+                          Text(
+                            'اجمالي العلف',
+                            style: MainTheme.hintTextStyle,
+                          ),
+                          CustomTextField(
+                            hint: meetingResult.feed.toString(),
                             enabled: false,
                           ),
                           const SizedBox(
                             height: 20,
                           ),
-                          const Center(
-                            child: CustomBtn(text: '0.0 = معدل التحويل'),
+                          Center(
+                            child: CustomBtn(
+                                text:
+                                    '${meetingResult.conversionRate} = معدل التحويل'),
                           ),
                           const SizedBox(
                             height: 20,
@@ -154,7 +217,7 @@ class ShowCalculator extends StatelessWidget {
                           CustomTextField(
                             width: SizeConfig.screenWidth * 0.7,
                             maxLines: 5,
-                            hint: 'ملاحظاتك',
+                            hint: meetingResult.notes,
                             onChange: (v) {},
                             icon: Icons.note,
                           ),

@@ -13,6 +13,7 @@ import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
+import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/profile_client%20_screen.dart';
 
@@ -42,6 +43,7 @@ class SearchScreen extends HookConsumerWidget {
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
+    final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final FishTypesNotifier fishTypes = ref.read(
       fishTypesNotifier.notifier,
     );
@@ -177,8 +179,10 @@ class SearchScreen extends HookConsumerWidget {
                                       fishTypes: fishTypes,
                                       func: () async {
                                         if (viewProfile == true) {
+                                          meetingAll.id =
+                                              selected.value[index].id;
                                           push(ProfileClientScreen(
-                                              client: e.data![index]));
+                                              client: selected.value[index]));
                                         } else {
                                           await _dialog.showOptionDialog(
                                               context: context,
@@ -240,6 +244,8 @@ class SearchScreen extends HookConsumerWidget {
                                               fishTypes: fishTypes,
                                               func: () async {
                                                 if (viewProfile == true) {
+                                                  meetingAll.id =
+                                                      e.data![index].id;
                                                   push(ProfileClientScreen(
                                                       client: e.data![index]));
                                                 } else {
@@ -249,8 +255,6 @@ class SearchScreen extends HookConsumerWidget {
                                                       okFun: () async {
                                                         await clients
                                                             .createPeriod(
-                                                          userId: e.data![index]
-                                                              .userId,
                                                           clientId: e
                                                               .data![index].id!,
                                                         );

@@ -1,4 +1,3 @@
-
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
@@ -13,7 +12,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../core/utils/providers.dart';
-
 
 class CustomMap extends HookConsumerWidget {
   final double? intialLat, intialLoong;
@@ -82,7 +80,6 @@ class CustomMap extends HookConsumerWidget {
                       ),
                     ),
                     pin(),
-                    
                   ],
                 ),
               ),

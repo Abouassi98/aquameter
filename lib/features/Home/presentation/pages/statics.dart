@@ -123,7 +123,7 @@ class Statics extends HookConsumerWidget {
           height: context.height * .01,
         ),
         ref.watch(provider).when(
-           loading: () => const  AppLoader(),
+              loading: () => const AppLoader(),
               error: (e, o) {
                 debugPrint(e.toString());
                 debugPrint(o.toString());
@@ -132,7 +132,9 @@ class Statics extends HookConsumerWidget {
               data: (e) => Center(
                 child: SizedBox(
                   width: SizeConfig.screenWidth * 0.6,
-                  child: ListSelectorWidget(clientsModel: e,),
+                  child: ListSelectorWidget(
+                    clientsModel: e,
+                  ),
                 ),
               ),
             ),

@@ -57,6 +57,7 @@ class Client {
   GovernorateData? governorateData;
   AreaData? areaData;
   List<Fish>? fish;
+  dynamic toxicAmmonia;
 
   Client({
     this.id,
@@ -85,6 +86,7 @@ class Client {
     this.fish,
     this.feed,
     this.company,
+    this.toxicAmmonia,
   });
 
   factory Client.fromJson(Map<String, dynamic> json) {
@@ -121,7 +123,8 @@ class Client {
           ?.map((e) => Fish.fromJson(e as Map<String, dynamic>))
           .toList(),
       feed: json['feed'] as dynamic,
-      company: json[' company'] as dynamic,
+      company: json['company'] as dynamic,
+      toxicAmmonia:  json['toxic_ammonia'] as dynamic,
     );
   }
 }

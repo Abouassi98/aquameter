@@ -1,4 +1,3 @@
-
 class ProfileGraphModel {
   int? code;
   String? message;
@@ -6,20 +5,17 @@ class ProfileGraphModel {
 
   ProfileGraphModel({this.code, this.message, this.data});
 
-  factory ProfileGraphModel.fromJson(
-      Map<String, dynamic> json) {
+  factory ProfileGraphModel.fromJson(Map<String, dynamic> json) {
     return ProfileGraphModel(
       code: json['code'] as int?,
       message: json['message'] as String?,
       data: json['data'] == null
           ? null
-          : Data
-              .fromJson(
-                  json['data'] as Map<String, dynamic>),
+          : Data.fromJson(json['data'] as Map<String, dynamic>),
     );
   }
-
 }
+
 class Data {
   List<int>? ammonia;
   List<dynamic>? avrageWeight;
@@ -35,8 +31,7 @@ class Data {
     this.numberOfDead,
   });
 
-  factory Data.fromJson(
-      Map<String, dynamic> json) {
+  factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
       ammonia: json['ammonia'] as List<int>?,
       avrageWeight: json['avrage_weight'] as List<dynamic>?,
@@ -45,6 +40,4 @@ class Data {
       numberOfDead: json['number_of_dead'] as List<dynamic>?,
     );
   }
-
- 
 }

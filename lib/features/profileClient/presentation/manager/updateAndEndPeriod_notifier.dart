@@ -19,9 +19,7 @@ class UpdateAndDeletePeriodNotifier extends StateNotifier<void> {
     Response response = await _utils.requstData(url: 'periods/update', body: {
       "id": periodId,
       "status": 0,
-
       if (clientId != null) "user_id": HelperFunctions.getUser().data!.id,
-
       if (clientId != null) "client_id": clientId,
       if (totalWeight != null) "total_wieght": totalWeight,
       if (averageWeight != null) "avrage_wieght": averageWeight,

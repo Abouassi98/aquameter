@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_btn.dart';
@@ -10,20 +11,24 @@ import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
 
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
-import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
+
+import 'package:aquameter/features/calculator/presentation/manager/create_meeting_result_notifier.dart';
 import 'package:aquameter/features/calculator/presentation/widgets.dart/alert_calculator.dart';
-import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // ignore: must_be_immutable
 class Calculator extends HookConsumerWidget {
-  final Client client;
-  Calculator({Key? key, required this.client}) : super(key: key);
+  final int meetingId;
+  final num totalFeed;
+  Calculator({Key? key, required this.totalFeed, required this.meetingId})
+      : super(key: key);
   num tempreatureOfWater = 0.0,
       ph = 0.0,
       s = 0.0,
+      feed = 0.0,
       oxygen = 0.0,
       totalAmmonia = 0.0,
       molalIconicStrength = 0.0,
@@ -41,15 +46,16 @@ class Calculator extends HookConsumerWidget {
       warningTotalAmmonia = false,
       warningOxygen = false,
       warningTempreatureOfWater = false;
+  String notes = '';
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AddClientNotifier updateClient = ref.read(
-      addClientNotifier.notifier,
+    final CreateMeetingResultNotifier createMeetingResult = ref.read(
+      createMeetingResultNotifier.notifier,
     );
     final ValueNotifier<num> nH3 = useState<num>(0.0);
     final ValueNotifier<num> averageWeight = useState<num>(0.0);
     final ValueNotifier<num> totalWeight = useState<num>(0.0);
-    final ValueNotifier<num> conversionRate = useState<num>(0.0);
+    final ValueNotifier<double> conversionRate = useState<double>(0.0);
     return Scaffold(
       body: ListView(
         primary: false,
@@ -593,7 +599,7 @@ class Calculator extends HookConsumerWidget {
                               calculator: true,
                               onChange: (v) {
                                 try {
-                                  dieFishes = int.parse(v);
+                                  feed = num.parse(v);
                                 } on FormatException {
                                   debugPrint('Format error!');
                                 }
@@ -618,7 +624,7 @@ class Calculator extends HookConsumerWidget {
                               CustomBtn(
                                   text: conversionRate.value == 0.0
                                       ? '0.0 = معدل التحويل'
-                                      : '${conversionRate.value.toStringAsFixed(2)} = معدل التحويل}'),
+                                      : '${conversionRate.value.toStringAsFixed(2)} = معدل التحويل'),
                               const SizedBox(
                                 width: 20,
                               ),
@@ -628,10 +634,16 @@ class Calculator extends HookConsumerWidget {
                                   radius: 15,
                                   title: ' = ',
                                   function: () {
-                                    if (_conversionRate.currentState!
+                                    if (totalWeightFishes == 0.0) {
+                                      HelperFunctions.errorBar(context,
+                                          message:
+                                              'يجب عليك ادخال الوزن الكلي للسمك بالكجم');
+                                    } else if (_conversionRate.currentState!
                                         .validate()) {
                                       conversionRate.value =
-                                          client.feed / totalWeightFishes;
+                                          ((totalFeed + feed) /
+                                                  totalWeightFishes)
+                                              .toDouble();
                                     }
                                   }),
                             ],
@@ -643,20 +655,29 @@ class Calculator extends HookConsumerWidget {
                             width: SizeConfig.screenWidth * 0.7,
                             maxLines: 5,
                             hint: 'ملاحظاتك',
-                            onChange: (v) {},
+                            onChange: (v) {
+                              notes = v;
+                            },
                             icon: Icons.note,
                           ),
                           CustomTextButton(
                               title: 'حفظ',
                               function: () {
-                                updateClient.updateClient(
+                                createMeetingResult.createMeetingResult(
                                   context: context,
-                                  clientId: client.id!,
-                                  ammonia: nH3.value,
-                                  averageWeight: averageWeight.value,
+                                  meetId: meetingId,
+                                  ammonia: totalAmmonia,
+                                  avrageWieght: averageWeight.value,
                                   conversionRate: conversionRate.value,
-                                  numberOfFeed: dieFishes,
-                                  totalNumber: totalWeight.value,
+                                  deadFishes: dieFishes,
+                                  feed: totalFeed,
+                                  ph: ph,
+                                  notes: notes,
+                                  oxygen: oxygen,
+                                  salinity: s,
+                                  temperature: tempreatureOfWater,
+                                  totalWeight: totalWeight.value,
+                                  toxicAmmonia: nH3.value,
                                 );
                               })
                         ],

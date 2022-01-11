@@ -141,7 +141,6 @@ class AddClient extends HookConsumerWidget {
                                         phoneNumberAccepted.toString(),
                                       );
                                     },
-                                  
                                     onChange: (v) {
                                       phone = convertToEnglishNumbers(v.trim());
                                     },

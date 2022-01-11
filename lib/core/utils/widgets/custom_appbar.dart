@@ -68,13 +68,16 @@ class CustomAppBar extends HookConsumerWidget {
                       ),
                     )
                   : Padding(
-                    padding:  EdgeInsets.only(left: SizeConfig.screenWidth*.28),
-                    child: IconButton(
-                        icon: const Icon(Icons.search),
-                        onPressed: () {
-                          push(SearchScreen(viewProfile: true,));
-                        }),
-                  ),
+                      padding:
+                          EdgeInsets.only(left: SizeConfig.screenWidth * .28),
+                      child: IconButton(
+                          icon: const Icon(Icons.search),
+                          onPressed: () {
+                            push(SearchScreen(
+                              viewProfile: true,
+                            ));
+                          }),
+                    ),
               SizedBox(
                   height: SizeConfig.screenHeight * 0.1,
                   width: 100,
