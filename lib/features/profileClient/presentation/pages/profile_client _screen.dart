@@ -69,7 +69,12 @@ class ProfileClientScreen extends HookConsumerWidget {
     final UpdateAndDeletePeriodNotifier updateAndDeletePeriod =
         ref.read(updateAndDeletePeriodNotifier.notifier);
 
-    return Directionality(
+    return WillPopScope(
+      onWillPop: () async {
+        pushAndRemoveUntil(const MainPage());
+        return true;
+      },
+      child: Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
           appBar: AppBar(
@@ -472,6 +477,8 @@ class ProfileClientScreen extends HookConsumerWidget {
                   ],
                 );
               }),
-        ));
+        ),
+      ),
+    );
   }
 }

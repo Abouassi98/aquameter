@@ -32,35 +32,49 @@ class MeetingAllNotifier extends StateNotifier<void> {
     if (response.statusCode == 200) {
       meetingAllModel = MeetingAllModel.fromJson(response.data);
       if (id != null) {
-        for (int i = 0; i < meetingAllModel!.data![0].meetingResult!.length; i++) {
-          selectedEvents.addAll({
-            DateTime(
-              int.parse(meetingAllModel!.data![0].meetingResult![i].createdAt!.substring(0, 4)),
-              int.parse(meetingAllModel!.data![0].meetingResult![i].createdAt!.substring(6, 7)),
-              int.parse(
-                meetingAllModel!.data![0].meetingResult![i].updatedAt!.substring(8, 10),
-              ),
-            ): [
-              CleanCalendarEvent('الزيارات السابقه',
-                  startTime: DateTime(
-                    int.parse(
-                        meetingAllModel!.data![0].meetingResult![i].createdAt!.substring(0, 4)),
-                    int.parse(
-                        meetingAllModel!.data![0].meetingResult![i].createdAt!.substring(6, 7)),
-                    int.parse(
-                        meetingAllModel!.data![0].meetingResult![i].createdAt!.substring(8, 10)),
-                  ),
-                  endTime: DateTime(
-                      int.parse(
-                          meetingAllModel!.data![0].meetingResult![i].createdAt!.substring(0, 4)),
-                      int.parse(
-                          meetingAllModel!.data![0].meetingResult![i].createdAt!.substring(6, 7)),
-                      int.parse(
-                          meetingAllModel!.data![0].meetingResult![i].createdAt!.substring(8, 10))),
-                  color: Colors.brown)
-            ]
-          });
+        for (int i = 0; i < meetingAllModel!.data!.length; i++) {
+          for (int x = 0;
+              x < meetingAllModel!.data![i].meetingResult!.length;
+              x++) {
+            selectedEvents.addAll({
+              DateTime(
+                int.parse(meetingAllModel!.data![i].meetingResult![x].createdAt!
+                    .substring(0, 4)),
+                int.parse(meetingAllModel!.data![i].meetingResult![x].createdAt!
+                    .substring(6, 7)),
+                int.parse(
+                  meetingAllModel!.data![i].meetingResult![x].updatedAt!
+                      .substring(8, 10),
+                ),
+              ): [
+                CleanCalendarEvent('الزيارات السابقه',
+                    startTime: DateTime(
+                      int.parse(meetingAllModel!
+                          .data![i].meetingResult![x].createdAt!
+                          .substring(0, 4)),
+                      int.parse(meetingAllModel!
+                          .data![i].meetingResult![x].createdAt!
+                          .substring(6, 7)),
+                      int.parse(meetingAllModel!
+                          .data![i].meetingResult![x].createdAt!
+                          .substring(8, 10)),
+                    ),
+                    endTime: DateTime(
+                        int.parse(meetingAllModel!
+                            .data![i].meetingResult![x].createdAt!
+                            .substring(0, 4)),
+                        int.parse(meetingAllModel!
+                            .data![i].meetingResult![x].createdAt!
+                            .substring(6, 7)),
+                        int.parse(meetingAllModel!
+                            .data![i].meetingResult![x].createdAt!
+                            .substring(8, 10))),
+                    color: Colors.brown)
+              ]
+            });
+          }
         }
+    
       }
     } else {}
     return meetingAllModel!;
