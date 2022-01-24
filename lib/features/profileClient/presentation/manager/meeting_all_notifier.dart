@@ -92,7 +92,6 @@ class MeetingAllNotifier extends StateNotifier<void> {
     if (response.statusCode == 200) {
       log('meeting deleted');
       await Fluttertoast.showToast(msg: 'تم ازالة الموعد بنجاح', toastLength: Toast.LENGTH_SHORT);
-      pushAndRemoveUntil(const MainPage());
 
     } else {
       log('error ');

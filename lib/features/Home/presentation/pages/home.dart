@@ -8,6 +8,7 @@ import 'package:aquameter/core/utils/widgets/app_loader.dart';
 import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
 
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
+import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
 
@@ -131,8 +132,13 @@ class Home extends HookConsumerWidget {
                                       return await _dialog.showOptionDialog(
                                           context: context,
                                           msg: 'هل ترغب بحذف العميل؟',
-                                          okFun: () {
-                                            meetingAll.deleteMeeting(meetingId:filterClients.value[i].id!);
+                                          okFun: () async {
+                                            meetingAll.deleteMeeting(
+                                                meetingId:
+                                                    filterClients.value[i].id!);
+
+                                            pushAndRemoveUntil(
+                                                const MainPage());
                                           },
                                           okMsg: 'نعم',
                                           cancelMsg: 'لا',
