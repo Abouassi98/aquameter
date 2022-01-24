@@ -34,10 +34,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // ignore: must_be_immutable
 class ProfileClientScreen extends HookConsumerWidget {
   final Client client;
+  final MeetingClient? meetingClient;
 
   final CustomWarningDialog _dialog = CustomWarningDialog();
 
-  ProfileClientScreen({Key? key, required this.client}) : super(key: key);
+  ProfileClientScreen( {Key? key, this.meetingClient, required this.client}) : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [
     {'name': 'معدل الملوحه', 'id': 1},
@@ -115,9 +116,9 @@ class ProfileClientScreen extends HookConsumerWidget {
                   onPressed: () async {
                     await _dialog.showOptionDialog(
                         context: context,
-                        msg: 'هل ترغب بمسح العميل ؟',
+                        msg: 'هل ترغب بمسح الموعد ؟',
                         okFun: () async {
-                          await clients.deleteClient(clientId: client.id!);
+                          await meetingAll.deleteMeeting(meetingId:meetingClient!.id!);
                           pushAndRemoveUntil(const MainPage());
                         },
                         okMsg: 'نعم',
@@ -136,7 +137,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                 return const Text('error');
               },
               data: (e) {
-                meetingAll.id = null;
+                meetingAll.id =null;
                 meetingAll.isInit = false;
                 return ListView(
                   primary: false,

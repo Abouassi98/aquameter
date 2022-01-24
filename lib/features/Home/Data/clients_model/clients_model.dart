@@ -30,10 +30,11 @@ class AreaData {
   }
 }
 
+
 class Client {
   int? id;
   String? name;
-  dynamic phone;
+  int? phone;
   int? governorate;
   int? area;
   String? address;
@@ -45,19 +46,22 @@ class Client {
   String? updatedAt;
   dynamic ammonia;
   dynamic avrageWeight;
-  dynamic totalNumber;
+  int? totalNumber;
   dynamic conversionRate;
   dynamic numberOfDead;
-  dynamic feed;
-  dynamic company;
   dynamic lat;
   dynamic long;
   int? userId;
   dynamic totalFeed;
+  dynamic feed;
+  dynamic company;
+  dynamic toxicAmmonia;
+  int? periodsResultCount;
+  int? onlinePeriodsResultCount;
   GovernorateData? governorateData;
   AreaData? areaData;
+  List<PeriodsResult>? periodsResult;
   List<Fish>? fish;
-  dynamic toxicAmmonia;
 
   Client({
     this.id,
@@ -81,19 +85,22 @@ class Client {
     this.long,
     this.userId,
     this.totalFeed,
-    this.governorateData,
-    this.areaData,
-    this.fish,
     this.feed,
     this.company,
     this.toxicAmmonia,
+    this.periodsResultCount,
+    this.onlinePeriodsResultCount,
+    this.governorateData,
+    this.areaData,
+    this.periodsResult,
+    this.fish,
   });
 
   factory Client.fromJson(Map<String, dynamic> json) {
     return Client(
       id: json['id'] as int?,
       name: json['name'] as String?,
-      phone: json['phone'] as dynamic,
+      phone: json['phone'] as int?,
       governorate: json['governorate'] as int?,
       area: json['area'] as int?,
       address: json['address'] as String?,
@@ -105,29 +112,84 @@ class Client {
       updatedAt: json['updated_at'] as String?,
       ammonia: json['ammonia'] as dynamic,
       avrageWeight: json['avrage_weight'] as dynamic,
-      totalNumber: json['total_number'] as dynamic,
+      totalNumber: json['total_number'] as int?,
       conversionRate: json['conversion_rate'] as dynamic,
       numberOfDead: json['number_of_dead'] as dynamic,
       lat: json['lat'] as dynamic,
       long: json['long'] as dynamic,
       userId: json['user_id'] as int?,
       totalFeed: json['total_feed'] as dynamic,
+      feed: json['feed'] as dynamic,
+      company: json['company'] as dynamic,
+      toxicAmmonia: json['toxic_ammonia'] as dynamic,
+      periodsResultCount: json['periods_result_count'] as int?,
+      onlinePeriodsResultCount: json['online_periods_result_count'] as int?,
       governorateData: json['governorate_data'] == null
           ? null
-          : GovernorateData.fromJson(
-              json['governorate_data'] as Map<String, dynamic>),
+          : GovernorateData.fromJson(json['governorate_data'] as Map<String, dynamic>),
       areaData: json['area_data'] == null
           ? null
           : AreaData.fromJson(json['area_data'] as Map<String, dynamic>),
+      periodsResult: (json['periods_result'] as List<dynamic>?)
+          ?.map((e) => PeriodsResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
       fish: (json['fish'] as List<dynamic>?)
           ?.map((e) => Fish.fromJson(e as Map<String, dynamic>))
           .toList(),
-      feed: json['feed'] as dynamic,
-      company: json['company'] as dynamic,
-      toxicAmmonia:  json['toxic_ammonia'] as dynamic,
     );
   }
+
+
+
 }
+class PeriodsResult {
+  int? id;
+  String? mceeting;
+  int? clientId;
+  int? userId;
+  dynamic totalWieght;
+  dynamic avrageWieght;
+  dynamic avrageFooder;
+  dynamic endMceeting;
+  String? createdAt;
+  String? updatedAt;
+  int? status;
+
+  PeriodsResult({
+    this.id,
+    this.mceeting,
+    this.clientId,
+    this.userId,
+    this.totalWieght,
+    this.avrageWieght,
+    this.avrageFooder,
+    this.endMceeting,
+    this.createdAt,
+    this.updatedAt,
+    this.status,
+  });
+
+  factory PeriodsResult.fromJson(Map<String, dynamic> json) {
+    return PeriodsResult(
+      id: json['id'] as int?,
+      mceeting: json['mceeting'] as String?,
+      clientId: json['client_id'] as int?,
+      userId: json['user_id'] as int?,
+      totalWieght: json['total_wieght'] as dynamic,
+      avrageWieght: json['avrage_wieght'] as dynamic,
+      avrageFooder: json['avrage_fooder'] as dynamic,
+      endMceeting: json['end_mceeting'] as dynamic,
+      createdAt: json['created_at'] as String?,
+      updatedAt: json['updated_at'] as String?,
+      status: json['status'] as int?,
+    );
+  }
+
+
+
+
+}
+
 
 class GovernorateData {
   int? id;

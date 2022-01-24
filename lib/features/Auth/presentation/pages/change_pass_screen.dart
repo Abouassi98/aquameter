@@ -101,7 +101,6 @@ class ChangePassScreen extends HookConsumerWidget {
                   function: () {
                     if(_formKey.currentState!.validate()){
                       changePass.changePassword(
-                          context: context,
                           confirmPassword: confPassword,
                           password: password
                       );

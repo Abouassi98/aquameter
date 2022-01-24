@@ -1,9 +1,14 @@
+import 'dart:developer';
+
+import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/network_utils.dart';
+import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 
 import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_calendar/flutter_clean_calendar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MeetingAllNotifier extends StateNotifier<void> {
@@ -79,4 +84,19 @@ class MeetingAllNotifier extends StateNotifier<void> {
     } else {}
     return meetingAllModel!;
   }
+
+  deleteMeeting({ required int meetingId}) async {
+    Response response = await _utils.requstData(
+      url: 'meeting/delete/$meetingId',
+    );
+    if (response.statusCode == 200) {
+      log('meeting deleted');
+      await Fluttertoast.showToast(msg: 'تم ازالة الموعد بنجاح', toastLength: Toast.LENGTH_SHORT);
+      pushAndRemoveUntil(const MainPage());
+
+    } else {
+      log('error ');
+    }
+  }
+
 }

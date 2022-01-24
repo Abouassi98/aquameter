@@ -131,7 +131,9 @@ class Home extends HookConsumerWidget {
                                       return await _dialog.showOptionDialog(
                                           context: context,
                                           msg: 'هل ترغب بحذف العميل؟',
-                                          okFun: () {},
+                                          okFun: () {
+                                            meetingAll.deleteMeeting(meetingId:filterClients.value[i].id!);
+                                          },
                                           okMsg: 'نعم',
                                           cancelMsg: 'لا',
                                           cancelFun: () {
@@ -144,6 +146,7 @@ class Home extends HookConsumerWidget {
                                       push(ProfileClientScreen(
                                           client:
                                               filterClients.value[i].client!,
+                                        meetingClient: filterClients.value[i],
                                        ));
                                     },
                                     client: filterClients.value[i].client!,

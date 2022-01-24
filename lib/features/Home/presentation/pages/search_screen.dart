@@ -26,6 +26,7 @@ import 'main_page.dart';
 // ignore: must_be_immutable
 class SearchScreen extends HookConsumerWidget {
   final bool viewProfile;
+
   SearchScreen({Key? key, required this.viewProfile}) : super(key: key);
 
   bool filter = false;
@@ -36,6 +37,7 @@ class SearchScreen extends HookConsumerWidget {
         .read(getClientsNotifier.notifier)
         .getClients(); //; may cause `provider` to rebuild
   });
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController controller = useTextEditingController();
@@ -249,28 +251,53 @@ class SearchScreen extends HookConsumerWidget {
                                                   push(ProfileClientScreen(
                                                       client: e.data![index]));
                                                 } else {
-                                                  await _dialog.showOptionDialog(
-                                                      context: context,
-                                                      msg: 'هل ترغب باضافة دوره جديده',
-                                                      okFun: () async {
-                                                        await clients
-                                                            .createPeriod(
-                                                          clientId: e
-                                                              .data![index].id!,
-                                                        );
-                                                        await clients
-                                                            .createMetting(
-                                                          clientId: e
-                                                              .data![index].id!,
-                                                        );
-                                                        pushAndRemoveUntil(
-                                                            const MainPage());
-                                                      },
-                                                      okMsg: 'نعم',
-                                                      cancelMsg: 'لا',
-                                                      cancelFun: () {
-                                                        return;
-                                                      });
+                                                  if(clients.clientsModel!.data![index].periodsResult!.isNotEmpty ){
+
+                                                    await _dialog.showOptionDialog(
+                                                        context: context,
+                                                        msg: 'هل ترغب باضافة موعد جديد',
+                                                        okFun: () async {
+
+                                                          await clients
+                                                              .createMetting(
+                                                            clientId: e
+                                                                .data![index].id!,
+                                                          );
+                                                          pushAndRemoveUntil(
+                                                              const MainPage());
+                                                        },
+                                                        okMsg: 'نعم',
+                                                        cancelMsg: 'لا',
+                                                        cancelFun: () {
+                                                          return;
+                                                        });
+                                                  }
+                                                  else{
+
+                                                    await _dialog.showOptionDialog(
+                                                        context: context,
+                                                        msg: 'هل ترغب باضافة دوره جديده',
+                                                        okFun: () async {
+                                                          await clients
+                                                              .createPeriod(
+                                                            clientId: e
+                                                                .data![index].id!,
+                                                          );
+                                                          await clients
+                                                              .createMetting(
+                                                            clientId: e
+                                                                .data![index].id!,
+                                                          );
+                                                          pushAndRemoveUntil(
+                                                              const MainPage());
+                                                        },
+                                                        okMsg: 'نعم',
+                                                        cancelMsg: 'لا',
+                                                        cancelFun: () {
+                                                          return;
+                                                        });
+                                                  }
+
                                                 }
                                               },
                                               client: e.data![index],
