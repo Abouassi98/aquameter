@@ -438,7 +438,9 @@ class ProfileClientScreen extends HookConsumerWidget {
                                                             averageWeight:
                                                                 averageWeight,
                                                             totalWeight:
-                                                                totalWeight);
+                                                                totalWeight,
+                                                      conversionRate: conversionRate
+                                                    );
                                                     pushAndRemoveUntil(
                                                         const MainPage());
                                                   }

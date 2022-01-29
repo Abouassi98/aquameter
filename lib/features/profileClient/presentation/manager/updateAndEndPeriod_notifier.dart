@@ -15,6 +15,7 @@ class UpdateAndDeletePeriodNotifier extends StateNotifier<void> {
     num? totalWeight,
     int? averageWeight,
     num? averageFooder,
+    num? conversionRate,
   }) async {
     Response response = await _utils.requstData(url: 'periods/update', body: {
       "id": periodId,
@@ -24,6 +25,7 @@ class UpdateAndDeletePeriodNotifier extends StateNotifier<void> {
       if (totalWeight != null) "total_wieght": totalWeight,
       if (averageWeight != null) "avrage_wieght": averageWeight,
       if (averageFooder != null) "avrage_fooder": averageFooder,
+      if (conversionRate != null) "conversion_rate": conversionRate,
     });
 
     log('period Ended${response.data}');

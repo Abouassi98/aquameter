@@ -3,6 +3,7 @@ import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
+import 'package:aquameter/core/utils/widgets/pdf/genrate_pdf.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Home/Data/chart_data_model.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
@@ -42,114 +43,119 @@ class Statics extends HookConsumerWidget {
   ];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListView(
-      children: [
-        SizedBox(
-          width: context.width * .6,
-          child: Column(
-            children: [
-              SizedBox(
-                height: SizeConfig.screenHeight * .01,
-              ),
-              Center(
-                  child: SizedBox(
-                      width: context.width * .5,
-                      child:
-                          CustomBottomSheet(name: 'الاحصائيات', list: list2))),
-              SizedBox(
-                height: SizeConfig.screenHeight * .01,
-              ),
-              SfCircularChart(series: <CircularSeries>[
-                PieSeries<ChartData, String>(
-                    dataSource: chartData,
-                    xValueMapper: (ChartData data, _) => data.x,
-                    yValueMapper: (ChartData data, _) => data.y,
-                    groupMode: CircularChartGroupMode.point,
-                    groupTo: 2)
-              ]),
-            ],
+    return ref.watch(provider).when(
+      loading: () => const AppLoader(),
+      error: (e, o) {
+        debugPrint(e.toString());
+        debugPrint(o.toString());
+        return const Text('error');
+      },
+      data: (e) =>  ListView(
+        children: [
+          SizedBox(
+            width: context.width * .6,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: SizeConfig.screenHeight * .01,
+                ),
+                Center(
+                    child: SizedBox(
+                        width: context.width * .5,
+                        child:
+                            CustomBottomSheet(name: 'الاحصائيات', list: list2))),
+                SizedBox(
+                  height: SizeConfig.screenHeight * .01,
+                ),
+                SfCircularChart(series: <CircularSeries>[
+                  PieSeries<ChartData, String>(
+                      dataSource: chartData,
+                      xValueMapper: (ChartData data, _) => data.x,
+                      yValueMapper: (ChartData data, _) => data.y,
+                      groupMode: CircularChartGroupMode.point,
+                      groupTo: 2)
+                ]),
+              ],
+            ),
           ),
-        ),
-        Divider(
-          color: Colors.grey[300],
-          thickness: 2,
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            TextButton(
-              onPressed: () {
-                showDatePicker(
-                        context: context,
-                        initialDate: DateTime(2021),
-                        firstDate: DateTime(2021),
-                        lastDate: DateTime(2030))
-                    .then((pickedDate) {
-                  if (pickedDate == null) {
-                    //if user tap cancel then this function will stop
-                    return;
-                  }
-                });
-              },
-              child: const Text(
-                'من',
-                style: TextStyle(color: Colors.blueGrey),
-              ),
-            ),
-            const Text(':'),
-            TextButton(
-              onPressed: () {
-                showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2020),
-                        lastDate: DateTime(2030))
-                    .then((pickedDate) {
-                  if (pickedDate == null) {
-                    //if user tap cancel then this function will stop
-                    return;
-                  }
-                });
-              },
-              child: const Text(
-                'الي',
-                style: TextStyle(color: Colors.blueGrey),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: context.height * .01,
-        ),
-        ref.watch(provider).when(
-              loading: () => const AppLoader(),
-              error: (e, o) {
-                debugPrint(e.toString());
-                debugPrint(o.toString());
-                return const Text('error');
-              },
-              data: (e) => Center(
-                child: SizedBox(
-                  width: SizeConfig.screenWidth * 0.6,
-                  child: ListSelectorWidget(
-                    clientsModel: e,
-                  ),
+          Divider(
+            color: Colors.grey[300],
+            thickness: 2,
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TextButton(
+                onPressed: () {
+                  showDatePicker(
+                          context: context,
+                          initialDate: DateTime(2021),
+                          firstDate: DateTime(2021),
+                          lastDate: DateTime(2030))
+                      .then((pickedDate) {
+                    if (pickedDate == null) {
+                      //if user tap cancel then this function will stop
+                      return;
+                    }
+                  });
+                },
+                child: const Text(
+                  'من',
+                  style: TextStyle(color: Colors.blueGrey),
                 ),
               ),
-            ),
-        SizedBox(
-          height: context.height * .03,
-        ),
-        Center(
-          child: SizedBox(
-              width: SizeConfig.screenWidth * 0.3,
-              child: CustomTextButton(title: "تحميل التقرير", function: () {})),
-        ),
-        SizedBox(
-          height: context.height * .06,
-        ),
-      ],
+              const Text(':'),
+              TextButton(
+                onPressed: () {
+                  showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2020),
+                          lastDate: DateTime(2030))
+                      .then((pickedDate) {
+                    if (pickedDate == null) {
+                      //if user tap cancel then this function will stop
+                      return;
+                    }
+                  });
+                },
+                child: const Text(
+                  'الي',
+                  style: TextStyle(color: Colors.blueGrey),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: context.height * .01,
+          ),
+
+                Center(
+                  child: SizedBox(
+                    width: SizeConfig.screenWidth * 0.6,
+                    child: ListSelectorWidget(
+                      clientsModel: e,
+                    ),
+                  ),
+                ),
+
+          SizedBox(
+            height: context.height * .03,
+          ),
+          Center(
+            child: SizedBox(
+                width: SizeConfig.screenWidth * 0.3,
+                child: CustomTextButton(title: "تحميل التقرير", function: ()async {
+                   PdfGenerator().generatePDF(clients: e);
+
+                })),
+          ),
+          SizedBox(
+            height: context.height * .06,
+          ),
+        ],
+      ),
     );
   }
 }

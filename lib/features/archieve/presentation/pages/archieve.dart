@@ -17,14 +17,8 @@ class ArcieveScreen extends HookConsumerWidget {
   ArcieveScreen({Key? key, required this.title}) : super(key: key);
   final String title;
 
-
-  final List<String> dates = [
-    'دورة 13/6/2021',
-    'دورة 10/6/2021',
-    'دورة 11/8/2022',
-  ];
   final AutoDisposeFutureProvider<ArchieveModel> provider =
-  FutureProvider.autoDispose<ArchieveModel>((ref) async {
+      FutureProvider.autoDispose<ArchieveModel>((ref) async {
     return await ref
         .watch(getArchiveNotifier.notifier)
         .getArchives(); // may cause `provider` to rebuild
@@ -46,18 +40,16 @@ class ArcieveScreen extends HookConsumerWidget {
           centerTitle: true,
         ),
         body: ref.watch(provider).when(
-          loading: () => const AppLoader(),
-          error: (e, o) {
-            debugPrint(e.toString());
-            debugPrint(o.toString());
-            return const Center(child: Text('error'));
-          },
-          data: (e) =>
-              Padding(
+              loading: () => const AppLoader(),
+              error: (e, o) {
+                debugPrint(e.toString());
+                debugPrint(o.toString());
+                return const Center(child: Text('error'));
+              },
+              data: (e) => Padding(
                   padding: const EdgeInsets.all(25),
                   child: ListView.separated(
-                    separatorBuilder: (context, index) =>
-                    const Divider(
+                    separatorBuilder: (context, index) => const Divider(
                       color: Colors.grey,
                     ),
                     itemCount: archive.archiveModel!.data!.length,
@@ -73,75 +65,136 @@ class ArcieveScreen extends HookConsumerWidget {
                           scrollDirection: Axis.vertical,
                           controller: scrollController,
                           shrinkWrap: true,
-                          itemCount: archive.archiveModel!.data![index].periodsResultCount
-                          ,
+                          itemCount: archive
+                              .archiveModel!.data![index].periodsResultCount,
                           itemBuilder: (BuildContext context, int i) {
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Center(
                                 child: CustomTextButton(
-                                    title: "دورة  ${archive.archiveModel!.data![index]
-                                        .periodsResult![i].mceeting.toString()
-                                        .substring(0, 10)}",
-                                    function: () {
-                              showDialog(
-                              context: context,
-                              builder: (context) => CustomDialog(
-                              title: 'نتيجة الحصاد',
-                              widget: [
-                              Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceEvenly,
-                              children: [
-                              CustomTextField(
-                              hint:
-                              'اجمالي وزن السمك بالكيلو',
-                              width: SizeConfig.screenWidth *
-                              0.3,
-                              enabled: false,
+                                  title:
+                                      "دورة  ${archive.archiveModel!.data![index].periodsResult![i].mceeting.toString().substring(0, 10)}",
+                                  function: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => CustomDialog(
+                                        title: 'نتيجة الحصاد',
+                                        widget: [
+                                          Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceAround,
+                                                children: [
+                                                  Text(
+                                                    'اجمالي وزن السمك',
+                                                    style:
+                                                        MainTheme.hintTextStyle,
+                                                  ),
+                                                  Text(
+                                                    'اعداد السمك',
+                                                    style:
+                                                        MainTheme.hintTextStyle,
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  CustomTextField(
+                                                    initialValue: archive
+                                                        .archiveModel!
+                                                        .data![index]
+                                                        .periodsResult![i]
+                                                        .totalWieght
+                                                        .toString(),
+                                                    width:
+                                                        SizeConfig.screenWidth *
+                                                            0.3,
+                                                    enabled: false,
+                                                  ),
+                                                  CustomTextField(
+                                                    initialValue: (archive
+                                                                .archiveModel!
+                                                                .data![index]
+                                                                .periodsResult![
+                                                                    i]
+                                                                .totalWieght! /
+                                                            archive
+                                                                .archiveModel!
+                                                                .data![index]
+                                                                .periodsResult![
+                                                                    i]
+                                                                .avrageWieght!)
+                                                        .round()
+                                                        .toString(),
+                                                    width:
+                                                        SizeConfig.screenWidth *
+                                                            0.3,
+                                                    enabled: false,
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          Center(
+                                            child: CustomBtn(
+                                              text:
+                                                  '${archive.archiveModel!.data![index].periodsResult![i].avrageWieght.toString()}'
+                                                  ' = متوسط الوزن',
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Center(
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  'اجمالي وزن العلف بالكيلو',
+                                                  style:
+                                                      MainTheme.hintTextStyle,
+                                                ),
+                                                CustomTextField(
+                                                  initialValue: archive
+                                                      .archiveModel!
+                                                      .data![index]
+                                                      .periodsResult![i]
+                                                      .avrageFooder!
+                                                      .toString(),
+                                                  enabled: false,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Center(
+                                            child: CustomBtn(
+                                              text:
+                                                  '${archive.archiveModel!.data![index].periodsResult![i].conversionRate!
+                                                      .toStringAsFixed(
+                                                      2)}'
+                                                  ' = معدل التحويل',
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
-                              CustomTextField(
-                              hint: 'اعداد السمك',
-                              width: SizeConfig.screenWidth *
-                              0.3,
-                              enabled: false,
-                              ),
-                              ],
-                              ),
-                              const Center(
-                              child: CustomBtn(
-                              text: '0.0 = متوسط الوزن',
-                              ),
-                              ),
-                              const SizedBox(
-                              height: 20,
-                              ),
-                              const Center(
-                              child: CustomTextField(
-                              hint: 'اجمالي وزن العلف بالكيلو',
-                              enabled: false,
-                              ),
-                              ),
-                              const Center(
-                              child: CustomBtn(
-                              text: '0.0 = معدل النحويل',
-                              ),
-                              ),
-                              const SizedBox(
-                              width: 20,
-                              ),
-                              ],
-                              ),
-                              );
-                              },
-                              ),
-                            ),);
+                            );
                           },
                         ),
                       );
                     },
                   )),
-        ),
+            ),
       ),
     );
   }
