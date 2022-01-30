@@ -52,8 +52,8 @@ class PdfGenerator {
     page.graphics.drawRectangle(
         bounds: Rect.fromLTWH(400, 0, pageSize.width - 400, 90),
         brush: PdfSolidBrush(PdfColor(65, 104, 205)));
-    page.graphics.drawString(r'' + _getTotalAmount(grid).toString(),
-        PdfStandardFont(PdfFontFamily.helvetica, 18),
+    page.graphics.drawString(
+        r'' '1255', PdfStandardFont(PdfFontFamily.helvetica, 18),
         bounds: Rect.fromLTWH(400, 0, pageSize.width - 400, 100),
         brush: PdfBrushes.white,
         format: PdfStringFormat(
@@ -87,35 +87,11 @@ class PdfGenerator {
 
   //Draws the grid
   void _drawGrid(PdfPage page, PdfGrid grid, PdfLayoutResult result) {
-    Rect? totalPriceCellBounds;
-    Rect? quantityCellBounds;
     //Invoke the beginCellLayout event.
-    grid.beginCellLayout = (Object sender, PdfGridBeginCellLayoutArgs args) {
-      final PdfGrid grid = sender as PdfGrid;
-      if (args.cellIndex == grid.columns.count - 1) {
-        totalPriceCellBounds = args.bounds;
-      } else if (args.cellIndex == grid.columns.count - 2) {
-        quantityCellBounds = args.bounds;
-      }
-    };
+    grid.beginCellLayout = (Object sender, PdfGridBeginCellLayoutArgs args) {};
     //Draw the PDF grid and get the result.
     result = grid.draw(
         page: page, bounds: Rect.fromLTWH(0, result.bounds.bottom + 40, 0, 0))!;
-    //Draw grand total.
-    page.graphics.drawString('Grand Total',
-        PdfStandardFont(PdfFontFamily.helvetica, 9, style: PdfFontStyle.bold),
-        bounds: Rect.fromLTWH(
-            quantityCellBounds!.left,
-            result.bounds.bottom + 10,
-            quantityCellBounds!.width,
-            quantityCellBounds!.height));
-    page.graphics.drawString(_getTotalAmount(grid).toString(),
-        PdfStandardFont(PdfFontFamily.helvetica, 9, style: PdfFontStyle.bold),
-        bounds: Rect.fromLTWH(
-            totalPriceCellBounds!.left,
-            result.bounds.bottom + 10,
-            totalPriceCellBounds!.width,
-            totalPriceCellBounds!.height));
   }
 
   //Draw the invoice footer data.
@@ -127,7 +103,7 @@ class PdfGenerator {
     page.graphics.drawLine(linePen, Offset(0, pageSize.height - 100),
         Offset(pageSize.width, pageSize.height - 100));
     const String footerContent =
-        '800 Interchange Blvd.\r\n\r\nSuite 2501, Austin, TX 78721\r\n\r\nAny Questions? support@adventure-works.com';
+        'For Application support .\r\n\r\n+20 106 907 2590\r\n\r\n  support@aquameter-eg.com';
     //Added 30 as a margin for the layout
     page.graphics.drawString(
         footerContent, PdfStandardFont(PdfFontFamily.helvetica, 9),
@@ -140,25 +116,36 @@ class PdfGenerator {
     //Create a PDF grid
     final PdfGrid grid = PdfGrid();
     //Secify the columns count to the grid.
-    grid.columns.add(count: 5);
+    grid.columns.add(count: 7);
     //Create the header row of the grid.
     final PdfGridRow headerRow = grid.headers.add(1)[0];
     //Set style
     headerRow.style.backgroundBrush = PdfSolidBrush(PdfColor(68, 114, 196));
     headerRow.style.textBrush = PdfBrushes.white;
+    // headerRow.style.font = PdfFont[];
     headerRow.cells[0].value = 'client Id';
     headerRow.cells[0].stringFormat.alignment = PdfTextAlignment.center;
     headerRow.cells[1].value = 'client Name';
-    headerRow.cells[2].value = 'Conversion Rate';
-    headerRow.cells[3].value = 'adress';
-    headerRow.cells[4].value = 'total';
+    headerRow.cells[2].value = 'Fish Number';
+    headerRow.cells[3].value = 'average Weight';
+    headerRow.cells[4].value = 'target Weight';
+    headerRow.cells[5].value = 'conversion Rate';
+    headerRow.cells[6].value = 'totalFeed';
     clients.data?.forEach((element) {
-      addProducts(element.id.toString(), element.name.toString(), element.periodsResultCount.toString(),element.userId!,
-          17.98, grid);
+      addClient(
+          clientId: element.id.toString(),
+          clientName: element.name!,
+          totalFish: "15",
+          averageWeight:
+          element.periodsResult!.elementAt(0).avrageWieght.toString(),
+          conversionRate: element.conversionRate.toString(),
+          totalFeed: element.totalFeed.toString(),
+          targetWeight: element.targetWeight.toString(),
+          grid: grid);
     });
 
     grid.applyBuiltInStyle(PdfGridBuiltInStyle.listTable4Accent5);
-    grid.columns[1].width = 200;
+    // grid.columns[1].width = 200;
     for (int i = 0; i < headerRow.cells.count; i++) {
       headerRow.cells[i].style.cellPadding =
           PdfPaddings(bottom: 5, left: 5, right: 5, top: 5);
@@ -178,24 +165,21 @@ class PdfGenerator {
   }
 
   //Create and row for the grid.
-  void addProducts(String productId, String productName, String price,
-      int quantity, double total, PdfGrid grid) {
+  void addClient({required String clientId,
+    required String clientName,
+    required String totalFish,
+    required String averageWeight,
+    required String targetWeight,
+    required String conversionRate,
+    required String totalFeed,
+    required PdfGrid grid}) {
     final PdfGridRow row = grid.rows.add();
-    row.cells[0].value = productId;
-    row.cells[1].value = productName;
-    row.cells[2].value = price;
-    row.cells[3].value = quantity.toString();
-    row.cells[4].value = total.toString();
-  }
-
-  //Get the total amount.
-  double _getTotalAmount(PdfGrid grid) {
-    double total = 0;
-    for (int i = 0; i < grid.rows.count; i++) {
-      final String value =
-          grid.rows[i].cells[grid.columns.count - 1].value as String;
-      total += double.parse(value);
-    }
-    return total;
+    row.cells[0].value = clientId;
+    row.cells[1].value = clientName;
+    row.cells[2].value = totalFish;
+    row.cells[3].value = averageWeight;
+    row.cells[4].value = targetWeight;
+    row.cells[5].value = conversionRate;
+    row.cells[6].value = totalFeed;
   }
 }
