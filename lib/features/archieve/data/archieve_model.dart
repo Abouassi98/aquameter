@@ -199,7 +199,7 @@ class PeriodsResult {
   int? totalWieght;
   int? avrageWieght;
   int? avrageFooder;
-  num? endMceeting;
+  dynamic endMceeting;
   String? createdAt;
   String? updatedAt;
   int? status;

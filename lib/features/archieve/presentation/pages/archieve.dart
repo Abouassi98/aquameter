@@ -118,19 +118,38 @@ class ArcieveScreen extends HookConsumerWidget {
                                                   ),
                                                   CustomTextField(
                                                     initialValue: (archive
-                                                                .archiveModel!
-                                                                .data![index]
-                                                                .periodsResult![
-                                                                    i]
-                                                                .totalWieght! /
+                                                                    .archiveModel!
+                                                                    .data![
+                                                                        index]
+                                                                    .periodsResult![
+                                                                        i]
+                                                                    .totalWieght ==
+                                                                null ||
                                                             archive
-                                                                .archiveModel!
-                                                                .data![index]
-                                                                .periodsResult![
-                                                                    i]
-                                                                .avrageWieght!)
-                                                        .round()
-                                                        .toString(),
+                                                                    .archiveModel!
+                                                                    .data![
+                                                                        index]
+                                                                    .periodsResult![
+                                                                        i]
+                                                                    .avrageWieght ==
+                                                                null)
+                                                        ? 'error'
+                                                        : (archive
+                                                                    .archiveModel!
+                                                                    .data![
+                                                                        index]
+                                                                    .periodsResult![
+                                                                        i]
+                                                                    .totalWieght! /
+                                                                archive
+                                                                    .archiveModel!
+                                                                    .data![
+                                                                        index]
+                                                                    .periodsResult![
+                                                                        i]
+                                                                    .avrageWieght!)
+                                                            .round()
+                                                            .toString(),
                                                     width:
                                                         SizeConfig.screenWidth *
                                                             0.3,
@@ -160,11 +179,18 @@ class ArcieveScreen extends HookConsumerWidget {
                                                 ),
                                                 CustomTextField(
                                                   initialValue: archive
-                                                      .archiveModel!
-                                                      .data![index]
-                                                      .periodsResult![i]
-                                                      .avrageFooder!
-                                                      .toString(),
+                                                              .archiveModel!
+                                                              .data![index]
+                                                              .periodsResult![i]
+                                                              .avrageFooder !=
+                                                          null
+                                                      ? archive
+                                                          .archiveModel!
+                                                          .data![index]
+                                                          .periodsResult![i]
+                                                          .avrageFooder
+                                                          .toString()
+                                                      : '',
                                                   enabled: false,
                                                 ),
                                               ],
@@ -172,9 +198,15 @@ class ArcieveScreen extends HookConsumerWidget {
                                           ),
                                           Center(
                                             child: CustomBtn(
-                                              text:
-                                                  '${archive.archiveModel!.data![index].periodsResult![i].conversionRate!.toStringAsFixed(2)}'
-                                                  ' = معدل التحويل',
+                                              text: archive
+                                                          .archiveModel!
+                                                          .data![index]
+                                                          .periodsResult![i]
+                                                          .conversionRate ==
+                                                      null
+                                                  ? 'error'
+                                                  : '${archive.archiveModel!.data![index].periodsResult![i].conversionRate!.toStringAsFixed(2)}'
+                                                      ' = معدل التحويل',
                                             ),
                                           ),
                                           const SizedBox(

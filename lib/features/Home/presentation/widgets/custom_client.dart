@@ -49,8 +49,7 @@ class ClientItem extends StatelessWidget {
             child: Row(
               children: [
                 // Shop Image
-                fishTypes != null
-                    ? FadeInImage.assetNetwork(
+               FadeInImage.assetNetwork(
                         height: SizeConfig.screenHeight * 0.1,
                         image: fishTypes!.fishTypesModel!.data!
                             .firstWhere((element) =>
@@ -63,23 +62,7 @@ class ClientItem extends StatelessWidget {
                         imageCacheHeight: 500,
                         imageCacheWidth: 500,
                       )
-                    : Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 90.0,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: AssetImage('assets/images/fish1.png'),
-                            ),
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(30),
-                              topRight: Radius.circular(30),
-                              topLeft: Radius.circular(30),
-                            ),
-                          ),
-                        ),
-                      ),
+                  ,
                 // Shop Details
                 Expanded(
                   flex: 3,

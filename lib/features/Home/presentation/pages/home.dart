@@ -1,3 +1,4 @@
+import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import 'package:aquameter/core/themes/screen_utitlity.dart';
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
@@ -39,7 +40,9 @@ class Home extends HookConsumerWidget {
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final ValueNotifier<List<MeetingClient>> filterClients =
         useState<List<MeetingClient>>([]);
-
+   final FishTypesNotifier fishTypes = ref.read(
+      fishTypesNotifier.notifier,
+    );
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -127,6 +130,7 @@ class Home extends HookConsumerWidget {
                                   shrinkWrap: true,
                                   itemCount: filterClients.value.length,
                                   itemBuilder: (context, i) => ClientItem(
+                                    fishTypes:fishTypes ,
                                     confirmDismiss:
                                         (DismissDirection direction) async {
                                       return await _dialog.showOptionDialog(
