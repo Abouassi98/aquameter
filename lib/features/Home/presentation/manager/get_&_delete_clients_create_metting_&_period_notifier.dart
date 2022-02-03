@@ -56,11 +56,12 @@ class GetAndDeleteClientsCreateMettingAndPeriodNotifier
 
   createPeriod({
     required int? clientId,
-    
   }) async {
-    Response response = await _utils.requstData(
-        url: 'periods/create',
-        body: {"mceeting": date, "client_id": clientId, "user_id": HelperFunctions.getUser().data!.id});
+    Response response = await _utils.requstData(url: 'periods/create', body: {
+      "mceeting": date,
+      "client_id": clientId,
+      "user_id": HelperFunctions.getUser().data!.id
+    });
     if (response.statusCode == 200) {
       log('period create');
     } else {

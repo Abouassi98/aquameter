@@ -8,23 +8,18 @@ import 'package:aquameter/core/utils/widgets/app_loader.dart';
 import 'package:aquameter/core/utils/widgets/custom_btn.dart';
 import 'package:aquameter/core/utils/widgets/custom_dialog.dart';
 import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
-
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
-
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
-
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
 import 'package:aquameter/features/calculator/presentation/screen/show_calculator.dart';
-
 import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
-import 'package:aquameter/features/profileClient/presentation/manager/updateAndEndPeriod_notifier.dart';
+import 'package:aquameter/features/profileClient/presentation/manager/update_and_endperiod_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/edit_client.dart';
-
 import 'package:aquameter/features/profileClient/presentation/pages/view_client.dart';
 import 'package:aquameter/features/profileClient/presentation/widgets/chart.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +33,8 @@ class ProfileClientScreen extends HookConsumerWidget {
 
   final CustomWarningDialog _dialog = CustomWarningDialog();
 
-  ProfileClientScreen( {Key? key, this.meetingClient, required this.client}) : super(key: key);
+  ProfileClientScreen({Key? key, this.meetingClient, required this.client})
+      : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [
     {'name': 'معدل الملوحه', 'id': 1},
@@ -85,18 +81,18 @@ class ProfileClientScreen extends HookConsumerWidget {
                 },
                 icon: const Icon(Icons.arrow_back)),
             title: InkWell(
-                onTap: () async {
-                  await areaAndCites.getCities(cityId: client.governorate);
-                  push(ViewClient(
-                    client: client,
-                    areaAndCites: areaAndCites,
-                  ));
-                },
-                child: Text(
-                  client.name!,
-                  style:
-                      MainTheme.headingTextStyle.copyWith(color: Colors.white),
-                )),
+              onTap: () async {
+                await areaAndCites.getCities(cityId: client.governorate);
+                push(ViewClient(
+                  client: client,
+                  areaAndCites: areaAndCites,
+                ));
+              },
+              child: Text(
+                client.name!,
+                style: MainTheme.headingTextStyle.copyWith(color: Colors.white),
+              ),
+            ),
             actions: [
               IconButton(
                 icon: const Icon(
@@ -118,7 +114,8 @@ class ProfileClientScreen extends HookConsumerWidget {
                         context: context,
                         msg: 'هل ترغب بمسح الموعد ؟',
                         okFun: () async {
-                          await meetingAll.deleteMeeting(meetingId:meetingClient!.id!);
+                          await meetingAll.deleteMeeting(
+                              meetingId: meetingClient!.id!);
                           pushAndRemoveUntil(const MainPage());
                         },
                         okMsg: 'نعم',
@@ -137,7 +134,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                 return const Text('error');
               },
               data: (e) {
-                meetingAll.id =null;
+                meetingAll.id = null;
                 meetingAll.isInit = false;
                 return ListView(
                   primary: false,
@@ -152,6 +149,9 @@ class ProfileClientScreen extends HookConsumerWidget {
                           SizedBox(
                             height: SizeConfig.screenHeight * 0.6,
                             child: Calendar(
+                              onMonthChanged: (v) {
+                                if (DateTime.now().difference(v).inDays > 0) {}
+                              },
                               onEventSelected: (v) {},
                               hideBottomBar: true,
                               events: meetingAll.selectedEvents,
@@ -172,7 +172,10 @@ class ProfileClientScreen extends HookConsumerWidget {
                               hideTodayIcon: true,
                               isExpanded: true,
                               onDateSelected: (v) {
-                                if (meetingAll.selectedEvents[DateTime(
+                                if (DateTime.now().difference(v).inDays < 0) {
+                                  HelperFunctions.errorBar(context,
+                                      message: 'لا يمكن زياره تاريخ مستقبلي');
+                                } else if (meetingAll.selectedEvents[DateTime(
                                       int.parse(v.toString().substring(0, 4)),
                                       int.parse(v.toString().substring(6, 7)),
                                       int.parse(
@@ -439,8 +442,8 @@ class ProfileClientScreen extends HookConsumerWidget {
                                                                 averageWeight,
                                                             totalWeight:
                                                                 totalWeight,
-                                                      conversionRate: conversionRate
-                                                    );
+                                                            conversionRate:
+                                                                conversionRate);
                                                     pushAndRemoveUntil(
                                                         const MainPage());
                                                   }

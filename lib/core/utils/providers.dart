@@ -4,6 +4,7 @@ import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart'
 import 'package:aquameter/features/Auth/presentation/manager/change_pass_notifier.dart';
 
 import 'package:aquameter/features/CustomMap/presentation/manager/map_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/graph_statics_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
 import 'package:aquameter/features/archieve/presentation/manager/archieve_notifier.dart';
@@ -14,7 +15,7 @@ import 'package:aquameter/features/profileClient/presentation/manager/add_client
 
 import 'package:aquameter/features/profileClient/presentation/manager/location_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
-import 'package:aquameter/features/profileClient/presentation/manager/updateAndEndPeriod_notifier.dart';
+import 'package:aquameter/features/profileClient/presentation/manager/update_and_endperiod_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // general
@@ -63,6 +64,11 @@ final AutoDisposeStateNotifierProvider<MeetingAllNotifier, Object?>
     StateNotifierProvider.autoDispose<MeetingAllNotifier, Object?>(
   (ref) => MeetingAllNotifier(null),
 );
+final AutoDisposeStateNotifierProvider<GraphStaticsNotifer, Object?>
+    graphStaticsNotifer =
+    StateNotifierProvider.autoDispose<GraphStaticsNotifer, Object?>(
+  (ref) => GraphStaticsNotifer(),
+);
 
 final AutoDisposeStateNotifierProvider<GetArchiveNotifier, Object?>
     getArchiveNotifier =
@@ -82,4 +88,4 @@ final StateNotifierProvider<CreateMeetingResultNotifier, Object?>
 );
 
 final StateNotifierProvider<ChangePassNotifier, Object?> changePassProvider =
-StateNotifierProvider((ref) => ChangePassNotifier(null));
+    StateNotifierProvider((ref) => ChangePassNotifier(null));

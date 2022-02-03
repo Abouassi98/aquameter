@@ -13,13 +13,13 @@ Future<void> saveAndLaunchFile(List<int> bytes, String fileName) async {
       Platform.isLinux ||
       Platform.isWindows) {
     final Directory directory =
-    await path_provider.getApplicationSupportDirectory();
+        await path_provider.getApplicationSupportDirectory();
     path = directory.path;
   } else {
     path = await PathProviderPlatform.instance.getApplicationSupportPath();
   }
   final File file =
-  File(Platform.isWindows ? '$path\\$fileName' : '$path/$fileName');
+      File(Platform.isWindows ? '$path\\$fileName' : '$path/$fileName');
   await file.writeAsBytes(bytes, flush: true);
   if (Platform.isAndroid || Platform.isIOS) {
     //Launch the file (used open_file package)

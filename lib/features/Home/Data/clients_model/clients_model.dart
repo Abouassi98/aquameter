@@ -30,7 +30,6 @@ class AreaData {
   }
 }
 
-
 class Client {
   int? id;
   String? name;
@@ -126,7 +125,8 @@ class Client {
       onlinePeriodsResultCount: json['online_periods_result_count'] as int?,
       governorateData: json['governorate_data'] == null
           ? null
-          : GovernorateData.fromJson(json['governorate_data'] as Map<String, dynamic>),
+          : GovernorateData.fromJson(
+              json['governorate_data'] as Map<String, dynamic>),
       areaData: json['area_data'] == null
           ? null
           : AreaData.fromJson(json['area_data'] as Map<String, dynamic>),
@@ -138,10 +138,8 @@ class Client {
           .toList(),
     );
   }
-
-
-
 }
+
 class PeriodsResult {
   int? id;
   String? mceeting;
@@ -184,12 +182,7 @@ class PeriodsResult {
       status: json['status'] as int?,
     );
   }
-
-
-
-
 }
-
 
 class GovernorateData {
   int? id;

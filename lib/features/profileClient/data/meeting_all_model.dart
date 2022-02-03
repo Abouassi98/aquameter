@@ -63,14 +63,14 @@ class MeetingClient {
 class MeetingResult {
   int? id;
   int? meetingId;
-   num? temperature;
-   num? ph;
-   num? salinity;
-   num? oxygen;
+  num? temperature;
+  num? ph;
+  num? salinity;
+  num? oxygen;
   num? ammonia;
-   num? averageWeight;
-   num? totalWeight;
-   num? conversionRate;
+  num? averageWeight;
+  num? totalWeight;
+  num? conversionRate;
   String? createdAt;
   String? updatedAt;
   num? feed;

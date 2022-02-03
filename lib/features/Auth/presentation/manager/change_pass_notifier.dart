@@ -24,7 +24,6 @@ class ChangePassNotifier extends StateNotifier<void> {
     );
     if (response.statusCode == 200) {
       await Fluttertoast.showToast(
-
           msg: 'تم التعديل بنجاح', toastLength: Toast.LENGTH_SHORT);
       pushAndRemoveUntil(const MainPage());
 

@@ -137,7 +137,7 @@ class PdfGenerator {
           clientName: element.name!,
           totalFish: "15",
           averageWeight:
-          element.periodsResult!.elementAt(0).avrageWieght.toString(),
+              element.periodsResult!.elementAt(0).avrageWieght.toString(),
           conversionRate: element.conversionRate.toString(),
           totalFeed: element.totalFeed.toString(),
           targetWeight: element.targetWeight.toString(),
@@ -165,14 +165,15 @@ class PdfGenerator {
   }
 
   //Create and row for the grid.
-  void addClient({required String clientId,
-    required String clientName,
-    required String totalFish,
-    required String averageWeight,
-    required String targetWeight,
-    required String conversionRate,
-    required String totalFeed,
-    required PdfGrid grid}) {
+  void addClient(
+      {required String clientId,
+      required String clientName,
+      required String totalFish,
+      required String averageWeight,
+      required String targetWeight,
+      required String conversionRate,
+      required String totalFeed,
+      required PdfGrid grid}) {
     final PdfGridRow row = grid.rows.add();
     row.cells[0].value = clientId;
     row.cells[1].value = clientName;

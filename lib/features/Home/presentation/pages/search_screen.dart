@@ -7,28 +7,22 @@ import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 import 'package:aquameter/core/utils/widgets/custom_appbar.dart';
 import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
-
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
-
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/profile_client%20_screen.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'main_page.dart';
 
 // ignore: must_be_immutable
 class SearchScreen extends HookConsumerWidget {
   final bool viewProfile;
-
   SearchScreen({Key? key, required this.viewProfile}) : super(key: key);
-
   bool filter = false;
   dynamic fishType;
   final FutureProvider<ClientsModel> provider =
@@ -37,7 +31,6 @@ class SearchScreen extends HookConsumerWidget {
         .watch(getClientsNotifier.notifier)
         .getClients(); //; may cause `provider` to rebuild
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController controller = useTextEditingController();
@@ -85,7 +78,7 @@ class SearchScreen extends HookConsumerWidget {
             ),
             preferredSize: Size.fromHeight(SizeConfig.screenHeight * 0.2)),
         body: ref.watch(provider).when(
-          loading: () => const Scaffold(body: AppLoader()),
+              loading: () => const Scaffold(body: AppLoader()),
               error: (e, o) {
                 debugPrint(e.toString());
                 debugPrint(o.toString());
@@ -195,9 +188,11 @@ class SearchScreen extends HookConsumerWidget {
                                             if (viewProfile == true) {
                                               meetingAll.id =
                                                   selected.value[index].id;
-                                              push(ProfileClientScreen(
-                                                  client:
-                                                      selected.value[index]));
+                                              push(
+                                                ProfileClientScreen(
+                                                    client:
+                                                        selected.value[index]),
+                                              );
                                             } else {
                                               await _dialog.showOptionDialog(
                                                   context: context,

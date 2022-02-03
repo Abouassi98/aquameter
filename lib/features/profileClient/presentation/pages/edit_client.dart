@@ -274,7 +274,8 @@ class EditClient extends HookConsumerWidget {
                                       ),
                                       if (showSecondField.value == true)
                                         TotalFishesItem(
-                                          initialvalue: client.totalNumber.toString(),
+                                          initialvalue:
+                                              client.totalNumber.toString(),
                                           list: ref
                                               .read(
                                                 fishTypesNotifier.notifier,
@@ -295,7 +296,8 @@ class EditClient extends HookConsumerWidget {
                                         ),
                                       if (showThirdField.value == true)
                                         TotalFishesItem(
-                                          initialvalue: client.totalNumber.toString(),
+                                          initialvalue:
+                                              client.totalNumber.toString(),
                                           list: ref
                                               .read(
                                                 fishTypesNotifier.notifier,

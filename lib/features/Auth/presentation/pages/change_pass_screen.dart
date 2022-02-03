@@ -16,7 +16,7 @@ class ChangePassScreen extends HookConsumerWidget {
     String? password;
     String? confPassword;
     final ChangePassNotifier changePass =
-    ref.watch(changePassProvider.notifier);
+        ref.watch(changePassProvider.notifier);
 
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     return Directionality(
@@ -43,7 +43,6 @@ class ChangePassScreen extends HookConsumerWidget {
                     SizedBox(
                       height: SizeConfig.screenHeight * 0.04,
                     ),
-
                     Container(
                       width: SizeConfig.screenWidth * 0.7,
                       decoration: const BoxDecoration(
@@ -74,7 +73,7 @@ class ChangePassScreen extends HookConsumerWidget {
                       ),
                       child: CustomTextField(
                         onChange: (v) {
-                          confPassword=v;
+                          confPassword = v;
                         },
                         hint: localization.text('confirm_password'),
                         visibility: true,
@@ -99,13 +98,10 @@ class ChangePassScreen extends HookConsumerWidget {
                     child: CustomTextButton(
                   title: localization.text('save'),
                   function: () {
-                    if(_formKey.currentState!.validate()){
+                    if (_formKey.currentState!.validate()) {
                       changePass.changePassword(
-                          confirmPassword: confPassword,
-                          password: password
-                      );
+                          confirmPassword: confPassword, password: password);
                     }
-
                   },
                   width: SizeConfig.screenWidth * 0.3,
                   radius: 20,

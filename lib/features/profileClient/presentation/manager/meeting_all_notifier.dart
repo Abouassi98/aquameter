@@ -1,8 +1,5 @@
 import 'dart:developer';
-
-import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/network_utils.dart';
-import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 
 import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
 import 'package:dio/dio.dart';
@@ -79,23 +76,21 @@ class MeetingAllNotifier extends StateNotifier<void> {
             });
           }
         }
-    
       }
     } else {}
     return meetingAllModel!;
   }
 
-  deleteMeeting({ required int meetingId}) async {
+  deleteMeeting({required int meetingId}) async {
     Response response = await _utils.requstData(
       url: 'meeting/delete/$meetingId',
     );
     if (response.statusCode == 200) {
       log('meeting deleted');
-      await Fluttertoast.showToast(msg: 'تم ازالة الموعد بنجاح', toastLength: Toast.LENGTH_SHORT);
-
+      await Fluttertoast.showToast(
+          msg: 'تم ازالة الموعد بنجاح', toastLength: Toast.LENGTH_SHORT);
     } else {
       log('error ');
     }
   }
-
 }

@@ -66,6 +66,4 @@ class AuthNotifier extends StateNotifier<void> {
       await areaAndCites.getCities();
     } else {}
   }
-
-
 }

@@ -1,6 +1,6 @@
 class ChartData {
-  ChartData(this.x, this.y, this.size);
-  final String x;
-  final double y;
-  final String size;
+  ChartData(this.name, this.count,);
+  final String name;
+  final int count;
+  
 }

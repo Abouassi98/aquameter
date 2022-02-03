@@ -173,9 +173,7 @@ class ArcieveScreen extends HookConsumerWidget {
                                           Center(
                                             child: CustomBtn(
                                               text:
-                                                  '${archive.archiveModel!.data![index].periodsResult![i].conversionRate!
-                                                      .toStringAsFixed(
-                                                      2)}'
+                                                  '${archive.archiveModel!.data![index].periodsResult![i].conversionRate!.toStringAsFixed(2)}'
                                                   ' = معدل التحويل',
                                             ),
                                           ),
