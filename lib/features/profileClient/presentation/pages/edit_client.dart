@@ -108,6 +108,7 @@ class EditClient extends HookConsumerWidget {
                                     if (v!.isEmpty) {
                                       return 'لا يجب ترك الحقل فارغ';
                                     }
+                                    return null;
                                   },
                                 ),
                                 const SizedBox(height: 10),
@@ -136,6 +137,7 @@ class EditClient extends HookConsumerWidget {
                                     log(
                                       phoneNumberAccepted.toString(),
                                     );
+                                    return null;
                                   },
                                   onChange: (v) {
                                     phone = convertToEnglishNumbers(v.trim());
@@ -237,6 +239,7 @@ class EditClient extends HookConsumerWidget {
                                                 if (v!.isEmpty) {
                                                   return 'لا يجب ترك الحقل فارغ';
                                                 }
+                                                return null;
                                               },
                                               initialValue:
                                                   client.landSize.toString(),
@@ -375,6 +378,7 @@ class EditClient extends HookConsumerWidget {
                                     if (v!.isEmpty) {
                                       return 'لا يجب ترك الحقل فارغ';
                                     }
+                                    return null;
                                   },
                                 ),
                                 const SizedBox(
@@ -389,6 +393,7 @@ class EditClient extends HookConsumerWidget {
                                     if (v!.isEmpty) {
                                       return 'لا يجب ترك الحقل فارغ';
                                     }
+                                    return null;
                                   },
                                 ),
                               ],

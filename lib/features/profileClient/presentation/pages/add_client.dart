@@ -111,6 +111,7 @@ class AddClient extends HookConsumerWidget {
                                       if (v!.isEmpty) {
                                         return 'لا يجب ترك الحقل فارغ';
                                       }
+                                      return null;
                                     },
                                   ),
                                   const SizedBox(height: 10),
@@ -140,6 +141,7 @@ class AddClient extends HookConsumerWidget {
                                       log(
                                         phoneNumberAccepted.toString(),
                                       );
+                                      return null;
                                     },
                                     onChange: (v) {
                                       phone = convertToEnglishNumbers(v.trim());
@@ -232,6 +234,7 @@ class AddClient extends HookConsumerWidget {
                                                   if (v!.isEmpty) {
                                                     return 'لا يجب ترك الحقل فارغ';
                                                   }
+                                                  return null;
                                                 },
                                                 hint: 'مساحة الأرض',
                                                 onChange: (v) {
@@ -347,6 +350,7 @@ class AddClient extends HookConsumerWidget {
                                             if (v!.isEmpty) {
                                               return 'لا يجب ترك الحقل فارغ';
                                             }
+                                            return null;
                                           },
                                         ),
                                       ),
@@ -363,6 +367,7 @@ class AddClient extends HookConsumerWidget {
                                             if (v!.isEmpty) {
                                               return 'لا يجب ترك الحقل فارغ';
                                             }
+                                            return null;
                                           },
                                         ),
                                       ),
@@ -386,6 +391,7 @@ class AddClient extends HookConsumerWidget {
                                       if (v!.isEmpty) {
                                         return 'لا يجب ترك الحقل فارغ';
                                       }
+                                      return null;
                                     },
                                   ),
                                   const SizedBox(
@@ -408,6 +414,7 @@ class AddClient extends HookConsumerWidget {
                                       if (v!.isEmpty) {
                                         return 'لا يجب ترك الحقل فارغ';
                                       }
+                                      return null;
                                     },
                                   ),
                                 ],

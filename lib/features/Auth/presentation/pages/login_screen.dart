@@ -85,6 +85,7 @@ class LoginScreen extends HookConsumerWidget {
                 log(
                   phoneNumberAccepted.toString(),
                 );
+                return null;
               },
               onChange: (v) {
                 phone = convertToEnglishNumbers(v.trim());

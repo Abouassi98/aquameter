@@ -60,6 +60,7 @@ class ChangePassScreen extends HookConsumerWidget {
                           if (value!.isEmpty) {
                             return localization.text('change_pass');
                           }
+                          return null;
                         },
                       ),
                     ),

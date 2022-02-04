@@ -135,6 +135,7 @@ class Calculator extends HookConsumerWidget {
                                         } on FormatException {
                                           debugPrint('Format error!');
                                         }
+                                        return null;
                                       },
                                     ),
                                     CustomTextField(
@@ -184,6 +185,7 @@ class Calculator extends HookConsumerWidget {
                                         } on FormatException {
                                           debugPrint('Format error!');
                                         }
+                                        return null;
                                       },
                                     ),
                                   ],
@@ -227,6 +229,7 @@ class Calculator extends HookConsumerWidget {
                                         } on FormatException {
                                           debugPrint('Format error!');
                                         }
+                                        return null;
                                       },
                                     ),
                                     CustomTextField(
@@ -263,6 +266,7 @@ class Calculator extends HookConsumerWidget {
                                         } on FormatException {
                                           debugPrint('Format error!');
                                         }
+                                        return null;
                                       },
                                     ),
                                   ],
@@ -294,6 +298,7 @@ class Calculator extends HookConsumerWidget {
                                       } else {
                                         warningTotalAmmonia = true;
                                       }
+                                      return null;
                                     },
                                   ),
                                 ),
