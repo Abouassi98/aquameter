@@ -16,16 +16,117 @@ class ClientsModel {
   }
 }
 
-class AreaData {
+class PeriodsResult {
+  int? id;
+  String? mceeting;
+  int? clientId;
+  int? userId;
+  int? totalWieght;
+  int? avrageFooder;
+  dynamic endMceeting;
+  String? createdAt;
+  String? updatedAt;
+  int? status;
+  int? startingWeight;
+  int? targetWeight;
+  int? ammonia;
+  int? avrageWeight;
+  int? totalNumber;
+  int? conversionRate;
+  int? numberOfDead;
+  int? feed;
+
+  PeriodsResult({
+    this.id,
+    this.mceeting,
+    this.clientId,
+    this.userId,
+    this.totalWieght,
+    this.avrageFooder,
+    this.endMceeting,
+    this.createdAt,
+    this.updatedAt,
+    this.status,
+    this.startingWeight,
+    this.targetWeight,
+    this.ammonia,
+    this.avrageWeight,
+    this.totalNumber,
+    this.conversionRate,
+    this.numberOfDead,
+    this.feed,
+  });
+
+  factory PeriodsResult.fromJson(Map<String, dynamic> json) {
+    return PeriodsResult(
+      id: json['id'] as int?,
+      mceeting: json['mceeting'] as String?,
+      clientId: json['client_id'] as int?,
+      userId: json['user_id'] as int?,
+      totalWieght: json['total_wieght'] as int?,
+      avrageFooder: json['avrage_fooder'] as int?,
+      endMceeting: json['end_mceeting'] as dynamic,
+      createdAt: json['created_at'] as String?,
+      updatedAt: json['updated_at'] as String?,
+      status: json['status'] as int?,
+      startingWeight: json['starting_weight'] as int?,
+      targetWeight: json['target_weight'] as int?,
+      ammonia: json['ammonia'] as int?,
+      avrageWeight: json['avrage_weight'] as int?,
+      totalNumber: json['total_number'] as int?,
+      conversionRate: json['conversion_rate'] as int?,
+      numberOfDead: json['number_of_dead'] as int?,
+      feed: json['feed'] as int?,
+    );
+  }
+}
+
+class GovernorateData {
   int? id;
   String? names;
 
-  AreaData({this.id, this.names});
+  GovernorateData({this.id, this.names});
 
-  factory AreaData.fromJson(Map<String, dynamic> json) {
-    return AreaData(
+  factory GovernorateData.fromJson(Map<String, dynamic> json) {
+    return GovernorateData(
       id: json['id'] as int?,
       names: json['names'] as String?,
+    );
+  }
+}
+
+class Fish {
+  int? id;
+  String? number;
+  int? type;
+  int? clientId;
+  FishType? fishType;
+
+  Fish({this.id, this.number, this.type, this.clientId, this.fishType});
+
+  factory Fish.fromJson(Map<String, dynamic> json) {
+    return Fish(
+      id: json['id'] as int?,
+      number: json['number'] as String?,
+      type: json['type'] as int?,
+      clientId: json['client_id'] as int?,
+      fishType: json['fish_type'] == null
+          ? null
+          : FishType.fromJson(json['fish_type'] as Map<String, dynamic>),
+    );
+  }
+}
+
+class FishType {
+  int? id;
+  String? name;
+
+  FishType({this.id, this.name});
+
+  factory FishType.fromJson(Map<String, dynamic> json) {
+    return FishType(
+      id: json['id'] as int?,
+      name: json['name'] as String?,
     );
   }
 }
@@ -39,13 +140,13 @@ class Client {
   String? address;
   int? landSize;
   String? landSizeType;
-  int? startingWeight;
-  int? targetWeight;
+  dynamic startingWeight;
+  dynamic targetWeight;
   String? createdAt;
   String? updatedAt;
   dynamic ammonia;
   dynamic avrageWeight;
-  int? totalNumber;
+  dynamic totalNumber;
   dynamic conversionRate;
   dynamic numberOfDead;
   dynamic lat;
@@ -105,13 +206,13 @@ class Client {
       address: json['address'] as String?,
       landSize: json['land_size'] as int?,
       landSizeType: json['land_size_type'] as String?,
-      startingWeight: json['starting_weight'] as int?,
-      targetWeight: json['target_weight'] as int?,
+      startingWeight: json['starting_weight'] as dynamic,
+      targetWeight: json['target_weight'] as dynamic,
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
       ammonia: json['ammonia'] as dynamic,
       avrageWeight: json['avrage_weight'] as dynamic,
-      totalNumber: json['total_number'] as int?,
+      totalNumber: json['total_number'] as dynamic,
       conversionRate: json['conversion_rate'] as dynamic,
       numberOfDead: json['number_of_dead'] as dynamic,
       lat: json['lat'] as dynamic,
@@ -140,96 +241,16 @@ class Client {
   }
 }
 
-class PeriodsResult {
-  int? id;
-  String? mceeting;
-  int? clientId;
-  int? userId;
-  dynamic totalWieght;
-  dynamic avrageWieght;
-  dynamic avrageFooder;
-  dynamic endMceeting;
-  String? createdAt;
-  String? updatedAt;
-  int? status;
-
-  PeriodsResult({
-    this.id,
-    this.mceeting,
-    this.clientId,
-    this.userId,
-    this.totalWieght,
-    this.avrageWieght,
-    this.avrageFooder,
-    this.endMceeting,
-    this.createdAt,
-    this.updatedAt,
-    this.status,
-  });
-
-  factory PeriodsResult.fromJson(Map<String, dynamic> json) {
-    return PeriodsResult(
-      id: json['id'] as int?,
-      mceeting: json['mceeting'] as String?,
-      clientId: json['client_id'] as int?,
-      userId: json['user_id'] as int?,
-      totalWieght: json['total_wieght'] as dynamic,
-      avrageWieght: json['avrage_wieght'] as dynamic,
-      avrageFooder: json['avrage_fooder'] as dynamic,
-      endMceeting: json['end_mceeting'] as dynamic,
-      createdAt: json['created_at'] as String?,
-      updatedAt: json['updated_at'] as String?,
-      status: json['status'] as int?,
-    );
-  }
-}
-
-class GovernorateData {
+class AreaData {
   int? id;
   String? names;
 
-  GovernorateData({this.id, this.names});
+  AreaData({this.id, this.names});
 
-  factory GovernorateData.fromJson(Map<String, dynamic> json) {
-    return GovernorateData(
+  factory AreaData.fromJson(Map<String, dynamic> json) {
+    return AreaData(
       id: json['id'] as int?,
       names: json['names'] as String?,
-    );
-  }
-}
-
-class Fish {
-  int? id;
-  String? number;
-  int? type;
-  int? clientId;
-  FishType? fishType;
-
-  Fish({this.id, this.number, this.type, this.clientId, this.fishType});
-
-  factory Fish.fromJson(Map<String, dynamic> json) {
-    return Fish(
-      id: json['id'] as int?,
-      number: json['number'] as String?,
-      type: json['type'] as int?,
-      clientId: json['client_id'] as int?,
-      fishType: json['fish_type'] == null
-          ? null
-          : FishType.fromJson(json['fish_type'] as Map<String, dynamic>),
-    );
-  }
-}
-
-class FishType {
-  int? id;
-  String? name;
-
-  FishType({this.id, this.name});
-
-  factory FishType.fromJson(Map<String, dynamic> json) {
-    return FishType(
-      id: json['id'] as int?,
-      name: json['name'] as String?,
     );
   }
 }

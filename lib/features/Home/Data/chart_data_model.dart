@@ -1,6 +1,8 @@
 class ChartData {
-  ChartData(this.name, this.count,);
+  ChartData(
+    this.name,
+    this.count,
+  );
   final String name;
   final int count;
-  
 }

@@ -48,10 +48,10 @@ class AuthNotifier extends StateNotifier<void> {
     } else {}
   }
 
-  Future<void> fetchUserData(
-    AreaAndCitesNotifier areaAndCites,
-    FishTypesNotifier fishTypes,
-  ) async {
+  Future<void> fetchUserData({
+    AreaAndCitesNotifier? areaAndCites,
+    FishTypesNotifier? fishTypes,
+  }) async {
     Response response = await _utils.requstData(
       get: true,
       url: 'profile',
@@ -61,9 +61,12 @@ class AuthNotifier extends StateNotifier<void> {
       log('Token >>> ${GetStorage().read(kToken)}');
 
       pushAndRemoveUntil(const MainPage());
-
-      await fishTypes.getFishTypes();
-      await areaAndCites.getCities();
+      if (areaAndCites != null) {
+        await fishTypes!.getFishTypes();
+      }
+      if (fishTypes != null) {
+        await areaAndCites!.getCities();
+      }
     } else {}
   }
 }

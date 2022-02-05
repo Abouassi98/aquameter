@@ -13,6 +13,7 @@ class CreateMeetingResultNotifier extends StateNotifier<void> {
   Future<void> createMeetingResult({
     required BuildContext context,
     required int meetId,
+    required DateTime realDate,
     num? temperature,
     num? ph,
     num? salinity,
@@ -31,6 +32,7 @@ class CreateMeetingResultNotifier extends StateNotifier<void> {
     Response response = await _utils.requstData(
       body: {
         "meeting_id": meetId,
+        "real_date" : realDate,
         if (temperature != null) "temperature": temperature,
         if (ph != null) "ph": ph,
         if (salinity != null) "salinity": salinity,

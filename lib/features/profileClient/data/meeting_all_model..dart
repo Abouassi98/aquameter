@@ -1,3 +1,5 @@
+
+
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 
 class MeetingAllModel {
@@ -7,17 +9,89 @@ class MeetingAllModel {
 
   MeetingAllModel({this.code, this.data, this.message});
 
-  factory MeetingAllModel.fromJson(Map<String, dynamic> json) {
+  factory MeetingAllModel.fromJson(
+      Map<String, dynamic> json) {
     return MeetingAllModel(
       code: json['code'] as int?,
       data: (json['data'] as List<dynamic>?)
-          ?.map((e) => MeetingClient.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => MeetingClient
+              .fromJson(
+                  e as Map<String, dynamic>))
           .toList(),
       message: json['message'] as String?,
     );
   }
+
+
 }
 
+class MeetingResult {
+  int? id;
+  int? meetingId;
+  double? temperature;
+  double? ph;
+  double? salinity;
+  double? oxygen;
+  double? ammonia;
+  dynamic averageWeight;
+  double? totalWeight;
+  double? conversionRate;
+  String? createdAt;
+  String? updatedAt;
+  int? feed;
+  int? deadFish;
+  String? notes;
+  dynamic totalNumber;
+  double? toxicAmmonia;
+  dynamic realDate;
+
+  MeetingResult({
+    this.id,
+    this.meetingId,
+    this.temperature,
+    this.ph,
+    this.salinity,
+    this.oxygen,
+    this.ammonia,
+    this.averageWeight,
+    this.totalWeight,
+    this.conversionRate,
+    this.createdAt,
+    this.updatedAt,
+    this.feed,
+    this.deadFish,
+    this.notes,
+    this.totalNumber,
+    this.toxicAmmonia,
+    this.realDate,
+  });
+
+  factory MeetingResult.fromJson(
+      Map<String, dynamic> json) {
+    return MeetingResult(
+      id: json['id'] as int?,
+      meetingId: json['meeting_id'] as int?,
+      temperature: (json['temperature'] as num?)?.toDouble(),
+      ph: (json['ph'] as num?)?.toDouble(),
+      salinity: (json['salinity'] as num?)?.toDouble(),
+      oxygen: (json['oxygen'] as num?)?.toDouble(),
+      ammonia: (json['ammonia'] as num?)?.toDouble(),
+      averageWeight: json['average_weight'] as dynamic,
+      totalWeight: (json['total_weight'] as num?)?.toDouble(),
+      conversionRate: (json['conversion_rate'] as num?)?.toDouble(),
+      createdAt: json['created_at'] as String?,
+      updatedAt: json['updated_at'] as String?,
+      feed: json['feed'] as int?,
+      deadFish: json['dead_fish'] as int?,
+      notes: json['notes'] as String?,
+      totalNumber: json['total_number'] as dynamic,
+      toxicAmmonia: (json['toxic_ammonia'] as num?)?.toDouble(),
+      realDate: json['real_date'] as dynamic,
+    );
+  }
+
+ 
+}
 class MeetingClient {
   int? id;
   String? meeting;
@@ -41,7 +115,8 @@ class MeetingClient {
     this.client,
   });
 
-  factory MeetingClient.fromJson(Map<String, dynamic> json) {
+  factory MeetingClient.fromJson(
+      Map<String, dynamic> json) {
     return MeetingClient(
       id: json['id'] as int?,
       meeting: json['meeting'] as String?,
@@ -51,73 +126,17 @@ class MeetingClient {
       userId: json['user_id'] as int?,
       periodId: json['period_id'] as int?,
       meetingResult: (json['meeting_result'] as List<dynamic>?)
-          ?.map((e) => MeetingResult.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => MeetingResult
+              .fromJson(
+                  e as Map<String, dynamic>))
           .toList(),
       client: json['client'] == null
           ? null
-          : Client.fromJson(json['client'] as Map<String, dynamic>),
+          : Client
+              .fromJson(
+                  json['client'] as Map<String, dynamic>),
     );
   }
-}
 
-class MeetingResult {
-  int? id;
-  int? meetingId;
-  num? temperature;
-  num? ph;
-  num? salinity;
-  num? oxygen;
-  num? ammonia;
-  num? averageWeight;
-  num? totalWeight;
-  num? conversionRate;
-  String? createdAt;
-  String? updatedAt;
-  num? feed;
-  int? deadFish;
-  String? notes;
-  dynamic totalNumber;
-  double? toxicAmmonia;
-
-  MeetingResult({
-    this.id,
-    this.meetingId,
-    this.temperature,
-    this.ph,
-    this.salinity,
-    this.oxygen,
-    this.ammonia,
-    this.averageWeight,
-    this.totalWeight,
-    this.conversionRate,
-    this.createdAt,
-    this.updatedAt,
-    this.feed,
-    this.deadFish,
-    this.notes,
-    this.totalNumber,
-    this.toxicAmmonia,
-  });
-
-  factory MeetingResult.fromJson(Map<String, dynamic> json) {
-    return MeetingResult(
-      id: json['id'] as int?,
-      meetingId: json['meeting_id'] as int?,
-      temperature: (json['temperature'] as num?)?.toDouble(),
-      ph: (json['ph'] as num?)?.toDouble(),
-      salinity: (json['salinity'] as num?)?.toDouble(),
-      oxygen: (json['oxygen'] as num?)?.toDouble(),
-      ammonia: (json['ammonia'] as num?)?.toDouble(),
-      averageWeight: json['average_weight'] as dynamic,
-      totalWeight: (json['total_weight'] as num?)?.toDouble(),
-      conversionRate: (json['conversion_rate'] as num?)?.toDouble(),
-      createdAt: json['created_at'] as String?,
-      updatedAt: json['updated_at'] as String?,
-      feed: json['feed'] as int?,
-      deadFish: json['dead_fish'] as int?,
-      notes: json['notes'] as String?,
-      totalNumber: json['total_number'] as dynamic,
-      toxicAmmonia: (json['toxic_ammonia'] as num?)?.toDouble(),
-    );
-  }
+ 
 }

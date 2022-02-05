@@ -1,12 +1,14 @@
 import 'dart:developer';
 import 'package:aquameter/core/utils/network_utils.dart';
 
-import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_calendar/flutter_clean_calendar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../data/meeting_all_model..dart';
 
 class MeetingAllNotifier extends StateNotifier<void> {
   MeetingAllNotifier(void state) : super(state);
@@ -40,36 +42,36 @@ class MeetingAllNotifier extends StateNotifier<void> {
               x++) {
             selectedEvents.addAll({
               DateTime(
-                int.parse(meetingAllModel!.data![i].meetingResult![x].createdAt!
+                int.parse(meetingAllModel!.data![i].meetingResult![x].realDate!
                     .substring(0, 4)),
-                int.parse(meetingAllModel!.data![i].meetingResult![x].createdAt!
+                int.parse(meetingAllModel!.data![i].meetingResult![x].realDate!
                     .substring(6, 7)),
                 int.parse(
-                  meetingAllModel!.data![i].meetingResult![x].updatedAt!
+                  meetingAllModel!.data![i].meetingResult![x].realDate!
                       .substring(8, 10),
                 ),
               ): [
                 CleanCalendarEvent('الزيارات السابقه',
                     startTime: DateTime(
                       int.parse(meetingAllModel!
-                          .data![i].meetingResult![x].createdAt!
+                          .data![i].meetingResult![x].realDate!
                           .substring(0, 4)),
                       int.parse(meetingAllModel!
-                          .data![i].meetingResult![x].createdAt!
+                          .data![i].meetingResult![x].realDate!
                           .substring(6, 7)),
                       int.parse(meetingAllModel!
-                          .data![i].meetingResult![x].createdAt!
+                          .data![i].meetingResult![x].realDate!
                           .substring(8, 10)),
                     ),
                     endTime: DateTime(
                         int.parse(meetingAllModel!
-                            .data![i].meetingResult![x].createdAt!
+                            .data![i].meetingResult![x].realDate!
                             .substring(0, 4)),
                         int.parse(meetingAllModel!
-                            .data![i].meetingResult![x].createdAt!
+                            .data![i].meetingResult![x].realDate!
                             .substring(6, 7)),
                         int.parse(meetingAllModel!
-                            .data![i].meetingResult![x].createdAt!
+                            .data![i].meetingResult![x].realDate!
                             .substring(8, 10))),
                     color: Colors.brown)
               ]

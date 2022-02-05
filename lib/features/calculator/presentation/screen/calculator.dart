@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
@@ -8,22 +7,28 @@ import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_btn.dart';
 import 'package:aquameter/core/utils/widgets/custom_dialog.dart';
 import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
-
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
-
 import 'package:aquameter/features/calculator/presentation/manager/create_meeting_result_notifier.dart';
 import 'package:aquameter/features/calculator/presentation/widgets.dart/alert_calculator.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../../../core/themes/themes.dart';
+import '../../../Home/Data/clients_model/clients_model.dart';
 
 // ignore: must_be_immutable
 class Calculator extends HookConsumerWidget {
   final int meetingId;
   final num totalFeed;
-  Calculator({Key? key, required this.totalFeed, required this.meetingId})
+  final Client client;
+  final DateTime dateTime;
+  Calculator(
+      {Key? key,
+      required this.totalFeed,
+      required this.meetingId,
+      required this.dateTime,
+      required this.client})
       : super(key: key);
   num tempreatureOfWater = 0.0,
       ph = 0.0,
@@ -46,7 +51,9 @@ class Calculator extends HookConsumerWidget {
       warningTotalAmmonia = false,
       warningOxygen = false,
       warningTempreatureOfWater = false;
+
   String notes = '';
+  int totalPreviousFishes = 0;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final CreateMeetingResultNotifier createMeetingResult = ref.read(
@@ -56,6 +63,11 @@ class Calculator extends HookConsumerWidget {
     final ValueNotifier<num> averageWeight = useState<num>(0.0);
     final ValueNotifier<num> totalWeight = useState<num>(0.0);
     final ValueNotifier<double> conversionRate = useState<double>(0.0);
+    totalPreviousFishes = 0;
+    for (int i = 0; i < client.fish!.length; i++) {
+      totalPreviousFishes += int.parse(client.fish![i].number!);
+    }
+
     return Scaffold(
       body: ListView(
         primary: false,
@@ -76,6 +88,10 @@ class Calculator extends HookConsumerWidget {
                       fit: BoxFit.cover,
                     ),
                     const SizedBox(height: 15),
+                    CustomHeaderTitle(
+                      title: dateTime.toString().substring(0, 10),
+                      color: Colors.blue[400],
+                    ),
                     Container(
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width * 0.9,
@@ -579,7 +595,7 @@ class Calculator extends HookConsumerWidget {
                               CustomBtn(
                                   text: totalWeight.value == 0.0
                                       ? '0.0 = اجمالي الوزن'
-                                      : '${totalWeight.value.toStringAsFixed(2)} = اجمالي الوزن}'),
+                                      : '${totalWeight.value.toStringAsFixed(2)} =  اجمالي الوزن'),
                               const SizedBox(
                                 width: 20,
                               ),
@@ -589,7 +605,12 @@ class Calculator extends HookConsumerWidget {
                                   radius: 15,
                                   title: ' = ',
                                   function: () {
-                                    if (_dieFishes.currentState!.validate()) {}
+                                    if (_dieFishes.currentState!.validate()) {
+                                      totalWeight.value =
+                                          ((totalPreviousFishes - dieFishes) *
+                                                  averageWeight.value) /
+                                              1000;
+                                    }
                                   }),
                             ],
                           ),
@@ -647,7 +668,7 @@ class Calculator extends HookConsumerWidget {
                                         .validate()) {
                                       conversionRate.value =
                                           ((totalFeed + feed) /
-                                                  totalWeightFishes)
+                                                  totalWeight.value)
                                               .toDouble();
                                     }
                                   }),
@@ -669,6 +690,7 @@ class Calculator extends HookConsumerWidget {
                               title: 'حفظ',
                               function: () {
                                 createMeetingResult.createMeetingResult(
+                                  realDate: dateTime,
                                   context: context,
                                   meetId: meetingId,
                                   ammonia: totalAmmonia,

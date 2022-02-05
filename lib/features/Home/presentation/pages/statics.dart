@@ -79,13 +79,13 @@ class Statics extends HookConsumerWidget {
                               staticList: true,
                               onChange: (v) async {
                                 if (v == 'المحافظات') {
-                                      fishes.value = [];
+                                  fishes.value = [];
                                   governorate.value = [
                                     ...graphStatics
                                         .graphStaticsModel!.data!.governorate
                                   ];
                                 } else {
-                                      governorate.value = [];
+                                  governorate.value = [];
                                   fishes.value = [
                                     ...graphStatics
                                         .graphStaticsModel!.data!.type
@@ -105,8 +105,7 @@ class Statics extends HookConsumerWidget {
                                 isVisible: true,
                                 textStyle: TextStyle(fontSize: 15),
                                 color: Colors.red,
-                                labelPosition:
-                                    ChartDataLabelPosition.inside,
+                                labelPosition: ChartDataLabelPosition.inside,
                               ),
                               dataSource: List.generate(
                                 governorate.value.length,
@@ -116,10 +115,8 @@ class Statics extends HookConsumerWidget {
                                 ),
                               ),
                               legendIconType: LegendIconType.circle,
-                              xValueMapper: (ChartData data, _) =>
-                                  data.name,
-                              yValueMapper: (ChartData data, _) =>
-                                  data.count,
+                              xValueMapper: (ChartData data, _) => data.name,
+                              yValueMapper: (ChartData data, _) => data.count,
                             )
                           ]),
                     if (fishes.value.isNotEmpty)
@@ -131,8 +128,7 @@ class Statics extends HookConsumerWidget {
                                 isVisible: true,
                                 textStyle: TextStyle(fontSize: 15),
                                 color: Colors.red,
-                                labelPosition:
-                                    ChartDataLabelPosition.inside,
+                                labelPosition: ChartDataLabelPosition.inside,
                               ),
                               dataSource: List.generate(
                                 fishes.value.length,
@@ -142,10 +138,8 @@ class Statics extends HookConsumerWidget {
                                 ),
                               ),
                               legendIconType: LegendIconType.circle,
-                              xValueMapper: (ChartData data, _) =>
-                                  data.name,
-                              yValueMapper: (ChartData data, _) =>
-                                  data.count,
+                              xValueMapper: (ChartData data, _) => data.name,
+                              yValueMapper: (ChartData data, _) => data.count,
                             )
                           ]),
                   ],

@@ -1,7 +1,6 @@
-import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
@@ -12,15 +11,10 @@ class ListSelectorWidget extends HookConsumerWidget {
     Key? key,
   }) : super(key: key);
 
-  final String categoryName = '';
-
-  final _multiSelectKey = GlobalKey<FormFieldState>();
+  final GlobalKey<FormFieldState> _multiSelectKey = GlobalKey<FormFieldState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ValueNotifier<List> _selectedItems = useState<List>([]);
-    List<int> ids = [];
-
     return MultiSelectBottomSheetField(
       key: _multiSelectKey,
       buttonIcon: const Icon(
@@ -32,25 +26,8 @@ class ListSelectorWidget extends HookConsumerWidget {
       listType: MultiSelectListType.LIST,
       initialChildSize: 0.7,
       maxChildSize: 0.95,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextButton(
-            child: const Text("مسح الكل"),
-            onPressed: () async {},
-          ),
-          SizedBox(
-            width: SizeConfig.screenWidth * 0.2,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 3.0),
-            child: TextButton(
-              child: const Text("تحديد الكل"),
-              onPressed: () async {},
-            ),
-          ),
-        ],
+      title: const Text(
+        '',
       ),
       buttonText: const Text(
         'اختار العميل',
@@ -58,20 +35,12 @@ class ListSelectorWidget extends HookConsumerWidget {
           fontSize: 10,
         ),
       ),
-      items: clientsModel.data!
-          .map((e) => MultiSelectItem(e, e.name.toString()))
-          .toList(),
+      items:
+          clientsModel.data!.map((e) => MultiSelectItem(e, e.name!)).toList(),
       searchable: true,
       onConfirm: (values) async {
-        ids = [];
-
         debugPrint('sdfsfdsfd${values.length}');
         if (values.isNotEmpty) {
-          for (int i = 0; i < values.length; i++) {
-            _selectedItems.value = values;
-          }
-          ids = ids.toSet().toList();
-          for (int i = 0; i < ids.length; i++) {}
         } else {}
 
         _multiSelectKey.currentState!.validate();
@@ -79,8 +48,6 @@ class ListSelectorWidget extends HookConsumerWidget {
       chipDisplay: MultiSelectChipDisplay(
         alignment: Alignment.topRight,
         onTap: (item) {
-          _selectedItems.value.remove(item);
-
           _multiSelectKey.currentState!.validate();
         },
       ),

@@ -52,8 +52,8 @@ class SplashViewBody extends HookConsumerWidget {
 
       if (isLoggedIn) {
         await changeLanguage.fetchUserData(
-          areaAndCites,
-          fishTypes,
+          areaAndCites: areaAndCites,
+          fishTypes: fishTypes,
         );
       } else {
         Future.delayed(const Duration(seconds: 0), () async {

@@ -15,13 +15,15 @@ import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart'
 
 import 'package:aquameter/features/Home/presentation/widgets/days_item.dart';
 import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
-import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
+
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/profile_client%20_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../profileClient/data/meeting_all_model..dart';
 
 class Home extends HookConsumerWidget {
   Home({Key? key}) : super(key: key);
@@ -40,7 +42,7 @@ class Home extends HookConsumerWidget {
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final ValueNotifier<List<MeetingClient>> filterClients =
         useState<List<MeetingClient>>([]);
-   final FishTypesNotifier fishTypes = ref.read(
+    final FishTypesNotifier fishTypes = ref.read(
       fishTypesNotifier.notifier,
     );
     return Directionality(
@@ -130,7 +132,7 @@ class Home extends HookConsumerWidget {
                                   shrinkWrap: true,
                                   itemCount: filterClients.value.length,
                                   itemBuilder: (context, i) => ClientItem(
-                                    fishTypes:fishTypes ,
+                                    fishTypes: fishTypes,
                                     confirmDismiss:
                                         (DismissDirection direction) async {
                                       return await _dialog.showOptionDialog(
@@ -154,6 +156,7 @@ class Home extends HookConsumerWidget {
                                       meetingAll.id =
                                           filterClients.value[i].clientId;
                                       push(ProfileClientScreen(
+                                 
                                         client: filterClients.value[i].client!,
                                         meetingClient: filterClients.value[i],
                                       ));

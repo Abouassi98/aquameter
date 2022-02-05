@@ -49,20 +49,19 @@ class ClientItem extends StatelessWidget {
             child: Row(
               children: [
                 // Shop Image
-               FadeInImage.assetNetwork(
-                        height: SizeConfig.screenHeight * 0.1,
-                        image: fishTypes!.fishTypesModel!.data!
-                            .firstWhere((element) =>
-                                element.id == client.fish![0].fishType!.id)
-                            .photo
-                            .toString(),
-                        placeholder: 'assets/images/about.png',
-                        fadeInDuration: const Duration(seconds: 1),
-                        fit: BoxFit.fill,
-                        imageCacheHeight: 500,
-                        imageCacheWidth: 500,
-                      )
-                  ,
+                FadeInImage.assetNetwork(
+                  height: SizeConfig.screenHeight * 0.1,
+                  image: fishTypes!.fishTypesModel!.data!
+                      .firstWhere((element) =>
+                          element.id == client.fish![0].fishType!.id)
+                      .photo
+                      .toString(),
+                  placeholder: 'assets/images/about.png',
+                  fadeInDuration: const Duration(seconds: 1),
+                  fit: BoxFit.fill,
+                  imageCacheHeight: 500,
+                  imageCacheWidth: 500,
+                ),
                 // Shop Details
                 Expanded(
                   flex: 3,
@@ -82,14 +81,14 @@ class ClientItem extends StatelessWidget {
                               .copyWith(fontSize: 10, color: Colors.black),
                         ),
                         const SizedBox(height: 10),
-                        if (client.governorateData != null)
+                        
                           Text(
                             '${client.governorateData!.names} - ${client.areaData!.names}',
                             style: MainTheme.headingTextStyle.copyWith(
                                 fontSize: 10, color: const Color(0xFF8D8E98)),
                           ),
                         const SizedBox(height: 10),
-                        if (client.governorateData != null)
+                       
                           Text(
                             client.address!,
                             style: MainTheme.headingTextStyle.copyWith(

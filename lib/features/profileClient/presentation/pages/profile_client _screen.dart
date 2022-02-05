@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
@@ -16,7 +18,7 @@ import 'package:aquameter/features/Home/presentation/manager/get_&_delete_client
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
 import 'package:aquameter/features/calculator/presentation/screen/show_calculator.dart';
-import 'package:aquameter/features/profileClient/data/meeting_all_model.dart';
+
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/update_and_endperiod_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/edit_client.dart';
@@ -26,7 +28,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_calendar/flutter_clean_calendar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-// ignore: must_be_immutable
+import '../../data/meeting_all_model..dart';
+
 class ProfileClientScreen extends HookConsumerWidget {
   final Client client;
   final MeetingClient? meetingClient;
@@ -146,120 +149,229 @@ class ProfileClientScreen extends HookConsumerWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                          SizedBox(
-                            height: SizeConfig.screenHeight * 0.6,
-                            child: Calendar(
-                              onMonthChanged: (v) {
-                                if (DateTime.now().difference(v).inDays > 0) {}
-                              },
-                              onEventSelected: (v) {},
-                              hideBottomBar: true,
-                              events: meetingAll.selectedEvents,
-                              startOnMonday: true,
-                              weekDays: const [
-                                'الاثنين',
-                                'الثلاثاء',
-                                'الاربعاء',
-                                'الخميس',
-                                'الجمعه',
-                                'السبت',
-                                'الحد'
-                              ],
-                              eventDoneColor: Colors.red,
-                              selectedColor: Colors.pink,
-                              todayColor: Colors.blue,
-                              eventColor: Colors.red,
-                              hideTodayIcon: true,
-                              isExpanded: true,
-                              onDateSelected: (v) {
-                                if (DateTime.now().difference(v).inDays < 0) {
-                                  HelperFunctions.errorBar(context,
-                                      message: 'لا يمكن زياره تاريخ مستقبلي');
-                                } else if (meetingAll.selectedEvents[DateTime(
-                                      int.parse(v.toString().substring(0, 4)),
-                                      int.parse(v.toString().substring(6, 7)),
-                                      int.parse(
-                                        v.toString().substring(8, 10),
-                                      ),
-                                    )] !=
-                                    null) {
-                                  push(ShowCalculator(
-                                    meetingResult: e.data![0].meetingResult!
-                                        .firstWhere((e) =>
-                                            e.createdAt!.substring(0, 10) ==
-                                            v.toString().substring(0, 10)),
-                                  ));
-                                } else {
-                                  for (int i = 0;
-                                      i < e.data![0].meetingResult!.length;
-                                      i++) {
-                                    totalFeed +=
-                                        e.data![0].meetingResult![i].feed!;
-                                  }
+                          if (client.onlinePeriodsResultCount != 0)
+                            SizedBox(
+                              height: SizeConfig.screenHeight * 0.6,
+                              child: Calendar(
+                                onMonthChanged: (v) {
+                                  if (DateTime.now().difference(v).inDays >
+                                      0) {}
+                                },
+                                onEventSelected: (v) {},
+                                hideBottomBar: true,
+                                events: meetingAll.selectedEvents,
+                                startOnMonday: true,
+                                weekDays: const [
+                                  'الاثنين',
+                                  'الثلاثاء',
+                                  'الاربعاء',
+                                  'الخميس',
+                                  'الجمعه',
+                                  'السبت',
+                                  'الحد'
+                                ],
+                                eventDoneColor: Colors.red,
+                                selectedColor: Colors.pink,
+                                todayColor: Colors.blue,
+                                eventColor: Colors.red,
+                                hideTodayIcon: true,
+                                isExpanded: true,
+                                onDateSelected: (v) {
+                                  if (DateTime.now().difference(v).inDays < 0) {
+                                    HelperFunctions.errorBar(context,
+                                        message: 'لا يمكن زياره تاريخ مستقبلي');
+                                  } else if (meetingAll.selectedEvents[DateTime(
+                                        int.parse(v.toString().substring(0, 4)),
+                                        int.parse(v.toString().substring(6, 7)),
+                                        int.parse(
+                                          v.toString().substring(8, 10),
+                                        ),
+                                      )] !=
+                                      null) {
+                                    push(ShowCalculator(
+                                      meetingResult: e.data![0].meetingResult!
+                                          .firstWhere((e) =>
+                                              e.realDate!.substring(0, 10) ==
+                                              v.toString().substring(0, 10)),
+                                    ));
+                                  } else {
+                                    //  print(e.data![0].meetingResult!
+                                    //   .where((element) =>
+                                    //       DateTime.parse(element.createdAt!)
+                                    //           .difference(v)
+                                    //           .inDays >
+                                    //       0)
+                                    //   .toList()
+                                    //   .length);
+                                    for (int i = 0;
+                                        i < e.data![0].meetingResult!.length;
+                                        i++) {
+                                      totalFeed +=
+                                          e.data![0].meetingResult![i].feed!;
+                                    }
 
-                                  push(Calculator(
-                                    totalFeed: totalFeed,
-                                    meetingId: e.data![0].id!,
-                                  ));
-                                }
-                              },
-                              dayOfWeekStyle: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 10),
+                                    push(Calculator(
+                                      dateTime: v,
+                                      client: client,
+                                      totalFeed: totalFeed,
+                                      meetingId: e.data![0].id!,
+                                    ));
+                                  }
+                                },
+                                dayOfWeekStyle: const TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 10),
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),
-                    Center(
-                      child: SizedBox(
-                        width: SizeConfig.screenWidth * 0.4,
-                        child: CustomBottomSheet(
-                          name: 'معدلات الامونيا',
-                          list: listofMeasuer,
+                    if (client.onlinePeriodsResultCount != 0)
+                      Center(
+                        child: SizedBox(
+                          width: SizeConfig.screenWidth * 0.4,
+                          child: CustomBottomSheet(
+                            name: 'معدلات الامونيا',
+                            list: listofMeasuer,
+                          ),
                         ),
                       ),
-                    ),
                     const SizedBox(
                       height: 10,
                     ),
-                    const Directionality(
-                        textDirection: TextDirection.ltr, child: Chart()),
+                    if (client.onlinePeriodsResultCount != 0)
+                      const Directionality(
+                          textDirection: TextDirection.ltr, child: Chart()),
                     const SizedBox(
                       height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        CustomTextButton(
-                          title: 'احصد الآن',
-                          function: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) => StatefulBuilder(
-                                      builder:
-                                          (context, StateSetter setState) =>
-                                              CustomDialog(
-                                        title: 'احصد الآن',
-                                        widget: [
-                                          Form(
-                                            key: _averageWeight,
-                                            child: Row(
+                        if (client.onlinePeriodsResultCount != 0)
+                          CustomTextButton(
+                            title: 'احصد الآن',
+                            function: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => StatefulBuilder(
+                                        builder:
+                                            (context, StateSetter setState) =>
+                                                CustomDialog(
+                                          title: 'احصد الآن',
+                                          widget: [
+                                            Form(
+                                              key: _averageWeight,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  CustomTextField(
+                                                    hint:
+                                                        'اجمالي وزن السمك بالكيلو',
+                                                    width:
+                                                        SizeConfig.screenWidth *
+                                                            0.3,
+                                                    calculator: true,
+                                                    onChange: (v) {
+                                                      try {
+                                                        totalWeight =
+                                                            num.parse(v);
+                                                      } on FormatException {
+                                                        debugPrint(
+                                                            'Format error!');
+                                                      }
+                                                    },
+                                                    validator: (v) {
+                                                      if (v!.isEmpty) {
+                                                        return 'لا يجب ترك الحقل فارغ';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    numbersOnly: true,
+                                                    type: TextInputType.number,
+                                                    paste: false,
+                                                  ),
+                                                  CustomTextField(
+                                                    hint: 'اعداد السمك',
+                                                    width:
+                                                        SizeConfig.screenWidth *
+                                                            0.3,
+                                                    onChange: (v) {
+                                                      try {
+                                                        totalFishes =
+                                                            int.parse(v);
+                                                      } on FormatException {
+                                                        debugPrint(
+                                                            'Format error!');
+                                                      }
+                                                    },
+                                                    validator: (v) {
+                                                      if (v!.isEmpty) {
+                                                        return 'لا يجب ترك الحقل فارغ';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    numbersOnly: true,
+                                                    type: TextInputType.number,
+                                                    paste: false,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                                  MainAxisAlignment.center,
                                               children: [
-                                                CustomTextField(
+                                                CustomBtn(
+                                                  text: averageWeight == 0.0
+                                                      ? '0.0 = متوسط الوزن'
+                                                      : averageWeight
+                                                              .toStringAsFixed(
+                                                                  2) +
+                                                          ' = متوسط الوزن',
+                                                ),
+                                                const SizedBox(
+                                                  width: 20,
+                                                ),
+                                                CustomTextButton(
+                                                    width:
+                                                        SizeConfig.screenWidth *
+                                                            0.1,
+                                                    hieght: SizeConfig
+                                                            .screenHeight *
+                                                        0.05,
+                                                    radius: 15,
+                                                    title: ' = ',
+                                                    function: () {
+                                                      if (_averageWeight
+                                                          .currentState!
+                                                          .validate()) {
+                                                        setState(() {
+                                                          averageWeight =
+                                                              (totalWeight /
+                                                                      totalFishes)
+                                                                  .round();
+                                                        });
+                                                      }
+                                                    }),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Form(
+                                              key: _conversionRate,
+                                              child: Center(
+                                                child: CustomTextField(
                                                   hint:
-                                                      'اجمالي وزن السمك بالكيلو',
-                                                  width:
-                                                      SizeConfig.screenWidth *
-                                                          0.3,
+                                                      'اجمالي وزن العلف بالكيلو',
                                                   calculator: true,
                                                   onChange: (v) {
                                                     try {
-                                                      totalWeight =
-                                                          num.parse(v);
+                                                      totalFeed = int.parse(v);
                                                     } on FormatException {
                                                       debugPrint(
                                                           'Format error!');
@@ -273,197 +385,110 @@ class ProfileClientScreen extends HookConsumerWidget {
                                                   },
                                                   numbersOnly: true,
                                                   type: TextInputType.number,
-                                                  paste: false,
                                                 ),
-                                                CustomTextField(
-                                                  hint: 'اعداد السمك',
-                                                  width:
-                                                      SizeConfig.screenWidth *
-                                                          0.3,
-                                                  onChange: (v) {
-                                                    try {
-                                                      totalFishes =
-                                                          int.parse(v);
-                                                    } on FormatException {
-                                                      debugPrint(
-                                                          'Format error!');
-                                                    }
-                                                  },
-                                                  validator: (v) {
-                                                    if (v!.isEmpty) {
-                                                      return 'لا يجب ترك الحقل فارغ';
-                                                    }
-                                                    return null;
-                                                  },
-                                                  numbersOnly: true,
-                                                  type: TextInputType.number,
-                                                  paste: false,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              CustomBtn(
-                                                text: averageWeight == 0.0
-                                                    ? '0.0 = متوسط الوزن'
-                                                    : averageWeight
-                                                            .toStringAsFixed(
-                                                                2) +
-                                                        ' = متوسط الوزن',
-                                              ),
-                                              const SizedBox(
-                                                width: 20,
-                                              ),
-                                              CustomTextButton(
-                                                  width:
-                                                      SizeConfig.screenWidth *
-                                                          0.1,
-                                                  hieght:
-                                                      SizeConfig.screenHeight *
-                                                          0.05,
-                                                  radius: 15,
-                                                  title: ' = ',
-                                                  function: () {
-                                                    if (_averageWeight
-                                                        .currentState!
-                                                        .validate()) {
-                                                      setState(() {
-                                                        averageWeight =
-                                                            (totalWeight /
-                                                                    totalFishes)
-                                                                .round();
-                                                      });
-                                                    }
-                                                  }),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Form(
-                                            key: _conversionRate,
-                                            child: Center(
-                                              child: CustomTextField(
-                                                hint:
-                                                    'اجمالي وزن العلف بالكيلو',
-                                                calculator: true,
-                                                onChange: (v) {
-                                                  try {
-                                                    totalFeed = int.parse(v);
-                                                  } on FormatException {
-                                                    debugPrint('Format error!');
-                                                  }
-                                                },
-                                                validator: (v) {
-                                                  if (v!.isEmpty) {
-                                                    return 'لا يجب ترك الحقل فارغ';
-                                                  }
-                                                  return null;
-                                                },
-                                                numbersOnly: true,
-                                                type: TextInputType.number,
                                               ),
                                             ),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              CustomBtn(
-                                                text: conversionRate == 0.0
-                                                    ? '0.0 = معدل النحويل'
-                                                    : conversionRate
-                                                            .toStringAsFixed(
-                                                                2) +
-                                                        ' = معدل النحويل',
-                                              ),
-                                              const SizedBox(
-                                                width: 20,
-                                              ),
-                                              CustomTextButton(
-                                                  width:
-                                                      SizeConfig.screenWidth *
-                                                          0.1,
-                                                  hieght:
-                                                      SizeConfig.screenHeight *
-                                                          0.05,
-                                                  radius: 15,
-                                                  title: ' = ',
-                                                  function: () {
-                                                    if (_conversionRate
-                                                        .currentState!
-                                                        .validate()) {
-                                                      setState(() {
-                                                        conversionRate =
-                                                            totalFeed /
-                                                                totalWeight;
-                                                      });
-                                                    }
-                                                  }),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Center(
-                                            child: CustomTextButton(
-                                                title: 'حفظ',
-                                                function: () async {
-                                                  if (conversionRate == 0.0) {
-                                                    HelperFunctions.successBar(
-                                                        context,
-                                                        message:
-                                                            'يجب عليك اظهار ناتج معدل التحويل');
-                                                  } else if (averageWeight ==
-                                                      0.0) {
-                                                    HelperFunctions.successBar(
-                                                        context,
-                                                        message:
-                                                            'يجب عليك اظهار ناتج متوسط الوزن');
-                                                  }
-                                                  if (_averageWeight
-                                                          .currentState!
-                                                          .validate() &&
-                                                      _conversionRate
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                CustomBtn(
+                                                  text: conversionRate == 0.0
+                                                      ? '0.0 = معدل النحويل'
+                                                      : conversionRate
+                                                              .toStringAsFixed(
+                                                                  2) +
+                                                          ' = معدل النحويل',
+                                                ),
+                                                const SizedBox(
+                                                  width: 20,
+                                                ),
+                                                CustomTextButton(
+                                                    width:
+                                                        SizeConfig.screenWidth *
+                                                            0.1,
+                                                    hieght: SizeConfig
+                                                            .screenHeight *
+                                                        0.05,
+                                                    radius: 15,
+                                                    title: ' = ',
+                                                    function: () {
+                                                      if (_conversionRate
                                                           .currentState!
                                                           .validate()) {
-                                                    await updateAndDeletePeriod
-                                                        .endPeriod(
-                                                            periodId: e.data![0]
-                                                                .periodId!,
-                                                            clientId: e.data![0]
-                                                                .clientId,
-                                                            averageFooder:
-                                                                totalFeed,
-                                                            averageWeight:
-                                                                averageWeight,
-                                                            totalWeight:
-                                                                totalWeight,
-                                                            conversionRate:
-                                                                conversionRate);
-                                                    pushAndRemoveUntil(
-                                                        const MainPage());
-                                                  }
-                                                }),
-                                          )
-                                        ],
-                                      ),
-                                    ));
-                          },
-                        ),
+                                                        setState(() {
+                                                          conversionRate =
+                                                              totalFeed /
+                                                                  totalWeight;
+                                                        });
+                                                      }
+                                                    }),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Center(
+                                              child: CustomTextButton(
+                                                  title: 'حفظ',
+                                                  function: () async {
+                                                    if (conversionRate == 0.0) {
+                                                      HelperFunctions.successBar(
+                                                          context,
+                                                          message:
+                                                              'يجب عليك اظهار ناتج معدل التحويل');
+                                                    } else if (averageWeight ==
+                                                        0.0) {
+                                                      HelperFunctions.successBar(
+                                                          context,
+                                                          message:
+                                                              'يجب عليك اظهار ناتج متوسط الوزن');
+                                                    }
+                                                    if (_averageWeight
+                                                            .currentState!
+                                                            .validate() &&
+                                                        _conversionRate
+                                                            .currentState!
+                                                            .validate()) {
+                                                      await updateAndDeletePeriod
+                                                          .endPeriod(
+                                                              periodId:
+                                                                  e.data![0]
+                                                                      .periodId!,
+                                                              clientId: e
+                                                                  .data![0]
+                                                                  .clientId,
+                                                              averageFooder:
+                                                                  totalFeed,
+                                                              averageWeight:
+                                                                  averageWeight,
+                                                              totalWeight:
+                                                                  totalWeight,
+                                                              conversionRate:
+                                                                  conversionRate);
+                                                      pushAndRemoveUntil(
+                                                          const MainPage());
+                                                    }
+                                                  }),
+                                            )
+                                          ],
+                                        ),
+                                      ));
+                            },
+                          ),
                         CustomTextButton(
                             title: 'دورة جديده',
                             function: () async {
                               await _dialog.showOptionDialog(
                                   context: context,
-                                  msg:
-                                      'هل ترغب بانهاء الدوره وانشاء دوره جديده ؟',
+                                  msg: (client.onlinePeriodsResultCount == 0)
+                                      ? 'هل ترغب بانشاء دوره جديده'
+                                      : 'هل ترغب بانهاء الدوره وانشاء دوره جديده ؟',
                                   okFun: () async {
-                                    await updateAndDeletePeriod.endPeriod(
-                                        periodId: e.data![0].periodId!);
+                                    if (client.onlinePeriodsResultCount == 0) {
+                                      await updateAndDeletePeriod.endPeriod(
+                                          periodId: e.data![0].periodId!);
+                                    }
                                     await clients.createPeriod(
                                       clientId: e.data![0].clientId,
                                     );
