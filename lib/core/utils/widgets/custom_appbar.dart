@@ -1,19 +1,20 @@
-// import 'package:aquafish/src/screens/MainWidgets/register_text_field.dart';
 import 'package:aquameter/core/themes/screen_utitlity.dart';
 
 import 'package:aquameter/core/utils/functions/helper.dart';
-import 'package:aquameter/core/utils/functions/helper_functions.dart';
+import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
+import 'package:aquameter/features/Home/Data/three_values_model.dart';
+import 'package:aquameter/features/Home/presentation/manager/three_values_notifier.dart';
 
 import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 
 import '../constants.dart';
 
-
 import '../size_config.dart';
+import 'app_loader.dart';
 
 // import 'defaultAppbar.dart';
 
@@ -22,7 +23,7 @@ class CustomAppBar extends HookConsumerWidget {
   final TextEditingController? controller;
   final void Function(String)? onChanged;
 
-  const CustomAppBar(
+  CustomAppBar(
       {Key? key,
       this.search,
       this.onChanged,
@@ -30,8 +31,19 @@ class CustomAppBar extends HookConsumerWidget {
       this.back,
       this.drawer})
       : super(key: key);
+
+  final FutureProvider<ThreeValuesModel> provider =
+      FutureProvider<ThreeValuesModel>((ref) async {
+    return await ref
+        .read(getThreeValuesNotifier.notifier)
+        .getValues(); //; may cause `provider` to rebuild
+  });
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final GetThreeValuesNotifier threeValues = ref.read(
+      getThreeValuesNotifier.notifier,
+    );
     return Container(
       decoration: const BoxDecoration(
         color: MainStyle.primaryColor,
@@ -90,83 +102,89 @@ class CustomAppBar extends HookConsumerWidget {
             ],
           ),
           if (search != true || back != true)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        HelperFunctions.getUser()
-                            .clients!
-                            .conversionRate!
-                            .toString(),
-                        style: const TextStyle(
-                          color: Color(0xff282759),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                      ),
-                      const Text(
-                        'معدل التحويل',
-                        style: TextStyle(
-                          color: Color(0xff282759),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ],
+            ref.watch(provider).when(
+                  loading: () => SpinKitFadingCircle(
+
+                    size: 30,
+                    color: Theme.of(context).primaryColor,
                   ),
-                  Column(
-                    children: [
-                      Text(
-                        HelperFunctions.getUser()
-                            .clients!
-                            .fishWieght!
-                            .toString(),
-                        style: const TextStyle(
-                          color: Color(0xff282759),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
+                  error: (e, o) {
+                    debugPrint(e.toString());
+                    debugPrint(o.toString());
+                    return const Text('error');
+                  },
+                  data: (e) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              threeValues.threeValuesModel!.data!.conversionRate
+                                  .toString(),
+                              style: const TextStyle(
+                                color: Color(0xff282759),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                            const Text(
+                              'معدل التحويل',
+                              style: TextStyle(
+                                color: Color(0xff282759),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      const Text(
-                        'الاسماك/طن',
-                        style: TextStyle(
-                          color: Color(0xff282759),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
+                        Column(
+                          children: [
+                            Text(
+                              threeValues.threeValuesModel!.data!.fishWieght
+                                  .toString(),
+                              style: const TextStyle(
+                                color: Color(0xff282759),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                            const Text(
+                              'الاسماك/طن',
+                              style: TextStyle(
+                                color: Color(0xff282759),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                        Column(
+                          children: [
+                            Text(
+                              threeValues.threeValuesModel!.data!.totalFeed
+                                  .toString(),
+                              style: const TextStyle(
+                                color: Color(0xff282759),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                            const Text(
+                              'الاعلاف/طن',
+                              style: TextStyle(
+                                color: Color(0xff282759),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  Column(
-                    children: [
-                      Text(
-                        HelperFunctions.getUser()
-                            .clients!
-                            .totalFeed!
-                            .toString(),
-                        style: const TextStyle(
-                          color: Color(0xff282759),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                      ),
-                      const Text(
-                        'الاعلاف/طن',
-                        style: TextStyle(
-                          color: Color(0xff282759),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+                ),
         ],
       ),
     );

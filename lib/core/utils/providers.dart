@@ -7,6 +7,7 @@ import 'package:aquameter/features/CustomMap/presentation/manager/map_notifier.d
 import 'package:aquameter/features/Home/presentation/manager/graph_statics_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/three_values_notifier.dart';
 import 'package:aquameter/features/archieve/presentation/manager/archieve_notifier.dart';
 import 'package:aquameter/features/calculator/presentation/manager/create_meeting_result_notifier.dart';
 
@@ -85,6 +86,11 @@ final StateNotifierProvider<CreateMeetingResultNotifier, Object?>
     createMeetingResultNotifier =
     StateNotifierProvider<CreateMeetingResultNotifier, Object?>(
   (ref) => CreateMeetingResultNotifier(null),
+);
+final StateNotifierProvider<GetThreeValuesNotifier, Object?>
+    getThreeValuesNotifier =
+    StateNotifierProvider<GetThreeValuesNotifier, Object?>(
+  (ref) => GetThreeValuesNotifier(),
 );
 
 final StateNotifierProvider<ChangePassNotifier, Object?> changePassProvider =
