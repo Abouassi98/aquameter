@@ -24,6 +24,7 @@ class CreateMeetingResultNotifier extends StateNotifier<void> {
     num? conversionRate,
     num? feed,
     int? deadFishes,
+
     num? toxicAmmonia,
     String? notes,
   }) async {
@@ -44,7 +45,8 @@ class CreateMeetingResultNotifier extends StateNotifier<void> {
         if (feed != null) "feed": feed,
         if (deadFishes != null) "dead_fish": deadFishes,
         if (toxicAmmonia != null) "toxic_ammonia": toxicAmmonia,
-        if (notes != null) "notes": notes
+        if (notes != null) "notes": notes,
+
       },
       url: 'meetingResult/create',
     );

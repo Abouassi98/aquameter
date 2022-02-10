@@ -10,47 +10,25 @@ import 'package:aquameter/features/localization/manager/app_localization.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../widgets/custom_bottom_navigation_bar.dart';
 import 'statics.dart';
 import 'home.dart';
 
-class MainPage extends StatefulWidget {
-  final int? index;
-  const MainPage({
-    Key? key,
-    this.index,
-  }) : super(key: key);
+class MainPage extends HookConsumerWidget {
+  const MainPage({Key? key}) : super(key: key);
 
   @override
-  State<MainPage> createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  String? appBartitle = localization.text('follow_order');
-  List<Widget> widgets = [
-    Home(),
-    Statics(),
-  ];
-  int _bottomNavIndex = 0;
-  void selectedpage() {
-    if (widget.index != null) {
-      setState(() {
-        _bottomNavIndex = widget.index!;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    selectedpage();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    log("555555=${GetStorage().read(kToken)}");
+  Widget build(BuildContext context, WidgetRef ref) {
+    final List<Widget> widgets = [
+      Home(),
+      Statics(),
+    ];
+    final ValueNotifier<int> _bottomNavIndex = useState<int>(0);
+    log("Token=${GetStorage().read(kToken)}");
     return WillPopScope(
       onWillPop: () async {
         return await showDialog(
@@ -76,15 +54,13 @@ class _MainPageState extends State<MainPage> {
             preferredSize: Size.fromHeight(SizeConfig.screenHeight * 0.2),
           ),
           extendBody: true,
-          body: widgets[_bottomNavIndex],
+          body: widgets[_bottomNavIndex.value],
           bottomNavigationBar: BottomAppBar(
             child: CustomBottomNavigationbBar(
               onTap: (v) {
-                setState(() {
-                  _bottomNavIndex = v;
-                });
+                _bottomNavIndex.value = v;
               },
-              inx: _bottomNavIndex,
+              inx: _bottomNavIndex.value,
             ),
           ),
           floatingActionButton: FloatingActionButton(

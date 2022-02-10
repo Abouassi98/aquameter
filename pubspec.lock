@@ -261,9 +261,11 @@ packages:
   flutter_clean_calendar:
     dependency: "direct main"
     description:
-      name: flutter_clean_calendar
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: "6e0a6c7417d9cd8fff2dda1c0079257187ca3cb5"
+      url: "https://github.com/pmcarlos/flutter_clean_calendar"
+    source: git
     version: "1.1.0"
   flutter_hooks:
     dependency: "direct main"

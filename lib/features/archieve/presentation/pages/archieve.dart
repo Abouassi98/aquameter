@@ -26,6 +26,7 @@ class ArcieveScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    
     final GetArchiveNotifier archive = ref.read(getArchiveNotifier.notifier);
     final ScrollController scrollController = ScrollController();
     return Directionality(
@@ -117,39 +118,13 @@ class ArcieveScreen extends HookConsumerWidget {
                                                     enabled: false,
                                                   ),
                                                   CustomTextField(
-                                                    initialValue: (archive
+                                                    initialValue: ( archive
                                                                     .archiveModel!
                                                                     .data![
                                                                         index]
                                                                     .periodsResult![
                                                                         i]
-                                                                    .totalWieght ==
-                                                                null ||
-                                                            archive
-                                                                    .archiveModel!
-                                                                    .data![
-                                                                        index]
-                                                                    .periodsResult![
-                                                                        i]
-                                                                    .avrageWieght ==
-                                                                null)
-                                                        ? 'error'
-                                                        : (archive
-                                                                    .archiveModel!
-                                                                    .data![
-                                                                        index]
-                                                                    .periodsResult![
-                                                                        i]
-                                                                    .totalWieght! /
-                                                                archive
-                                                                    .archiveModel!
-                                                                    .data![
-                                                                        index]
-                                                                    .periodsResult![
-                                                                        i]
-                                                                    .avrageWieght!)
-                                                            .round()
-                                                            .toString(),
+                                                                    .totalNumber.toString()),
                                                     width:
                                                         SizeConfig.screenWidth *
                                                             0.3,
@@ -162,7 +137,7 @@ class ArcieveScreen extends HookConsumerWidget {
                                           Center(
                                             child: CustomBtn(
                                               text:
-                                                  '${archive.archiveModel!.data![index].periodsResult![i].avrageWieght.toString()}'
+                                                  '${archive.archiveModel!.data![index].periodsResult![i].avrageWieght}'
                                                   ' = متوسط الوزن',
                                             ),
                                           ),

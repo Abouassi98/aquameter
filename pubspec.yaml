@@ -62,7 +62,9 @@ dependencies:
   path_provider_platform_interface: ^2.0.3
   open_file: ^3.2.1
   geocoding: ^2.0.2
-  flutter_clean_calendar: ^1.1.0
+  flutter_clean_calendar: 
+    git:
+      url: https://github.com/pmcarlos/flutter_clean_calendar
   expandable: ^5.0.1
 
 dev_dependencies:

@@ -61,8 +61,8 @@ class EditClient extends HookConsumerWidget {
     );
     ValueNotifier<List<Cities>>? listOfCities = useState<List<Cities>>([]);
 
-    ValueNotifier<bool> showSecondField = useState<bool>(false);
-    ValueNotifier<bool> showThirdField = useState<bool>(false);
+    // ValueNotifier<bool> showSecondField = useState<bool>(false);
+    // ValueNotifier<bool> showThirdField = useState<bool>(false);
     List<int> totalFishes = [], typeFishes = [];
     return SafeArea(
         child: Scaffold(
@@ -275,71 +275,71 @@ class EditClient extends HookConsumerWidget {
                                           typeFishes1 = v;
                                         },
                                       ),
-                                      if (showSecondField.value == true)
-                                        TotalFishesItem(
-                                          initialvalue:
-                                              client.totalNumber.toString(),
-                                          list: ref
-                                              .read(
-                                                fishTypesNotifier.notifier,
-                                              )
-                                              .fishTypesModel!
-                                              .data!,
-                                          onDelete: () {
-                                            showSecondField.value = false;
-                                            totalFishes2 = null;
-                                            typeFishes2 = null;
-                                          },
-                                          onTotalFishesChange: (v) {
-                                            totalFishes2 = v;
-                                          },
-                                          onTypeFishesChange: (v) {
-                                            typeFishes2 = v;
-                                          },
-                                        ),
-                                      if (showThirdField.value == true)
-                                        TotalFishesItem(
-                                          initialvalue:
-                                              client.totalNumber.toString(),
-                                          list: ref
-                                              .read(
-                                                fishTypesNotifier.notifier,
-                                              )
-                                              .fishTypesModel!
-                                              .data!,
-                                          onDelete: () {
-                                            showThirdField.value = false;
-                                            totalFishes3 = null;
-                                            typeFishes3 = null;
-                                          },
-                                          onTotalFishesChange: (v) {
-                                            totalFishes3 = v;
-                                          },
-                                          onTypeFishesChange: (v) {
-                                            typeFishes3 = v;
-                                          },
-                                        ),
+                                      // if (showSecondField.value == true)
+                                      //   TotalFishesItem(
+                                      //     initialvalue:
+                                      //         client.totalNumber.toString(),
+                                      //     list: ref
+                                      //         .read(
+                                      //           fishTypesNotifier.notifier,
+                                      //         )
+                                      //         .fishTypesModel!
+                                      //         .data!,
+                                      //     onDelete: () {
+                                      //       showSecondField.value = false;
+                                      //       totalFishes2 = null;
+                                      //       typeFishes2 = null;
+                                      //     },
+                                      //     onTotalFishesChange: (v) {
+                                      //       totalFishes2 = v;
+                                      //     },
+                                      //     onTypeFishesChange: (v) {
+                                      //       typeFishes2 = v;
+                                      //     },
+                                      //   ),
+                                      // if (showThirdField.value == true)
+                                      //   TotalFishesItem(
+                                      //     initialvalue:
+                                      //         client.totalNumber.toString(),
+                                      //     list: ref
+                                      //         .read(
+                                      //           fishTypesNotifier.notifier,
+                                      //         )
+                                      //         .fishTypesModel!
+                                      //         .data!,
+                                      //     onDelete: () {
+                                      //       showThirdField.value = false;
+                                      //       totalFishes3 = null;
+                                      //       typeFishes3 = null;
+                                      //     },
+                                      //     onTotalFishesChange: (v) {
+                                      //       totalFishes3 = v;
+                                      //     },
+                                      //     onTypeFishesChange: (v) {
+                                      //       typeFishes3 = v;
+                                      //     },
+                                      //   ),
                                     ],
                                   ),
                                 ),
-                                if (showThirdField.value == false ||
-                                    showSecondField.value == false)
-                                  Container(
-                                    alignment: Alignment.centerRight,
-                                    child: TextButton(
-                                      onPressed: () {
-                                        if (showSecondField.value == false) {
-                                          showSecondField.value = true;
-                                        } else if (showSecondField.value ==
-                                                true &&
-                                            showThirdField.value == false) {
-                                          showThirdField.value = true;
-                                        }
-                                      },
-                                      child:
-                                          const Text('إضافة عدد من نوع آخر '),
-                                    ),
-                                  ),
+                                // if (showThirdField.value == false ||
+                                //     showSecondField.value == false)
+                                //   Container(
+                                //     alignment: Alignment.centerRight,
+                                //     child: TextButton(
+                                //       onPressed: () {
+                                //         if (showSecondField.value == false) {
+                                //           showSecondField.value = true;
+                                //         } else if (showSecondField.value ==
+                                //                 true &&
+                                //             showThirdField.value == false) {
+                                //           showThirdField.value = true;
+                                //         }
+                                //       },
+                                //       child:
+                                //           const Text('إضافة عدد من نوع آخر '),
+                                //     ),
+                                //   ),
                                 const SizedBox(height: 20),
                                 Row(
                                   mainAxisAlignment:

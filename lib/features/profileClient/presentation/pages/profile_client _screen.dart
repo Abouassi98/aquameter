@@ -161,6 +161,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                                 hideBottomBar: true,
                                 events: meetingAll.selectedEvents,
                                 startOnMonday: true,
+                                 
                                 weekDays: const [
                                   'الاثنين',
                                   'الثلاثاء',
@@ -195,21 +196,30 @@ class ProfileClientScreen extends HookConsumerWidget {
                                               v.toString().substring(0, 10)),
                                     ));
                                   } else {
-                                    //  print(e.data![0].meetingResult!
-                                    //   .where((element) =>
-                                    //       DateTime.parse(element.createdAt!)
-                                    //           .difference(v)
-                                    //           .inDays >
-                                    //       0)
-                                    //   .toList()
-                                    //   .length);
+                                
+                                    totalFeed = 0;
                                     for (int i = 0;
-                                        i < e.data![0].meetingResult!.length;
+                                        i <
+                                            e.data![0].meetingResult!
+                                                .where((element) =>
+                                                    DateTime.parse(
+                                                            element.realDate)
+                                                        .difference(v)
+                                                        .inDays <=
+                                                    0)
+                                                .toList()
+                                                .length;
                                         i++) {
-                                      totalFeed +=
-                                          e.data![0].meetingResult![i].feed!;
+                                      totalFeed += e.data![0].meetingResult!
+                                          .where((element) =>
+                                              DateTime.parse(element.realDate)
+                                                  .difference(v)
+                                                  .inDays<=
+                                              0)
+                                          .toList()[0]
+                                          .feed!;
                                     }
-
+                          
                                     push(Calculator(
                                       dateTime: v,
                                       client: client,
@@ -455,6 +465,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                                                               periodId:
                                                                   e.data![0]
                                                                       .periodId!,
+                                                                      totalNumber:  totalFishes,
                                                               clientId: e
                                                                   .data![0]
                                                                   .clientId,

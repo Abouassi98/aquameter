@@ -38,7 +38,7 @@ class MeetingResult {
   double? conversionRate;
   String? createdAt;
   String? updatedAt;
-  int? feed;
+  num? feed;
   int? deadFish;
   String? notes;
   dynamic totalNumber;

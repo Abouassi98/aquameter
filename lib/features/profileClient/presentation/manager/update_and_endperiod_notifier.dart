@@ -14,6 +14,7 @@ class UpdateAndDeletePeriodNotifier extends StateNotifier<void> {
     int? clientId,
     num? totalWeight,
     int? averageWeight,
+    int? totalNumber,
     num? averageFooder,
     num? conversionRate,
   }) async {
@@ -26,6 +27,11 @@ class UpdateAndDeletePeriodNotifier extends StateNotifier<void> {
       if (averageWeight != null) "avrage_wieght": averageWeight,
       if (averageFooder != null) "avrage_fooder": averageFooder,
       if (conversionRate != null) "conversion_rate": conversionRate,
+
+   if(totalNumber!=null) "total_number":totalNumber,
+
+
+ 
     });
 
     log('period Ended${response.data}');

@@ -197,7 +197,7 @@ class PeriodsResult {
   int? clientId;
   int? userId;
   int? totalWieght;
-  int? avrageWieght;
+  num? avrageWieght;
   int? avrageFooder;
   dynamic endMceeting;
   String? createdAt;
@@ -237,7 +237,7 @@ class PeriodsResult {
     clientId = json['client_id'];
     userId = json['user_id'];
     totalWieght = json['total_wieght'];
-    avrageWieght = json['avrage_wieght'];
+    avrageWieght = json['avrage_weight'];
     avrageFooder = json['avrage_fooder'];
     endMceeting = json['end_mceeting'];
     createdAt = json['created_at'];

@@ -14,7 +14,7 @@ import 'package:aquameter/features/calculator/presentation/widgets.dart/alert_ca
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import '../../../../core/themes/themes.dart';
+
 import '../../../Home/Data/clients_model/clients_model.dart';
 
 // ignore: must_be_immutable
@@ -706,7 +706,7 @@ class Calculator extends HookConsumerWidget {
                                   totalWeight: totalWeight.value,
                                   toxicAmmonia: nH3.value,
                                 );
-                              })
+                              }),
                         ],
                       ),
                     ),
