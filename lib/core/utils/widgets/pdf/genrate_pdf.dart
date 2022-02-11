@@ -14,6 +14,7 @@ class PdfGenerator {
     final ByteData bytes = await rootBundle.load('assets/fonts/arial.ttf');
     return bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
   }
+
   Future<void> generatePDF({required List<Client> clients}) async {
     //Create a PDF document.
     final PdfDocument document = PdfDocument();
@@ -22,12 +23,12 @@ class PdfGenerator {
     //Get page client size
     final Size pageSize = page.getClientSize();
     //Draw rectangle
-    PdfFont font = PdfTrueTypeFont(await readFontData(),12);
+    PdfFont font = PdfTrueTypeFont(await readFontData(), 12);
     page.graphics.drawRectangle(
         bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
         pen: PdfPen(PdfColor(142, 170, 219, 255)));
     //Generate PDF grid.
-    final PdfGrid grid = _getGrid(clients,font);
+    final PdfGrid grid = _getGrid(clients, font);
 
     //Draw the header section by creating text element
     final PdfLayoutResult result = _drawHeader(page, pageSize, grid);
@@ -92,7 +93,6 @@ class PdfGenerator {
 
   //Draws the grid
   void _drawGrid(PdfPage page, PdfGrid grid, PdfLayoutResult result) {
-
     //Invoke the beginCellLayout event.
     grid.beginCellLayout = (Object sender, PdfGridBeginCellLayoutArgs args) {};
     //Draw the PDF grid and get the result.
@@ -118,7 +118,7 @@ class PdfGenerator {
   }
 
   //Create PDF grid and return
-  PdfGrid _getGrid(List<Client> clients,font) {
+  PdfGrid _getGrid(List<Client> clients, font) {
     //Create a PDF grid
     final PdfGrid grid = PdfGrid();
     //Secify the columns count to the grid.
@@ -128,7 +128,7 @@ class PdfGenerator {
     //Set style
     headerRow.style.backgroundBrush = PdfSolidBrush(PdfColor(68, 114, 196));
     headerRow.style.textBrush = PdfBrushes.white;
-     // headerRow.style.font = PdfFont[];
+    // headerRow.style.font = PdfFont[];
     headerRow.cells[0].value = 'client Id';
     headerRow.cells[0].stringFormat.alignment = PdfTextAlignment.center;
     headerRow.cells[1].value = 'client Name';
@@ -142,14 +142,12 @@ class PdfGenerator {
           clientId: element.id.toString(),
           clientName: element.name!,
           totalFish: "15",
-          averageWeight:
-          element.totalFeed.toString(),
+          averageWeight: element.totalFeed.toString(),
           conversionRate: element.conversionRate.toString(),
           totalFeed: element.totalFeed.toString(),
           targetWeight: element.targetWeight.toString(),
           grid: grid,
-      font: font
-      );
+          font: font);
     }
 
     grid.applyBuiltInStyle(PdfGridBuiltInStyle.listTable4Accent5);
@@ -175,7 +173,8 @@ class PdfGenerator {
   }
 
   //Create and row for the grid.
-  void addClient({required String clientId,
+  void addClient({
+    required String clientId,
     required String clientName,
     required String totalFish,
     required String averageWeight,
@@ -186,8 +185,7 @@ class PdfGenerator {
     required PdfFont font,
   }) {
     final PdfGridRow row = grid.rows.add();
-    row.style.font=font;
-
+    row.style.font = font;
 
     row.cells[0].value = clientId;
     row.cells[1].value = clientName;

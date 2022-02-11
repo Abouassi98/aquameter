@@ -583,7 +583,7 @@ class Calculator extends HookConsumerWidget {
                               },
                               minRange: 0,
                               calculator: false,
-                              maxRange:int.parse(allPreviousFishes) ,
+                              maxRange: int.parse(allPreviousFishes),
                               validator: (v) {
                                 if (v!.isEmpty) {
                                   return 'لا يجب ترك الحقل فارغ';
@@ -592,7 +592,6 @@ class Calculator extends HookConsumerWidget {
                               },
                               type: TextInputType.number,
                               maxLength: 5,
-                        
                             ),
                           ),
                           Row(
@@ -676,8 +675,7 @@ class Calculator extends HookConsumerWidget {
                                         .validate()) {
                                       conversionRate.value =
                                           ((totalFeed + feed) /
-                                                  totalWeight.value)
-                                              ;
+                                              totalWeight.value);
                                     }
                                   }),
                             ],

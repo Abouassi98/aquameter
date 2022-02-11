@@ -15,7 +15,6 @@ import '../constants.dart';
 
 import '../size_config.dart';
 
-
 class CustomAppBar extends HookConsumerWidget {
   final bool? search, back, drawer;
   final TextEditingController? controller;
@@ -102,7 +101,6 @@ class CustomAppBar extends HookConsumerWidget {
           if (search != true || back != true)
             ref.watch(provider).when(
                   loading: () => SpinKitFadingCircle(
-
                     size: 30,
                     color: Theme.of(context).primaryColor,
                   ),

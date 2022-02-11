@@ -24,7 +24,7 @@ class ViewClient extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-        final MapNotifier map = ref.read(
+    final MapNotifier map = ref.read(
       mapNotifier.notifier,
     );
     return SafeArea(
@@ -113,11 +113,9 @@ class ViewClient extends HookConsumerWidget {
                                   const SizedBox(height: 10),
                                   InkWell(
                                     onTap: () {
-                                       map.intialLat = 30.3;
-                                    map.intialLoong = 31.3;
-                                      push(CustomMap(
-                                   
-                                      ));
+                                      map.intialLat = 30.3;
+                                      map.intialLoong = 31.3;
+                                      push(CustomMap());
                                     },
                                     child: CustomTextField(
                                       enabled: false,
@@ -182,17 +180,16 @@ class ViewClient extends HookConsumerWidget {
                                               MainAxisAlignment.spaceAround,
                                           children: [
                                             CustomTextField(
-                                              paste: false,
-                                              type: TextInputType.phone,
+                                          
+                                             
                                               hint: client.fish?[0].number
                                                   .toString(),
                                               enabled: false,
                                             ),
                                             CustomTextField(
-                                              paste: false,
-                                              type: TextInputType.phone,
-                                              hint: client.fish?[0].type
-                                                  .toString(),
+                                       
+                                              hint: client.fish?[0].fishType!.name
+                                              ,
                                               enabled: false,
                                             ),
                                           ],

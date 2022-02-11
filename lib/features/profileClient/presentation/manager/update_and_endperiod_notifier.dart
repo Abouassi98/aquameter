@@ -27,11 +27,7 @@ class UpdateAndDeletePeriodNotifier extends StateNotifier<void> {
       if (averageWeight != null) "avrage_wieght": averageWeight,
       if (averageFooder != null) "avrage_fooder": averageFooder,
       if (conversionRate != null) "conversion_rate": conversionRate,
-
-   if(totalNumber!=null) "total_number":totalNumber,
-
-
- 
+      if (totalNumber != null) "total_number": totalNumber,
     });
 
     log('period Ended${response.data}');

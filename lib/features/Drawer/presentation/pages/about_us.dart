@@ -10,21 +10,21 @@ import '../../../../core/utils/widgets/app_loader.dart';
 
 class AboutAndTerms extends HookConsumerWidget {
   final String title;
- final bool isAbout;
-   AboutAndTerms({
+  final bool isAbout;
+  AboutAndTerms({
     Key? key,
     required this.title,
     required this.isAbout,
   }) : super(key: key);
 
   final FutureProvider<AboutAndTermsModel> provider =
-  FutureProvider<AboutAndTermsModel>((ref) async {
+      FutureProvider<AboutAndTermsModel>((ref) async {
     return await ref
         .read(getAboutAndTermsNotifier.notifier)
         .getAboutAndTerms(); //; may cause `provider` to rebuild
   });
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final GetAboutAndTermsNotifier aboutAndTermsNotifier = ref.read(
       getAboutAndTermsNotifier.notifier,
     );
@@ -39,16 +39,22 @@ class AboutAndTerms extends HookConsumerWidget {
           ),
           centerTitle: true,
         ),
-        body:  ref.watch(provider).when(
-          loading: () => const AppLoader(),
-          error: (e, o) {
-            debugPrint(e.toString());
-            debugPrint(o.toString());
-            return const Text('error');
-          },
-          data:(e)=> Padding(
-              padding: const EdgeInsets.all(20), child:AboutItem(text:isAbout?  aboutAndTermsNotifier.aboutAndTermsModel!.data!.about:aboutAndTermsNotifier.aboutAndTermsModel!.data!.termsConditions)),
-        ),
+        body: ref.watch(provider).when(
+              loading: () => const AppLoader(),
+              error: (e, o) {
+                debugPrint(e.toString());
+                debugPrint(o.toString());
+                return const Text('error');
+              },
+              data: (e) => Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: AboutItem(
+                      text: isAbout
+                          ? aboutAndTermsNotifier
+                              .aboutAndTermsModel!.data!.about
+                          : aboutAndTermsNotifier
+                              .aboutAndTermsModel!.data!.termsConditions)),
+            ),
       ),
     );
   }

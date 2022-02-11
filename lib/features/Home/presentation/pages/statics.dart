@@ -217,7 +217,6 @@ class Statics extends HookConsumerWidget {
                 child: SizedBox(
                     width: SizeConfig.screenWidth * 0.6,
                     child: MultiSelectBottomSheetField(
-
                       key: _multiSelectKey,
                       buttonIcon: const Icon(
                         Icons.arrow_back_ios_new,
@@ -229,18 +228,16 @@ class Statics extends HookConsumerWidget {
                       initialChildSize: 0.7,
                       maxChildSize: 0.95,
                       title: Padding(
-                        padding:  EdgeInsets.only(left: SizeConfig.screenWidth*.4),
+                        padding:
+                            EdgeInsets.only(left: SizeConfig.screenWidth * .4),
                         child: CustomTextButton(
-
-                          hieght: SizeConfig.screenHeight*.04,
-
-                            width: SizeConfig.screenWidth*.2,
-                            title: 'تحديد الكل', function: () {
-                              clientValues.value=e.data!;
-
-                        }),
+                            hieght: SizeConfig.screenHeight * .04,
+                            width: SizeConfig.screenWidth * .2,
+                            title: 'تحديد الكل',
+                            function: () {
+                              clientValues.value = e.data!;
+                            }),
                       ),
-
                       buttonText: const Text(
                         'اختار العميل',
                         style: TextStyle(
@@ -262,7 +259,6 @@ class Statics extends HookConsumerWidget {
                       chipDisplay: MultiSelectChipDisplay(
                         alignment: Alignment.topRight,
                         onTap: (item) {
-
                           _multiSelectKey.currentState!.validate();
                         },
                       ),

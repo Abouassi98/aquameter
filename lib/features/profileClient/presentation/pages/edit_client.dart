@@ -264,8 +264,9 @@ class EditClient extends HookConsumerWidget {
                                         ],
                                       ),
                                       TotalFishesItem(
-                                        initialvalue:
-                                            client.totalNumber.toString(),
+                                        initialvalue: client.fish![0].number,
+                                        typeOfFish:
+                                            client.fish![0].fishType!.name,
                                         list: ref
                                             .read(
                                               fishTypesNotifier.notifier,
@@ -406,16 +407,20 @@ class EditClient extends HookConsumerWidget {
                           CustomTextButton(
                             title: "حفظ",
                             function: () {
-                              totalFishes.add(totalFishes1);
-                              typeFishes.add(typeFishes1);
-                              if (totalFishes2 != null) {
-                                totalFishes.add(totalFishes2!);
-                                typeFishes.add(typeFishes2!);
-                              }
-                              if (totalFishes3 != null) {
-                                totalFishes.add(totalFishes3!);
-                                typeFishes.add(typeFishes3!);
-                              }
+                              totalFishes.add(totalFishes1 != 0
+                                  ? totalFishes1
+                                  : int.parse(client.fish![0].number!));
+                              typeFishes.add(typeFishes1 != 0
+                                  ? typeFishes1
+                                  : client.fish![0].fishType!.id!);
+                              // if (totalFishes2 != null) {
+                              //   totalFishes.add(totalFishes2!);
+                              //   typeFishes.add(typeFishes2!);
+                              // }
+                              // if (totalFishes3 != null) {
+                              //   totalFishes.add(totalFishes3!);
+                              //   typeFishes.add(typeFishes3!);
+                              // }
                               updateClient.totalFishesupdate = totalFishes;
                               updateClient.typeFishesupdate = typeFishes;
                               meetingAll.isInit = false;

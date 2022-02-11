@@ -6,12 +6,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class GetAboutAndTermsNotifier
     extends StateNotifier<AsyncValue<AboutAndTermsModel>> {
-  GetAboutAndTermsNotifier()
-      : super(const AsyncValue.loading());
+  GetAboutAndTermsNotifier() : super(const AsyncValue.loading());
   final NetworkUtils _utils = NetworkUtils();
 
   AboutAndTermsModel? aboutAndTermsModel;
-
 
   Future<AboutAndTermsModel> getAboutAndTerms() async {
     Response response = await _utils.requstData(url: 'setting', body: {});
@@ -24,5 +22,4 @@ class GetAboutAndTermsNotifier
     }
     return aboutAndTermsModel!;
   }
-
 }

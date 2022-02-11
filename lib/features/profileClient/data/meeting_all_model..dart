@@ -1,5 +1,3 @@
-
-
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 
 class MeetingAllModel {
@@ -9,20 +7,15 @@ class MeetingAllModel {
 
   MeetingAllModel({this.code, this.data, this.message});
 
-  factory MeetingAllModel.fromJson(
-      Map<String, dynamic> json) {
+  factory MeetingAllModel.fromJson(Map<String, dynamic> json) {
     return MeetingAllModel(
       code: json['code'] as int?,
       data: (json['data'] as List<dynamic>?)
-          ?.map((e) => MeetingClient
-              .fromJson(
-                  e as Map<String, dynamic>))
+          ?.map((e) => MeetingClient.fromJson(e as Map<String, dynamic>))
           .toList(),
       message: json['message'] as String?,
     );
   }
-
-
 }
 
 class MeetingResult {
@@ -43,7 +36,7 @@ class MeetingResult {
   String? notes;
   dynamic totalNumber;
   double? toxicAmmonia;
-  dynamic realDate;
+  String? realDate;
 
   MeetingResult({
     this.id,
@@ -66,8 +59,7 @@ class MeetingResult {
     this.realDate,
   });
 
-  factory MeetingResult.fromJson(
-      Map<String, dynamic> json) {
+  factory MeetingResult.fromJson(Map<String, dynamic> json) {
     return MeetingResult(
       id: json['id'] as int?,
       meetingId: json['meeting_id'] as int?,
@@ -86,12 +78,11 @@ class MeetingResult {
       notes: json['notes'] as String?,
       totalNumber: json['total_number'] as dynamic,
       toxicAmmonia: (json['toxic_ammonia'] as num?)?.toDouble(),
-      realDate: json['real_date'] as dynamic,
+      realDate: json['real_date'] as String?,
     );
   }
-
- 
 }
+
 class MeetingClient {
   int? id;
   String? meeting;
@@ -115,8 +106,7 @@ class MeetingClient {
     this.client,
   });
 
-  factory MeetingClient.fromJson(
-      Map<String, dynamic> json) {
+  factory MeetingClient.fromJson(Map<String, dynamic> json) {
     return MeetingClient(
       id: json['id'] as int?,
       meeting: json['meeting'] as String?,
@@ -126,17 +116,11 @@ class MeetingClient {
       userId: json['user_id'] as int?,
       periodId: json['period_id'] as int?,
       meetingResult: (json['meeting_result'] as List<dynamic>?)
-          ?.map((e) => MeetingResult
-              .fromJson(
-                  e as Map<String, dynamic>))
+          ?.map((e) => MeetingResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       client: json['client'] == null
           ? null
-          : Client
-              .fromJson(
-                  json['client'] as Map<String, dynamic>),
+          : Client.fromJson(json['client'] as Map<String, dynamic>),
     );
   }
-
- 
 }

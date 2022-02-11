@@ -15,8 +15,7 @@ class ListSelectorWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return
-      MultiSelectBottomSheetField(
+    return MultiSelectBottomSheetField(
       key: _multiSelectKey,
       buttonIcon: const Icon(
         Icons.arrow_back_ios_new,

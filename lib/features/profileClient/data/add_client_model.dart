@@ -11,15 +11,7 @@ class AddClientModel {
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['code'] = code;
-    data['message'] = message;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
+
 }
 
 class Data {
@@ -32,8 +24,8 @@ class Data {
   String? landSizeType;
   int? startingWeight;
   int? targetWeight;
-  List<int>? number;
-  List<int>? type;
+ List<dynamic>? number;
+  List<dynamic>? type;
   String? lat;
   String? long;
   String? feed;
@@ -76,8 +68,8 @@ class Data {
     landSizeType = json['land_size_type'];
     startingWeight = json['starting_weight'];
     targetWeight = json['target_weight'];
-    number = json['number'].cast<int>();
-    type = json['type'].cast<int>();
+    number = json['number'] as List<dynamic>?;
+    type = json['type'] as List<dynamic>?;
     lat = json['lat'];
     long = json['long'];
     feed = json['feed'];
@@ -87,30 +79,5 @@ class Data {
     totalNumber = json['total_number'];
     conversionRate = json['conversion_rate'];
     numberOfDead = json['number_of_dead'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['phone'] = phone;
-    data['governorate'] = governorate;
-    data['area'] = area;
-    data['address'] = address;
-    data['land_size'] = landSize;
-    data['land_size_type'] = landSizeType;
-    data['starting_weight'] = startingWeight;
-    data['target_weight'] = targetWeight;
-    data['number'] = number;
-    data['type'] = type;
-    data['lat'] = lat;
-    data['long'] = long;
-    data['feed'] = feed;
-    data['company'] = company;
-    data['ammonia'] = ammonia;
-    data['avrage_weight'] = avrageWeight;
-    data['total_number'] = totalNumber;
-    data['conversion_rate'] = conversionRate;
-    data['number_of_dead'] = numberOfDead;
-    return data;
   }
 }

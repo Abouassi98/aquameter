@@ -45,7 +45,7 @@ class ProfileClientScreen extends HookConsumerWidget {
   ];
   final GlobalKey<FormState> _averageWeight = GlobalKey<FormState>();
   final GlobalKey<FormState> _conversionRate = GlobalKey<FormState>();
-  String? selctedMeasuer,allPreviousFishes='';
+  String? selctedMeasuer, allPreviousFishes = '';
   num totalWeight = 0.0, conversionRate = 0.0, totalFeed = 0;
 
   int totalFishes = 0, averageWeight = 0;
@@ -161,7 +161,6 @@ class ProfileClientScreen extends HookConsumerWidget {
                                 hideBottomBar: true,
                                 events: meetingAll.selectedEvents,
                                 startOnMonday: true,
-                                 
                                 weekDays: const [
                                   'الاثنين',
                                   'الثلاثاء',
@@ -196,14 +195,13 @@ class ProfileClientScreen extends HookConsumerWidget {
                                               v.toString().substring(0, 10)),
                                     ));
                                   } else {
-                                
                                     totalFeed = 0;
                                     for (int i = 0;
                                         i <
                                             e.data![0].meetingResult!
                                                 .where((element) =>
                                                     DateTime.parse(
-                                                            element.realDate)
+                                                            element.realDate!)
                                                         .difference(v)
                                                         .inDays <=
                                                     0)
@@ -212,18 +210,19 @@ class ProfileClientScreen extends HookConsumerWidget {
                                         i++) {
                                       totalFeed += e.data![0].meetingResult!
                                           .where((element) =>
-                                              DateTime.parse(element.realDate)
+                                              DateTime.parse(element.realDate!)
                                                   .difference(v)
-                                                  .inDays<=
+                                                  .inDays <=
                                               0)
                                           .toList()[0]
                                           .feed!;
                                     }
-                                          allPreviousFishes=e.data![0].client!.fish![0].number!;
-                          
+                                    allPreviousFishes =
+                                        e.data![0].client!.fish![0].number!;
+
                                     push(Calculator(
                                       dateTime: v,
-                                      allPreviousFishes:    allPreviousFishes! ,
+                                      allPreviousFishes: allPreviousFishes!,
                                       client: client,
                                       totalFeed: totalFeed,
                                       meetingId: e.data![0].id!,
@@ -444,44 +443,24 @@ class ProfileClientScreen extends HookConsumerWidget {
                                               child: CustomTextButton(
                                                   title: 'حفظ',
                                                   function: () async {
-                                                    if (conversionRate == 0.0) {
-                                                      HelperFunctions.successBar(
-                                                          context,
-                                                          message:
-                                                              'يجب عليك اظهار ناتج معدل التحويل');
-                                                    } else if (averageWeight ==
-                                                        0.0) {
-                                                      HelperFunctions.successBar(
-                                                          context,
-                                                          message:
-                                                              'يجب عليك اظهار ناتج متوسط الوزن');
-                                                    }
-                                                    if (_averageWeight
-                                                            .currentState!
-                                                            .validate() &&
-                                                        _conversionRate
-                                                            .currentState!
-                                                            .validate()) {
-                                                      await updateAndDeletePeriod
-                                                          .endPeriod(
-                                                              periodId:
-                                                                  e.data![0]
-                                                                      .periodId!,
-                                                                      totalNumber:  totalFishes,
-                                                              clientId: e
-                                                                  .data![0]
-                                                                  .clientId,
-                                                              averageFooder:
-                                                                  totalFeed,
-                                                              averageWeight:
-                                                                  averageWeight,
-                                                              totalWeight:
-                                                                  totalWeight,
-                                                              conversionRate:
-                                                                  conversionRate);
-                                                      pushAndRemoveUntil(
-                                                          const MainPage());
-                                                    }
+                                                    await updateAndDeletePeriod
+                                                        .endPeriod(
+                                                            periodId: e.data![0]
+                                                                .periodId!,
+                                                            totalNumber:
+                                                                totalFishes,
+                                                            clientId: e.data![0]
+                                                                .clientId,
+                                                            averageFooder:
+                                                                totalFeed,
+                                                            averageWeight:
+                                                                averageWeight,
+                                                            totalWeight:
+                                                                totalWeight,
+                                                            conversionRate:
+                                                                conversionRate);
+                                                    pushAndRemoveUntil(
+                                                        const MainPage());
                                                   }),
                                             )
                                           ],

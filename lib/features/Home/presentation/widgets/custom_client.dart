@@ -81,19 +81,19 @@ class ClientItem extends StatelessWidget {
                               .copyWith(fontSize: 10, color: Colors.black),
                         ),
                         const SizedBox(height: 10),
-                        
-                          Text(
-                            '${client.governorateData!.names} - ${client.areaData!.names}',
-                            style: MainTheme.headingTextStyle.copyWith(
-                                fontSize: 10, color: const Color(0xFF8D8E98)),
-                          ),
+
+                        Text(
+                          '${client.governorateData!.names} - ${client.areaData!.names}',
+                          style: MainTheme.headingTextStyle.copyWith(
+                              fontSize: 10, color: const Color(0xFF8D8E98)),
+                        ),
                         const SizedBox(height: 10),
-                       
-                          Text(
-                            client.address!,
-                            style: MainTheme.headingTextStyle.copyWith(
-                                fontSize: 10, color: const Color(0xFF8D8E98)),
-                          ),
+
+                        Text(
+                          client.address!,
+                          style: MainTheme.headingTextStyle.copyWith(
+                              fontSize: 10, color: const Color(0xFF8D8E98)),
+                        ),
                         const SizedBox(height: 10),
                         Row(
                           children: [

@@ -6,12 +6,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class GetThreeValuesNotifier
     extends StateNotifier<AsyncValue<ThreeValuesModel>> {
-  GetThreeValuesNotifier()
-      : super(const AsyncValue.loading());
+  GetThreeValuesNotifier() : super(const AsyncValue.loading());
   final NetworkUtils _utils = NetworkUtils();
 
   ThreeValuesModel? threeValuesModel;
-
 
   Future<ThreeValuesModel> getValues() async {
     Response response = await _utils.requstData(url: 'values', body: {});
@@ -24,5 +22,4 @@ class GetThreeValuesNotifier
     }
     return threeValuesModel!;
   }
-
 }

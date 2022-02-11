@@ -44,13 +44,12 @@ class SplashViewBody extends HookConsumerWidget {
   }
 
   void determinePage(
-      AuthNotifier changeLanguage,
-      AreaAndCitesNotifier areaAndCites,
-      FishTypesNotifier fishTypes,
-      GetAndDeleteClientsCreateMettingAndPeriodNotifier getClients,
-      GetThreeValuesNotifier threeValues,
-
-      ) async {
+    AuthNotifier changeLanguage,
+    AreaAndCitesNotifier areaAndCites,
+    FishTypesNotifier fishTypes,
+    GetAndDeleteClientsCreateMettingAndPeriodNotifier getClients,
+    GetThreeValuesNotifier threeValues,
+  ) async {
     bool isFirstTime = GetStorage().read(kIsFirstTime) ?? true;
     if (isFirstTime) {
       Future.delayed(const Duration(seconds: 0), () async {
