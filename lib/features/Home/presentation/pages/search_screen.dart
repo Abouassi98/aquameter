@@ -270,7 +270,7 @@ class SearchScreen extends HookConsumerWidget {
                                                       if (clients
                                                           .clientsModel!
                                                           .data![index]
-                                                          .periodsResult!
+                                                          .onlinePeriodsResult!
                                                           .isNotEmpty) {
                                                         await _dialog
                                                             .showOptionDialog(

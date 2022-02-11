@@ -137,7 +137,7 @@ class PdfGenerator {
           clientName: element.name!,
           totalFish: "15",
           averageWeight:
-              element.periodsResult!.elementAt(0).avrageWeight.toString(),
+              element.onlinePeriodsResult!.elementAt(0).avrageWeight.toString(),
           conversionRate: element.conversionRate.toString(),
           totalFeed: element.totalFeed.toString(),
           targetWeight: element.targetWeight.toString(),

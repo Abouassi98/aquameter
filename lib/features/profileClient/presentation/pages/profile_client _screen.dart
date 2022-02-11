@@ -45,7 +45,7 @@ class ProfileClientScreen extends HookConsumerWidget {
   ];
   final GlobalKey<FormState> _averageWeight = GlobalKey<FormState>();
   final GlobalKey<FormState> _conversionRate = GlobalKey<FormState>();
-  String? selctedMeasuer;
+  String? selctedMeasuer,allPreviousFishes='';
   num totalWeight = 0.0, conversionRate = 0.0, totalFeed = 0;
 
   int totalFishes = 0, averageWeight = 0;
@@ -219,9 +219,11 @@ class ProfileClientScreen extends HookConsumerWidget {
                                           .toList()[0]
                                           .feed!;
                                     }
+                                          allPreviousFishes=e.data![0].client!.fish![0].number!;
                           
                                     push(Calculator(
                                       dateTime: v,
+                                      allPreviousFishes:    allPreviousFishes! ,
                                       client: client,
                                       totalFeed: totalFeed,
                                       meetingId: e.data![0].id!,

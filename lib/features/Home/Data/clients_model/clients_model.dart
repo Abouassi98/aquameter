@@ -160,7 +160,7 @@ class Client {
   int? onlinePeriodsResultCount;
   GovernorateData? governorateData;
   AreaData? areaData;
-  List<PeriodsResult>? periodsResult;
+  List<PeriodsResult>? onlinePeriodsResult;
   List<Fish>? fish;
 
   Client({
@@ -192,7 +192,7 @@ class Client {
     this.onlinePeriodsResultCount,
     this.governorateData,
     this.areaData,
-    this.periodsResult,
+    this.onlinePeriodsResult,
     this.fish,
   });
 
@@ -231,7 +231,7 @@ class Client {
       areaData: json['area_data'] == null
           ? null
           : AreaData.fromJson(json['area_data'] as Map<String, dynamic>),
-      periodsResult: (json['periods_result'] as List<dynamic>?)
+      onlinePeriodsResult: (json['online_periods_result'] as List<dynamic>?)
           ?.map((e) => PeriodsResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       fish: (json['fish'] as List<dynamic>?)

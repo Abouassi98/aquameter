@@ -23,11 +23,13 @@ class Calculator extends HookConsumerWidget {
   final num totalFeed;
   final Client client;
   final DateTime dateTime;
+  final String allPreviousFishes;
   Calculator(
       {Key? key,
       required this.totalFeed,
       required this.meetingId,
       required this.dateTime,
+      required this.allPreviousFishes,
       required this.client})
       : super(key: key);
   num tempreatureOfWater = 0.0,
