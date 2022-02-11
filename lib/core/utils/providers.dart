@@ -19,6 +19,8 @@ import 'package:aquameter/features/profileClient/presentation/manager/meeting_al
 import 'package:aquameter/features/profileClient/presentation/manager/update_and_endperiod_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../features/Drawer/manager/about_terms_notifier.dart';
+
 // general
 StateNotifierProvider<ChangeLanguageProvider, Object?> languageProvider =
     StateNotifierProvider(
@@ -91,6 +93,11 @@ final StateNotifierProvider<GetThreeValuesNotifier, Object?>
     getThreeValuesNotifier =
     StateNotifierProvider<GetThreeValuesNotifier, Object?>(
   (ref) => GetThreeValuesNotifier(),
+);
+final StateNotifierProvider<GetAboutAndTermsNotifier, Object?>
+    getAboutAndTermsNotifier =
+    StateNotifierProvider<GetAboutAndTermsNotifier, Object?>(
+  (ref) => GetAboutAndTermsNotifier(),
 );
 
 final StateNotifierProvider<ChangePassNotifier, Object?> changePassProvider =

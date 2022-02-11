@@ -137,7 +137,7 @@ class PdfGenerator {
     headerRow.cells[4].value = 'target Weight';
     headerRow.cells[5].value = 'conversion Rate';
     headerRow.cells[6].value = 'totalFeed';
-    clients.forEach((element) {
+    for (var element in clients) {
       addClient(
           clientId: element.id.toString(),
           clientName: element.name!,
@@ -150,7 +150,7 @@ class PdfGenerator {
           grid: grid,
       font: font
       );
-    });
+    }
 
     grid.applyBuiltInStyle(PdfGridBuiltInStyle.listTable4Accent5);
     // grid.columns[1].width = 200;

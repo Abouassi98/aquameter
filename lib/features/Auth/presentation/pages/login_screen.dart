@@ -16,7 +16,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../Home/presentation/manager/three_values_notifier.dart';
 
 class LoginScreen extends HookConsumerWidget {
   final _form = GlobalKey<FormState>();
@@ -41,9 +40,7 @@ class LoginScreen extends HookConsumerWidget {
     final FishTypesNotifier fishTypes = ref.read(
       fishTypesNotifier.notifier,
     );
-    final GetThreeValuesNotifier threeValues = ref.read(
-      getThreeValuesNotifier.notifier,
-    );
+
     String phone = '', password = '';
     final AuthNotifier login = ref.watch(loginProvider.notifier);
     final ValueNotifier<bool> visabilityNotifier = useState<bool>(true);

@@ -13,7 +13,6 @@ import 'package:aquameter/features/Home/presentation/manager/graph_statics_notif
 
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
@@ -50,7 +49,7 @@ class Statics extends HookConsumerWidget {
     final ValueNotifier<List<Governorate>> governorate =
         useState<List<Governorate>>([]);
     final ValueNotifier<List<Type>> fishes = useState<List<Type>>([]);
-     ValueNotifier<List<Client>> clientValues = useState<List<Client>>([]) ;
+    ValueNotifier<List<Client>> clientValues = useState<List<Client>>([]);
     final GraphStaticsNotifer graphStatics = ref.read(
       graphStaticsNotifer.notifier,
     );
@@ -216,46 +215,58 @@ class Statics extends HookConsumerWidget {
               ),
               Center(
                 child: SizedBox(
-                  width: SizeConfig.screenWidth * 0.6,
-                  child:  MultiSelectBottomSheetField(
-                    key: _multiSelectKey,
-                    buttonIcon: const Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 10,
-                    ),
-                    cancelText: const Text('الغاء'),
-                    confirmText: const Text('موافق'),
-                    listType: MultiSelectListType.LIST,
-                    initialChildSize: 0.7,
-                    maxChildSize: 0.95,
-                    title: const Text(
-                      '',
-                    ),
-                    buttonText: const Text(
-                      'اختار العميل',
-                      style: TextStyle(
-                        fontSize: 10,
-                      ),
-                    ),
-                    items:
-                    e.data!.map((e) => MultiSelectItem( e, e.name!)).toList(),
-                    searchable: true,
-                    onConfirm: ( values) async {
-                      clientValues.value=values.cast();
-                      debugPrint('sdfsfdsfd  ${values.first}');
-                      if (values.isNotEmpty) {
-                      } else {}
+                    width: SizeConfig.screenWidth * 0.6,
+                    child: MultiSelectBottomSheetField(
 
-                      _multiSelectKey.currentState!.validate();
-                    },
-                    chipDisplay: MultiSelectChipDisplay(
-                      alignment: Alignment.topRight,
-                      onTap: (item) {
+                      key: _multiSelectKey,
+                      buttonIcon: const Icon(
+                        Icons.arrow_back_ios_new,
+                        size: 10,
+                      ),
+                      cancelText: const Text('الغاء'),
+                      confirmText: const Text('موافق'),
+                      listType: MultiSelectListType.LIST,
+                      initialChildSize: 0.7,
+                      maxChildSize: 0.95,
+                      title: Padding(
+                        padding:  EdgeInsets.only(left: SizeConfig.screenWidth*.4),
+                        child: CustomTextButton(
+
+                          hieght: SizeConfig.screenHeight*.04,
+
+                            width: SizeConfig.screenWidth*.2,
+                            title: 'تحديد الكل', function: () {
+                              clientValues.value=e.data!;
+
+                        }),
+                      ),
+
+                      buttonText: const Text(
+                        'اختار العميل',
+                        style: TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
+                      items: e.data!
+                          .map((e) => MultiSelectItem(e, e.name!))
+                          .toList(),
+                      searchable: true,
+                      onConfirm: (values) async {
+                        clientValues.value = values.cast();
+                        debugPrint('sdfsfdsfd  ${values.first}');
+                        if (values.isNotEmpty) {
+                        } else {}
+
                         _multiSelectKey.currentState!.validate();
                       },
-                    ),
-                  )
-                ),
+                      chipDisplay: MultiSelectChipDisplay(
+                        alignment: Alignment.topRight,
+                        onTap: (item) {
+
+                          _multiSelectKey.currentState!.validate();
+                        },
+                      ),
+                    )),
               ),
               SizedBox(
                 height: context.height * .03,
@@ -266,8 +277,8 @@ class Statics extends HookConsumerWidget {
                     child: CustomTextButton(
                         title: "تحميل التقرير",
                         function: () async {
-
-                          PdfGenerator().generatePDF(clients: clientValues.value);
+                          PdfGenerator()
+                              .generatePDF(clients: clientValues.value);
                         })),
               ),
               SizedBox(

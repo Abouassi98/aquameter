@@ -14,9 +14,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../constants.dart';
 
 import '../size_config.dart';
-import 'app_loader.dart';
 
-// import 'defaultAppbar.dart';
 
 class CustomAppBar extends HookConsumerWidget {
   final bool? search, back, drawer;
