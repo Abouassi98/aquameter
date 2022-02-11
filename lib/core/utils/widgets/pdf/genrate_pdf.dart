@@ -3,15 +3,18 @@ import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/widgets/pdf/save_file.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 ///Pdf import
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class PdfGenerator {
-  ClientsModel? clients;
-
-  Future<void> generatePDF({required ClientsModel clients}) async {
+  Future<List<int>> readFontData() async {
+    final ByteData bytes = await rootBundle.load('assets/fonts/arial.ttf');
+    return bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
+  }
+  Future<void> generatePDF({required List<Client> clients}) async {
     //Create a PDF document.
     final PdfDocument document = PdfDocument();
     //Add page to the PDF
@@ -19,11 +22,13 @@ class PdfGenerator {
     //Get page client size
     final Size pageSize = page.getClientSize();
     //Draw rectangle
+    PdfFont font = PdfTrueTypeFont(await readFontData(),12);
     page.graphics.drawRectangle(
         bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
         pen: PdfPen(PdfColor(142, 170, 219, 255)));
     //Generate PDF grid.
-    final PdfGrid grid = _getGrid(clients);
+    final PdfGrid grid = _getGrid(clients,font);
+
     //Draw the header section by creating text element
     final PdfLayoutResult result = _drawHeader(page, pageSize, grid);
     //Draw grid
@@ -87,6 +92,7 @@ class PdfGenerator {
 
   //Draws the grid
   void _drawGrid(PdfPage page, PdfGrid grid, PdfLayoutResult result) {
+
     //Invoke the beginCellLayout event.
     grid.beginCellLayout = (Object sender, PdfGridBeginCellLayoutArgs args) {};
     //Draw the PDF grid and get the result.
@@ -112,7 +118,7 @@ class PdfGenerator {
   }
 
   //Create PDF grid and return
-  PdfGrid _getGrid(ClientsModel clients) {
+  PdfGrid _getGrid(List<Client> clients,font) {
     //Create a PDF grid
     final PdfGrid grid = PdfGrid();
     //Secify the columns count to the grid.
@@ -122,7 +128,7 @@ class PdfGenerator {
     //Set style
     headerRow.style.backgroundBrush = PdfSolidBrush(PdfColor(68, 114, 196));
     headerRow.style.textBrush = PdfBrushes.white;
-    // headerRow.style.font = PdfFont[];
+     // headerRow.style.font = PdfFont[];
     headerRow.cells[0].value = 'client Id';
     headerRow.cells[0].stringFormat.alignment = PdfTextAlignment.center;
     headerRow.cells[1].value = 'client Name';
@@ -131,18 +137,20 @@ class PdfGenerator {
     headerRow.cells[4].value = 'target Weight';
     headerRow.cells[5].value = 'conversion Rate';
     headerRow.cells[6].value = 'totalFeed';
-    clients.data?.forEach((element) {
+    for (var element in clients) {
       addClient(
           clientId: element.id.toString(),
           clientName: element.name!,
           totalFish: "15",
           averageWeight:
-              element.onlinePeriodsResult!.elementAt(0).avrageWeight.toString(),
+          element.totalFeed.toString(),
           conversionRate: element.conversionRate.toString(),
           totalFeed: element.totalFeed.toString(),
           targetWeight: element.targetWeight.toString(),
-          grid: grid);
-    });
+          grid: grid,
+      font: font
+      );
+    }
 
     grid.applyBuiltInStyle(PdfGridBuiltInStyle.listTable4Accent5);
     // grid.columns[1].width = 200;
@@ -154,6 +162,8 @@ class PdfGenerator {
       final PdfGridRow row = grid.rows[i];
       for (int j = 0; j < row.cells.count; j++) {
         final PdfGridCell cell = row.cells[j];
+
+        cell.stringFormat.textDirection = PdfTextDirection.rightToLeft;
         if (j == 0) {
           cell.stringFormat.alignment = PdfTextAlignment.center;
         }
@@ -165,16 +175,20 @@ class PdfGenerator {
   }
 
   //Create and row for the grid.
-  void addClient(
-      {required String clientId,
-      required String clientName,
-      required String totalFish,
-      required String averageWeight,
-      required String targetWeight,
-      required String conversionRate,
-      required String totalFeed,
-      required PdfGrid grid}) {
+  void addClient({required String clientId,
+    required String clientName,
+    required String totalFish,
+    required String averageWeight,
+    required String targetWeight,
+    required String conversionRate,
+    required String totalFeed,
+    required PdfGrid grid,
+    required PdfFont font,
+  }) {
     final PdfGridRow row = grid.rows.add();
+    row.style.font=font;
+
+
     row.cells[0].value = clientId;
     row.cells[1].value = clientName;
     row.cells[2].value = totalFish;

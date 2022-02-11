@@ -59,8 +59,8 @@ dependencies:
   share: ^2.0.4
   flutter_html: ^2.2.1
   path_provider: ^2.0.8
-  path_provider_platform_interface: ^2.0.3
   open_file: ^3.2.1
+  path_provider_platform_interface: ^2.0.3
   geocoding: ^2.0.2
   flutter_clean_calendar: 
     git:
@@ -127,6 +127,9 @@ flutter:
     - family: Tajawal
       fonts:
         - asset: assets/fonts/Tajawal-Regular.ttf
+    - family: Arial
+      fonts:
+        - asset: assets/fonts/arial.ttf
 
 
       

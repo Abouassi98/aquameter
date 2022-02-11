@@ -15,7 +15,8 @@ class ListSelectorWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MultiSelectBottomSheetField(
+    return
+      MultiSelectBottomSheetField(
       key: _multiSelectKey,
       buttonIcon: const Icon(
         Icons.arrow_back_ios_new,
@@ -39,7 +40,7 @@ class ListSelectorWidget extends HookConsumerWidget {
           clientsModel.data!.map((e) => MultiSelectItem(e, e.name!)).toList(),
       searchable: true,
       onConfirm: (values) async {
-        debugPrint('sdfsfdsfd${values.length}');
+        debugPrint('sdfsfdsfd  ${values.first}');
         if (values.isNotEmpty) {
         } else {}
 

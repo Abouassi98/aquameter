@@ -47,7 +47,7 @@ class MainPage extends HookConsumerWidget {
           drawer: const DrawerMenu(),
           extendBodyBehindAppBar: true,
           appBar: PreferredSize(
-            child: const CustomAppBar(
+            child:  CustomAppBar(
               drawer: true,
               search: false,
             ),

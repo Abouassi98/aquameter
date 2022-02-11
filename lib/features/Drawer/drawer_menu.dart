@@ -90,7 +90,8 @@ class DrawerMenu extends StatelessWidget {
                     const ImageIcon(AssetImage('assets/images/polices.png')),
                 text: localization.text('about')!,
                 onTap: () {
-                  push(AboutUs(
+                  push(AboutAndTerms(
+                    isAbout: true,
                     title: localization.text('about')!,
                   ));
                 }),
@@ -104,7 +105,8 @@ class DrawerMenu extends StatelessWidget {
                     const ImageIcon(AssetImage('assets/images/polices.png')),
                 text: localization.text('terms_and_conditions')!,
                 onTap: () {
-                  push(AboutUs(
+                  push(AboutAndTerms(
+                    isAbout: false,
                     title: localization.text('terms_and_conditions')!,
                   ));
                 }),

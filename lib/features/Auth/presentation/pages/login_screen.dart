@@ -16,6 +16,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+
 class LoginScreen extends HookConsumerWidget {
   final _form = GlobalKey<FormState>();
 
@@ -135,6 +136,7 @@ class LoginScreen extends HookConsumerWidget {
                   password,
                   areaAndCites,
                   fishTypes,
+
                 );
               },
               radius: 20,
