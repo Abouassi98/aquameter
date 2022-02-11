@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
@@ -6,16 +8,21 @@ import 'package:aquameter/features/profileClient/presentation/manager/add_client
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:map_launcher/map_launcher.dart';
 
 import '../../../../core/utils/providers.dart';
+import '../manager/map_notifier.dart';
+import '../widgets/maps_sheet.dart';
 
 class CustomMap extends HookConsumerWidget {
-  final double? intialLat, intialLoong;
-  CustomMap({Key? key, this.intialLat, this.intialLoong}) : super(key: key);
+  CustomMap({
+    Key? key,
+  }) : super(key: key);
 
   final FutureProvider<Position> provider =
       FutureProvider<Position>((ref) async {
@@ -23,11 +30,22 @@ class CustomMap extends HookConsumerWidget {
         .read(mapNotifier.notifier)
         .determinePosition(); //; may cause `provider` to rebuild
   });
+  final FutureProvider<Position> provider2 =
+      FutureProvider<Position>((ref) async {
+    return await ref
+        .read(mapNotifier.notifier)
+        .addMareker(); //; may cause `provider` to rebuild
+  });
+
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final AddClientNotifier addClient = ref.read(
       addClientNotifier.notifier,
+    );
+    final MapNotifier map = ref.read(
+      mapNotifier.notifier,
     );
 
     return Directionality(
@@ -39,7 +57,7 @@ class CustomMap extends HookConsumerWidget {
               style: MainTheme.headingTextStyle,
             ),
           ),
-          body: ref.watch(provider).when(
+          body: ref.watch(map.intialLat == null ? provider : provider2).when(
                 error: (e, o) {
                   debugPrint(e.toString());
                   debugPrint(o.toString());
@@ -63,8 +81,9 @@ class CustomMap extends HookConsumerWidget {
                           () => EagerGestureRecognizer(),
                         ),
                       },
+                      markers: map.intialLat == null ? {} : map.markers,
                       onCameraMove: (v) {
-                        if (intialLat == null) {
+                        if (map.intialLat == null) {
                           addClient.lat = v.target.latitude.toString();
                           addClient.long = v.target.longitude.toString();
                           placemarkFromCoordinates(
@@ -75,19 +94,48 @@ class CustomMap extends HookConsumerWidget {
                       },
                       initialCameraPosition: CameraPosition(
                         zoom: 14,
-                        target: LatLng(intialLat ?? e.latitude,
-                            intialLoong ?? e.longitude),
+                        target: LatLng(e.latitude, e.longitude),
                       ),
                     ),
-                    pin(),
+                    if (map.intialLat == null) pin(),
+                    Platform.isIOS && (map.intialLat != null)
+                        ? InkWell(
+                            onTap: () {
+                              MapsSheet.show(
+                                context: context,
+                                onMapTap: (maps) {
+                                  maps.showMarker(
+                                    coords: Coords(e.latitude, e.longitude),
+                                    title: '  ',
+                                    // zoom: zoom,
+                                  );
+                                },
+                              );
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, top: 10),
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: InkWell(
+                                  child: Icon(
+                                    Icons.location_on,
+                                    size: 30,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container()
                   ],
                 ),
               ),
-          floatingActionButtonLocation: intialLat == null
+          floatingActionButtonLocation: map.intialLat == null
               ? FloatingActionButtonLocation.centerDocked
               : null,
           floatingActionButton: Visibility(
-            visible: intialLat == null,
+            visible: map.intialLat == null,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: CustomTextButton(

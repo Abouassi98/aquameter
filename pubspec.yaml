@@ -66,6 +66,7 @@ dependencies:
     git:
       url: https://github.com/pmcarlos/flutter_clean_calendar
   expandable: ^5.0.1
+  map_launcher: ^2.2.0
 
 dev_dependencies:
   flutter_test:

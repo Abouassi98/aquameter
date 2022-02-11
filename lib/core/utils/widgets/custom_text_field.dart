@@ -79,11 +79,16 @@ class CustomTextField extends StatelessWidget {
                   if (maxRange != null)
                     LimitRangeTextInputFormatter(minRange!, maxRange!),
                 ]
-              : numbersOnly == true
+              : calculator == false
                   ? <TextInputFormatter>[
+                      LimitRangeTextInputFormatter(minRange!, maxRange!),
                       FilteringTextInputFormatter.digitsOnly,
                     ]
-                  : null,
+                  : numbersOnly == true
+                      ? <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly,
+                        ]
+                      : null,
           keyboardType: type,
           onChanged: onChange,
           autovalidateMode: autovalidateMode,

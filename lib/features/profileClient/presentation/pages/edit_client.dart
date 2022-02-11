@@ -25,6 +25,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../CustomMap/presentation/manager/map_notifier.dart';
+
 // ignore: must_be_immutable
 class EditClient extends HookConsumerWidget {
   final Client client;
@@ -60,6 +62,9 @@ class EditClient extends HookConsumerWidget {
       addClientNotifier.notifier,
     );
     ValueNotifier<List<Cities>>? listOfCities = useState<List<Cities>>([]);
+    final MapNotifier map = ref.read(
+      mapNotifier.notifier,
+    );
 
     // ValueNotifier<bool> showSecondField = useState<bool>(false);
     // ValueNotifier<bool> showThirdField = useState<bool>(false);
@@ -179,10 +184,9 @@ class EditClient extends HookConsumerWidget {
                                 const SizedBox(height: 10),
                                 InkWell(
                                   onTap: () {
-                                    push(CustomMap(
-                                      intialLat: client.lat,
-                                      intialLoong: client.long,
-                                    ));
+                                    map.intialLat = 30.3;
+                                    map.intialLoong = 31.3;
+                                    push(CustomMap());
                                   },
                                   child: Container(
                                     height: 35,

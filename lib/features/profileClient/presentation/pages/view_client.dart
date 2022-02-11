@@ -8,9 +8,13 @@ import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ViewClient extends StatelessWidget {
+import '../../../../core/utils/providers.dart';
+import '../../../CustomMap/presentation/manager/map_notifier.dart';
+
+class ViewClient extends HookConsumerWidget {
   final Client client;
   final AreaAndCitesNotifier areaAndCites;
   ViewClient({Key? key, required this.client, required this.areaAndCites})
@@ -19,7 +23,10 @@ class ViewClient extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+        final MapNotifier map = ref.read(
+      mapNotifier.notifier,
+    );
     return SafeArea(
         child: Scaffold(
       body: Directionality(
@@ -106,9 +113,10 @@ class ViewClient extends StatelessWidget {
                                   const SizedBox(height: 10),
                                   InkWell(
                                     onTap: () {
+                                       map.intialLat = 30.3;
+                                    map.intialLoong = 31.3;
                                       push(CustomMap(
-                                        intialLat: client.lat,
-                                        intialLoong: client.long,
+                                   
                                       ));
                                     },
                                     child: CustomTextField(

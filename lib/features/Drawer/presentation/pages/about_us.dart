@@ -10,7 +10,7 @@ import '../../../../core/utils/widgets/app_loader.dart';
 
 class AboutAndTerms extends HookConsumerWidget {
   final String title;
-  bool isAbout;
+ final bool isAbout;
    AboutAndTerms({
     Key? key,
     required this.title,

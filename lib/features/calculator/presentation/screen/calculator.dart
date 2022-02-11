@@ -64,7 +64,7 @@ class Calculator extends HookConsumerWidget {
     final ValueNotifier<num> nH3 = useState<num>(0.0);
     final ValueNotifier<num> averageWeight = useState<num>(0.0);
     final ValueNotifier<num> totalWeight = useState<num>(0.0);
-    final ValueNotifier<double> conversionRate = useState<double>(0.0);
+    final ValueNotifier<num> conversionRate = useState<num>(0.0);
     totalPreviousFishes = 0;
     for (int i = 0; i < client.fish!.length; i++) {
       totalPreviousFishes += int.parse(client.fish![i].number!);
@@ -569,6 +569,7 @@ class Calculator extends HookConsumerWidget {
                           const SizedBox(
                             height: 20,
                           ),
+                          Text(' عدد السمك الكلي= $allPreviousFishes'),
                           Form(
                             key: _dieFishes,
                             child: CustomTextField(
@@ -580,6 +581,9 @@ class Calculator extends HookConsumerWidget {
                                   debugPrint('Format error!');
                                 }
                               },
+                              minRange: 0,
+                              calculator: false,
+                              maxRange:int.parse(allPreviousFishes) ,
                               validator: (v) {
                                 if (v!.isEmpty) {
                                   return 'لا يجب ترك الحقل فارغ';
@@ -588,7 +592,7 @@ class Calculator extends HookConsumerWidget {
                               },
                               type: TextInputType.number,
                               maxLength: 5,
-                              numbersOnly: true,
+                        
                             ),
                           ),
                           Row(
@@ -619,6 +623,8 @@ class Calculator extends HookConsumerWidget {
                           const SizedBox(
                             height: 20,
                           ),
+                          Text(
+                              'اجمال العلف الكلي للزيارات السابقه = $totalFeed'),
                           Form(
                             key: _conversionRate,
                             child: CustomTextField(
@@ -671,7 +677,7 @@ class Calculator extends HookConsumerWidget {
                                       conversionRate.value =
                                           ((totalFeed + feed) /
                                                   totalWeight.value)
-                                              .toDouble();
+                                              ;
                                     }
                                   }),
                             ],
