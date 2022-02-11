@@ -443,24 +443,45 @@ class ProfileClientScreen extends HookConsumerWidget {
                                               child: CustomTextButton(
                                                   title: 'حفظ',
                                                   function: () async {
-                                                    await updateAndDeletePeriod
-                                                        .endPeriod(
-                                                            periodId: e.data![0]
-                                                                .periodId!,
-                                                            totalNumber:
-                                                                totalFishes,
-                                                            clientId: e.data![0]
-                                                                .clientId,
-                                                            averageFooder:
-                                                                totalFeed,
-                                                            averageWeight:
-                                                                averageWeight,
-                                                            totalWeight:
-                                                                totalWeight,
-                                                            conversionRate:
-                                                                conversionRate);
-                                                    pushAndRemoveUntil(
-                                                        const MainPage());
+                                                    if (conversionRate == 0.0) {
+                                                      HelperFunctions.successBar(
+                                                          context,
+                                                          message:
+                                                              'يجب عليك اظهار ناتج معدل التحويل');
+                                                    } else if (averageWeight ==
+                                                        0.0) {
+                                                      HelperFunctions.successBar(
+                                                          context,
+                                                          message:
+                                                              'يجب عليك اظهار ناتج متوسط الوزن');
+                                                    }
+                                                    if (_averageWeight
+                                                            .currentState!
+                                                            .validate() &&
+                                                        _conversionRate
+                                                            .currentState!
+                                                            .validate()) {
+                                                      await updateAndDeletePeriod
+                                                          .endPeriod(
+                                                              periodId:
+                                                                  e.data![0]
+                                                                      .periodId!,
+                                                              totalNumber:
+                                                                  totalFishes,
+                                                              clientId: e
+                                                                  .data![0]
+                                                                  .clientId!,
+                                                              averageFooder:
+                                                                  totalFeed,
+                                                              averageWeight:
+                                                                  averageWeight,
+                                                              totalWeight:
+                                                                  totalWeight,
+                                                              conversionRate:
+                                                                  conversionRate);
+                                                      pushAndRemoveUntil(
+                                                          const MainPage());
+                                                    }
                                                   }),
                                             )
                                           ],
