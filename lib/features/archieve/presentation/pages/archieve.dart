@@ -13,9 +13,11 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../localization/manager/app_localization.dart';
+
 class ArcieveScreen extends HookConsumerWidget {
-  ArcieveScreen({Key? key, required this.title}) : super(key: key);
-  final String title;
+  ArcieveScreen({Key? key,}) : super(key: key);
+  
 
   final AutoDisposeFutureProvider<ArchieveModel> provider =
       FutureProvider.autoDispose<ArchieveModel>((ref) async {
@@ -34,7 +36,7 @@ class ArcieveScreen extends HookConsumerWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
-            title,
+            localization.text('archieve')!,
             style: MainTheme.headingTextStyle,
           ),
           centerTitle: true,

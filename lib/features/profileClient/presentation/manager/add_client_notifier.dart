@@ -2,6 +2,7 @@ import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/network_utils.dart';
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
+import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
 import 'package:aquameter/features/profileClient/data/add_client_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -60,7 +61,7 @@ class AddClientNotifier extends StateNotifier<void> {
         totalFishes.clear();
         typeFishes.clear();
 
-        pushAndRemoveUntil(const MainPage());
+        push( SearchScreen(viewProfile: true));
       } else {
         HelperFunctions.errorBar(context, message: 'خطا ف اضافه العميل');
       }

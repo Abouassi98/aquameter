@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+
 import '../../../Home/presentation/manager/three_values_notifier.dart';
 
 class SplashViewBody extends HookConsumerWidget {
@@ -32,9 +33,9 @@ class SplashViewBody extends HookConsumerWidget {
     final FishTypesNotifier fishTypes = ref.read(
       fishTypesNotifier.notifier,
     );
-
+  
     determinePage(
-        changeLanguage, areaAndCites, fishTypes, clients, threeValues);
+        changeLanguage, areaAndCites, fishTypes,  clients, threeValues);
     return const ImageBG(
       network: false,
       image: kAppLogo,
@@ -47,9 +48,11 @@ class SplashViewBody extends HookConsumerWidget {
     AuthNotifier changeLanguage,
     AreaAndCitesNotifier areaAndCites,
     FishTypesNotifier fishTypes,
+
     GetAndDeleteClientsCreateMettingAndPeriodNotifier getClients,
     GetThreeValuesNotifier threeValues,
   ) async {
+    
     bool isFirstTime = GetStorage().read(kIsFirstTime) ?? true;
     if (isFirstTime) {
       Future.delayed(const Duration(seconds: 0), () async {

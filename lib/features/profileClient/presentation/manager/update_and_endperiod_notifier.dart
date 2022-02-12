@@ -13,7 +13,7 @@ class UpdateAndDeletePeriodNotifier extends StateNotifier<void> {
     required int periodId,
     int? clientId,
     num? totalWeight,
-    int? averageWeight,
+    num? averageWeight,
     int? totalNumber,
     num? averageFooder,
     num? conversionRate,

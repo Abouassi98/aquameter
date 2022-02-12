@@ -72,7 +72,7 @@ class DrawerMenu extends StatelessWidget {
               text: localization.text('archieve')!,
               onTap: () => push(
                 ArcieveScreen(
-                  title: localization.text('archieve')!,
+                 
                 ),
               ),
             ),

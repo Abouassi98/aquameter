@@ -61,6 +61,7 @@ class CustomMap extends HookConsumerWidget {
                 error: (e, o) {
                   debugPrint(e.toString());
                   debugPrint(o.toString());
+                
                   return const Center(
                       child: Text(
                           'بعد الموافقه ع اذن الوصول للخرائط يرجي الرجوع ودخول نفس الصفحه مره اخري'));

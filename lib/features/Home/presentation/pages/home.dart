@@ -157,7 +157,7 @@ class Home extends HookConsumerWidget {
                                           filterClients.value[i].clientId;
                                       push(ProfileClientScreen(
                                         client: filterClients.value[i].client!,
-                                        meetingClient: filterClients.value[i],
+                                      
                                       ));
                                     },
                                     client: filterClients.value[i].client!,

@@ -17,6 +17,7 @@ import 'package:aquameter/features/profileClient/presentation/pages/profile_clie
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../../../core/utils/widgets/custom_headear_title.dart';
 import 'main_page.dart';
 
 // ignore: must_be_immutable
@@ -37,6 +38,10 @@ class SearchScreen extends HookConsumerWidget {
     final ValueNotifier<List<Client>> selected = useState<List<Client>>([]);
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
+    );
+    final GetAndDeleteClientsCreateMettingAndPeriodNotifier
+        getAndDeleteClientsCreateMettingAndPeriod = ref.read(
+      getClientsNotifier.notifier,
     );
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final FishTypesNotifier fishTypes = ref.read(
@@ -93,6 +98,15 @@ class SearchScreen extends HookConsumerWidget {
                     primary: false,
                     shrinkWrap: true,
                     children: [
+                      const SizedBox(height: 20),
+                      Center(
+                        child: CustomHeaderTitle(
+                          title: viewProfile == true
+                              ? 'عرض العملاء'
+                              : 'اضافه عميل في الخطه ليوم ${getAndDeleteClientsCreateMettingAndPeriod.date}',
+                          color: Colors.blue[400],
+                        ),
+                      ),
                       const SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -277,7 +291,7 @@ class SearchScreen extends HookConsumerWidget {
                                                                 context:
                                                                     context,
                                                                 msg:
-                                                                    'هل ترغب باضافة موعد جديد',
+                                                                    'هل ترغب باضافه العميل للخطه الاسبوعيه ؟',
                                                                 okFun:
                                                                     () async {
                                                                   await clients
@@ -318,8 +332,12 @@ class SearchScreen extends HookConsumerWidget {
                                                                             index]
                                                                         .id!,
                                                                   );
-                                                                  pushAndRemoveUntil(
-                                                                      const MainPage());
+                                                                  push(
+                                                                      ProfileClientScreen(
+                                                                    client:
+                                                                        e.data![
+                                                                            index],
+                                                                  ));
                                                                 },
                                                                 okMsg: 'نعم',
                                                                 cancelMsg: 'لا',
