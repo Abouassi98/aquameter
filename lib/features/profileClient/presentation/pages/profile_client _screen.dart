@@ -34,10 +34,11 @@ import '../../data/meeting_all_model..dart';
 
 class ProfileClientScreen extends HookConsumerWidget {
   final Client client;
-
+  final bool fromSearch;
   final CustomWarningDialog _dialog = CustomWarningDialog();
 
-  ProfileClientScreen({Key? key, required this.client}) : super(key: key);
+  ProfileClientScreen({Key? key, required this.client,required  this.fromSearch})
+      : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [
     {'name': 'معدل الملوحه', 'id': 1},
@@ -463,24 +464,30 @@ class ProfileClientScreen extends HookConsumerWidget {
                                                           _conversionRate
                                                               .currentState!
                                                               .validate()) {
-                                                        await updateAndDeletePeriod
-                                                            .endPeriod(
-                                                                periodId: client
-                                                                    .onlinePeriodsResult![
-                                                                        0]
-                                                                    .id!,
-                                                                totalNumber:
-                                                                    totalFishes,
-                                                                clientId:
-                                                                    client.id!,
-                                                                averageFooder:
-                                                                    totalFeed,
-                                                                averageWeight:
-                                                                    averageWeight,
-                                                                totalWeight:
-                                                                    totalWeight,
-                                                                conversionRate:
-                                                                    conversionRate);
+                                                        await updateAndDeletePeriod.endPeriod(
+                                                            periodId:
+                                                                fromSearch ==
+                                                                        true
+                                                                    ? client
+                                                                        .onlinePeriodsResult![
+                                                                            0]
+                                                                        .id!
+                                                                    : e
+                                                                        .data![
+                                                                            0]
+                                                                        .periodId!,
+                                                            totalNumber:
+                                                                totalFishes,
+                                                            clientId:
+                                                                client.id!,
+                                                            averageFooder:
+                                                                totalFeed,
+                                                            averageWeight:
+                                                                averageWeight,
+                                                            totalWeight:
+                                                                totalWeight,
+                                                            conversionRate:
+                                                                conversionRate);
 
                                                         pushAndRemoveUntil(
                                                             const MainPage());
@@ -503,8 +510,10 @@ class ProfileClientScreen extends HookConsumerWidget {
                                     if (client.onlinePeriodsResultCount != 0) {
                                       await updateAndDeletePeriod.endPeriod(
                                           clientId: client.id!,
-                                          periodId: client
-                                              .onlinePeriodsResult![0].id!);
+                                          periodId: fromSearch == true
+                                              ? client
+                                                  .onlinePeriodsResult![0].id!
+                                              : e.data![0].periodId!);
                                     }
 
                                     await clients.createPeriod(

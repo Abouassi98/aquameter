@@ -204,6 +204,7 @@ class SearchScreen extends HookConsumerWidget {
                                                   selected.value[index].id;
                                               push(
                                                 ProfileClientScreen(
+                                                  fromSearch: true,
                                                     client:
                                                         selected.value[index]),
                                               );
@@ -278,6 +279,7 @@ class SearchScreen extends HookConsumerWidget {
                                                       meetingAll.id =
                                                           e.data![index].id;
                                                       push(ProfileClientScreen(
+                                                           fromSearch: true,
                                                           client:
                                                               e.data![index]));
                                                     } else {
@@ -329,6 +331,7 @@ class SearchScreen extends HookConsumerWidget {
                                                                   pop();
                                                                   push(
                                                                       ProfileClientScreen(
+                                                                           fromSearch: true,
                                                                     client:
                                                                         e.data![
                                                                             index],
