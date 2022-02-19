@@ -13,6 +13,12 @@ class MapNotifier extends StateNotifier<void> {
   double? intialLat, intialLoong;
   BitmapDescriptor? userLocationIcon;
   Marker? _addressMarker;
+  String? address;
+  void assignLocation(String addressDetails) {
+    address = addressDetails;
+    debugPrint(address);
+  }
+
   Future<Uint8List> _getBytesFromAsset(
     String path,
     int width,

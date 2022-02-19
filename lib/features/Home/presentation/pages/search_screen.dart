@@ -325,13 +325,8 @@ class SearchScreen extends HookConsumerWidget {
                                                                             index]
                                                                         .id!,
                                                                   );
-                                                                  await clients
-                                                                      .createMetting(
-                                                                    clientId: e
-                                                                        .data![
-                                                                            index]
-                                                                        .id!,
-                                                                  );
+
+                                                                  pop();
                                                                   push(
                                                                       ProfileClientScreen(
                                                                     client:

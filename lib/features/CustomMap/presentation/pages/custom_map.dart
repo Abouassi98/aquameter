@@ -16,12 +16,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 import '../../../../core/utils/providers.dart';
+
 import '../manager/map_notifier.dart';
 import '../widgets/maps_sheet.dart';
 
 class CustomMap extends HookConsumerWidget {
+  final bool? show;
   CustomMap({
     Key? key,
+    this.show,
   }) : super(key: key);
 
   final FutureProvider<Position> provider =
@@ -47,7 +50,7 @@ class CustomMap extends HookConsumerWidget {
     final MapNotifier map = ref.read(
       mapNotifier.notifier,
     );
-
+   
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -61,7 +64,7 @@ class CustomMap extends HookConsumerWidget {
                 error: (e, o) {
                   debugPrint(e.toString());
                   debugPrint(o.toString());
-                
+
                   return const Center(
                       child: Text(
                           'بعد الموافقه ع اذن الوصول للخرائط يرجي الرجوع ودخول نفس الصفحه مره اخري'));
@@ -84,13 +87,16 @@ class CustomMap extends HookConsumerWidget {
                       },
                       markers: map.intialLat == null ? {} : map.markers,
                       onCameraMove: (v) {
-                        if (map.intialLat == null) {
+                        if (show != true) {
                           addClient.lat = v.target.latitude.toString();
                           addClient.long = v.target.longitude.toString();
+
                           placemarkFromCoordinates(
                                   v.target.latitude, v.target.longitude)
-                              .then((value) =>
-                                  addClient.address = value[0].street!);
+                              .then((value) {
+                            addClient.address = value[0].street!;
+                            map.assignLocation(value[0].street!);
+                          });
                         }
                       },
                       initialCameraPosition: CameraPosition(
@@ -98,8 +104,8 @@ class CustomMap extends HookConsumerWidget {
                         target: LatLng(e.latitude, e.longitude),
                       ),
                     ),
-                    if (map.intialLat == null) pin(),
-                    Platform.isIOS && (map.intialLat != null)
+                    if (show != true) pin(),
+                    Platform.isIOS && (show == true || map.intialLat != null)
                         ? InkWell(
                             onTap: () {
                               MapsSheet.show(
@@ -132,11 +138,10 @@ class CustomMap extends HookConsumerWidget {
                   ],
                 ),
               ),
-          floatingActionButtonLocation: map.intialLat == null
-              ? FloatingActionButtonLocation.centerDocked
-              : null,
+          floatingActionButtonLocation:
+              show != true ? FloatingActionButtonLocation.centerDocked : null,
           floatingActionButton: Visibility(
-            visible: map.intialLat == null,
+            visible: show != true,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: CustomTextButton(

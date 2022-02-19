@@ -29,8 +29,8 @@ class CustomAppBar extends HookConsumerWidget {
       this.drawer})
       : super(key: key);
 
-  final FutureProvider<ThreeValuesModel> provider =
-      FutureProvider<ThreeValuesModel>((ref) async {
+  final AutoDisposeFutureProvider<ThreeValuesModel> provider =
+      FutureProvider.autoDispose<ThreeValuesModel>((ref) async {
     return await ref
         .read(getThreeValuesNotifier.notifier)
         .getValues(); //; may cause `provider` to rebuild

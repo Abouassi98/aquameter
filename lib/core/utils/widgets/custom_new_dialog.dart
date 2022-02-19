@@ -84,7 +84,7 @@ class CustomWarningDialog {
       {required BuildContext context,
       required String msg,
       String? okMsg,
-      Function? okFun,
+     void Function()? okFun,
       String? cancelMsg,
       Function? cancelFun}) {
     return AwesomeDialog(
@@ -107,10 +107,7 @@ class CustomWarningDialog {
               ),
             ),
             btnOk: InkWell(
-              onTap: () {
-                Navigator.of(context).pop();
-                okFun!();
-              },
+              onTap: okFun,
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),

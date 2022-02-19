@@ -14,7 +14,7 @@ import 'package:aquameter/features/calculator/presentation/manager/create_meetin
 import 'package:aquameter/features/localization/manager/change_language_provider.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
 
-import 'package:aquameter/features/profileClient/presentation/manager/location_notifier.dart';
+
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/update_and_endperiod_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,10 +41,6 @@ final StateNotifierProvider<AreaAndCitesNotifier, Object?>
 final StateNotifierProvider<FishTypesNotifier, Object?> fishTypesNotifier =
     StateNotifierProvider(
   (ref) => FishTypesNotifier(null),
-);
-final StateNotifierProvider<LocationProvider, Object?> locationProvider =
-    StateNotifierProvider(
-  (ref) => LocationProvider(null),
 );
 
 final StateNotifierProvider<AuthNotifier, Object?> loginProvider =

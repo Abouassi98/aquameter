@@ -29,6 +29,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_calendar/flutter_clean_calendar.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../Home/presentation/pages/search_screen.dart';
 import '../../data/meeting_all_model..dart';
 
 class ProfileClientScreen extends HookConsumerWidget {
@@ -60,14 +61,12 @@ class ProfileClientScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final GetAndDeleteClientsCreateMettingAndPeriodNotifier clients =
         ref.read(getClientsNotifier.notifier);
-
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
     final UpdateAndDeletePeriodNotifier updateAndDeletePeriod =
         ref.read(updateAndDeletePeriodNotifier.notifier);
-
     return WillPopScope(
       onWillPop: () async {
         pushAndRemoveUntil(const MainPage());
@@ -466,14 +465,14 @@ class ProfileClientScreen extends HookConsumerWidget {
                                                               .validate()) {
                                                         await updateAndDeletePeriod
                                                             .endPeriod(
-                                                                periodId: e
-                                                                    .data![0]
-                                                                    .periodId!,
+                                                                periodId: client
+                                                                    .onlinePeriodsResult![
+                                                                        0]
+                                                                    .id!,
                                                                 totalNumber:
                                                                     totalFishes,
-                                                                clientId: e
-                                                                    .data![0]
-                                                                    .clientId!,
+                                                                clientId:
+                                                                    client.id!,
                                                                 averageFooder:
                                                                     totalFeed,
                                                                 averageWeight:
@@ -501,17 +500,23 @@ class ProfileClientScreen extends HookConsumerWidget {
                                       ? 'هل ترغب بانشاء دوره جديده'
                                       : 'هل ترغب بانهاء الدوره وانشاء دوره جديده ؟',
                                   okFun: () async {
-                                    if (client.onlinePeriodsResultCount == 0) {
+                                    if (client.onlinePeriodsResultCount != 0) {
                                       await updateAndDeletePeriod.endPeriod(
-                                          periodId: e.data![0].periodId!);
+                                          clientId: client.id!,
+                                          periodId: client
+                                              .onlinePeriodsResult![0].id!);
                                     }
+
                                     await clients.createPeriod(
-                                      clientId: e.data![0].clientId,
+                                      clientId: client.id!,
                                     );
+
                                     pop();
-                                    pushReplacement(ProfileClientScreen(
-                                      client: client,
-                                    ));
+                                    pushReplacement(
+                                      SearchScreen(
+                                        viewProfile: true,
+                                      ),
+                                    );
                                   },
                                   okMsg: 'نعم',
                                   cancelMsg: 'لا',

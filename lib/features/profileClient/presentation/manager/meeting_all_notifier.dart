@@ -52,6 +52,7 @@ class MeetingAllNotifier extends StateNotifier<void> {
               ): [
                 CleanCalendarEvent('الزيارات السابقه',
                     startTime: DateTime(
+
                       int.parse(meetingAllModel!
                           .data![i].meetingResult![x].realDate!
                           .substring(0, 4)),
@@ -62,6 +63,9 @@ class MeetingAllNotifier extends StateNotifier<void> {
                           .data![i].meetingResult![x].realDate!
                           .substring(8, 10)),
                     ),
+                    // description: 'زيارات مهمه',
+                    // isAllDay: true,
+                    // isDone: true,
                     endTime: DateTime(
                         int.parse(meetingAllModel!
                             .data![i].meetingResult![x].realDate!

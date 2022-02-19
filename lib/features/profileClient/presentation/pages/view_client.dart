@@ -115,7 +115,7 @@ class ViewClient extends HookConsumerWidget {
                                     onTap: () {
                                       map.intialLat = 30.3;
                                       map.intialLoong = 31.3;
-                                      push(CustomMap());
+                                      push(CustomMap(show: true,));
                                     },
                                     child: CustomTextField(
                                       enabled: false,

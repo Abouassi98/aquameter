@@ -17,7 +17,7 @@ import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
-import 'package:aquameter/features/profileClient/presentation/manager/location_notifier.dart';
+
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/widgets/total_fishes.dart';
 
@@ -54,7 +54,7 @@ class EditClient extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
-    final LocationProvider location = ref.watch(locationProvider.notifier);
+
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
@@ -65,7 +65,7 @@ class EditClient extends HookConsumerWidget {
     final MapNotifier map = ref.read(
       mapNotifier.notifier,
     );
-
+    ValueNotifier<bool> newCity = useState<bool>(false);
     // ValueNotifier<bool> showSecondField = useState<bool>(false);
     // ValueNotifier<bool> showThirdField = useState<bool>(false);
     List<int> totalFishes = [], typeFishes = [];
@@ -162,21 +162,21 @@ class EditClient extends HookConsumerWidget {
                                       list:
                                           areaAndCites.governorateModel!.data!,
                                       onChange: (v) async {
+                                        areaId = 0;
                                         await areaAndCites.getCities(cityId: v);
                                         listOfCities.value =
                                             areaAndCites.areasModel!.data!;
                                         governorateId = v;
+                                        newCity.value = true;
                                       },
                                     ),
                                     CustomBottomSheet(
-                                      name: areaAndCites.areasModel!.data!
-                                          .firstWhere((element) =>
-                                              element.id == client.area)
-                                          .name
-                                          .toString(),
+                                      newCity: newCity.value,
+                                      name: newCity.value==true? 'المدينه':client.areaData!.names!,
                                       list: listOfCities.value,
                                       onChange: (v) {
                                         areaId = v;
+                                         newCity.value = false;
                                       },
                                     ),
                                   ],
@@ -201,7 +201,7 @@ class EditClient extends HookConsumerWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(location.address ??
+                                        Text(map.address ??
                                             client.address!),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),

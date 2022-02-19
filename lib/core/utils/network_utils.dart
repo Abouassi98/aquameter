@@ -5,6 +5,7 @@ import 'package:aquameter/features/Auth/data/user_model.dart';
 import 'package:aquameter/features/splashScreen/presentation/splah_view.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_storage/get_storage.dart';
@@ -41,13 +42,13 @@ class NetworkUtils {
         });
       }
       if (get == true) {
-        response =
-            await dio.get(baseUrl + url, options: Options(headers: _headers));
+        response = await dio.get(baseUrl + url,
+            options: Options(headers: _headers, receiveTimeout: 3000));
       } else {
         response = await dio.post(
           baseUrl + url,
           data: body,
-          options: Options(headers: _headers),
+          options: Options(headers: _headers, receiveTimeout: 3000),
           onSendProgress: (int sent, int total) {
             final progress = sent / total;
             debugPrint('progress: $progress ($sent/$total)');
@@ -58,7 +59,43 @@ class NetworkUtils {
       if (e.response != null) {
         response = e.response;
         debugPrint('response: ' + e.response.toString());
-      } else {}
+      } else {
+     
+        dio.interceptors.add(
+          RetryInterceptor(
+            dio: dio,
+            logPrint: print, // specify log function (optional)
+
+            retries: 4, // retry count (optional)
+            retryDelays: const [
+              // set delays between retries (optional)
+              Duration(seconds: 1), // wait 1 sec before first retry
+              Duration(seconds: 3), // wait 2 sec before second retry
+              Duration(seconds: 5), // wait 3 sec before third retry
+              Duration(seconds: 10), // wait 3 sec before third retry
+            ],
+          ),
+        );
+        if (GetStorage().read(kIsLoggedIn) == true) {
+          _headers.addAll({
+            'Authorization': 'Bearer ${GetStorage().read(kToken)}',
+          });
+        }
+        if (get == true) {
+          response = await dio.get(baseUrl + url,
+              options: Options(headers: _headers, receiveTimeout: 3000));
+        } else {
+          response = await dio.post(
+            baseUrl + url,
+            data: body,
+            options: Options(headers: _headers, receiveTimeout: 3000),
+            onSendProgress: (int sent, int total) {
+              final progress = sent / total;
+              debugPrint('progress: $progress ($sent/$total)');
+            },
+          );
+        }
+      }
     }
     return handleResponse(response!);
   }

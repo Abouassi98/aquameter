@@ -17,7 +17,7 @@ import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
-import 'package:aquameter/features/profileClient/presentation/manager/location_notifier.dart';
+
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 
 import 'package:aquameter/features/profileClient/presentation/widgets/total_fishes.dart';
@@ -25,6 +25,8 @@ import 'package:aquameter/features/profileClient/presentation/widgets/total_fish
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../../CustomMap/presentation/manager/map_notifier.dart';
 
 // ignore: must_be_immutable
 class AddClient extends HookConsumerWidget {
@@ -52,7 +54,6 @@ class AddClient extends HookConsumerWidget {
   List<TotalFishesItem> totalFishesItem = [];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final LocationProvider location = ref.watch(locationProvider.notifier);
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
@@ -60,8 +61,12 @@ class AddClient extends HookConsumerWidget {
     final AddClientNotifier addClient = ref.read(
       addClientNotifier.notifier,
     );
+    final MapNotifier map = ref.watch(
+      mapNotifier.notifier,
+    );
 
     ValueNotifier<List<Cities>> listOfCities = useState<List<Cities>>([]);
+    ValueNotifier<bool> newCity = useState<bool>(false);
     // ValueNotifier<bool> showSecondField = useState<bool>(false);
     // ValueNotifier<bool> showThirdField = useState<bool>(false);
     List<int> totalFishes = [], typeFishes = [];
@@ -157,18 +162,22 @@ class AddClient extends HookConsumerWidget {
                                         list: areaAndCites
                                             .governorateModel!.data!,
                                         onChange: (v) async {
+                                          areaId = 0;
                                           await areaAndCites.getCities(
                                               cityId: v);
                                           listOfCities.value =
                                               areaAndCites.areasModel!.data!;
                                           governorateId = v;
+                                          newCity.value = true;
                                         },
                                       ),
                                       CustomBottomSheet(
                                         name: 'المدينه',
                                         list: listOfCities.value,
+                                        newCity: newCity.value,
                                         onChange: (v) {
                                           areaId = v;
+                                          newCity.value = false;
                                         },
                                       ),
                                     ],
@@ -176,6 +185,8 @@ class AddClient extends HookConsumerWidget {
                                   const SizedBox(height: 10),
                                   InkWell(
                                     onTap: () {
+                                      map.intialLat = null;
+                                      map.intialLoong = null;
                                       push(CustomMap());
                                     },
                                     child: Container(
@@ -191,7 +202,9 @@ class AddClient extends HookConsumerWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Text(location.address ?? 'العنوان'),
+                                           Text(
+                                                map.address ?? 'العنوان')
+                                         ,
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: CircleAvatar(

@@ -610,7 +610,12 @@ class Calculator extends HookConsumerWidget {
                                   radius: 15,
                                   title: ' = ',
                                   function: () {
-                                    if (_dieFishes.currentState!.validate()) {
+                                    if (averageWeight.value == 0.0) {
+                                      HelperFunctions.errorBar(context,
+                                          message:
+                                              'يجب عليك اظهار ناتج متوسط الوزن الكلي للسمك بالكجم');
+                                    } else if (_dieFishes.currentState!
+                                        .validate()) {
                                       totalWeight.value =
                                           ((totalPreviousFishes - dieFishes) *
                                                   averageWeight.value) /
@@ -667,10 +672,10 @@ class Calculator extends HookConsumerWidget {
                                   radius: 15,
                                   title: ' = ',
                                   function: () {
-                                    if (totalWeightFishes == 0.0) {
+                                    if (totalWeight.value == 0.0) {
                                       HelperFunctions.errorBar(context,
                                           message:
-                                              'يجب عليك ادخال الوزن الكلي للسمك بالكجم');
+                                              'يجب عليك اظهار ناتج اجمالي الوزن الكلي للسمك بالكجم');
                                     } else if (_conversionRate.currentState!
                                         .validate()) {
                                       conversionRate.value =

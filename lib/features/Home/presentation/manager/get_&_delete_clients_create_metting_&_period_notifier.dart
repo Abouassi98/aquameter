@@ -54,8 +54,8 @@ class GetAndDeleteClientsCreateMettingAndPeriodNotifier
     }
   }
 
-  createPeriod({
-    required int? clientId,
+  Future<void> createPeriod({
+    required int clientId,
   }) async {
     Response response = await _utils.requstData(url: 'periods/create', body: {
       "mceeting": date,

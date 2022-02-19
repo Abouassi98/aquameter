@@ -76,6 +76,8 @@ class CustomTextField extends StatelessWidget {
           inputFormatters: calculator == true
               ? <TextInputFormatter>[
                   DecimalTextInputFormatter(decimalRange: 3),
+                  FilteringTextInputFormatter.deny(' '),
+                  FilteringTextInputFormatter.deny('-'),
                   if (maxRange != null)
                     LimitRangeTextInputFormatter(minRange!, maxRange!),
                 ]
