@@ -1,3 +1,4 @@
+import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
@@ -20,6 +21,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../../../core/utils/functions/helper.dart';
+
 class Statics extends HookConsumerWidget {
   final GlobalKey<FormFieldState> _multiSelectKey = GlobalKey<FormFieldState>();
 
@@ -34,7 +37,7 @@ class Statics extends HookConsumerWidget {
   ];
 
   final FutureProvider<ClientsModel> provider =
-      FutureProvider<ClientsModel>((ref) async {
+  FutureProvider<ClientsModel>((ref) async {
     return await ref
         .read(getClientsNotifier.notifier)
         .getClients(); //; may cause `provider` to rebuild
@@ -43,11 +46,11 @@ class Statics extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<DateTime> dateTime1 =
-        useState<DateTime>(DateTime.utc(1989, 11, 9));
+    useState<DateTime>(DateTime.utc(1989, 11, 9));
     final ValueNotifier<DateTime> dateTime2 =
-        useState<DateTime>(DateTime.utc(1989, 11, 9));
+    useState<DateTime>(DateTime.utc(1989, 11, 9));
     final ValueNotifier<List<Governorate>> governorate =
-        useState<List<Governorate>>([]);
+    useState<List<Governorate>>([]);
     final ValueNotifier<List<Type>> fishes = useState<List<Type>>([]);
     ValueNotifier<List<Client>> clientValues = useState<List<Client>>([]);
     final GraphStaticsNotifer graphStatics = ref.read(
@@ -111,7 +114,7 @@ class Statics extends HookConsumerWidget {
                               ),
                               dataSource: List.generate(
                                 governorate.value.length,
-                                (i) => ChartData(
+                                    (i) => ChartData(
                                   governorate.value[i].names!,
                                   governorate.value[i].total!,
                                 ),
@@ -134,7 +137,7 @@ class Statics extends HookConsumerWidget {
                               ),
                               dataSource: List.generate(
                                 fishes.value.length,
-                                (i) => ChartData(
+                                    (i) => ChartData(
                                   fishes.value[i].name!,
                                   fishes.value[i].clientCount!,
                                 ),
@@ -158,10 +161,10 @@ class Statics extends HookConsumerWidget {
                   TextButton(
                     onPressed: () {
                       showDatePicker(
-                              context: context,
-                              initialDate: DateTime(2022),
-                              firstDate: DateTime(2021),
-                              lastDate: DateTime(2030))
+                          context: context,
+                          initialDate: DateTime(2022),
+                          firstDate: DateTime(2021),
+                          lastDate: DateTime(2030))
                           .then((pickedDate) {
                         if (pickedDate == null) {
                           //if user tap cancel then this function will stop
@@ -169,8 +172,8 @@ class Statics extends HookConsumerWidget {
                         } else {
                           dateTime1.value = pickedDate;
                           if (dateTime1.value
-                                  .difference(dateTime2.value)
-                                  .inDays >
+                              .difference(dateTime2.value)
+                              .inDays >
                               0) {
                             dateTime2.value = DateTime.utc(1989, 11, 9);
                           }
@@ -188,10 +191,10 @@ class Statics extends HookConsumerWidget {
                   TextButton(
                     onPressed: () {
                       showDatePicker(
-                              context: context,
-                              initialDate: dateTime1.value,
-                              firstDate: dateTime1.value,
-                              lastDate: DateTime(2030))
+                          context: context,
+                          initialDate: dateTime1.value,
+                          firstDate: dateTime1.value,
+                          lastDate: DateTime(2030))
                           .then((pickedDate) {
                         if (pickedDate == null) {
                           //if user tap cancel then this function will stop
@@ -229,13 +232,16 @@ class Statics extends HookConsumerWidget {
                       maxChildSize: 0.95,
                       title: Padding(
                         padding:
-                            EdgeInsets.only(left: SizeConfig.screenWidth * .4),
+                        EdgeInsets.only(left: SizeConfig.screenWidth * .4),
                         child: CustomTextButton(
                             hieght: SizeConfig.screenHeight * .04,
                             width: SizeConfig.screenWidth * .2,
                             title: 'تحديد الكل',
                             function: () {
                               clientValues.value = e.data!;
+                              pop();
+                              HelperFunctions.successBar(context,
+                                  message: 'تم اختيار الكل');
                             }),
                       ),
                       buttonText: const Text(
@@ -251,8 +257,7 @@ class Statics extends HookConsumerWidget {
                       onConfirm: (values) async {
                         clientValues.value = values.cast();
                         debugPrint('sdfsfdsfd  ${values.first}');
-                        if (values.isNotEmpty) {
-                        } else {}
+                        if (values.isNotEmpty) {} else {}
 
                         _multiSelectKey.currentState!.validate();
                       },

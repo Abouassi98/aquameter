@@ -521,6 +521,9 @@ class ProfileClientScreen extends HookConsumerWidget {
                                     );
 
                                     pop();
+                                    if (fromSearch == true) {
+                                      pop();
+                                    }
                                     pushReplacement(
                                       SearchScreen(
                                         viewProfile: true,

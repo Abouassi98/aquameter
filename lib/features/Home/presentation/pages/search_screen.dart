@@ -8,21 +8,25 @@ import 'package:aquameter/core/utils/widgets/app_loader.dart';
 import 'package:aquameter/core/utils/widgets/custom_appbar.dart';
 import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
 import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
+import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/profile_client%20_screen.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import '../../../../core/utils/widgets/custom_headear_title.dart';
 import 'main_page.dart';
 
 // ignore: must_be_immutable
 class SearchScreen extends HookConsumerWidget {
   final bool viewProfile;
+
   SearchScreen({Key? key, required this.viewProfile}) : super(key: key);
   bool filter = false;
   dynamic fishType;
@@ -32,6 +36,7 @@ class SearchScreen extends HookConsumerWidget {
         .watch(getClientsNotifier.notifier)
         .getClients(); //; may cause `provider` to rebuild
   });
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController controller = useTextEditingController();
@@ -152,203 +157,232 @@ class SearchScreen extends HookConsumerWidget {
                               filter = true;
                             },
                           ),
+                          if (filter)
+                            CustomTextButton(
+                                width: SizeConfig.screenWidth * .17,
+                                hieght: SizeConfig.screenHeight * .05,
+                                radius: SizeConfig.screenWidth * .5,
+                                title: 'اظهار الكل',
+                                function: () {
+                                  selected.value = e.data!;
+                                }),
                         ],
                       ),
-                      Center(
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          width: SizeConfig.screenWidth * .9,
-                          child: Card(
-                            margin: const EdgeInsets.only(
-                              left: 10,
-                              right: 10,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const SizedBox(height: 10),
-                                (selected.value.isNotEmpty)
-                                    ? ListView.builder(
-                                        primary: false,
-                                        shrinkWrap: true,
-                                        itemCount: selected.value.length,
-                                        itemBuilder: (context, index) =>
-                                            ClientItem(
-                                          confirmDismiss: (DismissDirection
-                                              direction) async {
-                                            return await _dialog
-                                                .showOptionDialog(
+                      ConditionalBuilder(
+                        condition: e.data!.isNotEmpty,
+                        fallback: (context) => Center(
+                          child: Lottie.asset(
+                            'assets/images/noData.json',
+                            repeat: false,
+                          ),
+                        ),
+                        builder: (context) => Center(
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            width: SizeConfig.screenWidth * .9,
+                            child: Card(
+                              margin: const EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const SizedBox(height: 10),
+                                  (selected.value.isNotEmpty)
+                                      ? ListView.builder(
+                                          primary: false,
+                                          shrinkWrap: true,
+                                          itemCount: selected.value.length,
+                                          itemBuilder: (context, index) =>
+                                              ClientItem(
+                                            confirmDismiss: (DismissDirection
+                                                direction) async {
+                                              return await _dialog
+                                                  .showOptionDialog(
+                                                      context: context,
+                                                      msg:
+                                                          'هل ترغب بحذف العميل؟',
+                                                      okFun: () async {
+                                                        await clients
+                                                            .deleteClient(
+                                                                clientId: selected
+                                                                    .value[
+                                                                        index]
+                                                                    .id!);
+                                                        ref.refresh(provider);
+                                                        // pushReplacement(SearchScreen(
+                                                        //   viewProfile: viewProfile,
+                                                        // ));
+                                                      },
+                                                      okMsg: 'نعم',
+                                                      cancelMsg: 'لا',
+                                                      cancelFun: () {
+                                                        return;
+                                                      });
+                                            },
+                                            fishTypes: fishTypes,
+                                            func: () async {
+                                              if (viewProfile == true) {
+                                                meetingAll.id =
+                                                    selected.value[index].id;
+                                                push(
+                                                  ProfileClientScreen(
+                                                      fromSearch: true,
+                                                      client: selected
+                                                          .value[index]),
+                                                );
+                                              } else {
+                                                await _dialog.showOptionDialog(
                                                     context: context,
-                                                    msg: 'هل ترغب بحذف العميل؟',
-                                                    okFun: () async {
-                                                      await clients
-                                                          .deleteClient(
-                                                              clientId: selected
-                                                                  .value[index]
-                                                                  .id!);
-                                                      ref.refresh(provider);
-                                                      // pushReplacement(SearchScreen(
-                                                      //   viewProfile: viewProfile,
-                                                      // ));
+                                                    msg:
+                                                        'هل ترغب باضافة العميل؟',
+                                                    okFun: () {
+                                                      clients.createMetting(
+                                                        clientId: selected
+                                                            .value[index].id!,
+                                                      );
                                                     },
                                                     okMsg: 'نعم',
                                                     cancelMsg: 'لا',
                                                     cancelFun: () {
                                                       return;
                                                     });
-                                          },
-                                          fishTypes: fishTypes,
-                                          func: () async {
-                                            if (viewProfile == true) {
-                                              meetingAll.id =
-                                                  selected.value[index].id;
-                                              push(
-                                                ProfileClientScreen(
-                                                  fromSearch: true,
-                                                    client:
-                                                        selected.value[index]),
-                                              );
-                                            } else {
-                                              await _dialog.showOptionDialog(
-                                                  context: context,
-                                                  msg: 'هل ترغب باضافة العميل؟',
-                                                  okFun: () {
-                                                    clients.createMetting(
-                                                      clientId: selected
-                                                          .value[index].id!,
-                                                    );
-                                                  },
-                                                  okMsg: 'نعم',
-                                                  cancelMsg: 'لا',
-                                                  cancelFun: () {
-                                                    return;
-                                                  });
-                                            }
-                                          },
-                                          client: selected.value[index],
-                                        ),
-                                      )
-                                    : (selected.value.isEmpty &&
-                                            controller.text != '')
-                                        ? const Center(
-                                            child: Text('لا يوجد عملاء'))
-                                        : (selected.value.isEmpty &&
-                                                controller.text == '' &&
-                                                filter == true)
-                                            ? const Center(
-                                                child: Text('لا يوجد عملاء'))
-                                            : ListView.builder(
-                                                primary: false,
-                                                shrinkWrap: true,
-                                                itemCount: e.data!.length,
-                                                itemBuilder: (context, index) =>
-                                                    ClientItem(
-                                                  confirmDismiss:
-                                                      (DismissDirection
-                                                          direction) async {
-                                                    return await _dialog
-                                                        .showOptionDialog(
-                                                            context: context,
-                                                            msg:
-                                                                'هل ترغب بحذف العميل؟',
-                                                            okFun: () async {
-                                                              await clients
-                                                                  .deleteClient(
+                                              }
+                                            },
+                                            client: selected.value[index],
+                                          ),
+                                        )
+                                      : (selected.value.isEmpty &&
+                                              controller.text != '')
+                                          ? const Center(
+                                              child: Text('لا يوجد عملاء'))
+                                          : (selected.value.isEmpty &&
+                                                  controller.text == '' &&
+                                                  filter == true)
+                                              ? const Center(
+                                                  child: Text('لا يوجد عملاء'))
+                                              : ListView.builder(
+                                                  primary: false,
+                                                  shrinkWrap: true,
+                                                  itemCount: e.data!.length,
+                                                  itemBuilder:
+                                                      (context, index) =>
+                                                          ClientItem(
+                                                    confirmDismiss:
+                                                        (DismissDirection
+                                                            direction) async {
+                                                      return await _dialog
+                                                          .showOptionDialog(
+                                                              context: context,
+                                                              msg:
+                                                                  'هل ترغب بحذف العميل؟',
+                                                              okFun: () async {
+                                                                await clients.deleteClient(
+                                                                    clientId: e
+                                                                        .data![
+                                                                            index]
+                                                                        .id!);
+                                                                ref.refresh(
+                                                                    provider);
+
+                                                                // pushReplacement(
+                                                                // //     SearchScreen(
+                                                                // //   viewProfile:
+                                                                // //       viewProfile,
+                                                                // // ));
+                                                              },
+                                                              okMsg: 'نعم',
+                                                              cancelMsg: 'لا',
+                                                              cancelFun: () {
+                                                                return;
+                                                              });
+                                                    },
+                                                    fishTypes: fishTypes,
+                                                    func: () async {
+                                                      if (viewProfile == true) {
+                                                        meetingAll.id =
+                                                            e.data![index].id;
+                                                        push(
+                                                            ProfileClientScreen(
+                                                                fromSearch:
+                                                                    true,
+                                                                client: e.data![
+                                                                    index]));
+                                                      } else {
+                                                        if (clients
+                                                            .clientsModel!
+                                                            .data![index]
+                                                            .onlinePeriodsResult!
+                                                            .isNotEmpty) {
+                                                          await _dialog
+                                                              .showOptionDialog(
+                                                                  context:
+                                                                      context,
+                                                                  msg:
+                                                                      'هل ترغب باضافه العميل للخطه الاسبوعيه ؟',
+                                                                  okFun:
+                                                                      () async {
+                                                                    await clients
+                                                                        .createMetting(
                                                                       clientId: e
                                                                           .data![
                                                                               index]
-                                                                          .id!);
-                                                              ref.refresh(
-                                                                  provider);
+                                                                          .id!,
+                                                                    );
+                                                                    pushAndRemoveUntil(
+                                                                        const MainPage());
+                                                                  },
+                                                                  okMsg: 'نعم',
+                                                                  cancelMsg:
+                                                                      'لا',
+                                                                  cancelFun:
+                                                                      () {
+                                                                    return;
+                                                                  });
+                                                        } else {
+                                                          await _dialog
+                                                              .showOptionDialog(
+                                                                  context:
+                                                                      context,
+                                                                  msg:
+                                                                      'هل ترغب باضافة دوره جديده',
+                                                                  okFun:
+                                                                      () async {
+                                                                    await clients
+                                                                        .createPeriod(
+                                                                      clientId: e
+                                                                          .data![
+                                                                              index]
+                                                                          .id!,
+                                                                    );
 
-                                                              // pushReplacement(
-                                                              // //     SearchScreen(
-                                                              // //   viewProfile:
-                                                              // //       viewProfile,
-                                                              // // ));
-                                                            },
-                                                            okMsg: 'نعم',
-                                                            cancelMsg: 'لا',
-                                                            cancelFun: () {
-                                                              return;
-                                                            });
-                                                  },
-                                                  fishTypes: fishTypes,
-                                                  func: () async {
-                                                    if (viewProfile == true) {
-                                                      meetingAll.id =
-                                                          e.data![index].id;
-                                                      push(ProfileClientScreen(
-                                                           fromSearch: true,
-                                                          client:
-                                                              e.data![index]));
-                                                    } else {
-                                                      if (clients
-                                                          .clientsModel!
-                                                          .data![index]
-                                                          .onlinePeriodsResult!
-                                                          .isNotEmpty) {
-                                                        await _dialog
-                                                            .showOptionDialog(
-                                                                context:
-                                                                    context,
-                                                                msg:
-                                                                    'هل ترغب باضافه العميل للخطه الاسبوعيه ؟',
-                                                                okFun:
-                                                                    () async {
-                                                                  await clients
-                                                                      .createMetting(
-                                                                    clientId: e
-                                                                        .data![
-                                                                            index]
-                                                                        .id!,
-                                                                  );
-                                                                  pushAndRemoveUntil(
-                                                                      const MainPage());
-                                                                },
-                                                                okMsg: 'نعم',
-                                                                cancelMsg: 'لا',
-                                                                cancelFun: () {
-                                                                  return;
-                                                                });
-                                                      } else {
-                                                        await _dialog
-                                                            .showOptionDialog(
-                                                                context:
-                                                                    context,
-                                                                msg:
-                                                                    'هل ترغب باضافة دوره جديده',
-                                                                okFun:
-                                                                    () async {
-                                                                  await clients
-                                                                      .createPeriod(
-                                                                    clientId: e
-                                                                        .data![
-                                                                            index]
-                                                                        .id!,
-                                                                  );
-
-                                                                  pop();
-                                                                  push(
-                                                                      ProfileClientScreen(
-                                                                           fromSearch: true,
-                                                                    client:
-                                                                        e.data![
-                                                                            index],
-                                                                  ));
-                                                                },
-                                                                okMsg: 'نعم',
-                                                                cancelMsg: 'لا',
-                                                                cancelFun: () {
-                                                                  return;
-                                                                });
+                                                                    pop();
+                                                                    push(
+                                                                        ProfileClientScreen(
+                                                                      fromSearch:
+                                                                          true,
+                                                                      client: e
+                                                                              .data![
+                                                                          index],
+                                                                    ));
+                                                                  },
+                                                                  okMsg: 'نعم',
+                                                                  cancelMsg:
+                                                                      'لا',
+                                                                  cancelFun:
+                                                                      () {
+                                                                    return;
+                                                                  });
+                                                        }
                                                       }
-                                                    }
-                                                  },
-                                                  client: e.data![index],
+                                                    },
+                                                    client: e.data![index],
+                                                  ),
                                                 ),
-                                              ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),

@@ -62,13 +62,14 @@ dependencies:
   open_file: ^3.2.1
   path_provider_platform_interface: ^2.0.3
   geocoding: ^2.0.2
-  flutter_clean_calendar: 
+  flutter_clean_calendar:
     git:
       url: https://github.com/pmcarlos/flutter_clean_calendar
   expandable: ^5.0.1
   map_launcher: ^2.2.1+1
   dio_smart_retry: ^1.1.0
-
+  conditional_builder_null_safety: ^0.0.6
+  lottie: ^1.2.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
