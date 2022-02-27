@@ -48,7 +48,6 @@ class ProfileClientScreen extends HookConsumerWidget {
   final GlobalKey<FormState> _conversionRate = GlobalKey<FormState>();
   String? selctedMeasuer, allPreviousFishes = '';
   num totalWeight = 0.0, conversionRate = 0.0, totalFeed = 0, averageWeight = 0;
-
   int totalFishes = 0;
 
   final FutureProvider<MeetingAllModel> provider =
