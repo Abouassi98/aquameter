@@ -15,6 +15,7 @@ class ChangePassScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     String? password;
     String? confPassword;
+    String? currentPassword;
     final ChangePassNotifier changePass =
         ref.watch(changePassProvider.notifier);
 
@@ -50,6 +51,29 @@ class ChangePassScreen extends HookConsumerWidget {
                       ),
                       child: CustomTextField(
                         onChange: (v) {
+                          currentPassword = v;
+                        },
+                        hint: localization.text('old_password'),
+                        visibility: true,
+                        type: TextInputType.text,
+                        icon: Icons.lock,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'كلمة السر مطلوبة';
+                          }
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.screenHeight * 0.04,
+                    ),
+                    Container(
+                      width: SizeConfig.screenWidth * 0.7,
+                      decoration: const BoxDecoration(
+                        border: Border(bottom: BorderSide(color: Colors.grey)),
+                      ),
+                      child: CustomTextField(
+                        onChange: (v) {
                           password = v;
                         },
                         hint: localization.text('new_password'),
@@ -60,7 +84,6 @@ class ChangePassScreen extends HookConsumerWidget {
                           if (value!.isEmpty) {
                             return localization.text('change_pass');
                           }
-                          return null;
                         },
                       ),
                     ),
@@ -84,7 +107,7 @@ class ChangePassScreen extends HookConsumerWidget {
                           if (value!.isEmpty) {
                             return ('من فضلك قم بتأكيد كلمة السر');
                           } else if (confPassword != password) {
-                            return 'كلمة السر غير متطابقان';
+                            return 'كلمتى السر غير متطابقان';
                           }
                           return null;
                         },
@@ -100,8 +123,11 @@ class ChangePassScreen extends HookConsumerWidget {
                   title: localization.text('save'),
                   function: () {
                     if (_formKey.currentState!.validate()) {
-                      changePass.changePassword(
-                          confirmPassword: confPassword, password: password);
+                      changePass.changepassword(
+                        confPass: confPassword!,
+                        currentPassword: currentPassword!,
+                        newPassword: password!,
+                      );
                     }
                   },
                   width: SizeConfig.screenWidth * 0.3,
