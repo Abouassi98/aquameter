@@ -3,15 +3,13 @@ import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/size_config.dart';
-import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
+import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../../core/utils/providers.dart';
 import '../../../CustomMap/presentation/manager/map_notifier.dart';
 
 class ViewClient extends HookConsumerWidget {
@@ -113,9 +111,11 @@ class ViewClient extends HookConsumerWidget {
                                   const SizedBox(height: 10),
                                   InkWell(
                                     onTap: () {
-                                      map.intialLat = 30.3;
-                                      map.intialLoong = 31.3;
-                                      push(CustomMap(show: true,));
+                                      map.initialLat = 30.3;
+                                      map.initialLong = 31.3;
+                                      push(CustomMap(
+                                        show: true,
+                                      ));
                                     },
                                     child: CustomTextField(
                                       enabled: false,
@@ -180,16 +180,13 @@ class ViewClient extends HookConsumerWidget {
                                               MainAxisAlignment.spaceAround,
                                           children: [
                                             CustomTextField(
-                                          
-                                             
                                               hint: client.fish?[0].number
                                                   .toString(),
                                               enabled: false,
                                             ),
                                             CustomTextField(
-                                       
-                                              hint: client.fish?[0].fishType!.name
-                                              ,
+                                              hint: client
+                                                  .fish?[0].fishType!.name,
                                               enabled: false,
                                             ),
                                           ],

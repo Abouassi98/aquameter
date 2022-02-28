@@ -6,7 +6,7 @@ import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_btn.dart';
 import 'package:aquameter/core/utils/widgets/custom_dialog.dart';
-import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
+import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/calculator/presentation/manager/create_meeting_result_notifier.dart';
@@ -56,12 +56,14 @@ class Calculator extends HookConsumerWidget {
 
   String notes = '';
   int totalPreviousFishes = 0;
+  final StateProvider<num> nH3Provider = StateProvider<num>((ref) => 0.0);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final CreateMeetingResultNotifier createMeetingResult = ref.read(
       createMeetingResultNotifier.notifier,
     );
-    final ValueNotifier<num> nH3 = useState<num>(0.0);
+    num nH3 = ref.watch(nH3Provider);
+    
     final ValueNotifier<num> averageWeight = useState<num>(0.0);
     final ValueNotifier<num> totalWeight = useState<num>(0.0);
     final ValueNotifier<num> conversionRate = useState<num>(0.0);
@@ -327,9 +329,9 @@ class Calculator extends HookConsumerWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     CustomBtn(
-                                      text: nH3.value == 0.0
+                                      text: nH3  == 0.0
                                           ? '0.0 = امونيات السامه'
-                                          : nH3.value.toStringAsFixed(4) +
+                                          : nH3 .toStringAsFixed(4) +
                                               ' = امونيات السامه',
                                     ),
                                     const SizedBox(
@@ -363,7 +365,7 @@ class Calculator extends HookConsumerWidget {
                                             theUnIonizedAmmonia =
                                                 1 / (1 + pow(10, pka - ph));
 
-                                            nH3.value = totalAmmonia *
+                                          ref.read(nH3Provider.state).state = totalAmmonia *
                                                 theUnIonizedAmmonia;
 
                                             debugPrint(
@@ -453,7 +455,7 @@ class Calculator extends HookConsumerWidget {
                                                               title:
                                                                   'درجة الاكسجين منخفضه جدا',
                                                             ),
-                                                          if (nH3.value > 0.5)
+                                                          if (nH3 > 0.5)
                                                             const AlertCalCulator(
                                                               advice1:
                                                                   ' - اوقف التغذيه',
@@ -715,7 +717,7 @@ class Calculator extends HookConsumerWidget {
                                   salinity: s,
                                   temperature: tempreatureOfWater,
                                   totalWeight: totalWeight.value,
-                                  toxicAmmonia: nH3.value,
+                                  toxicAmmonia: nH3,
                                 );
                               }),
                         ],

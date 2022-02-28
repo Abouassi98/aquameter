@@ -10,10 +10,10 @@ import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 
-import 'package:aquameter/core/utils/widgets/custom_headear_title.dart';
+import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
 
 import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart';
-import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
+import 'package:aquameter/core/utils/widgets/custom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
@@ -67,7 +67,7 @@ class EditClient extends HookConsumerWidget {
     final MapNotifier map = ref.read(
       mapNotifier.notifier,
     );
-
+   final address = ref.watch(mapAddress);
     areaAndCites.getCities(cityId: client.governorateData!.id);
     listOfCities.value = areaAndCites.areasModel!.data!;
     ValueNotifier<bool> newCity = useState<bool>(false);
@@ -191,8 +191,8 @@ class EditClient extends HookConsumerWidget {
                                 const SizedBox(height: 10),
                                 InkWell(
                                   onTap: () {
-                                    map.intialLat = 30.3;
-                                    map.intialLoong = 31.3;
+                                    map.initialLat = 30.3;
+                                    map.initialLong = 31.3;
                                     push(CustomMap());
                                   },
                                   child: Container(
@@ -208,9 +208,15 @@ class EditClient extends HookConsumerWidget {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         SizedBox(
-                                          width: SizeConfig.screenWidth * 0.7,
+                                          width: SizeConfig.screenWidth * 0.5,
                                           child: Text(
-                                              map.address ?? client.address!),
+                                                address ??
+                                                   client.address!,
+                                                style: MainTheme.hintTextStyle
+                                                    .copyWith(
+                                                        color: Colors.black),
+                                                maxLines: null)
+                                          
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),

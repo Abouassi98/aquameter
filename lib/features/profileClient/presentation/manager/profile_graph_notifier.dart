@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+
 class ProfileGraphNotifer extends StateNotifier<AsyncValue<ClientsModel>> {
   ProfileGraphNotifer() : super(const AsyncValue.loading());
   final NetworkUtils _utils = NetworkUtils();

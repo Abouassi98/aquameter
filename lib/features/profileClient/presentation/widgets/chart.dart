@@ -11,7 +11,6 @@ class Chart extends StatelessWidget {
     return SafeArea(
         child: Center(
             child: SfSparkLineChart(
-              
       //Enable the trackball
       trackball: const SparkChartTrackball(
           activationMode: SparkChartActivationMode.tap),

@@ -71,9 +71,7 @@ class DrawerMenu extends StatelessWidget {
               widget: const Icon(Icons.archive),
               text: localization.text('archieve')!,
               onTap: () => push(
-                ArcieveScreen(
-                 
-                ),
+                ArcieveScreen(),
               ),
             ),
             DrwaerItem(

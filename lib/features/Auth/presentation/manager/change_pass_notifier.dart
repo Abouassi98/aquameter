@@ -3,10 +3,7 @@ import 'package:dio/dio.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-
-
 import '../../../../core/utils/network_utils.dart';
-
 
 import '../../data/user_model.dart';
 
@@ -33,7 +30,6 @@ class ChangePassNotifier extends StateNotifier<void> {
     _model = UserModel.fromJson(response.data);
     if (response.statusCode == 200) {
       log('password changed');
-
 
       return _model;
     } else {

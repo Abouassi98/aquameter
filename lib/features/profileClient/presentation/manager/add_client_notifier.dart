@@ -61,7 +61,7 @@ class AddClientNotifier extends StateNotifier<void> {
         totalFishes.clear();
         typeFishes.clear();
 
-        push( SearchScreen(viewProfile: true));
+        push(SearchScreen(viewProfile: true));
       } else {
         HelperFunctions.errorBar(context, message: 'خطا ف اضافه العميل');
       }

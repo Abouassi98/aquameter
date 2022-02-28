@@ -1,5 +1,5 @@
 import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
-import 'package:aquameter/core/themes/screen_utitlity.dart';
+import 'package:aquameter/core/themes/screen_utility.dart';
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 
@@ -8,7 +8,7 @@ import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
 
-import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_meeting_&_period_notifier.dart';
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
@@ -156,9 +156,8 @@ class Home extends HookConsumerWidget {
                                       meetingAll.id =
                                           filterClients.value[i].clientId;
                                       push(ProfileClientScreen(
-                                           fromSearch: false,
+                                        fromSearch: false,
                                         client: filterClients.value[i].client!,
-                                      
                                       ));
                                     },
                                     client: filterClients.value[i].client!,

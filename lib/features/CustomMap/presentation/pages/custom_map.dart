@@ -9,7 +9,6 @@ import 'package:aquameter/features/profileClient/presentation/manager/add_client
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -52,8 +51,7 @@ class CustomMap extends HookConsumerWidget {
     final MapNotifier map = ref.read(
       mapNotifier.notifier,
     );
-    final ValueNotifier<String> address = useState<String>('');
-
+        final address = ref.watch(mapAddress);
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -63,7 +61,7 @@ class CustomMap extends HookConsumerWidget {
               style: MainTheme.headingTextStyle,
             ),
           ),
-          body: ref.watch(map.intialLat == null ? provider : provider2).when(
+          body: ref.watch(map.initialLat == null ? provider : provider2).when(
                 error: (e, o) {
                   debugPrint(e.toString());
                   debugPrint(o.toString());
@@ -88,7 +86,7 @@ class CustomMap extends HookConsumerWidget {
                           () => EagerGestureRecognizer(),
                         ),
                       },
-                      markers: map.intialLat == null ? {} : map.markers,
+                      markers: map.initialLat == null ? {} : map.markers,
                       onCameraMove: (v) {
                         if (show != true) {
                           addClient.lat = v.target.latitude.toString();
@@ -98,7 +96,11 @@ class CustomMap extends HookConsumerWidget {
                                   v.target.latitude, v.target.longitude)
                               .then((value) {
                             addClient.address = value[0].street!;
-                            address.value = value[0].street!;
+                            ref
+                                .read(
+                                  mapAddress.state,
+                                )
+                                .state = value[0].street!;
                           });
                         }
                       },
@@ -108,7 +110,7 @@ class CustomMap extends HookConsumerWidget {
                       ),
                     ),
                     if (show != true) pin(),
-                    Platform.isIOS && (show == true || map.intialLat != null)
+                    Platform.isIOS && (show == true || map.initialLat != null)
                         ? InkWell(
                             onTap: () {
                               MapsSheet.show(
@@ -163,14 +165,15 @@ class CustomMap extends HookConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           SizedBox(
-                              width: SizeConfig.screenWidth * 0.5,
-                            child: Text(
-                             
-                                address.value != ''
-                                    ? address.value: map.address!=null?map.address!:
-                                     'حرك المؤشر ليتم اختيار العنوان المناسب لك',
-                                style: MainTheme.hintTextStyle.copyWith(color: Colors.black),maxLines: null),
-                          ),
+                            width: SizeConfig.screenWidth * 0.5,
+                            child:  Text(
+                                  address ??
+                                      'حرك المؤشر ليتم اختيار العنوان المناسب لك',
+                                  style: MainTheme.hintTextStyle
+                                      .copyWith(color: Colors.black),
+                                  maxLines: null)
+                            ),
+                          
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CircleAvatar(
@@ -192,11 +195,10 @@ class CustomMap extends HookConsumerWidget {
                   CustomTextButton(
                     title: 'حفظ',
                     function: () {
-                      if (map.intialLat == null) {
+                      if (addClient.lat == null) {
                         HelperFunctions.errorBar(context,
                             message: 'يجب عليك اختيار عنوان ');
                       } else {
-                 
                         pop();
                       }
                     },

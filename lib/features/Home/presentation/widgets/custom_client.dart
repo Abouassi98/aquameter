@@ -1,5 +1,5 @@
 import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
-import 'package:aquameter/core/themes/screen_utitlity.dart';
+import 'package:aquameter/core/themes/screen_utility.dart';
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 

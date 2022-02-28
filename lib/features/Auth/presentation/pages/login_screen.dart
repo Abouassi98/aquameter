@@ -41,7 +41,7 @@ class LoginScreen extends HookConsumerWidget {
     );
 
     String phone = '', password = '';
-    final AuthNotifier login = ref.watch(loginProvider.notifier);
+    final AuthNotifier login = ref.read(loginProvider.notifier);
     final ValueNotifier<bool> visabilityNotifier = useState<bool>(true);
     return Scaffold(
       body: Form(

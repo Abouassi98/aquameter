@@ -3,8 +3,7 @@ class UserModel {
   String? token, message;
   Data? data;
 
-
-  UserModel({this.success, this.token, this.data,  this.message});
+  UserModel({this.success, this.token, this.data, this.message});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -13,7 +12,6 @@ class UserModel {
         data: json['data'] == null
             ? null
             : Data.fromJson(json['data'] as Map<String, dynamic>),
-       
         message: json['message'] as String?);
   }
 }
@@ -38,5 +36,3 @@ class Data {
     );
   }
 }
-
-

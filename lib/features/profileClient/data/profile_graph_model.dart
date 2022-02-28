@@ -1,7 +1,7 @@
 class ProfileGraphModel {
   int? code;
   String? message;
-  Data? data;
+  Graph? data;
 
   ProfileGraphModel({this.code, this.message, this.data});
 
@@ -11,33 +11,36 @@ class ProfileGraphModel {
       message: json['message'] as String?,
       data: json['data'] == null
           ? null
-          : Data.fromJson(json['data'] as Map<String, dynamic>),
+          : Graph.fromJson(json['data'] as Map<String, dynamic>),
     );
   }
 }
 
-class Data {
-  List<int>? ammonia;
-  List<dynamic>? avrageWeight;
+class Graph {
+  List<num>? ammonia;
+  List<num>? avrageWeight;
   List<int>? totalNumber;
-  List<int>? conversionRate;
-  List<dynamic>? numberOfDead;
+  List<num>? conversionRate;
+  List<int>? numberOfDead;
+  List<int>? id;
 
-  Data({
+  Graph({
     this.ammonia,
     this.avrageWeight,
     this.totalNumber,
     this.conversionRate,
     this.numberOfDead,
+    this.id,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
-      ammonia: json['ammonia'] as List<int>?,
-      avrageWeight: json['avrage_weight'] as List<dynamic>?,
+  factory Graph.fromJson(Map<String, dynamic> json) {
+    return Graph(
+      ammonia: json['ammonia'] as List<double>?,
+      avrageWeight: json['avrage_weight'] as List<num>?,
       totalNumber: json['total_number'] as List<int>?,
-      conversionRate: json['conversion_rate'] as List<int>?,
-      numberOfDead: json['number_of_dead'] as List<dynamic>?,
+      conversionRate: json['conversion_rate'] as List<double>?,
+      numberOfDead: json['number_of_dead'] as List<int>?,
+      id: json['id'] as List<int>?,
     );
   }
 }

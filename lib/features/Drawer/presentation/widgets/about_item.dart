@@ -1,4 +1,4 @@
-import 'package:aquameter/core/themes/screen_utitlity.dart';
+import 'package:aquameter/core/themes/screen_utility.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:flutter/material.dart';

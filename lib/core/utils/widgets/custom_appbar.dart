@@ -1,4 +1,4 @@
-import 'package:aquameter/core/themes/screen_utitlity.dart';
+import 'package:aquameter/core/themes/screen_utility.dart';
 
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/providers.dart';

@@ -10,10 +10,10 @@ import 'package:aquameter/core/utils/widgets/custom_btn.dart';
 import 'package:aquameter/core/utils/widgets/custom_dialog.dart';
 import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
-import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
+import 'package:aquameter/core/utils/widgets/custom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
-import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
+import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_meeting_&_period_notifier.dart';
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
 import 'package:aquameter/features/calculator/presentation/screen/show_calculator.dart';
@@ -34,7 +34,8 @@ class ProfileClientScreen extends HookConsumerWidget {
   final bool fromSearch;
   final CustomWarningDialog _dialog = CustomWarningDialog();
 
-  ProfileClientScreen({Key? key, required this.client,required  this.fromSearch})
+  ProfileClientScreen(
+      {Key? key, required this.client, required this.fromSearch})
       : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [

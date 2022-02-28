@@ -1,4 +1,4 @@
-import 'package:aquameter/core/themes/screen_utitlity.dart';
+import 'package:aquameter/core/themes/screen_utility.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -24,7 +24,7 @@ class CustomBottomSheet extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<String> selectedLabel = useState<String>('');
- 
+
     return InkWell(
       onTap: () {
         showModalBottomSheet(
@@ -87,7 +87,11 @@ class CustomBottomSheet extends HookConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(newCity==true?name:selectedLabel.value != '' ? selectedLabel.value : name),
+            Text(newCity == true
+                ? name
+                : selectedLabel.value != ''
+                    ? selectedLabel.value
+                    : name),
             const Padding(
               padding: EdgeInsets.all(5.0),
               child: CircleAvatar(

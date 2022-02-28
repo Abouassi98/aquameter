@@ -1,7 +1,7 @@
 import 'package:aquameter/core/GlobalApi/fishTypes/Data/fish_types_model.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
-import 'package:aquameter/core/utils/widgets/custtom_bottom_sheet.dart';
+import 'package:aquameter/core/utils/widgets/custom_bottom_sheet.dart';
 
 import 'package:flutter/material.dart';
 

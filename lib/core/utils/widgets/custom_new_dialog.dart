@@ -84,7 +84,7 @@ class CustomWarningDialog {
       {required BuildContext context,
       required String msg,
       String? okMsg,
-     void Function()? okFun,
+      void Function()? okFun,
       String? cancelMsg,
       Function? cancelFun}) {
     return AwesomeDialog(

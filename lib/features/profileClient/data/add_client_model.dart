@@ -10,8 +10,6 @@ class AddClientModel {
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
-
-
 }
 
 class Data {
@@ -24,7 +22,7 @@ class Data {
   String? landSizeType;
   int? startingWeight;
   int? targetWeight;
- List<dynamic>? number;
+  List<dynamic>? number;
   List<dynamic>? type;
   String? lat;
   String? long;
