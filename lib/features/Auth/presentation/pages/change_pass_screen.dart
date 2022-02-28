@@ -61,6 +61,7 @@ class ChangePassScreen extends HookConsumerWidget {
                           if (value!.isEmpty) {
                             return 'كلمة السر مطلوبة';
                           }
+                           return null;
                         },
                       ),
                     ),
@@ -84,6 +85,7 @@ class ChangePassScreen extends HookConsumerWidget {
                           if (value!.isEmpty) {
                             return localization.text('change_pass');
                           }
+                          return null;
                         },
                       ),
                     ),

@@ -165,6 +165,7 @@ class SearchScreen extends HookConsumerWidget {
                                 title: 'اظهار الكل',
                                 function: () {
                                   selected.value = e.data!;
+                                        filter = false;
                                 }),
                         ],
                       ),

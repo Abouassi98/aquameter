@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
@@ -16,10 +15,8 @@ import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_metting_&_period_notifier.dart';
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
-
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
 import 'package:aquameter/features/calculator/presentation/screen/show_calculator.dart';
-
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/update_and_endperiod_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/edit_client.dart';

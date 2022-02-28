@@ -6,6 +6,7 @@ import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_n
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english_number.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 
@@ -25,6 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../core/themes/themes.dart';
 import '../../../CustomMap/presentation/manager/map_notifier.dart';
 
 // ignore: must_be_immutable
@@ -65,6 +67,9 @@ class EditClient extends HookConsumerWidget {
     final MapNotifier map = ref.read(
       mapNotifier.notifier,
     );
+
+    areaAndCites.getCities(cityId: client.governorateData!.id);
+    listOfCities.value = areaAndCites.areasModel!.data!;
     ValueNotifier<bool> newCity = useState<bool>(false);
     // ValueNotifier<bool> showSecondField = useState<bool>(false);
     // ValueNotifier<bool> showThirdField = useState<bool>(false);
@@ -172,11 +177,13 @@ class EditClient extends HookConsumerWidget {
                                     ),
                                     CustomBottomSheet(
                                       newCity: newCity.value,
-                                      name: newCity.value==true? 'المدينه':client.areaData!.names!,
+                                      name: newCity.value == true
+                                          ? 'المدينه'
+                                          : client.areaData!.names!,
                                       list: listOfCities.value,
                                       onChange: (v) {
                                         areaId = v;
-                                         newCity.value = false;
+                                        newCity.value = false;
                                       },
                                     ),
                                   ],
@@ -189,7 +196,6 @@ class EditClient extends HookConsumerWidget {
                                     push(CustomMap());
                                   },
                                   child: Container(
-                                    height: 35,
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                           width: 1, color: Colors.black38),
@@ -201,8 +207,11 @@ class EditClient extends HookConsumerWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(map.address ??
-                                            client.address!),
+                                        SizedBox(
+                                          width: SizeConfig.screenWidth * 0.7,
+                                          child: Text(
+                                              map.address ?? client.address!),
+                                        ),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: CircleAvatar(
@@ -228,6 +237,20 @@ class EditClient extends HookConsumerWidget {
                                   width: SizeConfig.screenWidth * 0.9,
                                   child: Column(
                                     children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text(
+                                            'مساحه الارض',
+                                            style: MainTheme.hintTextStyle,
+                                          ),
+                                          Text(
+                                            'نوع/م',
+                                            style: MainTheme.hintTextStyle,
+                                          ),
+                                        ],
+                                      ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
@@ -260,6 +283,20 @@ class EditClient extends HookConsumerWidget {
                                               landSizeType = v;
                                               debugPrint(v);
                                             },
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Text(
+                                            'اجمالي الاسماك',
+                                            style: MainTheme.hintTextStyle,
+                                          ),
+                                          Text(
+                                            'النوع',
+                                            style: MainTheme.hintTextStyle,
                                           ),
                                         ],
                                       ),
@@ -348,6 +385,20 @@ class EditClient extends HookConsumerWidget {
                                 const SizedBox(height: 20),
                                 Row(
                                   mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      'نوع العلف',
+                                      style: MainTheme.hintTextStyle,
+                                    ),
+                                    Text(
+                                      'اسم الشركه',
+                                      style: MainTheme.hintTextStyle,
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Padding(
@@ -373,11 +424,19 @@ class EditClient extends HookConsumerWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 20),
+                                Text(
+                                  'وزن السمكه الابتدائي بالجرام',
+                                  style: MainTheme.hintTextStyle,
+                                ),
                                 CustomTextField(
                                   initialValue:
                                       client.startingWeight.toString(),
                                   onChange: (v) {
-                                    startingWeight = num.parse(v);
+                                    try {
+                                      startingWeight = num.parse(v);
+                                    } on FormatException {
+                                      debugPrint('Format error!');
+                                    }
                                   },
                                   validator: (v) {
                                     if (v!.isEmpty) {
@@ -389,10 +448,18 @@ class EditClient extends HookConsumerWidget {
                                 const SizedBox(
                                   height: 10,
                                 ),
+                                Text(
+                                  'وزن السمكه المستهدف بالجرام',
+                                  style: MainTheme.hintTextStyle,
+                                ),
                                 CustomTextField(
                                   initialValue: client.targetWeight.toString(),
                                   onChange: (v) {
-                                    targetWeight = num.parse(v);
+                                    try {
+                                      targetWeight = num.parse(v);
+                                    } on FormatException {
+                                      debugPrint('Format error!');
+                                    }
                                   },
                                   validator: (v) {
                                     if (v!.isEmpty) {
@@ -407,41 +474,46 @@ class EditClient extends HookConsumerWidget {
                           CustomTextButton(
                             title: "حفظ",
                             function: () {
-                              totalFishes.add(totalFishes1 != 0
-                                  ? totalFishes1
-                                  : int.parse(client.fish![0].number!));
-                              typeFishes.add(typeFishes1 != 0
-                                  ? typeFishes1
-                                  : client.fish![0].fishType!.id!);
-                              // if (totalFishes2 != null) {
-                              //   totalFishes.add(totalFishes2!);
-                              //   typeFishes.add(typeFishes2!);
-                              // }
-                              // if (totalFishes3 != null) {
-                              //   totalFishes.add(totalFishes3!);
-                              //   typeFishes.add(typeFishes3!);
-                              // }
-                              updateClient.totalFishesupdate = totalFishes;
-                              updateClient.typeFishesupdate = typeFishes;
-                              meetingAll.isInit = false;
-                              updateClient.updateClient(
-                                context: context,
-                                clientId: client.id!,
-                                phone: phone ?? client.phone.toString(),
-                                name: name ?? client.name!,
-                                governorateId:
-                                    governorateId ?? client.governorate!,
-                                areaId: areaId ?? client.area!,
-                                landSize: landSize ?? client.landSize!,
-                                startingWeight:
-                                    startingWeight ?? client.landSize!,
-                                targetWeight:
-                                    targetWeight ?? client.targetWeight!,
-                                landSizeType:
-                                    landSizeType ?? client.landSize!.toString(),
-                                company: company ?? client.company,
-                                feed: feed ?? client.feed,
-                              );
+                              if (newCity.value == true) {
+                                HelperFunctions.errorBar(context,
+                                    message: 'يجب عليك اختيار مدينه');
+                              } else {
+                                totalFishes.add(totalFishes1 != 0
+                                    ? totalFishes1
+                                    : int.parse(client.fish![0].number!));
+                                typeFishes.add(typeFishes1 != 0
+                                    ? typeFishes1
+                                    : client.fish![0].fishType!.id!);
+                                // if (totalFishes2 != null) {
+                                //   totalFishes.add(totalFishes2!);
+                                //   typeFishes.add(typeFishes2!);
+                                // }
+                                // if (totalFishes3 != null) {
+                                //   totalFishes.add(totalFishes3!);
+                                //   typeFishes.add(typeFishes3!);
+                                // }
+                                updateClient.totalFishesupdate = totalFishes;
+                                updateClient.typeFishesupdate = typeFishes;
+                                meetingAll.isInit = false;
+                                updateClient.updateClient(
+                                  context: context,
+                                  clientId: client.id!,
+                                  phone: phone ?? client.phone.toString(),
+                                  name: name ?? client.name!,
+                                  governorateId:
+                                      governorateId ?? client.governorate!,
+                                  areaId: areaId ?? client.area!,
+                                  landSize: landSize ?? client.landSize!,
+                                  startingWeight:
+                                      startingWeight ?? client.landSize!,
+                                  targetWeight:
+                                      targetWeight ?? client.targetWeight!,
+                                  landSizeType: landSizeType ??
+                                      client.landSize!.toString(),
+                                  company: company ?? client.company,
+                                  feed: feed ?? client.feed,
+                                );
+                              }
                             },
                           ),
                           const SizedBox(

@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/features/Auth/data/user_model.dart';
-import 'package:aquameter/features/splashScreen/presentation/splah_view.dart';
+
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
@@ -10,7 +11,6 @@ import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_storage/get_storage.dart';
 import 'constants.dart';
-import 'functions/helper.dart';
 
 class NetworkUtils {
   NetworkUtils();
@@ -60,7 +60,6 @@ class NetworkUtils {
         response = e.response;
         debugPrint('response: ' + e.response.toString());
       } else {
-     
         dio.interceptors.add(
           RetryInterceptor(
             dio: dio,
@@ -134,15 +133,16 @@ class NetworkUtils {
         return response;
       } else if (statusCode == 401) {
         UserModel user = UserModel.fromJson(response.data);
-        await GetStorage.init().then((value) async {
-          await GetStorage().remove(kcashedUserData);
-          await GetStorage().remove(kIsLoggedIn);
-        });
-        loginData = null;
+        // await GetStorage.init().then((value) async {
+        //   await GetStorage().remove(kcashedUserData);
+        //   await GetStorage().remove(kIsLoggedIn);
+        // });
+        // loginData = null;
 
         Fluttertoast.showToast(
             msg: user.message!, toastLength: Toast.LENGTH_SHORT);
-        pushAndRemoveUntil(const SplashView());
+        // pushAndRemoveUntil(const SplashView());
+        pop();
         return response;
       } else if (statusCode <= 500) {
         Fluttertoast.showToast(

@@ -1,6 +1,6 @@
 import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
 import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
-import 'package:aquameter/features/Auth/data/change_pass_model.dart';
+
 import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
 import 'package:aquameter/features/Auth/presentation/manager/change_pass_notifier.dart';
 

@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -17,6 +19,7 @@ import 'package:map_launcher/map_launcher.dart';
 
 import '../../../../core/utils/providers.dart';
 
+import '../../../../core/utils/size_config.dart';
 import '../manager/map_notifier.dart';
 import '../widgets/maps_sheet.dart';
 
@@ -39,7 +42,6 @@ class CustomMap extends HookConsumerWidget {
         .read(mapNotifier.notifier)
         .addMareker(); //; may cause `provider` to rebuild
   });
-
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -50,7 +52,8 @@ class CustomMap extends HookConsumerWidget {
     final MapNotifier map = ref.read(
       mapNotifier.notifier,
     );
-   
+    final ValueNotifier<String> address = useState<String>('');
+
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -95,7 +98,7 @@ class CustomMap extends HookConsumerWidget {
                                   v.target.latitude, v.target.longitude)
                               .then((value) {
                             addClient.address = value[0].street!;
-                            map.assignLocation(value[0].street!);
+                            address.value = value[0].street!;
                           });
                         }
                       },
@@ -144,11 +147,61 @@ class CustomMap extends HookConsumerWidget {
             visible: show != true,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: CustomTextButton(
-                title: 'حفظ',
-                function: () {
-                  pop();
-                },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  if (show != true)
+                    Container(
+                      width: SizeConfig.screenWidth * 0.7,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.black38),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                              width: SizeConfig.screenWidth * 0.5,
+                            child: Text(
+                             
+                                address.value != ''
+                                    ? address.value: map.address!=null?map.address!:
+                                     'حرك المؤشر ليتم اختيار العنوان المناسب لك',
+                                style: MainTheme.hintTextStyle.copyWith(color: Colors.black),maxLines: null),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircleAvatar(
+                              radius: 15,
+                              child: const Icon(
+                                Icons.location_on,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                              backgroundColor: Theme.of(context).primaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  CustomTextButton(
+                    title: 'حفظ',
+                    function: () {
+                      if (map.intialLat == null) {
+                        HelperFunctions.errorBar(context,
+                            message: 'يجب عليك اختيار عنوان ');
+                      } else {
+                 
+                        pop();
+                      }
+                    },
+                  ),
+                ],
               ),
             ),
           ),

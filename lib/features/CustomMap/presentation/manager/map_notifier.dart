@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:ui' as ui;
@@ -14,10 +15,6 @@ class MapNotifier extends StateNotifier<void> {
   BitmapDescriptor? userLocationIcon;
   Marker? _addressMarker;
   String? address;
-  void assignLocation(String addressDetails) {
-    address = addressDetails;
-    debugPrint(address);
-  }
 
   Future<Uint8List> _getBytesFromAsset(
     String path,
@@ -45,6 +42,9 @@ class MapNotifier extends StateNotifier<void> {
 
   Future<Position> addMareker() async {
     await setCustomMapPin();
+     await  placemarkFromCoordinates(intialLat!, intialLoong!).then((value) {
+      address = value[0].street!;
+    });
     _addressMarker = Marker(
       markerId: const MarkerId('address2'),
       position: LatLng(intialLat!, intialLoong!),
@@ -52,6 +52,7 @@ class MapNotifier extends StateNotifier<void> {
       icon: userLocationIcon!,
     );
     markers.add(_addressMarker!);
+  
     return Position(
         longitude: intialLoong!,
         latitude: intialLat!,
@@ -68,6 +69,7 @@ class MapNotifier extends StateNotifier<void> {
   Future<Position> determinePosition() async {
     intialLat = null;
     intialLoong = null;
+    address = null;
     LocationPermission permission = await Geolocator.checkPermission();
 
     if (permission == LocationPermission.deniedForever) {

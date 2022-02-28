@@ -202,8 +202,8 @@ class AddClient extends HookConsumerWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                           Text(
-                                                map.address ?? 'العنوان')
+                                           const Text(
+                                               'العنوان')
                                          ,
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
