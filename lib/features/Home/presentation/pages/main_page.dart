@@ -65,7 +65,7 @@ class MainPage extends HookConsumerWidget {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              push(AddClient());
+              push(AddClient(fromSearch: false,));
             },
             child: const Icon(
               Icons.add,

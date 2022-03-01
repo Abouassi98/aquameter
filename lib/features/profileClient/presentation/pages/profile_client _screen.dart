@@ -144,7 +144,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                          if (client.onlinePeriodsResultCount != 0)
+                          if (client.onlinePeriodsResultCount != 0&&e.data!.isNotEmpty)
                             SizedBox(
                               height: SizeConfig.screenHeight * 0.6,
                               child: Calendar(
@@ -233,6 +233,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 5,),
                     if (client.onlinePeriodsResultCount != 0)
                       Center(
                         child: SizedBox(
@@ -517,7 +518,6 @@ class ProfileClientScreen extends HookConsumerWidget {
                                       clientId: client.id!,
                                     );
 
-                                   
                                     if (fromSearch == true) {
                                       pop();
                                     }

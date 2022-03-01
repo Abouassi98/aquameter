@@ -30,7 +30,8 @@ class AddClientNotifier extends StateNotifier<void> {
       required String feed,
       required String company,
       required num targetWeight,
-      required num startingWeight}) async {
+      required num startingWeight,
+      required bool fromSearch}) async {
     ProgressDialog pd = ProgressDialog(context: context);
     pd.show(max: 100, msg: 'loading progress');
     Response response = await _utils.requstData(
@@ -60,8 +61,11 @@ class AddClientNotifier extends StateNotifier<void> {
         HelperFunctions.successBar(context, message: 'تم الاضافه بنجاح');
         totalFishes.clear();
         typeFishes.clear();
-
-        push(SearchScreen(viewProfile: true));
+        pd.close();
+        if (fromSearch == true) {
+          pop();
+        }
+        pushReplacement(SearchScreen(viewProfile: true));
       } else {
         HelperFunctions.errorBar(context, message: 'خطا ف اضافه العميل');
       }

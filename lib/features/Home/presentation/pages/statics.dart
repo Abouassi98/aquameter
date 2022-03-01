@@ -102,6 +102,7 @@ class Statics extends HookConsumerWidget {
                                     graphStatics.graphStaticsModel!.data!
                                         .governorate![i]);
                               }
+                                 
                             } else {
                               ref.read(governorateProvider.state).state.clear();
                               ref.read(fishesProvider.state).state.clear();
@@ -117,6 +118,7 @@ class Statics extends HookConsumerWidget {
                                     graphStatics
                                         .graphStaticsModel!.data!.fishes![i]);
                               }
+                           
                             }
                           },
                         ),

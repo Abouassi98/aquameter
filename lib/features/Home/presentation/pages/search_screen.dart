@@ -61,7 +61,7 @@ class SearchScreen extends HookConsumerWidget {
         backgroundColor: MainStyle.backGroundColor,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            push(AddClient());
+            push(AddClient(fromSearch: true,));
           },
           child: const Icon(
             Icons.add,

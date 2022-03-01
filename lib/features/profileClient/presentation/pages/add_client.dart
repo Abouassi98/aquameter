@@ -31,7 +31,8 @@ import '../../../CustomMap/presentation/manager/map_notifier.dart';
 
 // ignore: must_be_immutable
 class AddClient extends HookConsumerWidget {
-  AddClient({Key? key}) : super(key: key);
+  final bool fromSearch;
+  AddClient({Key? key,required this.fromSearch}) : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [
     {'name': 'فدان', 'id': 1},
@@ -483,6 +484,7 @@ class AddClient extends HookConsumerWidget {
                                     landSizeType: landSizeType,
                                     company: company,
                                     feed: feed,
+                                    fromSearch: fromSearch
                                   );
                                 }
                               },
