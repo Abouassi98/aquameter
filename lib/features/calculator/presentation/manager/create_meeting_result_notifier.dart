@@ -6,10 +6,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
+final StateNotifierProvider<CreateMeetingResultNotifier, Object?>
+    createMeetingResultNotifier =
+    StateNotifierProvider<CreateMeetingResultNotifier, Object?>(
+  (ref) => CreateMeetingResultNotifier(null),
+);
+
 class CreateMeetingResultNotifier extends StateNotifier<void> {
   CreateMeetingResultNotifier(void state) : super(state);
 
   final NetworkUtils _utils = NetworkUtils();
+
   Future<void> createMeetingResult({
     required BuildContext context,
     required int meetId,
@@ -52,7 +59,7 @@ class CreateMeetingResultNotifier extends StateNotifier<void> {
     if (response.statusCode == 200) {
       pd.close();
 
-      pushAndRemoveUntil(const MainPage());
+      pushAndRemoveUntil( MainPage());
     } else {}
   }
 }

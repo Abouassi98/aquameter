@@ -6,6 +6,11 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+final StateNotifierProvider<AreaAndCitesNotifier, Object?>
+    areaAndCitesNotifier = StateNotifierProvider(
+  (ref) => AreaAndCitesNotifier(null),
+);
+
 class AreaAndCitesNotifier extends StateNotifier<void> {
   AreaAndCitesNotifier(void state) : super(state);
 

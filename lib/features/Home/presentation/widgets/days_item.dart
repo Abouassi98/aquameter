@@ -1,5 +1,4 @@
 import 'package:aquameter/core/themes/themes.dart';
-import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/features/Home/Data/departments_model.dart';
 
 import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';

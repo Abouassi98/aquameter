@@ -4,7 +4,6 @@ import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_n
 import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english_number.dart';
-import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
@@ -31,8 +30,12 @@ class LoginScreen extends HookConsumerWidget {
     '015',
     '010',
   ];
+  final StateProvider<bool> visabilityNotifierProvider =
+      StateProvider<bool>((ref) => true);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool visabilityNotifier = ref.watch(visabilityNotifierProvider);
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
@@ -42,7 +45,6 @@ class LoginScreen extends HookConsumerWidget {
 
     String phone = '', password = '';
     final AuthNotifier login = ref.read(loginProvider.notifier);
-    final ValueNotifier<bool> visabilityNotifier = useState<bool>(true);
     return Scaffold(
       body: Form(
         key: _form,
@@ -107,15 +109,15 @@ class LoginScreen extends HookConsumerWidget {
                 }
                 return null;
               },
-              visibility: visabilityNotifier.value,
+              visibility: visabilityNotifier,
               suffixIcon: Padding(
                 padding: const EdgeInsets.all(6),
                 child: IconButton(
-                  icon: Icon(visabilityNotifier.value
+                  icon: Icon(visabilityNotifier
                       ? Icons.visibility_off
                       : Icons.visibility),
                   onPressed: () {
-                    visabilityNotifier.value = !visabilityNotifier.value;
+                    ref.read(visabilityNotifierProvider.state).state = !visabilityNotifier;
                   },
                 ),
               ),

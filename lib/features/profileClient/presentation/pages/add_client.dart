@@ -7,7 +7,6 @@ import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english_number.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
-import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 
 import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
@@ -26,6 +25,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import '../../../../core/themes/themes.dart';
 import '../../../CustomMap/presentation/manager/map_notifier.dart';
 
@@ -54,8 +54,12 @@ class AddClient extends HookConsumerWidget {
   int? totalFishes2, totalFishes3, typeFishes2, typeFishes3;
 
   List<TotalFishesItem> totalFishesItem = [];
+
+      StateProvider<bool> newCityProvider = StateProvider<bool>((ref)=>false);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool newCity=ref.watch(newCityProvider);
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
@@ -68,7 +72,6 @@ class AddClient extends HookConsumerWidget {
     );
     final address = ref.watch(mapAddress);
     ValueNotifier<List<Cities>> listOfCities = useState<List<Cities>>([]);
-    ValueNotifier<bool> newCity = useState<bool>(false);
     // ValueNotifier<bool> showSecondField = useState<bool>(false);
     // ValueNotifier<bool> showThirdField = useState<bool>(false);
     List<int> totalFishes = [], typeFishes = [];
@@ -170,16 +173,16 @@ class AddClient extends HookConsumerWidget {
                                           listOfCities.value =
                                               areaAndCites.areasModel!.data!;
                                           governorateId = v;
-                                          newCity.value = true;
+                                          ref.read(newCityProvider.state).state = true;
                                         },
                                       ),
                                       CustomBottomSheet(
                                         name: 'المدينه',
                                         list: listOfCities.value,
-                                        newCity: newCity.value,
+                                        newCity: newCity,
                                         onChange: (v) {
                                           areaId = v;
-                                          newCity.value = false;
+                                          ref.read(newCityProvider.state).state = false;
                                         },
                                       ),
                                     ],

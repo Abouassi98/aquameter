@@ -12,7 +12,7 @@ class CustomBottomSheet extends HookConsumerWidget {
   final bool? staticList;
   final bool? newCity;
   final ValueChanged? onChange;
-  const CustomBottomSheet({
+   CustomBottomSheet({
     Key? key,
     required this.name,
     this.staticList,
@@ -20,10 +20,12 @@ class CustomBottomSheet extends HookConsumerWidget {
     this.onChange,
     this.newCity,
   }) : super(key: key);
+  StateProvider<String> selectedLabelProvider =
+      StateProvider<String>((ref) => '');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ValueNotifier<String> selectedLabel = useState<String>('');
+   String selectedLabel = ref.watch(selectedLabelProvider);
 
     return InkWell(
       onTap: () {
@@ -48,9 +50,9 @@ class CustomBottomSheet extends HookConsumerWidget {
                           onTap: () {
                             pop();
                             if (staticList == true) {
-                              selectedLabel.value = list[i]['name'];
+                              selectedLabel = list[i]['name'];
                             } else {
-                              selectedLabel.value = list[i].name;
+                              selectedLabel = list[i].name;
                             }
                             if (onChange != null) {
                               if (staticList == true) {
@@ -89,8 +91,8 @@ class CustomBottomSheet extends HookConsumerWidget {
           children: [
             Text(newCity == true
                 ? name
-                : selectedLabel.value != ''
-                    ? selectedLabel.value
+                : selectedLabel != ''
+                    ? selectedLabel
                     : name),
             const Padding(
               padding: EdgeInsets.all(5.0),

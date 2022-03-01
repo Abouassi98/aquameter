@@ -19,15 +19,18 @@ import 'statics.dart';
 import 'home.dart';
 
 class MainPage extends HookConsumerWidget {
-  const MainPage({Key? key}) : super(key: key);
+  MainPage({Key? key}) : super(key: key);
+
+  final StateProvider<int> _bottomNavIndexProvider =
+      StateProvider<int>(((ref) => 0));
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    int _bottomNavIndex = ref.watch(_bottomNavIndexProvider);
     final List<Widget> widgets = [
       Home(),
       Statics(),
     ];
-    final ValueNotifier<int> _bottomNavIndex = useState<int>(0);
     log("Token=${GetStorage().read(kToken)}");
     return WillPopScope(
       onWillPop: () async {
@@ -54,13 +57,13 @@ class MainPage extends HookConsumerWidget {
             preferredSize: Size.fromHeight(SizeConfig.screenHeight * 0.2),
           ),
           extendBody: true,
-          body: widgets[_bottomNavIndex.value],
+          body: widgets[_bottomNavIndex],
           bottomNavigationBar: BottomAppBar(
             child: CustomBottomNavigationbBar(
               onTap: (v) {
-                _bottomNavIndex.value = v;
+                ref.read(_bottomNavIndexProvider.state).state = v;
               },
-              inx: _bottomNavIndex.value,
+              inx: _bottomNavIndex,
             ),
           ),
           floatingActionButton: FloatingActionButton(

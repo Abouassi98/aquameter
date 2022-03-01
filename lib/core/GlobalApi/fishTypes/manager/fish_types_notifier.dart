@@ -5,6 +5,11 @@ import 'package:dio/dio.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+final StateNotifierProvider<FishTypesNotifier, Object?> fishTypesNotifier =
+    StateNotifierProvider(
+  (ref) => FishTypesNotifier(null),
+);
+
 class FishTypesNotifier extends StateNotifier<void> {
   FishTypesNotifier(void state) : super(state);
 

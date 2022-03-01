@@ -10,6 +10,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
+final StateNotifierProvider<AddClientNotifier, Object?> addClientNotifier =
+    StateNotifierProvider(
+  (ref) => AddClientNotifier(null),
+);
+
 class AddClientNotifier extends StateNotifier<void> {
   AddClientNotifier(void state) : super(state);
 
@@ -126,7 +131,7 @@ class AddClientNotifier extends StateNotifier<void> {
       totalFishes.clear();
       typeFishes.clear();
 
-      pushAndRemoveUntil(const MainPage());
+      pushReplacement(MainPage());
     } else {
       HelperFunctions.errorBar(context, message: 'خطا ف تعديل بيانات العميل');
     }

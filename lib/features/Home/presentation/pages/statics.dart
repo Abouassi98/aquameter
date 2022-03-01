@@ -1,5 +1,4 @@
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
-import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 
@@ -22,6 +21,7 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../core/utils/functions/helper.dart';
+import '../manager/get_&_delete_clients_create_meeting_&_period_notifier.dart';
 
 class Statics extends HookConsumerWidget {
   final GlobalKey<FormFieldState> _multiSelectKey = GlobalKey<FormFieldState>();
@@ -46,14 +46,20 @@ class Statics extends HookConsumerWidget {
       StateProvider<List<Fishes>>((ref) => []);
   final StateProvider<List<Governorate>> governorateProvider =
       StateProvider<List<Governorate>>((ref) => []);
+
+      final StateProvider<DateTime> dateTimeProvider1 =
+        StateProvider<DateTime>(((ref) => DateTime.utc(1989, 11, 9)));
+    final StateProvider<DateTime> dateTimeProvider2 =
+        StateProvider<DateTime>(((ref) => DateTime.utc(1989, 11, 9)));
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    DateTime dateTime1=ref.watch(dateTimeProvider1);
+    DateTime dateTime2=ref.watch(dateTimeProvider2);
+
+
     final List<Fishes> fishes = ref.watch(fishesProvider);
     final List<Governorate> governorates = ref.watch(governorateProvider);
-    final ValueNotifier<DateTime> dateTime1 =
-        useState<DateTime>(DateTime.utc(1989, 11, 9));
-    final ValueNotifier<DateTime> dateTime2 =
-        useState<DateTime>(DateTime.utc(1989, 11, 9));
+    
 
     ValueNotifier<List<Client>> clientValues = useState<List<Client>>([]);
     final GraphStaticsNotifer graphStatics = ref.read(
@@ -196,19 +202,19 @@ class Statics extends HookConsumerWidget {
                           //if user tap cancel then this function will stop
                           return;
                         } else {
-                          dateTime1.value = pickedDate;
-                          if (dateTime1.value
-                                  .difference(dateTime2.value)
+                          ref.read(dateTimeProvider1.state).state  = pickedDate;
+                          if (dateTime1
+                                  .difference(dateTime2)
                                   .inDays >
                               0) {
-                            dateTime2.value = DateTime.utc(1989, 11, 9);
+                            dateTime2 = DateTime.utc(1989, 11, 9);
                           }
                         }
                       });
                     },
                     child: Text(
-                      dateTime1.value != DateTime.utc(1989, 11, 9)
-                          ? dateTime1.value.toString().substring(0, 10)
+                      dateTime1 != DateTime.utc(1989, 11, 9)
+                          ? dateTime1.toString().substring(0, 10)
                           : 'من',
                       style: const TextStyle(color: Colors.blueGrey),
                     ),
@@ -218,21 +224,21 @@ class Statics extends HookConsumerWidget {
                     onPressed: () {
                       showDatePicker(
                               context: context,
-                              initialDate: dateTime1.value,
-                              firstDate: dateTime1.value,
+                              initialDate: dateTime1,
+                              firstDate: dateTime1,
                               lastDate: DateTime(2030))
                           .then((pickedDate) {
                         if (pickedDate == null) {
                           //if user tap cancel then this function will stop
                           return;
                         } else {
-                          dateTime2.value = pickedDate;
+                          ref.read(dateTimeProvider2.state).state = pickedDate;
                         }
                       });
                     },
                     child: Text(
-                      dateTime2.value != DateTime.utc(1989, 11, 9)
-                          ? dateTime2.value.toString().substring(0, 10)
+                      dateTime2 != DateTime.utc(1989, 11, 9)
+                          ? dateTime2.toString().substring(0, 10)
                           : 'الي',
                       style: const TextStyle(color: Colors.blueGrey),
                     ),

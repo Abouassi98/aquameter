@@ -1,6 +1,5 @@
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
-import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/localization/data/localization_model.dart';
 import 'package:aquameter/features/localization/manager/app_localization.dart';

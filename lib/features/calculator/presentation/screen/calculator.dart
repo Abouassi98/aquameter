@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
-import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_btn.dart';
 import 'package:aquameter/core/utils/widgets/custom_dialog.dart';
@@ -12,7 +11,6 @@ import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/calculator/presentation/manager/create_meeting_result_notifier.dart';
 import 'package:aquameter/features/calculator/presentation/widgets.dart/alert_calculator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../Home/Data/clients_model/clients_model.dart';
@@ -57,16 +55,23 @@ class Calculator extends HookConsumerWidget {
   String notes = '';
   int totalPreviousFishes = 0;
   final StateProvider<num> nH3Provider = StateProvider<num>((ref) => 0.0);
+
+  final StateProvider<num> averageWeightProvider =
+      StateProvider<num>((ref) => 0.0);
+  final StateProvider<num> totalWeightProvider =
+      StateProvider<num>((ref) => 0.0);
+  final StateProvider<num> conversionRateProvider =
+      StateProvider<num>((ref) => 0.0);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final CreateMeetingResultNotifier createMeetingResult = ref.read(
       createMeetingResultNotifier.notifier,
     );
-   final num nH3 = ref.watch(nH3Provider);
+    final num nH3 = ref.watch(nH3Provider);
+    num averageWeight = ref.watch(averageWeightProvider);
+    num totalWeight = ref.watch(totalWeightProvider);
+    num conversionRate = ref.watch(conversionRateProvider);
 
-    final ValueNotifier<num> averageWeight = useState<num>(0.0);
-    final ValueNotifier<num> totalWeight = useState<num>(0.0);
-    final ValueNotifier<num> conversionRate = useState<num>(0.0);
     totalPreviousFishes = 0;
     for (int i = 0; i < client.fish!.length; i++) {
       totalPreviousFishes += int.parse(client.fish![i].number!);
@@ -547,9 +552,9 @@ class Calculator extends HookConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CustomBtn(
-                                text: averageWeight.value == 0.0
+                                text: averageWeight == 0.0
                                     ? '0.0 = متوسط الوزن'
-                                    : averageWeight.value.toStringAsFixed(2) +
+                                    : averageWeight.toStringAsFixed(2) +
                                         ' = متوسط الوزن',
                               ),
                               const SizedBox(
@@ -563,7 +568,9 @@ class Calculator extends HookConsumerWidget {
                                   function: () {
                                     if (_averageWeight.currentState!
                                         .validate()) {
-                                      averageWeight.value =
+                                      ref
+                                              .read(averageWeightProvider.state)
+                                              .state =
                                           totalWeightFishes / totalFishes;
                                     }
                                   }),
@@ -601,9 +608,9 @@ class Calculator extends HookConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CustomBtn(
-                                  text: totalWeight.value == 0.0
+                                  text: totalWeight == 0.0
                                       ? '0.0 = اجمالي الوزن'
-                                      : '${totalWeight.value.toStringAsFixed(2)} =  اجمالي الوزن'),
+                                      : '${totalWeight.toStringAsFixed(2)} =  اجمالي الوزن'),
                               const SizedBox(
                                 width: 20,
                               ),
@@ -613,15 +620,15 @@ class Calculator extends HookConsumerWidget {
                                   radius: 15,
                                   title: ' = ',
                                   function: () {
-                                    if (averageWeight.value == 0.0) {
+                                    if (averageWeight == 0.0) {
                                       HelperFunctions.errorBar(context,
                                           message:
                                               'يجب عليك اظهار ناتج متوسط الوزن الكلي للسمك بالكجم');
                                     } else if (_dieFishes.currentState!
                                         .validate()) {
-                                      totalWeight.value =
+                                      ref.read(totalWeightProvider.state).state =
                                           ((totalPreviousFishes - dieFishes) *
-                                                  averageWeight.value) /
+                                                  averageWeight) /
                                               1000;
                                     }
                                   }),
@@ -663,9 +670,9 @@ class Calculator extends HookConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CustomBtn(
-                                  text: conversionRate.value == 0.0
+                                  text: conversionRate == 0.0
                                       ? '0.0 = معدل التحويل'
-                                      : '${conversionRate.value.toStringAsFixed(2)} = معدل التحويل'),
+                                      : '${conversionRate.toStringAsFixed(2)} = معدل التحويل'),
                               const SizedBox(
                                 width: 20,
                               ),
@@ -675,15 +682,14 @@ class Calculator extends HookConsumerWidget {
                                   radius: 15,
                                   title: ' = ',
                                   function: () {
-                                    if (totalWeight.value == 0.0) {
+                                    if (totalWeight == 0.0) {
                                       HelperFunctions.errorBar(context,
                                           message:
                                               'يجب عليك اظهار ناتج اجمالي الوزن الكلي للسمك بالكجم');
                                     } else if (_conversionRate.currentState!
                                         .validate()) {
-                                      conversionRate.value =
-                                          ((totalFeed + feed) /
-                                              totalWeight.value);
+                                      ref.read(conversionRateProvider.state).state =
+                                          ((totalFeed + feed) / totalWeight);
                                     }
                                   }),
                             ],
@@ -708,8 +714,8 @@ class Calculator extends HookConsumerWidget {
                                   context: context,
                                   meetId: meetingId,
                                   ammonia: totalAmmonia,
-                                  avrageWieght: averageWeight.value,
-                                  conversionRate: conversionRate.value,
+                                  avrageWieght: averageWeight,
+                                  conversionRate: conversionRate,
                                   deadFishes: dieFishes,
                                   feed: totalFeed,
                                   ph: ph,
@@ -717,7 +723,7 @@ class Calculator extends HookConsumerWidget {
                                   oxygen: oxygen,
                                   salinity: s,
                                   temperature: tempreatureOfWater,
-                                  totalWeight: totalWeight.value,
+                                  totalWeight: totalWeight,
                                   toxicAmmonia: nH3,
                                 );
                               }),

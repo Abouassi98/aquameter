@@ -4,6 +4,12 @@ import 'package:aquameter/features/Home/Data/three_values_model.dart';
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+final StateNotifierProvider<GetThreeValuesNotifier, Object?>
+    getThreeValuesNotifier =
+    StateNotifierProvider<GetThreeValuesNotifier, Object?>(
+  (ref) => GetThreeValuesNotifier(),
+);
+
 class GetThreeValuesNotifier
     extends StateNotifier<AsyncValue<ThreeValuesModel>> {
   GetThreeValuesNotifier() : super(const AsyncValue.loading());
