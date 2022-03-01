@@ -85,8 +85,8 @@ class ArcieveScreen extends HookConsumerWidget {
                                         showDialog(
                                           context: context,
                                           builder: (context) => CustomDialog(
-                                            
-                                            title: localization.text('periodResult')!,
+                                            title: localization
+                                                .text('periodResult')!,
                                             widget: [
                                               Column(
                                                 children: [
@@ -96,12 +96,14 @@ class ArcieveScreen extends HookConsumerWidget {
                                                             .spaceAround,
                                                     children: [
                                                       Text(
-                                                        localization.text('TotalWeight')!,
+                                                        localization.text(
+                                                            'TotalWeight')!,
                                                         style: MainTheme
                                                             .hintTextStyle,
                                                       ),
                                                       Text(
-                                                        localization.text('FishNumber')!,
+                                                        localization.text(
+                                                            'FishNumber')!,
                                                         style: MainTheme
                                                             .hintTextStyle,
                                                       ),
@@ -154,7 +156,8 @@ class ArcieveScreen extends HookConsumerWidget {
                                                 child: Column(
                                                   children: [
                                                     Text(
-                                                      localization.text('avrageFooder')!,
+                                                      localization.text(
+                                                          'avrageFooder')!,
                                                       style: MainTheme
                                                           .hintTextStyle,
                                                     ),
@@ -206,11 +209,20 @@ class ArcieveScreen extends HookConsumerWidget {
                           );
                         },
                       ))
-                  : Center(
-                      child: Lottie.asset(
-                      'assets/images/noData.json',
-                      repeat: false,
-                    )),
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'لا يوجد عملاء',
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                        Lottie.asset(
+
+                          'assets/images/noData.json',
+                          repeat: false,
+                        ),
+                      ],
+                    ),
             ),
       ),
     );

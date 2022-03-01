@@ -22,7 +22,6 @@ import 'package:aquameter/features/profileClient/presentation/manager/meeting_al
 import 'package:aquameter/features/profileClient/presentation/widgets/total_fishes.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
@@ -53,8 +52,13 @@ class EditClient extends HookConsumerWidget {
   int? totalFishes2, totalFishes3, typeFishes2, typeFishes3;
 
   List<TotalFishesItem> totalFishesItem = [];
+  StateProvider<bool> newCityProvider = StateProvider<bool>((ref) => false);
+  StateProvider<List<Cities>> listOfCitiesProvider =
+      StateProvider<List<Cities>>((ref) => []);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool newCity = ref.watch(newCityProvider);
+
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
 
     final AreaAndCitesNotifier areaAndCites = ref.read(
@@ -63,14 +67,13 @@ class EditClient extends HookConsumerWidget {
     final AddClientNotifier updateClient = ref.read(
       addClientNotifier.notifier,
     );
-    ValueNotifier<List<Cities>>? listOfCities = useState<List<Cities>>([]);
+    List<Cities>? listOfCities = ref.watch(listOfCitiesProvider);
     final MapNotifier map = ref.read(
       mapNotifier.notifier,
     );
     final address = ref.watch(mapAddress);
     areaAndCites.getCities(cityId: client.governorateData!.id);
-    listOfCities.value = areaAndCites.areasModel!.data!;
-    ValueNotifier<bool> newCity = useState<bool>(false);
+    listOfCities = areaAndCites.areasModel!.data!;
     // ValueNotifier<bool> showSecondField = useState<bool>(false);
     // ValueNotifier<bool> showThirdField = useState<bool>(false);
     List<int> totalFishes = [], typeFishes = [];
@@ -169,21 +172,23 @@ class EditClient extends HookConsumerWidget {
                                       onChange: (v) async {
                                         areaId = 0;
                                         await areaAndCites.getCities(cityId: v);
-                                        listOfCities.value =
+                                        ref.read(listOfCitiesProvider.state).state =
                                             areaAndCites.areasModel!.data!;
                                         governorateId = v;
-                                        newCity.value = true;
+                                        ref.read(newCityProvider.state).state =
+                                            true;
                                       },
                                     ),
                                     CustomBottomSheet(
-                                      newCity: newCity.value,
-                                      name: newCity.value == true
+                                      newCity: newCity,
+                                      name: newCity == true
                                           ? 'المدينه'
                                           : client.areaData!.names!,
-                                      list: listOfCities.value,
+                                      list: listOfCities,
                                       onChange: (v) {
                                         areaId = v;
-                                        newCity.value = false;
+                                        ref.read(newCityProvider.state).state =
+                                            false;
                                       },
                                     ),
                                   ],
@@ -477,7 +482,7 @@ class EditClient extends HookConsumerWidget {
                           CustomTextButton(
                             title: "حفظ",
                             function: () {
-                              if (newCity.value == true) {
+                              if (newCity == true) {
                                 HelperFunctions.errorBar(context,
                                     message: 'يجب عليك اختيار مدينه');
                               } else {

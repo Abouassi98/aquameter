@@ -19,7 +19,6 @@ import 'package:aquameter/features/profileClient/presentation/manager/meeting_al
 import 'package:aquameter/features/profileClient/presentation/pages/profile_client%20_screen.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../profileClient/data/meeting_all_model..dart';
@@ -34,13 +33,15 @@ class Home extends HookConsumerWidget {
         .meetingAll(); // may cause `provider` to rebuild
   });
   final CustomWarningDialog _dialog = CustomWarningDialog();
+  final StateProvider<List<MeetingClient>> filterClientsProvider =
+      StateProvider<List<MeetingClient>>(((ref) => []));
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    List<MeetingClient> filterClients = ref.watch(filterClientsProvider);
     final GetAndDeleteClientsCreateMettingAndPeriodNotifier getClients =
         ref.read(getClientsNotifier.notifier);
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
-    final ValueNotifier<List<MeetingClient>> filterClients =
-        useState<List<MeetingClient>>([]);
+
     final FishTypesNotifier fishTypes = ref.read(
       fishTypesNotifier.notifier,
     );
@@ -80,12 +81,13 @@ class Home extends HookConsumerWidget {
                             ),
                             Expanded(child: DaysItem(
                               onChaned: (v) {
-                                filterClients.value = [...e.data!]
-                                    .where(
-                                      (element) =>
-                                          element.meeting!.startsWith(v),
-                                    )
-                                    .toList();
+                                ref.read(filterClientsProvider.state).state =
+                                    [...e.data!]
+                                        .where(
+                                          (element) =>
+                                              element.meeting!.startsWith(v),
+                                        )
+                                        .toList();
 
                                 getClients.date = v;
                               },
@@ -118,7 +120,7 @@ class Home extends HookConsumerWidget {
                               child: const Text('اضافه عميل'),
                             ),
                           ),
-                          filterClients.value.isEmpty
+                          filterClients.isEmpty
                               ? Center(
                                   child: Text(
                                     'لايوجد عملاء',
@@ -129,7 +131,7 @@ class Home extends HookConsumerWidget {
                               : ListView.builder(
                                   primary: false,
                                   shrinkWrap: true,
-                                  itemCount: filterClients.value.length,
+                                  itemCount: filterClients.length,
                                   itemBuilder: (context, i) => ClientItem(
                                     fishTypes: fishTypes,
                                     confirmDismiss:
@@ -140,10 +142,9 @@ class Home extends HookConsumerWidget {
                                           okFun: () async {
                                             meetingAll.deleteMeeting(
                                                 meetingId:
-                                                    filterClients.value[i].id!);
+                                                    filterClients[i].id!);
 
-                                            pushAndRemoveUntil(
-                                                 MainPage());
+                                            pushAndRemoveUntil(MainPage());
                                           },
                                           okMsg: 'نعم',
                                           cancelMsg: 'لا',
@@ -152,14 +153,13 @@ class Home extends HookConsumerWidget {
                                           });
                                     },
                                     func: () {
-                                      meetingAll.id =
-                                          filterClients.value[i].clientId;
+                                      meetingAll.id = filterClients[i].clientId;
                                       push(ProfileClientScreen(
                                         fromSearch: false,
-                                        client: filterClients.value[i].client!,
+                                        client: filterClients[i].client!,
                                       ));
                                     },
-                                    client: filterClients.value[i].client!,
+                                    client: filterClients[i].client!,
                                   ),
                                 ),
                           const SizedBox(

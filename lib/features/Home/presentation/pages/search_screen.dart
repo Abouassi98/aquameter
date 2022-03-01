@@ -35,14 +35,13 @@ class SearchScreen extends HookConsumerWidget {
         .watch(getClientsNotifier.notifier)
         .getClients(); //; may cause `provider` to rebuild
   });
-final List<Client> selceted2=[];
   final StateProvider<List<Client>> selcetedProvider =
       StateProvider<List<Client>>((ref) => []);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController controller = useTextEditingController();
-        final List<Client> selected= ref.watch( selcetedProvider);
-   
+    final List<Client> selected = ref.watch(selcetedProvider);
+
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
@@ -63,7 +62,9 @@ final List<Client> selceted2=[];
         backgroundColor: MainStyle.backGroundColor,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            push(AddClient(fromSearch: true,));
+            push(AddClient(
+              fromSearch: true,
+            ));
           },
           child: const Icon(
             Icons.add,
@@ -77,7 +78,7 @@ final List<Client> selceted2=[];
               search: true,
               back: true,
               onChanged: (v) {
-              ref.read(selcetedProvider.state).state = [
+                ref.read(selcetedProvider.state).state = [
                   ...clients.clientsModel!.data!
                       .where(
                         (element) =>
@@ -122,7 +123,7 @@ final List<Client> selceted2=[];
                             name: 'المحافظات',
                             list: areaAndCites.governorateModel!.data!,
                             onChange: (v) {
-                                 ref.read(selcetedProvider.state).state= [
+                              ref.read(selcetedProvider.state).state = [
                                 ...e.data!
                                     .where(
                                       (element) => element.governorate!
@@ -143,7 +144,7 @@ final List<Client> selceted2=[];
                                 .fishTypesModel!
                                 .data!,
                             onChange: (v) async {
-                                ref.read(selcetedProvider.state).state = [
+                              ref.read(selcetedProvider.state).state = [
                                 ...e.data!.where((element) {
                                   for (int i = 0;
                                       i < element.fish!.length;
@@ -166,17 +167,29 @@ final List<Client> selceted2=[];
                                 radius: SizeConfig.screenWidth * .5,
                                 title: 'اظهار الكل',
                                 function: () {
-                                      ref.read(selcetedProvider.state).state = e.data!;
+                                  ref.read(selcetedProvider.state).state =
+                                      e.data!;
                                   filter = false;
                                 }),
                         ],
                       ),
                       e.data!.isEmpty
-                          ? Center(
-                              child: Lottie.asset(
-                                'assets/images/noData.json',
-                                repeat: false,
-                              ),
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                const Text(
+                                  'لا يوجد عملاء',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 20),
+                                ),
+                                Lottie.asset(
+                                  'assets/images/noData.json',
+                                  repeat: false,
+                                ),
+                              ],
                             )
                           : Center(
                               child: Container(
@@ -210,13 +223,12 @@ final List<Client> selceted2=[];
                                                           okFun: () async {
                                                             await clients
                                                                 .deleteClient(
-                                                                    clientId: selected
-                                                                        [
-                                                                            index]
-                                                                        .id!);
+                                                                    clientId:
+                                                                        selected[index]
+                                                                            .id!);
                                                             ref.refresh(
                                                                 provider);
-                                                        
+
                                                             // pushReplacement(SearchScreen(
                                                             //   viewProfile: viewProfile,
                                                             // ));
@@ -230,17 +242,16 @@ final List<Client> selceted2=[];
                                                 fishTypes: fishTypes,
                                                 func: () async {
                                                   if (viewProfile == true) {
-                                                    meetingAll.id = selected
-                                                        [index].id;
+                                                    meetingAll.id =
+                                                        selected[index].id;
                                                     push(
                                                       ProfileClientScreen(
                                                           fromSearch: true,
-                                                          client: selected
-                                                              [index]),
+                                                          client:
+                                                              selected[index]),
                                                     );
                                                   } else {
-                                                    if (selected
-                                                        [index]
+                                                    if (selected[index]
                                                         .onlinePeriodsResult!
                                                         .isNotEmpty) {
                                                       await _dialog
@@ -251,13 +262,13 @@ final List<Client> selceted2=[];
                                                               okFun: () async {
                                                                 await clients
                                                                     .createMetting(
-                                                                  clientId: selected
-                                                                     [
-                                                                          index]
-                                                                      .id!,
+                                                                  clientId:
+                                                                      selected[
+                                                                              index]
+                                                                          .id!,
                                                                 );
                                                                 pushAndRemoveUntil(
-                                                                     MainPage());
+                                                                    MainPage());
                                                               },
                                                               okMsg: 'نعم',
                                                               cancelMsg: 'لا',
@@ -273,13 +284,12 @@ final List<Client> selceted2=[];
                                                               okFun: () async {
                                                                 await clients
                                                                     .createPeriod(
-                                                                  clientId: selected
-                                                                      [
-                                                                          index]
-                                                                      .id!,
+                                                                  clientId:
+                                                                      selected[
+                                                                              index]
+                                                                          .id!,
                                                                 );
 
-                                                              
                                                                 pop();
                                                               },
                                                               okMsg: 'نعم',
@@ -325,9 +335,8 @@ final List<Client> selceted2=[];
                                                                         clientId: e
                                                                             .data![index]
                                                                             .id!);
-                                                                    ref.refresh(
+                                                                    ref.invalidate(
                                                                         provider);
-                                                                  
 
                                                                     // pushReplacement(
                                                                     // //     SearchScreen(
@@ -376,7 +385,7 @@ final List<Client> selceted2=[];
                                                                               .id!,
                                                                         );
                                                                         pushAndRemoveUntil(
-                                                                             MainPage());
+                                                                            MainPage());
                                                                       },
                                                                       okMsg:
                                                                           'نعم',
@@ -403,7 +412,6 @@ final List<Client> selceted2=[];
                                                                         );
 
                                                                         pop();
-                                                                      
                                                                       },
                                                                       okMsg:
                                                                           'نعم',

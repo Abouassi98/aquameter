@@ -1,7 +1,6 @@
 import 'package:aquameter/features/localization/data/localization_model.dart';
 import 'package:aquameter/features/localization/manager/change_language_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SelectCard extends HookConsumerWidget {
@@ -16,8 +15,10 @@ class SelectCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ValueNotifier<List<LocalizationModel>> selected =
-        useState<List<LocalizationModel>>(listOflocalizationModel);
+    final StateProvider<List<LocalizationModel>> selectedProvider =
+        StateProvider<List<LocalizationModel>>(
+            ((ref) => listOflocalizationModel));
+    List<LocalizationModel> selected = ref.watch(selectedProvider);
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: ListView.builder(
@@ -31,12 +32,12 @@ class SelectCard extends HookConsumerWidget {
                 onTap: () {
                   for (int i = 0; i < listOflocalizationModel.length; i++) {
                     listOflocalizationModel[i].selected = false;
-                    selected.value = [...listOflocalizationModel];
+                    ref.read(selectedProvider.state).state = [...listOflocalizationModel];
                   }
                   listOflocalizationModel[index].selected =
                       !listOflocalizationModel[index].selected;
 
-                  selected.value = [...listOflocalizationModel];
+                   ref.read(selectedProvider.state).state = [...listOflocalizationModel];
 
                   debugPrint(
                       listOflocalizationModel[index].selected.toString());
@@ -49,7 +50,7 @@ class SelectCard extends HookConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    selected.value[index].selected
+                    selected[index].selected
                         ? const Icon(Icons.check, color: Colors.black)
                         : Container(),
                     Row(

@@ -4,7 +4,6 @@ import 'package:aquameter/features/Home/Data/departments_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -30,8 +29,9 @@ class DaysItem extends HookConsumerWidget {
     String dayCompare = '';
     final PlanOfWeekNotifier departMents =
         ref.watch(departMentProvider.notifier);
-    final ValueNotifier<List<PlanOfWeek>> selected =
-        useState<List<PlanOfWeek>>(departMents.departments);
+    final StateProvider<List<PlanOfWeek>> selectedProvider =
+        StateProvider<List<PlanOfWeek>>(((ref) => departMents.departments));
+    List<PlanOfWeek> selected = ref.watch(selectedProvider);
     return ref.watch(provider).when(
           data: (e) {
             if (getHomeClients.isInit == false) {
@@ -41,7 +41,7 @@ class DaysItem extends HookConsumerWidget {
                     ['dayCompare'] as String;
                 onChaned(dayCompare);
 
-                selected.value = [...e];
+                ref.read(selectedProvider.state).state = [...e];
                 getHomeClients.isInit = true;
               });
             }
@@ -61,7 +61,7 @@ class DaysItem extends HookConsumerWidget {
                         children: [
                           CircleAvatar(
                             radius: 15,
-                            backgroundColor: selected.value[index].selected
+                            backgroundColor: selected[index].selected
                                 ? Colors.red
                                 : Colors.grey[400],
                             child: Text(
@@ -79,7 +79,7 @@ class DaysItem extends HookConsumerWidget {
                             departMents.groupedTransactionValues[index]['name']
                                 as String,
                             style: MainTheme.subTextStyle.copyWith(
-                                color: selected.value[index].selected
+                                color: selected[index].selected
                                     ? Colors.red
                                     : Colors.grey[400]),
                           )
@@ -97,7 +97,7 @@ class DaysItem extends HookConsumerWidget {
                         } else {
                           e[i].selected = false;
                         }
-                        selected.value = [...e];
+                        ref.read(selectedProvider.state).state  = [...e];
                       }
                     },
                   );

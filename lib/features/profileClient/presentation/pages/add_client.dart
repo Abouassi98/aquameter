@@ -22,7 +22,6 @@ import 'package:aquameter/features/profileClient/presentation/manager/meeting_al
 import 'package:aquameter/features/profileClient/presentation/widgets/total_fishes.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../../core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
@@ -32,7 +31,7 @@ import '../../../CustomMap/presentation/manager/map_notifier.dart';
 // ignore: must_be_immutable
 class AddClient extends HookConsumerWidget {
   final bool fromSearch;
-  AddClient({Key? key,required this.fromSearch}) : super(key: key);
+  AddClient({Key? key, required this.fromSearch}) : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [
     {'name': 'فدان', 'id': 1},
@@ -55,11 +54,14 @@ class AddClient extends HookConsumerWidget {
 
   List<TotalFishesItem> totalFishesItem = [];
 
-      StateProvider<bool> newCityProvider = StateProvider<bool>((ref)=>false);
+  StateProvider<bool> newCityProvider = StateProvider<bool>((ref) => false);
+  StateProvider<List<Cities>> listOfCitiesProvider =
+      StateProvider<List<Cities>>((ref) => []);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    bool newCity=ref.watch(newCityProvider);
+    List<Cities> listOfCities = ref.watch(listOfCitiesProvider);
+    bool newCity = ref.watch(newCityProvider);
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
@@ -71,7 +73,6 @@ class AddClient extends HookConsumerWidget {
       mapNotifier.notifier,
     );
     final address = ref.watch(mapAddress);
-    ValueNotifier<List<Cities>> listOfCities = useState<List<Cities>>([]);
     // ValueNotifier<bool> showSecondField = useState<bool>(false);
     // ValueNotifier<bool> showThirdField = useState<bool>(false);
     List<int> totalFishes = [], typeFishes = [];
@@ -170,19 +171,23 @@ class AddClient extends HookConsumerWidget {
                                           areaId = 0;
                                           await areaAndCites.getCities(
                                               cityId: v);
-                                          listOfCities.value =
+                                          ref.read(listOfCitiesProvider.state).state=
                                               areaAndCites.areasModel!.data!;
                                           governorateId = v;
-                                          ref.read(newCityProvider.state).state = true;
+                                          ref
+                                              .read(newCityProvider.state)
+                                              .state = true;
                                         },
                                       ),
                                       CustomBottomSheet(
                                         name: 'المدينه',
-                                        list: listOfCities.value,
+                                        list: listOfCities,
                                         newCity: newCity,
                                         onChange: (v) {
                                           areaId = v;
-                                          ref.read(newCityProvider.state).state = false;
+                                          ref
+                                              .read(newCityProvider.state)
+                                              .state = false;
                                         },
                                       ),
                                     ],
@@ -476,19 +481,18 @@ class AddClient extends HookConsumerWidget {
                                   addClient.typeFishes = typeFishes;
                                   meetingAll.isInit = false;
                                   addClient.addClient(
-                                    context: context,
-                                    phone: phone,
-                                    name: name,
-                                    governorateId: governorateId,
-                                    areaId: areaId,
-                                    landSize: landSize,
-                                    startingWeight: startingWeight,
-                                    targetWeight: targetWeight,
-                                    landSizeType: landSizeType,
-                                    company: company,
-                                    feed: feed,
-                                    fromSearch: fromSearch
-                                  );
+                                      context: context,
+                                      phone: phone,
+                                      name: name,
+                                      governorateId: governorateId,
+                                      areaId: areaId,
+                                      landSize: landSize,
+                                      startingWeight: startingWeight,
+                                      targetWeight: targetWeight,
+                                      landSizeType: landSizeType,
+                                      company: company,
+                                      feed: feed,
+                                      fromSearch: fromSearch);
                                 }
                               },
                             ),
