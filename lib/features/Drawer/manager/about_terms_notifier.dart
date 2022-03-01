@@ -4,6 +4,12 @@ import 'package:aquameter/features/Drawer/Data/about_terms_model.dart';
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+final StateNotifierProvider<GetAboutAndTermsNotifier, Object?>
+    getAboutAndTermsNotifier =
+    StateNotifierProvider<GetAboutAndTermsNotifier, Object?>(
+  (ref) => GetAboutAndTermsNotifier(),
+);
+
 class GetAboutAndTermsNotifier
     extends StateNotifier<AsyncValue<AboutAndTermsModel>> {
   GetAboutAndTermsNotifier() : super(const AsyncValue.loading());

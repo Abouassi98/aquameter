@@ -6,7 +6,6 @@ import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_n
 import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import 'package:aquameter/core/themes/screen_utility.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
-import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 import 'package:aquameter/core/utils/widgets/custom_appbar.dart';
@@ -255,7 +254,7 @@ class SearchScreen extends HookConsumerWidget {
                                                                       .id!,
                                                                 );
                                                                 pushAndRemoveUntil(
-                                                                    const MainPage());
+                                                                     MainPage());
                                                               },
                                                               okMsg: 'نعم',
                                                               cancelMsg: 'لا',
@@ -374,7 +373,7 @@ class SearchScreen extends HookConsumerWidget {
                                                                               .id!,
                                                                         );
                                                                         pushAndRemoveUntil(
-                                                                            const MainPage());
+                                                                             MainPage());
                                                                       },
                                                                       okMsg:
                                                                           'نعم',

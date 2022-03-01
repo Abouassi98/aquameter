@@ -4,6 +4,11 @@ import 'package:aquameter/features/Home/Data/transaction_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
+final AutoDisposeStateNotifierProvider<PlanOfWeekNotifier, Object?>
+    departMentProvider = StateNotifierProvider.autoDispose(
+  (ref) => PlanOfWeekNotifier(null),
+);
+
 class PlanOfWeekNotifier extends StateNotifier<void> {
   PlanOfWeekNotifier(void state) : super(state);
   int? id;
@@ -11,6 +16,7 @@ class PlanOfWeekNotifier extends StateNotifier<void> {
   bool selected = false;
   final List<Transaction> _userTransactions = [];
   List<PlanOfWeek> departments = [];
+
   List<Transaction> get recentTransactions {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(

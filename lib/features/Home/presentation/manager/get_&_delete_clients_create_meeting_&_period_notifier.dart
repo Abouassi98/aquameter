@@ -6,6 +6,13 @@ import 'package:aquameter/features/Home/Data/clients_model/delete_client.dart';
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+
+final StateNotifierProvider<GetAndDeleteClientsCreateMettingAndPeriodNotifier,
+    Object?> getClientsNotifier =
+StateNotifierProvider<GetAndDeleteClientsCreateMettingAndPeriodNotifier,
+    Object?>(
+      (ref) => GetAndDeleteClientsCreateMettingAndPeriodNotifier(),
+);
 class GetAndDeleteClientsCreateMettingAndPeriodNotifier
     extends StateNotifier<AsyncValue<ClientsModel>> {
   GetAndDeleteClientsCreateMettingAndPeriodNotifier()

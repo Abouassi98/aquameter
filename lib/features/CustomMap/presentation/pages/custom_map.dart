@@ -16,7 +16,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:map_launcher/map_launcher.dart';
 
-import '../../../../core/utils/providers.dart';
 
 import '../../../../core/utils/size_config.dart';
 import '../manager/map_notifier.dart';

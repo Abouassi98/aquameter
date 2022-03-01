@@ -1,7 +1,6 @@
 import 'package:aquameter/core/themes/screen_utility.dart';
 
 import 'package:aquameter/core/utils/functions/helper.dart';
-import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/features/Home/Data/three_values_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/three_values_notifier.dart';

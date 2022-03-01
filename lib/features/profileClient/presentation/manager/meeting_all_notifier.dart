@@ -9,6 +9,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../data/meeting_all_model..dart';
 
+
+final AutoDisposeStateNotifierProvider<MeetingAllNotifier, Object?>
+meetingAllNotifier =
+StateNotifierProvider.autoDispose<MeetingAllNotifier, Object?>(
+      (ref) => MeetingAllNotifier(null),
+);
 class MeetingAllNotifier extends StateNotifier<void> {
   MeetingAllNotifier(void state) : super(state);
 

@@ -1,7 +1,4 @@
 {
-    "new_order": "طلب جديد",
-    "balance": "الرصيد",
-    "follow_order": "متابعة الطلب",
     "notifications": "الاشعارات",
     "my_profile": "حسابى",
     "the_field_should_not_be_left_blank": "لا يجب ترك الحقل فارغ",
@@ -9,7 +6,6 @@
     "activate": "تفعيل",
     "follow_cap": "تتبع الكابتن",
     "departure_time": "وقت الانطلاق",
-    "delivery_time": "وقت التسليم",
     "no": "لا",
     "yes": "نعم",
     "add_reply": "اضافة رد",
@@ -66,5 +62,13 @@
     "dinar": "دينار",
     "do_you_want_to_scan": "هل تود المسح ؟",
     "order_address": "عنوان الطلب",
-    "rating": "التقييم"
+    "rating": "التقييم",
+    "period": "دوره",
+    "periodResult":"نتيجة الحصاد",
+    "TotalWeight":"اجمالي وزن السمك",
+    "FishNumber":"اعداد السمك",
+    "avrageWieght":"متوسط الوزن",
+    "avrageFooder":"اجمالي وزن العلف بالكيلو",
+    "conversionRate":"معدل التحويل"
+
 }

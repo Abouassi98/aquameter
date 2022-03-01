@@ -3,7 +3,6 @@ import 'package:aquameter/core/themes/screen_utility.dart';
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 
-import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
@@ -144,7 +143,7 @@ class Home extends HookConsumerWidget {
                                                     filterClients.value[i].id!);
 
                                             pushAndRemoveUntil(
-                                                const MainPage());
+                                                 MainPage());
                                           },
                                           okMsg: 'نعم',
                                           cancelMsg: 'لا',

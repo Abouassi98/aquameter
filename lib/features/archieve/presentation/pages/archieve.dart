@@ -1,5 +1,4 @@
 import 'package:aquameter/core/themes/themes.dart';
-import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 import 'package:aquameter/core/utils/widgets/custom_btn.dart';
@@ -81,12 +80,13 @@ class ArcieveScreen extends HookConsumerWidget {
                                   child: Center(
                                     child: CustomTextButton(
                                       title:
-                                          "دورة  ${archive.archiveModel!.data![index].periodsResult![i].mceeting.toString().substring(0, 10)}",
+                                          "localization.text('period')!  ${archive.archiveModel!.data![index].periodsResult![i].mceeting.toString().substring(0, 10)}",
                                       function: () {
                                         showDialog(
                                           context: context,
                                           builder: (context) => CustomDialog(
-                                            title: 'نتيجة الحصاد',
+                                            
+                                            title: localization.text('periodResult')!,
                                             widget: [
                                               Column(
                                                 children: [
@@ -96,12 +96,12 @@ class ArcieveScreen extends HookConsumerWidget {
                                                             .spaceAround,
                                                     children: [
                                                       Text(
-                                                        'اجمالي وزن السمك',
+                                                        localization.text('TotalWeight')!,
                                                         style: MainTheme
                                                             .hintTextStyle,
                                                       ),
                                                       Text(
-                                                        'اعداد السمك',
+                                                        localization.text('FishNumber')!,
                                                         style: MainTheme
                                                             .hintTextStyle,
                                                       ),
@@ -144,7 +144,7 @@ class ArcieveScreen extends HookConsumerWidget {
                                                 child: CustomBtn(
                                                   text:
                                                       '${archive.archiveModel!.data![index].periodsResult![i].avrageWieght ?? '0'}'
-                                                      ' = متوسط الوزن',
+                                                      ' = ${localization.text('avrageWieght')!}',
                                                 ),
                                               ),
                                               const SizedBox(
@@ -154,7 +154,7 @@ class ArcieveScreen extends HookConsumerWidget {
                                                 child: Column(
                                                   children: [
                                                     Text(
-                                                      'اجمالي وزن العلف بالكيلو',
+                                                      localization.text('avrageFooder')!,
                                                       style: MainTheme
                                                           .hintTextStyle,
                                                     ),
@@ -188,7 +188,7 @@ class ArcieveScreen extends HookConsumerWidget {
                                                           null
                                                       ? 'error'
                                                       : '${archive.archiveModel!.data![index].periodsResult![i].conversionRate!.toStringAsFixed(2)}'
-                                                          ' = معدل التحويل',
+                                                          ' = ${localization.text('conversionRate')!}',
                                                 ),
                                               ),
                                               const SizedBox(

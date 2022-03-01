@@ -6,7 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/utils/constants.dart';
 import 'core/utils/functions/helper.dart';
-import 'core/utils/providers.dart';
+import 'features/localization/manager/change_language_provider.dart';
 import 'features/splashScreen/presentation/splah_view.dart';
 
 const _kShouldTestAsyncErrorOnInit = false;

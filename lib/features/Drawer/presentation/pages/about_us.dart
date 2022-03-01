@@ -1,5 +1,4 @@
 import 'package:aquameter/core/themes/themes.dart';
-import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/features/Drawer/Data/about_terms_model.dart';
 import 'package:aquameter/features/Drawer/manager/about_terms_notifier.dart';
 import 'package:aquameter/features/Drawer/presentation/widgets/about_item.dart';

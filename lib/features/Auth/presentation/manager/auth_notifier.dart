@@ -13,6 +13,11 @@ import 'package:get_storage/get_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
+final StateNotifierProvider<AuthNotifier, Object?> loginProvider =
+StateNotifierProvider(
+      (ref) => AuthNotifier(null),
+);
+
 class AuthNotifier extends StateNotifier<void> {
   AuthNotifier(void state) : super(state);
 
@@ -41,7 +46,7 @@ class AuthNotifier extends StateNotifier<void> {
       await HelperFunctions.saveToken(response.data['token']);
       pd.close();
 
-      pushAndRemoveUntil(const MainPage());
+      pushAndRemoveUntil( MainPage());
 
       await fishTypes.getFishTypes();
       await areaAndCites.getCities();
@@ -60,7 +65,7 @@ class AuthNotifier extends StateNotifier<void> {
       await HelperFunctions.saveUser(response.data);
       log('Token >>> ${GetStorage().read(kToken)}');
 
-      pushAndRemoveUntil(const MainPage());
+      pushAndRemoveUntil( MainPage());
       if (areaAndCites != null) {
         await fishTypes!.getFishTypes();
       }

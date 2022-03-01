@@ -67,5 +67,18 @@
     "dinar": "Dinar",
     "do_you_want_to_scan": "Do you want to remove ?",
     "order_address": "Order address",
-    "rating": "Rating"
+    "rating": "Rating",
+    "period": "period",
+    "periodResult":"period Result",
+    "TotalWeight":"Fish Total Weight",
+    "FishNumber":"Fish Number",
+    "avrageWieght":"avrage Wieght",
+    "avrageFooder":"avrage Fooder",
+    "conversionRate":"conversion Rate"
+
+
+
+
+
+
 }

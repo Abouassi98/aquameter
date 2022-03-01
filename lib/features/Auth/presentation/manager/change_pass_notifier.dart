@@ -7,6 +7,9 @@ import '../../../../core/utils/network_utils.dart';
 
 import '../../data/user_model.dart';
 
+final StateNotifierProvider<ChangePassNotifier, Object?> changePassProvider =
+    StateNotifierProvider((ref) => ChangePassNotifier(null));
+
 class ChangePassNotifier extends StateNotifier<void> {
   ChangePassNotifier(void state) : super(state);
 

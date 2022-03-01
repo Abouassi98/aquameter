@@ -76,7 +76,7 @@ class DrawerMenu extends StatelessWidget {
             ),
             DrwaerItem(
               widget: const Icon(Icons.password),
-              text: 'تغير كلمة المرور',
+              text: localization.text('change_pass')!,
               onTap: () => push(const ChangePassScreen()),
             ),
             DrwaerItem(

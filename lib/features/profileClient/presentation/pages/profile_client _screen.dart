@@ -3,7 +3,6 @@ import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_n
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
-import 'package:aquameter/core/utils/providers.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 import 'package:aquameter/core/utils/widgets/custom_btn.dart';
@@ -67,7 +66,7 @@ class ProfileClientScreen extends HookConsumerWidget {
         ref.read(updateAndDeletePeriodNotifier.notifier);
     return WillPopScope(
       onWillPop: () async {
-        pushAndRemoveUntil(const MainPage());
+        pushAndRemoveUntil( MainPage());
         return true;
       },
       child: Directionality(
@@ -76,7 +75,7 @@ class ProfileClientScreen extends HookConsumerWidget {
           appBar: AppBar(
             leading: IconButton(
                 onPressed: () {
-                  pushAndRemoveUntil(const MainPage());
+                  pushAndRemoveUntil( MainPage());
                 },
                 icon: const Icon(Icons.arrow_back)),
             title: InkWell(
@@ -114,7 +113,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                         msg: 'هل ترغب بحذف العميل ؟',
                         okFun: () async {
                           await clients.deleteClient(clientId: client.id!);
-                          pushAndRemoveUntil(const MainPage());
+                          pushAndRemoveUntil( MainPage());
                         },
                         okMsg: 'نعم',
                         cancelMsg: 'لا',
@@ -487,7 +486,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                                                                 conversionRate);
 
                                                         pushAndRemoveUntil(
-                                                            const MainPage());
+                                                             MainPage());
                                                       }
                                                     }),
                                               )
