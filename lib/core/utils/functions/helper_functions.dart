@@ -108,7 +108,7 @@ class HelperFunctions {
   static Future saveLang(String? lang) async {
     await GetStorage.init().then((value) {
       GetStorage().write(klanguage, lang);
-      debugPrint(GetStorage().read(kIsFirstTime));
+  
     });
   }
 

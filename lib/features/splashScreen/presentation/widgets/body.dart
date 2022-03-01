@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../core/utils/functions/connectivity/connectivity_service.dart';
 import '../../../Home/presentation/manager/three_values_notifier.dart';
 
 class SplashViewBody extends HookConsumerWidget {
@@ -49,24 +50,26 @@ class SplashViewBody extends HookConsumerWidget {
     GetAndDeleteClientsCreateMettingAndPeriodNotifier getClients,
     GetThreeValuesNotifier threeValues,
   ) async {
-    bool isFirstTime = GetStorage().read(kIsFirstTime) ?? true;
-    if (isFirstTime) {
-      Future.delayed(const Duration(seconds: 0), () async {
-        pushAndRemoveUntil(const LanguageSelect());
-      });
-    } else {
-      bool isLoggedIn = GetStorage().read(kIsLoggedIn) ?? false;
-
-      if (isLoggedIn) {
-        await changeLanguage.fetchUserData(
-          areaAndCites: areaAndCites,
-          fishTypes: fishTypes,
-        );
-      } else {
+    ConnectivityService.instance.checkIfConnected().then((value) async {
+      bool isFirstTime = GetStorage().read(kIsFirstTime) ?? true;
+      if (isFirstTime) {
         Future.delayed(const Duration(seconds: 0), () async {
-          pushAndRemoveUntil(LoginScreen());
+          pushAndRemoveUntil(const LanguageSelect());
         });
+      } else {
+        bool isLoggedIn = GetStorage().read(kIsLoggedIn) ?? false;
+
+        if (isLoggedIn) {
+          await changeLanguage.fetchUserData(
+            areaAndCites: areaAndCites,
+            fishTypes: fishTypes,
+          );
+        } else {
+          Future.delayed(const Duration(seconds: 0), () async {
+            pushAndRemoveUntil(LoginScreen());
+          });
+        }
       }
-    }
+    });
   }
 }

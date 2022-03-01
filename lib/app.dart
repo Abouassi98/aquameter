@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/utils/constants.dart';
+import 'core/utils/functions/connectivity/connectivity_service.dart';
 import 'core/utils/functions/helper.dart';
 import 'features/localization/manager/change_language_provider.dart';
 import 'features/splashScreen/presentation/splah_view.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   Future<void> _initializeFlutterFire() async {
+        await ConnectivityService.instance.initializeConnectivityListeners();
     await Firebase.initializeApp();
     // Wait for Firebase to initialize
 
