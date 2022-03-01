@@ -1,7 +1,10 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:aquameter/core/themes/screen_utility.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../size_config.dart';
@@ -12,7 +15,7 @@ class CustomBottomSheet extends HookConsumerWidget {
   final bool? staticList;
   final bool? newCity;
   final ValueChanged? onChange;
-   CustomBottomSheet({
+  const CustomBottomSheet({
     Key? key,
     required this.name,
     this.staticList,
@@ -20,13 +23,10 @@ class CustomBottomSheet extends HookConsumerWidget {
     this.onChange,
     this.newCity,
   }) : super(key: key);
-  StateProvider<String> selectedLabelProvider =
-      StateProvider<String>((ref) => '');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-   String selectedLabel = ref.watch(selectedLabelProvider);
-
+    final ValueNotifier<String> selectedLabel = useState<String>('');
     return InkWell(
       onTap: () {
         showModalBottomSheet(
@@ -50,9 +50,9 @@ class CustomBottomSheet extends HookConsumerWidget {
                           onTap: () {
                             pop();
                             if (staticList == true) {
-                              selectedLabel = list[i]['name'];
+                              selectedLabel.value = list[i]['name'];
                             } else {
-                              selectedLabel = list[i].name;
+                              selectedLabel.value = list[i].name;
                             }
                             if (onChange != null) {
                               if (staticList == true) {
@@ -91,8 +91,8 @@ class CustomBottomSheet extends HookConsumerWidget {
           children: [
             Text(newCity == true
                 ? name
-                : selectedLabel != ''
-                    ? selectedLabel
+                : selectedLabel.value != ''
+                    ? selectedLabel.value
                     : name),
             const Padding(
               padding: EdgeInsets.all(5.0),

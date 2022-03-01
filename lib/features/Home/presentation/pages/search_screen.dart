@@ -35,11 +35,14 @@ class SearchScreen extends HookConsumerWidget {
         .watch(getClientsNotifier.notifier)
         .getClients(); //; may cause `provider` to rebuild
   });
-
+final List<Client> selceted2=[];
+  final StateProvider<List<Client>> selcetedProvider =
+      StateProvider<List<Client>>((ref) => []);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextEditingController controller = useTextEditingController();
-    final ValueNotifier<List<Client>> selected = useState<List<Client>>([]);
+        final List<Client> selected= ref.watch( selcetedProvider);
+   
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
@@ -74,7 +77,7 @@ class SearchScreen extends HookConsumerWidget {
               search: true,
               back: true,
               onChanged: (v) {
-                selected.value = [
+              ref.read(selcetedProvider.state).state = [
                   ...clients.clientsModel!.data!
                       .where(
                         (element) =>
@@ -82,7 +85,7 @@ class SearchScreen extends HookConsumerWidget {
                       )
                       .toList()
                 ];
-                debugPrint(selected.value.toString());
+                debugPrint(selected.toString());
               },
             ),
             preferredSize: Size.fromHeight(SizeConfig.screenHeight * 0.2)),
@@ -119,7 +122,7 @@ class SearchScreen extends HookConsumerWidget {
                             name: 'المحافظات',
                             list: areaAndCites.governorateModel!.data!,
                             onChange: (v) {
-                              selected.value = [
+                                 ref.read(selcetedProvider.state).state= [
                                 ...e.data!
                                     .where(
                                       (element) => element.governorate!
@@ -140,7 +143,7 @@ class SearchScreen extends HookConsumerWidget {
                                 .fishTypesModel!
                                 .data!,
                             onChange: (v) async {
-                              selected.value = [
+                                ref.read(selcetedProvider.state).state = [
                                 ...e.data!.where((element) {
                                   for (int i = 0;
                                       i < element.fish!.length;
@@ -163,7 +166,7 @@ class SearchScreen extends HookConsumerWidget {
                                 radius: SizeConfig.screenWidth * .5,
                                 title: 'اظهار الكل',
                                 function: () {
-                                  selected.value = e.data!;
+                                      ref.read(selcetedProvider.state).state = e.data!;
                                   filter = false;
                                 }),
                         ],
@@ -189,11 +192,11 @@ class SearchScreen extends HookConsumerWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       const SizedBox(height: 10),
-                                      (selected.value.isNotEmpty)
+                                      (selected.isNotEmpty)
                                           ? ListView.builder(
                                               primary: false,
                                               shrinkWrap: true,
-                                              itemCount: selected.value.length,
+                                              itemCount: selected.length,
                                               itemBuilder: (context, index) =>
                                                   ClientItem(
                                                 confirmDismiss:
@@ -208,7 +211,7 @@ class SearchScreen extends HookConsumerWidget {
                                                             await clients
                                                                 .deleteClient(
                                                                     clientId: selected
-                                                                        .value[
+                                                                        [
                                                                             index]
                                                                         .id!);
                                                             ref.refresh(
@@ -228,16 +231,16 @@ class SearchScreen extends HookConsumerWidget {
                                                 func: () async {
                                                   if (viewProfile == true) {
                                                     meetingAll.id = selected
-                                                        .value[index].id;
+                                                        [index].id;
                                                     push(
                                                       ProfileClientScreen(
                                                           fromSearch: true,
                                                           client: selected
-                                                              .value[index]),
+                                                              [index]),
                                                     );
                                                   } else {
                                                     if (selected
-                                                        .value[index]
+                                                        [index]
                                                         .onlinePeriodsResult!
                                                         .isNotEmpty) {
                                                       await _dialog
@@ -249,7 +252,7 @@ class SearchScreen extends HookConsumerWidget {
                                                                 await clients
                                                                     .createMetting(
                                                                   clientId: selected
-                                                                      .value[
+                                                                     [
                                                                           index]
                                                                       .id!,
                                                                 );
@@ -271,7 +274,7 @@ class SearchScreen extends HookConsumerWidget {
                                                                 await clients
                                                                     .createPeriod(
                                                                   clientId: selected
-                                                                      .value[
+                                                                      [
                                                                           index]
                                                                       .id!,
                                                                 );
@@ -287,14 +290,14 @@ class SearchScreen extends HookConsumerWidget {
                                                     }
                                                   }
                                                 },
-                                                client: selected.value[index],
+                                                client: selected[index],
                                               ),
                                             )
-                                          : (selected.value.isEmpty &&
+                                          : (selected.isEmpty &&
                                                   controller.text != '')
                                               ? const Center(
                                                   child: Text('لا يوجد عملاء'))
-                                              : (selected.value.isEmpty &&
+                                              : (selected.isEmpty &&
                                                       controller.text == '' &&
                                                       filter == true)
                                                   ? const Center(

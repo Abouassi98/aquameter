@@ -15,7 +15,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_utils/src/extensions/context_extensions.dart';
+
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -47,19 +47,19 @@ class Statics extends HookConsumerWidget {
   final StateProvider<List<Governorate>> governorateProvider =
       StateProvider<List<Governorate>>((ref) => []);
 
-      final StateProvider<DateTime> dateTimeProvider1 =
-        StateProvider<DateTime>(((ref) => DateTime.utc(1989, 11, 9)));
-    final StateProvider<DateTime> dateTimeProvider2 =
-        StateProvider<DateTime>(((ref) => DateTime.utc(1989, 11, 9)));
+  final StateProvider<DateTime> dateTimeProvider1 =
+      StateProvider<DateTime>(((ref) => DateTime.utc(1989, 11, 9)));
+  final StateProvider<DateTime> dateTimeProvider2 =
+      StateProvider<DateTime>(((ref) => DateTime.utc(1989, 11, 9)));
+  final List fishes2 = [];
+  final List governorates2 = [];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    DateTime dateTime1=ref.watch(dateTimeProvider1);
-    DateTime dateTime2=ref.watch(dateTimeProvider2);
-
+    DateTime dateTime1 = ref.watch(dateTimeProvider1);
+    DateTime dateTime2 = ref.watch(dateTimeProvider2);
 
     final List<Fishes> fishes = ref.watch(fishesProvider);
     final List<Governorate> governorates = ref.watch(governorateProvider);
-    
 
     ValueNotifier<List<Client>> clientValues = useState<List<Client>>([]);
     final GraphStaticsNotifer graphStatics = ref.read(
@@ -93,38 +93,42 @@ class Statics extends HookConsumerWidget {
                           staticList: true,
                           onChange: (v) async {
                             if (v == 'المحافظات') {
-                              ref.read(fishesProvider.state).state.clear();
-                              ref.read(governorateProvider.state).state.clear();
+                              governorates2.clear();
+                              fishes2.clear();
 
                               for (int i = 0;
                                   i <
                                       graphStatics.graphStaticsModel!.data!
                                           .governorate!.length;
                                   i++) {
-                                ref.read(governorateProvider.state).state.addIf(
+                                governorates2.addIf(
                                     graphStatics.graphStaticsModel!.data!
                                             .governorate![i].clientsCount !=
                                         0,
                                     graphStatics.graphStaticsModel!.data!
                                         .governorate![i]);
                               }
-                                 
+                              ref.read(governorateProvider.state).state = [
+                                ...governorates2
+                              ];
                             } else {
-                              ref.read(governorateProvider.state).state.clear();
-                              ref.read(fishesProvider.state).state.clear();
+                              governorates2.clear();
+                              fishes2.clear();
                               for (int i = 0;
                                   i <
                                       graphStatics.graphStaticsModel!.data!
                                           .fishes!.length;
                                   i++) {
-                                ref.read(fishesProvider.state).state.addIf(
+                                fishes2.addIf(
                                     graphStatics.graphStaticsModel!.data!
                                             .fishes![i].fishesSumNumber !=
                                         null,
                                     graphStatics
                                         .graphStaticsModel!.data!.fishes![i]);
                               }
-                           
+                              ref.read(fishesProvider.state).state = [
+                                ...fishes2
+                              ];
                             }
                           },
                         ),
@@ -202,11 +206,8 @@ class Statics extends HookConsumerWidget {
                           //if user tap cancel then this function will stop
                           return;
                         } else {
-                          ref.read(dateTimeProvider1.state).state  = pickedDate;
-                          if (dateTime1
-                                  .difference(dateTime2)
-                                  .inDays >
-                              0) {
+                          ref.read(dateTimeProvider1.state).state = pickedDate;
+                          if (dateTime1.difference(dateTime2).inDays > 0) {
                             dateTime2 = DateTime.utc(1989, 11, 9);
                           }
                         }
