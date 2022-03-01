@@ -62,8 +62,8 @@ class Calculator extends HookConsumerWidget {
     final CreateMeetingResultNotifier createMeetingResult = ref.read(
       createMeetingResultNotifier.notifier,
     );
-    num nH3 = ref.watch(nH3Provider);
-    
+   final num nH3 = ref.watch(nH3Provider);
+
     final ValueNotifier<num> averageWeight = useState<num>(0.0);
     final ValueNotifier<num> totalWeight = useState<num>(0.0);
     final ValueNotifier<num> conversionRate = useState<num>(0.0);
@@ -329,9 +329,9 @@ class Calculator extends HookConsumerWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     CustomBtn(
-                                      text: nH3  == 0.0
+                                      text: nH3 == 0.0
                                           ? '0.0 = امونيات السامه'
-                                          : nH3 .toStringAsFixed(4) +
+                                          : nH3.toStringAsFixed(4) +
                                               ' = امونيات السامه',
                                     ),
                                     const SizedBox(
@@ -365,8 +365,9 @@ class Calculator extends HookConsumerWidget {
                                             theUnIonizedAmmonia =
                                                 1 / (1 + pow(10, pka - ph));
 
-                                          ref.read(nH3Provider.state).state = totalAmmonia *
-                                                theUnIonizedAmmonia;
+                                            ref.read(nH3Provider.state).state =
+                                                totalAmmonia *
+                                                    theUnIonizedAmmonia;
 
                                             debugPrint(
                                                 warningOxygen.toString());

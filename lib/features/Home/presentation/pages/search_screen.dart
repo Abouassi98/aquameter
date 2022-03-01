@@ -169,7 +169,7 @@ class SearchScreen extends HookConsumerWidget {
                                 }),
                         ],
                       ),
-                      e.data!.isNotEmpty
+                      e.data!.isEmpty
                           ? Center(
                               child: Lottie.asset(
                                 'assets/images/noData.json',
@@ -214,6 +214,7 @@ class SearchScreen extends HookConsumerWidget {
                                                                         .id!);
                                                             ref.refresh(
                                                                 provider);
+                                                        
                                                             // pushReplacement(SearchScreen(
                                                             //   viewProfile: viewProfile,
                                                             // ));
@@ -236,21 +237,55 @@ class SearchScreen extends HookConsumerWidget {
                                                               .value[index]),
                                                     );
                                                   } else {
-                                                    await _dialog.showOptionDialog(
-                                                        context: context,
-                                                        msg: 'هل ترغب باضافة العميل؟',
-                                                        okFun: () {
-                                                          clients.createMetting(
-                                                            clientId: selected
-                                                                .value[index]
-                                                                .id!,
-                                                          );
-                                                        },
-                                                        okMsg: 'نعم',
-                                                        cancelMsg: 'لا',
-                                                        cancelFun: () {
-                                                          return;
-                                                        });
+                                                    if (selected
+                                                        .value[index]
+                                                        .onlinePeriodsResult!
+                                                        .isNotEmpty) {
+                                                      await _dialog
+                                                          .showOptionDialog(
+                                                              context: context,
+                                                              msg:
+                                                                  'هل ترغب باضافه العميل للخطه الاسبوعيه ؟',
+                                                              okFun: () async {
+                                                                await clients
+                                                                    .createMetting(
+                                                                  clientId: selected
+                                                                      .value[
+                                                                          index]
+                                                                      .id!,
+                                                                );
+                                                                pushAndRemoveUntil(
+                                                                    const MainPage());
+                                                              },
+                                                              okMsg: 'نعم',
+                                                              cancelMsg: 'لا',
+                                                              cancelFun: () {
+                                                                return;
+                                                              });
+                                                    } else {
+                                                      await _dialog
+                                                          .showOptionDialog(
+                                                              context: context,
+                                                              msg:
+                                                                  'هل ترغب باضافة دوره جديده',
+                                                              okFun: () async {
+                                                                await clients
+                                                                    .createPeriod(
+                                                                  clientId: selected
+                                                                      .value[
+                                                                          index]
+                                                                      .id!,
+                                                                );
+
+                                                              
+                                                                pop();
+                                                              },
+                                                              okMsg: 'نعم',
+                                                              cancelMsg: 'لا',
+                                                              cancelFun: () {
+                                                                return;
+                                                              });
+                                                    }
                                                   }
                                                 },
                                                 client: selected.value[index],
@@ -290,6 +325,7 @@ class SearchScreen extends HookConsumerWidget {
                                                                             .id!);
                                                                     ref.refresh(
                                                                         provider);
+                                                                  
 
                                                                     // pushReplacement(
                                                                     // //     SearchScreen(
@@ -365,13 +401,7 @@ class SearchScreen extends HookConsumerWidget {
                                                                         );
 
                                                                         pop();
-                                                                        push(
-                                                                            ProfileClientScreen(
-                                                                          fromSearch:
-                                                                              true,
-                                                                          client:
-                                                                              e.data![index],
-                                                                        ));
+                                                                      
                                                                       },
                                                                       okMsg:
                                                                           'نعم',

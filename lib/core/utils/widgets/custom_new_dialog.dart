@@ -1,6 +1,8 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 
+import '../functions/helper.dart';
+
 class CustomWarningDialog {
   Future<dynamic> showWarningDialog(
       {required BuildContext context,
@@ -107,7 +109,10 @@ class CustomWarningDialog {
               ),
             ),
             btnOk: InkWell(
-              onTap: okFun,
+              onTap: () {
+                pop();
+                okFun!();
+              },
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),

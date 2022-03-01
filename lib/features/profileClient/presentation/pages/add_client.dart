@@ -65,8 +65,7 @@ class AddClient extends HookConsumerWidget {
     final map = ref.read(
       mapNotifier.notifier,
     );
-      final address =
-                                                  ref.watch(mapAddress);
+    final address = ref.watch(mapAddress);
     ValueNotifier<List<Cities>> listOfCities = useState<List<Cities>>([]);
     ValueNotifier<bool> newCity = useState<bool>(false);
     // ValueNotifier<bool> showSecondField = useState<bool>(false);
@@ -206,14 +205,13 @@ class AddClient extends HookConsumerWidget {
                                         children: [
                                           SizedBox(
                                             width: SizeConfig.screenWidth * 0.5,
-                                            child:  Text(
-                                                  address ??
-                                                      'حرك المؤشر ليتم اختيار العنوان المناسب لك',
-                                                  style: MainTheme.hintTextStyle
-                                                      .copyWith(
-                                                          color: Colors.black),
-                                                  maxLines: null
-                                            ),
+                                            child: Text(
+                                                address ??
+                                                    'حرك المؤشر ليتم اختيار العنوان المناسب لك',
+                                                style: MainTheme.hintTextStyle
+                                                    .copyWith(
+                                                        color: Colors.black),
+                                                maxLines: null),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),

@@ -517,7 +517,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                                       clientId: client.id!,
                                     );
 
-                                    pop();
+                                   
                                     if (fromSearch == true) {
                                       pop();
                                     }
