@@ -1,3 +1,5 @@
+
+
 class GraphStaticsModel {
   int? code;
   String? message;
@@ -17,49 +19,77 @@ class GraphStaticsModel {
 }
 
 class GraphStatics {
-  List<Governorate> governorate;
-  List<Type> type;
+  List<Governorate>? governorate;
+  List<Fishes>? fishes;
 
-  GraphStatics({required this.governorate, required this.type});
+  GraphStatics({this.governorate, this.fishes});
 
   factory GraphStatics.fromJson(Map<String, dynamic> json) {
     return GraphStatics(
-      governorate: (json['governorate'] as List<dynamic>)
-          .map((e) => Governorate.fromJson(e as Map<String, dynamic>))
+      governorate: (json['governorate'] as List<dynamic>?)
+          ?.map((e) => Governorate.fromJson(e as Map<String, dynamic>))
           .toList(),
-      type: (json['type'] as List<dynamic>)
-          .map((e) => Type.fromJson(e as Map<String, dynamic>))
+      fishes: (json['type'] as List<dynamic>?)
+          ?.map((e) => Fishes.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
 }
 
 class Governorate {
-  int? governorate;
+  int? id;
   String? names;
-  int? total;
+  dynamic parentId;
+  String? type;
+  dynamic status;
+  int? clientsCount;
 
-  Governorate({this.governorate, this.names, this.total});
+  Governorate({
+    this.id,
+    this.names,
+    this.parentId,
+    this.type,
+    this.status,
+    this.clientsCount,
+  });
 
   factory Governorate.fromJson(Map<String, dynamic> json) {
     return Governorate(
-      governorate: json['governorate'] as int?,
+      id: json['id'] as int?,
       names: json['names'] as String?,
-      total: json['total'] as int?,
+      parentId: json['parent_id'] as dynamic,
+      type: json['type'] as String?,
+      status: json['status'] as dynamic,
+      clientsCount: json['clients_count'] as int?,
     );
   }
 }
 
-class Type {
+class Fishes {
+  int? id;
   String? name;
-  int? clientCount;
+  String? createdAt;
+  String? updatedAt;
+  String? image;
+  int? fishesSumNumber;
 
-  Type({this.name, this.clientCount});
+  Fishes({
+    this.id,
+    this.name,
+    this.createdAt,
+    this.updatedAt,
+    this.image,
+    this.fishesSumNumber,
+  });
 
-  factory Type.fromJson(Map<String, dynamic> json) {
-    return Type(
+  factory Fishes.fromJson(Map<String, dynamic> json) {
+    return Fishes(
+      id: json['id'] as int?,
       name: json['name'] as String?,
-      clientCount: json['client_count'] as int?,
+      createdAt: json['created_at'] as String?,
+      updatedAt: json['updated_at'] as String?,
+      image: json['image'] as String?,
+      fishesSumNumber: json['fishes_sum_number'] as int?,
     );
   }
 }

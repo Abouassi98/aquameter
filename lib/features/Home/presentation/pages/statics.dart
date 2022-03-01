@@ -42,16 +42,19 @@ class Statics extends HookConsumerWidget {
         .read(getClientsNotifier.notifier)
         .getClients(); //; may cause `provider` to rebuild
   });
-
+  final StateProvider<List<Fishes>> fishesProvider =
+      StateProvider<List<Fishes>>((ref) => []);
+  final StateProvider<List<Governorate>> governorateProvider =
+      StateProvider<List<Governorate>>((ref) => []);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final List<Fishes> fishes = ref.watch(fishesProvider);
+    final List<Governorate> governorates = ref.watch(governorateProvider);
     final ValueNotifier<DateTime> dateTime1 =
         useState<DateTime>(DateTime.utc(1989, 11, 9));
     final ValueNotifier<DateTime> dateTime2 =
         useState<DateTime>(DateTime.utc(1989, 11, 9));
-    final ValueNotifier<List<Governorate>> governorate =
-        useState<List<Governorate>>([]);
-    final ValueNotifier<List<Type>> fishes = useState<List<Type>>([]);
+
     ValueNotifier<List<Client>> clientValues = useState<List<Client>>([]);
     final GraphStaticsNotifer graphStatics = ref.read(
       graphStaticsNotifer.notifier,
@@ -76,32 +79,53 @@ class Statics extends HookConsumerWidget {
                       height: SizeConfig.screenHeight * .01,
                     ),
                     Center(
-                        child: SizedBox(
-                            width: context.width * .5,
-                            child: CustomBottomSheet(
-                              name: 'الاحصائيات',
-                              list: list,
-                              staticList: true,
-                              onChange: (v) async {
-                                if (v == 'المحافظات') {
-                                  fishes.value = [];
-                                  governorate.value = [
-                                    ...graphStatics
-                                        .graphStaticsModel!.data!.governorate
-                                  ];
-                                } else {
-                                  governorate.value = [];
-                                  fishes.value = [
-                                    ...graphStatics
-                                        .graphStaticsModel!.data!.type
-                                  ];
-                                }
-                              },
-                            ))),
+                      child: SizedBox(
+                        width: context.width * .5,
+                        child: CustomBottomSheet(
+                          name: 'الاحصائيات',
+                          list: list,
+                          staticList: true,
+                          onChange: (v) async {
+                            if (v == 'المحافظات') {
+                              ref.read(fishesProvider.state).state.clear();
+                              ref.read(governorateProvider.state).state.clear();
+
+                              for (int i = 0;
+                                  i <
+                                      graphStatics.graphStaticsModel!.data!
+                                          .governorate!.length;
+                                  i++) {
+                                ref.read(governorateProvider.state).state.addIf(
+                                    graphStatics.graphStaticsModel!.data!
+                                            .governorate![i].clientsCount !=
+                                        0,
+                                    graphStatics.graphStaticsModel!.data!
+                                        .governorate![i]);
+                              }
+                            } else {
+                              ref.read(governorateProvider.state).state.clear();
+                              ref.read(fishesProvider.state).state.clear();
+                              for (int i = 0;
+                                  i <
+                                      graphStatics.graphStaticsModel!.data!
+                                          .fishes!.length;
+                                  i++) {
+                                ref.read(fishesProvider.state).state.addIf(
+                                    graphStatics.graphStaticsModel!.data!
+                                            .fishes![i].fishesSumNumber !=
+                                        null,
+                                    graphStatics
+                                        .graphStaticsModel!.data!.fishes![i]);
+                              }
+                            }
+                          },
+                        ),
+                      ),
+                    ),
                     SizedBox(
                       height: SizeConfig.screenHeight * .01,
                     ),
-                    if (governorate.value.isNotEmpty)
+                    if (governorates.isNotEmpty)
                       SfCircularChart(
                           legend: Legend(isVisible: true),
                           series: <CircularSeries>[
@@ -113,10 +137,10 @@ class Statics extends HookConsumerWidget {
                                 labelPosition: ChartDataLabelPosition.inside,
                               ),
                               dataSource: List.generate(
-                                governorate.value.length,
+                                governorates.length,
                                 (i) => ChartData(
-                                  governorate.value[i].names!,
-                                  governorate.value[i].total!,
+                                  governorates[i].names!,
+                                  governorates[i].clientsCount!,
                                 ),
                               ),
                               legendIconType: LegendIconType.circle,
@@ -124,7 +148,7 @@ class Statics extends HookConsumerWidget {
                               yValueMapper: (ChartData data, _) => data.count,
                             )
                           ]),
-                    if (fishes.value.isNotEmpty)
+                    if (fishes.isNotEmpty)
                       SfCircularChart(
                           legend: Legend(isVisible: true),
                           series: <CircularSeries>[
@@ -136,10 +160,10 @@ class Statics extends HookConsumerWidget {
                                 labelPosition: ChartDataLabelPosition.inside,
                               ),
                               dataSource: List.generate(
-                                fishes.value.length,
+                                fishes.length,
                                 (i) => ChartData(
-                                  fishes.value[i].name!,
-                                  fishes.value[i].clientCount!,
+                                  fishes[i].name!,
+                                  fishes[i].fishesSumNumber!,
                                 ),
                               ),
                               legendIconType: LegendIconType.circle,

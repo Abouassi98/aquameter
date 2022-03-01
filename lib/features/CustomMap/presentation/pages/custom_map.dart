@@ -51,7 +51,7 @@ class CustomMap extends HookConsumerWidget {
     final MapNotifier map = ref.read(
       mapNotifier.notifier,
     );
-        final address = ref.watch(mapAddress);
+    final address = ref.watch(mapAddress);
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -165,15 +165,13 @@ class CustomMap extends HookConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           SizedBox(
-                            width: SizeConfig.screenWidth * 0.5,
-                            child:  Text(
+                              width: SizeConfig.screenWidth * 0.5,
+                              child: Text(
                                   address ??
                                       'حرك المؤشر ليتم اختيار العنوان المناسب لك',
                                   style: MainTheme.hintTextStyle
                                       .copyWith(color: Colors.black),
-                                  maxLines: null)
-                            ),
-                          
+                                  maxLines: null)),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CircleAvatar(

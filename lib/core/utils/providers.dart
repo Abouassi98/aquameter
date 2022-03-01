@@ -4,7 +4,6 @@ import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.d
 import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
 import 'package:aquameter/features/Auth/presentation/manager/change_pass_notifier.dart';
 
-
 import 'package:aquameter/features/Home/presentation/manager/graph_statics_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_meeting_&_period_notifier.dart';
@@ -14,7 +13,6 @@ import 'package:aquameter/features/calculator/presentation/manager/create_meetin
 
 import 'package:aquameter/features/localization/manager/change_language_provider.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
-
 
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/update_and_endperiod_notifier.dart';
@@ -31,7 +29,6 @@ final AutoDisposeStateNotifierProvider<PlanOfWeekNotifier, Object?>
     departMentProvider = StateNotifierProvider.autoDispose(
   (ref) => PlanOfWeekNotifier(null),
 );
-
 
 final StateNotifierProvider<AreaAndCitesNotifier, Object?>
     areaAndCitesNotifier = StateNotifierProvider(

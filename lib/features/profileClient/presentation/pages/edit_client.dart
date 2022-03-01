@@ -67,7 +67,7 @@ class EditClient extends HookConsumerWidget {
     final MapNotifier map = ref.read(
       mapNotifier.notifier,
     );
-   final address = ref.watch(mapAddress);
+    final address = ref.watch(mapAddress);
     areaAndCites.getCities(cityId: client.governorateData!.id);
     listOfCities.value = areaAndCites.areasModel!.data!;
     ValueNotifier<bool> newCity = useState<bool>(false);
@@ -208,16 +208,13 @@ class EditClient extends HookConsumerWidget {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         SizedBox(
-                                          width: SizeConfig.screenWidth * 0.5,
-                                          child: Text(
-                                                address ??
-                                                   client.address!,
+                                            width: SizeConfig.screenWidth * 0.5,
+                                            child: Text(
+                                                address ?? client.address!,
                                                 style: MainTheme.hintTextStyle
                                                     .copyWith(
                                                         color: Colors.black),
-                                                maxLines: null)
-                                          
-                                        ),
+                                                maxLines: null)),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: CircleAvatar(
