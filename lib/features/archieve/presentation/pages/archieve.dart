@@ -80,7 +80,7 @@ class ArcieveScreen extends HookConsumerWidget {
                                   child: Center(
                                     child: CustomTextButton(
                                       title:
-                                          "localization.text('period')!  ${archive.archiveModel!.data![index].periodsResult![i].mceeting.toString().substring(0, 10)}",
+                                          "${localization.text('period')!}  ${archive.archiveModel!.data![index].periodsResult![i].mceeting.toString().substring(0, 10)}",
                                       function: () {
                                         showDialog(
                                           context: context,

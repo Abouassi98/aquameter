@@ -9,20 +9,22 @@ import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
 
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 
-
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../core/utils/widgets/custom_new_dialog.dart';
 import '../../../profileClient/data/period_results_model.dart';
+import '../manager/create_meeting_result_notifier.dart';
 
-class ShowCalculator extends StatelessWidget {
+class ShowCalculator extends HookConsumerWidget {
   final PeriodResults periodResults;
-  const ShowCalculator({Key? key, required this.periodResults})
-      : super(key: key);
-
+  ShowCalculator({Key? key, required this.periodResults}) : super(key: key);
+  final CustomWarningDialog _dialog = CustomWarningDialog();
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final CreateMeetingResultNotifier removeMeetingResult = ref.read(
+      createMeetingResultNotifier.notifier,
+    );
     return Scaffold(
       body: ListView(
         primary: false,
@@ -50,7 +52,30 @@ class ShowCalculator extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           const SizedBox(height: 15),
-                          const CustomHeaderTitle(title: 'جودة المياه'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const CustomHeaderTitle(title: 'جودة المياه'),
+                              IconButton(
+                                onPressed: () async {
+                                  await _dialog.showOptionDialog(
+                                      context: context,
+                                      msg: 'هل ترغب بالحذف النهائي ؟',
+                                      okFun: () async {
+                                        removeMeetingResult.removeMeetingResult(
+                                            meetingResultId: periodResults.id!);
+                                      },
+                                      okMsg: 'نعم',
+                                      cancelMsg: 'لا',
+                                      cancelFun: () {
+                                        return;
+                                      });
+                                },
+                                icon: const Icon(Icons.delete, size: 30),
+                                color: Colors.red,
+                              ),
+                            ],
+                          ),
                           const SizedBox(height: 15),
                           ListView(
                             primary: false,

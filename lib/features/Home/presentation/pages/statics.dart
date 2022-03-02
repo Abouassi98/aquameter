@@ -22,6 +22,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../../core/utils/functions/helper.dart';
 import '../manager/get_&_delete_clients_create_meeting_&_period_notifier.dart';
 
+// ignore: must_be_immutable
 class Statics extends HookConsumerWidget {
   final GlobalKey<FormFieldState> _multiSelectKey = GlobalKey<FormFieldState>();
 
@@ -211,7 +212,7 @@ class Statics extends HookConsumerWidget {
                         } else {
                           ref.read(dateTimeProvider1.state).state = pickedDate;
                           if (dateTime1.difference(dateTime2).inDays > 0) {
-                            dateTime2 = DateTime.utc(1989, 11, 9);
+                             ref.read(dateTimeProvider2.state).state= DateTime.utc(1989, 11, 9);
                           }
                         }
                       });

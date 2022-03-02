@@ -21,20 +21,20 @@ class PeriodsResult {
   String? mceeting;
   int? clientId;
   int? userId;
-  int? totalWieght;
-  int? avrageFooder;
+ num? totalWieght;
+  num? avrageFooder;
   dynamic endMceeting;
   String? createdAt;
   String? updatedAt;
   int? status;
-  int? startingWeight;
-  int? targetWeight;
-  int? ammonia;
-  int? avrageWeight;
-  int? totalNumber;
-  int? conversionRate;
+  num? startingWeight;
+  num? targetWeight;
+ num? ammonia;
+  num? avrageWeight;
+ num? totalNumber;
+  num? conversionRate;
   int? numberOfDead;
-  int? feed;
+  num? feed;
 
   PeriodsResult({
     this.id,
@@ -63,20 +63,20 @@ class PeriodsResult {
       mceeting: json['mceeting'] as String?,
       clientId: json['client_id'] as int?,
       userId: json['user_id'] as int?,
-      totalWieght: json['total_wieght'] as int?,
-      avrageFooder: json['avrage_fooder'] as int?,
+      totalWieght: json['total_wieght'] as num?,
+      avrageFooder: json['avrage_fooder'] as num?,
       endMceeting: json['end_mceeting'] as dynamic,
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
       status: json['status'] as int?,
-      startingWeight: json['starting_weight'] as int?,
-      targetWeight: json['target_weight'] as int?,
-      ammonia: json['ammonia'] as int?,
-      avrageWeight: json['avrage_weight'] as int?,
+      startingWeight: json['starting_weight'] as num?,
+      targetWeight: json['target_weight'] as num?,
+      ammonia: json['ammonia'] as num?,
+      avrageWeight: json['avrage_weight'] as num?,
       totalNumber: json['total_number'] as int?,
-      conversionRate: json['conversion_rate'] as int?,
+      conversionRate: json['conversion_rate'] as num?,
       numberOfDead: json['number_of_dead'] as int?,
-      feed: json['feed'] as int?,
+      feed: json['feed'] as num?,
     );
   }
 }

@@ -196,20 +196,20 @@ class PeriodsResult {
   String? mceeting;
   int? clientId;
   int? userId;
-  int? totalWieght;
+  num? totalWieght;
   num? avrageWieght;
   int? avrageFooder;
   dynamic endMceeting;
   String? createdAt;
   String? updatedAt;
   int? status;
-  int? startingWeight;
-  int? targetWeight;
-  int? ammonia;
-  int? totalNumber;
+  num? startingWeight;
+  num? targetWeight;
+  num? ammonia;
+  num? totalNumber;
   num? conversionRate;
   int? numberOfDead;
-  int? feed;
+  num? feed;
 
   PeriodsResult(
       {this.id,

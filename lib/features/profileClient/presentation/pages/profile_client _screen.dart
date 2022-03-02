@@ -39,15 +39,29 @@ class ProfileClientScreen extends HookConsumerWidget {
       {Key? key, required this.client, required this.fromSearch})
       : super(key: key);
 
-  final List<Map<String, dynamic>> listofMeasuer = [
-    {'name': 'معدل الملوحه', 'id': 1},
-    {'name': 'معدلات الامونيا', 'id': 2},
+  final List<Map<String, dynamic>> list = [
+    {
+      "name": 'الامونيا',
+    },
+    {
+      "name": 'متوسط الوزن',
+    },
+    {
+      "name": 'اعداد السمك',
+    },
+    {
+      "name": 'معدل التحويل',
+    },
+    {
+      "name": 'عدد السمك النافق',
+    },
   ];
+
   final GlobalKey<FormState> _averageWeight = GlobalKey<FormState>();
   final GlobalKey<FormState> _conversionRate = GlobalKey<FormState>();
   String? selctedMeasuer;
   num totalWeight = 0.0, conversionRate = 0.0, totalFeed = 0, averageWeight = 0;
-  int totalFishes = 0, allPreviousFishes = 0;
+  int totalFishes = 0;
 
   final FutureProvider<PeriodResultsModel> provider =
       FutureProvider<PeriodResultsModel>((ref) async {
@@ -55,6 +69,16 @@ class ProfileClientScreen extends HookConsumerWidget {
         .read(profileClientNotifer.notifier)
         .getPeriodResults(); //; may cause `provider` to rebuild
   });
+  final StateProvider<List<num>> ammoniaProvider =
+      StateProvider<List<num>>((ref) => []);
+  final StateProvider<List<num>> averageWeightProvider =
+      StateProvider<List<num>>((ref) => []);
+  final StateProvider<List<num>> conversionRateProvider =
+      StateProvider<List<num>>((ref) => []);
+  final StateProvider<List<num>> totalFishesProvider =
+      StateProvider<List<num>>((ref) => []);
+  final StateProvider<List<num>> deadFishesProvider =
+      StateProvider<List<num>>((ref) => []);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,6 +91,11 @@ class ProfileClientScreen extends HookConsumerWidget {
     );
     final UpdateAndDeletePeriodNotifier updateAndDeletePeriod =
         ref.read(updateAndDeletePeriodNotifier.notifier);
+    final List<num> ammoniaList = ref.watch(ammoniaProvider);
+    final List<num> averageWeightList = ref.watch(averageWeightProvider);
+    final List<num> conversionRateList = ref.watch(conversionRateProvider);
+    final List<num> totalFishesList = ref.watch(totalFishesProvider);
+    final List<num> deadFishesList = ref.watch(deadFishesProvider);
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -186,9 +215,8 @@ class ProfileClientScreen extends HookConsumerWidget {
                                         v.toString().substring(0, 10)),
                                   ));
                                 } else {
-                          
                                   totalFeed = 0;
-                                  allPreviousFishes = 0;
+
                                   for (int i = 0;
                                       i <
                                           e.data!
@@ -210,14 +238,9 @@ class ProfileClientScreen extends HookConsumerWidget {
                                         .toList()[i]
                                         .feed!;
                                   }
-                                  for (int i = 0; i < e.data!.length; i++) {
-                                    allPreviousFishes +=
-                                        e.data![i].totalNumber!;
-                                  }
 
                                   push(Calculator(
                                     dateTime: v,
-                                    allPreviousFishes: allPreviousFishes,
                                     client: client,
                                     totalFeed: totalFeed,
                                     meetingId: e.data![0].meetingId!,
@@ -242,16 +265,126 @@ class ProfileClientScreen extends HookConsumerWidget {
                         width: SizeConfig.screenWidth * 0.4,
                         child: CustomBottomSheet(
                           name: 'الاحصائيات',
-                          list: listofMeasuer,
+                          list: list,
+                          staticList: true,
+                          onChange: (v) {
+                            if (v == 'الامونيا') {
+                              ref
+                                  .read(averageWeightProvider.state)
+                                  .state
+                                  .clear();
+                              ref.read(totalFishesProvider.state).state.clear();
+                              ref.read(deadFishesProvider.state).state.clear();
+                              ref
+                                  .read(conversionRateProvider.state)
+                                  .state
+                                  .clear();
+                              ref.read(ammoniaProvider.state).state = [
+                                ...profileClient
+                                    .profileGraphModel!.data!.ammonia!
+                              ];
+                            } else if (v == 'متوسط الوزن') {
+                              ref.read(ammoniaProvider.state).state.clear();
+                              ref.read(totalFishesProvider.state).state.clear();
+                              ref.read(deadFishesProvider.state).state.clear();
+                              ref
+                                  .read(conversionRateProvider.state)
+                                  .state
+                                  .clear();
+                              ref.read(averageWeightProvider.state).state = [
+                                ...profileClient
+                                    .profileGraphModel!.data!.avrageWeight!
+                              ];
+                            } else if (v == 'اعداد السمك') {
+                              ref.read(ammoniaProvider.state).state.clear();
+                              ref
+                                  .read(averageWeightProvider.state)
+                                  .state
+                                  .clear();
+                              ref.read(deadFishesProvider.state).state.clear();
+                              ref
+                                  .read(conversionRateProvider.state)
+                                  .state
+                                  .clear();
+                              ref.read(totalFishesProvider.state).state = [
+                                ...profileClient
+                                    .profileGraphModel!.data!.totalNumber!
+                              ];
+                            } else if (v == 'معدل التحويل') {
+                              ref.read(ammoniaProvider.state).state.clear();
+                              ref
+                                  .read(averageWeightProvider.state)
+                                  .state
+                                  .clear();
+                              ref.read(deadFishesProvider.state).state.clear();
+                              ref.read(totalFishesProvider.state).state.clear();
+                              ref.read(conversionRateProvider.state).state = [
+                                ...profileClient
+                                    .profileGraphModel!.data!.conversionRate!
+                              ];
+                            } else if (v == 'عدد السمك النافق') {
+                              ref.read(ammoniaProvider.state).state.clear();
+                              ref
+                                  .read(averageWeightProvider.state)
+                                  .state
+                                  .clear();
+                              ref
+                                  .read(conversionRateProvider.state)
+                                  .state
+                                  .clear();
+                              ref.read(totalFishesProvider.state).state.clear();
+                              ref.read(deadFishesProvider.state).state = [
+                                ...profileClient
+                                    .profileGraphModel!.data!.numberOfDead!
+                              ];
+                            }
+                          },
                         ),
                       ),
                     ),
                   const SizedBox(
                     height: 10,
                   ),
-                  if (client.onlinePeriodsResultCount != 0)
-                    const Directionality(
-                        textDirection: TextDirection.ltr, child: Chart()),
+                  if (client.onlinePeriodsResultCount != 0 &&
+                      ammoniaList.isNotEmpty)
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Chart(
+                        data: ammoniaList,
+                      ),
+                    ),
+                  if (client.onlinePeriodsResultCount != 0 &&
+                      averageWeightList.isNotEmpty)
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Chart(
+                        data: averageWeightList,
+                      ),
+                    ),
+                  if (client.onlinePeriodsResultCount != 0 &&
+                      deadFishesList.isNotEmpty)
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Chart(
+                        data: deadFishesList,
+                      ),
+                    ),
+                  if (client.onlinePeriodsResultCount != 0 &&
+                      conversionRateList.isNotEmpty)
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Chart(
+                        data: conversionRateList,
+                      ),
+                    ),
+                  if (client.onlinePeriodsResultCount != 0 &&
+                      totalFishesList.isNotEmpty)
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Chart(
+                        data: totalFishesList,
+                      ),
+                    ),
                   const SizedBox(
                     height: 10,
                   ),

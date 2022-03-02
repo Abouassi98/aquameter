@@ -16,7 +16,7 @@ final StateNotifierProvider<ProfileClientNotifer, Object?>
   (ref) => ProfileClientNotifer(),
 );
 
-class ProfileClientNotifer extends StateNotifier<void> {
+class ProfileClientNotifer extends StateNotifier {
   ProfileClientNotifer() : super(null);
   final NetworkUtils _utils = NetworkUtils();
   bool isInit = false;
@@ -76,7 +76,7 @@ class ProfileClientNotifer extends StateNotifier<void> {
     Response response =
         await _utils.requstData(url: 'clients/graph', body: {'id': clientId});
     if (response.statusCode == 200) {
-      profileGraphModel = ProfileGraphModel.fromJson(response.data);
+ profileGraphModel = ProfileGraphModel.fromJson(response.data);
 
       log('correct get data');
     } else {

@@ -21,13 +21,13 @@ class Calculator extends HookConsumerWidget {
   final num totalFeed;
   final Client client;
   final DateTime dateTime;
-  final int allPreviousFishes;
+  
   Calculator(
       {Key? key,
       required this.totalFeed,
       required this.meetingId,
       required this.dateTime,
-      required this.allPreviousFishes,
+     
       required this.client})
       : super(key: key);
   num tempreatureOfWater = 0.0,
@@ -579,8 +579,8 @@ class Calculator extends HookConsumerWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          Text(' عدد السمك الكلي= $allPreviousFishes'),
-                          if( allPreviousFishes!=0)
+                          Text(' عدد السمك الكلي= ${client.fish![0].number}'),
+                          if( client.fish![0].number!='0')
                           Form(
                             key: _dieFishes,
                             child: CustomTextField(
@@ -595,7 +595,7 @@ class Calculator extends HookConsumerWidget {
                               minRange: 0,
                               calculator: false,
                               
-                              maxRange: allPreviousFishes,
+                              maxRange:int.parse(client.fish![0].number!) ,
                               validator: (v) {
                                 if (v!.isEmpty) {
                                   return 'لا يجب ترك الحقل فارغ';

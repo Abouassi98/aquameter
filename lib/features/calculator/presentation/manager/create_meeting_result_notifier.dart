@@ -64,4 +64,17 @@ class CreateMeetingResultNotifier extends StateNotifier<void> {
       pushAndRemoveUntil(MainPage());
     } else {}
   }
+
+  removeMeetingResult({
+    required int meetingResultId,
+  }) async {
+    Response response = await _utils.requstData(
+      url: 'meetingResult/delete/$meetingResultId',
+      body: {},
+    );
+
+    if (response.statusCode == 200) {
+      pushAndRemoveUntil(MainPage());
+    } else {}
+  }
 }
