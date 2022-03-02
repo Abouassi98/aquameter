@@ -5,11 +5,13 @@ import 'package:aquameter/core/utils/network_utils.dart';
 import 'package:aquameter/features/Home/Data/graph_statics_model.dart';
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 final AutoDisposeStateNotifierProvider<GraphStaticsNotifer, Object?>
-graphStaticsNotifer =
-StateNotifierProvider.autoDispose<GraphStaticsNotifer, Object?>(
-      (ref) => GraphStaticsNotifer(),
+    graphStaticsNotifer =
+    StateNotifierProvider.autoDispose<GraphStaticsNotifer, Object?>(
+  (ref) => GraphStaticsNotifer(),
 );
+
 class GraphStaticsNotifer extends StateNotifier<void> {
   GraphStaticsNotifer() : super(const AsyncValue.loading());
   final NetworkUtils _utils = NetworkUtils();

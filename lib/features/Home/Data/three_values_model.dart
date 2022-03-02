@@ -23,9 +23,9 @@ class ThreeValuesModel {
 }
 
 class Data {
-  int? fishWieght;
-  int? totalFeed;
-  int? conversionRate;
+  num? fishWieght;
+  num? totalFeed;
+  num? conversionRate;
 
   Data({this.fishWieght, this.totalFeed, this.conversionRate});
 

@@ -11,7 +11,6 @@ import 'package:aquameter/features/Home/Data/graph_statics_model.dart';
 
 import 'package:aquameter/features/Home/presentation/manager/graph_statics_notifier.dart';
 
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

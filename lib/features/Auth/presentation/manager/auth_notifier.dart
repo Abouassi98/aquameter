@@ -14,8 +14,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
 final StateNotifierProvider<AuthNotifier, Object?> loginProvider =
-StateNotifierProvider(
-      (ref) => AuthNotifier(null),
+    StateNotifierProvider(
+  (ref) => AuthNotifier(null),
 );
 
 class AuthNotifier extends StateNotifier<void> {
@@ -46,7 +46,7 @@ class AuthNotifier extends StateNotifier<void> {
       await HelperFunctions.saveToken(response.data['token']);
       pd.close();
 
-      pushAndRemoveUntil( MainPage());
+      pushAndRemoveUntil(MainPage());
 
       await fishTypes.getFishTypes();
       await areaAndCites.getCities();
@@ -65,7 +65,7 @@ class AuthNotifier extends StateNotifier<void> {
       await HelperFunctions.saveUser(response.data);
       log('Token >>> ${GetStorage().read(kToken)}');
 
-      pushAndRemoveUntil( MainPage());
+      pushAndRemoveUntil(MainPage());
       if (areaAndCites != null) {
         await fishTypes!.getFishTypes();
       }

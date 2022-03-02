@@ -54,7 +54,6 @@ void main() async {
     await localization.init();
     await GetStorage.init();
 
- 
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));

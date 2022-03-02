@@ -97,7 +97,7 @@ class DaysItem extends HookConsumerWidget {
                         } else {
                           e[i].selected = false;
                         }
-                        ref.read(selectedProvider.state).state  = [...e];
+                        ref.read(selectedProvider.state).state = [...e];
                       }
                     },
                   );

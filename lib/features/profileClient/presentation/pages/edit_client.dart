@@ -172,7 +172,9 @@ class EditClient extends HookConsumerWidget {
                                       onChange: (v) async {
                                         areaId = 0;
                                         await areaAndCites.getCities(cityId: v);
-                                        ref.read(listOfCitiesProvider.state).state =
+                                        ref
+                                                .read(listOfCitiesProvider.state)
+                                                .state =
                                             areaAndCites.areasModel!.data!;
                                         governorateId = v;
                                         ref.read(newCityProvider.state).state =

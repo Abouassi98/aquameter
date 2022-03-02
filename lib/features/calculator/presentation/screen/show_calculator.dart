@@ -8,13 +8,15 @@ import 'package:aquameter/core/utils/widgets/custom_btn.dart';
 import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
 
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
-import 'package:aquameter/features/profileClient/data/meeting_all_model..dart';
+
 
 import 'package:flutter/material.dart';
 
+import '../../../profileClient/data/period_results_model.dart';
+
 class ShowCalculator extends StatelessWidget {
-  final MeetingResult meetingResult;
-  const ShowCalculator({Key? key, required this.meetingResult})
+  final PeriodResults periodResults;
+  const ShowCalculator({Key? key, required this.periodResults})
       : super(key: key);
 
   @override
@@ -73,11 +75,11 @@ class ShowCalculator extends StatelessWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomTextField(
-                                    hint: meetingResult.ph.toString(),
+                                    hint: periodResults.ph.toString(),
                                     enabled: false,
                                   ),
                                   CustomTextField(
-                                    hint: meetingResult.temperature.toString(),
+                                    hint: periodResults.temperature.toString(),
                                     enabled: false,
                                   ),
                                 ],
@@ -102,11 +104,11 @@ class ShowCalculator extends StatelessWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   CustomTextField(
-                                    hint: meetingResult.oxygen.toString(),
+                                    hint: periodResults.oxygen.toString(),
                                     enabled: false,
                                   ),
                                   CustomTextField(
-                                    hint: meetingResult.salinity.toString(),
+                                    hint: periodResults.salinity.toString(),
                                     enabled: false,
                                   ),
                                 ],
@@ -120,7 +122,7 @@ class ShowCalculator extends StatelessWidget {
                               ),
                               Center(
                                 child: CustomTextField(
-                                  hint: meetingResult.ammonia.toString(),
+                                  hint: periodResults.ammonia.toString(),
                                   enabled: false,
                                 ),
                               ),
@@ -130,7 +132,7 @@ class ShowCalculator extends StatelessWidget {
                               Center(
                                 child: CustomBtn(
                                   text:
-                                      '${meetingResult.toxicAmmonia} = امونيات السامه',
+                                      '${periodResults.toxicAmmonia} = امونيات السامه',
                                 ),
                               ),
                               const SizedBox(
@@ -157,11 +159,11 @@ class ShowCalculator extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               CustomTextField(
-                                hint: meetingResult.totalNumber.toString(),
+                                hint: periodResults.totalNumber.toString(),
                                 enabled: false,
                               ),
                               CustomTextField(
-                                hint: meetingResult.totalWeight.toString(),
+                                hint: periodResults.totalWeight.toString(),
                                 enabled: false,
                               ),
                             ],
@@ -172,7 +174,7 @@ class ShowCalculator extends StatelessWidget {
                           Center(
                             child: CustomBtn(
                               text:
-                                  '${meetingResult.averageWeight} = متوسط الوزن',
+                                  '${periodResults.averageWeight} = متوسط الوزن',
                             ),
                           ),
                           const SizedBox(
@@ -183,13 +185,13 @@ class ShowCalculator extends StatelessWidget {
                             style: MainTheme.hintTextStyle,
                           ),
                           CustomTextField(
-                            hint: meetingResult.deadFish.toString(),
+                            hint: periodResults.deadFish.toString(),
                             enabled: false,
                           ),
                           Center(
                             child: CustomBtn(
                                 text:
-                                    '${meetingResult.totalWeight} = اجمالي الوزن'),
+                                    '${periodResults.totalWeight} = اجمالي الوزن'),
                           ),
                           const SizedBox(
                             height: 20,
@@ -199,7 +201,7 @@ class ShowCalculator extends StatelessWidget {
                             style: MainTheme.hintTextStyle,
                           ),
                           CustomTextField(
-                            hint: meetingResult.feed.toString(),
+                            hint: periodResults.feed.toString(),
                             enabled: false,
                           ),
                           const SizedBox(
@@ -208,7 +210,7 @@ class ShowCalculator extends StatelessWidget {
                           Center(
                             child: CustomBtn(
                                 text:
-                                    '${meetingResult.conversionRate} = معدل التحويل'),
+                                    '${periodResults.conversionRate} = معدل التحويل'),
                           ),
                           const SizedBox(
                             height: 20,
@@ -216,7 +218,7 @@ class ShowCalculator extends StatelessWidget {
                           CustomTextField(
                             width: SizeConfig.screenWidth * 0.7,
                             maxLines: 5,
-                            hint: meetingResult.notes,
+                            hint: periodResults.notes,
                             onChange: (v) {},
                             icon: Icons.note,
                           ),

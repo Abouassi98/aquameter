@@ -2,9 +2,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-
 import '../helper.dart';
 import 'no_internet_connection_screen.dart';
+
 class ConnectivityService {
   ConnectivityService._();
 
@@ -47,7 +47,6 @@ class ConnectivityService {
   }
 
   _navigateToNoInternetScreen() {
-    
     push(const NoInternetConnection());
   }
 

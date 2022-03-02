@@ -1,5 +1,3 @@
-
-
 class GraphStaticsModel {
   int? code;
   String? message;

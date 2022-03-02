@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   Future<void> _initializeFlutterFire() async {
-        await ConnectivityService.instance.initializeConnectivityListeners();
+    await ConnectivityService.instance.initializeConnectivityListeners();
     await Firebase.initializeApp();
     // Wait for Firebase to initialize
 

@@ -21,7 +21,7 @@ class Calculator extends HookConsumerWidget {
   final num totalFeed;
   final Client client;
   final DateTime dateTime;
-  final String allPreviousFishes;
+  final int allPreviousFishes;
   Calculator(
       {Key? key,
       required this.totalFeed,
@@ -580,6 +580,7 @@ class Calculator extends HookConsumerWidget {
                             height: 20,
                           ),
                           Text(' عدد السمك الكلي= $allPreviousFishes'),
+                          if( allPreviousFishes!=0)
                           Form(
                             key: _dieFishes,
                             child: CustomTextField(
@@ -593,7 +594,8 @@ class Calculator extends HookConsumerWidget {
                               },
                               minRange: 0,
                               calculator: false,
-                              maxRange: int.parse(allPreviousFishes),
+                              
+                              maxRange: allPreviousFishes,
                               validator: (v) {
                                 if (v!.isEmpty) {
                                   return 'لا يجب ترك الحقل فارغ';
@@ -626,7 +628,9 @@ class Calculator extends HookConsumerWidget {
                                               'يجب عليك اظهار ناتج متوسط الوزن الكلي للسمك بالكجم');
                                     } else if (_dieFishes.currentState!
                                         .validate()) {
-                                      ref.read(totalWeightProvider.state).state =
+                                      ref
+                                              .read(totalWeightProvider.state)
+                                              .state =
                                           ((totalPreviousFishes - dieFishes) *
                                                   averageWeight) /
                                               1000;
@@ -688,8 +692,11 @@ class Calculator extends HookConsumerWidget {
                                               'يجب عليك اظهار ناتج اجمالي الوزن الكلي للسمك بالكجم');
                                     } else if (_conversionRate.currentState!
                                         .validate()) {
-                                      ref.read(conversionRateProvider.state).state =
-                                          ((totalFeed + feed) / totalWeight);
+                                      ref
+                                          .read(conversionRateProvider.state)
+                                          .state = ((totalFeed +
+                                              feed) /
+                                          totalWeight);
                                     }
                                   }),
                             ],
@@ -722,6 +729,7 @@ class Calculator extends HookConsumerWidget {
                                   notes: notes,
                                   oxygen: oxygen,
                                   salinity: s,
+                                  totalFishes: totalFishes,
                                   temperature: tempreatureOfWater,
                                   totalWeight: totalWeight,
                                   toxicAmmonia: nH3,

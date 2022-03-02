@@ -51,25 +51,27 @@ class SplashViewBody extends HookConsumerWidget {
     GetThreeValuesNotifier threeValues,
   ) async {
     ConnectivityService.instance.checkIfConnected().then((value) async {
-      bool isFirstTime = GetStorage().read(kIsFirstTime) ?? true;
-      if (isFirstTime) {
-        Future.delayed(const Duration(seconds: 0), () async {
-          pushAndRemoveUntil(const LanguageSelect());
-        });
-      } else {
-        bool isLoggedIn = GetStorage().read(kIsLoggedIn) ?? false;
-
-        if (isLoggedIn) {
-          await changeLanguage.fetchUserData(
-            areaAndCites: areaAndCites,
-            fishTypes: fishTypes,
-          );
-        } else {
+      ConnectivityService.instance.checkIfConnected().then((value) async {
+        bool isFirstTime = GetStorage().read(kIsFirstTime) ?? true;
+        if (isFirstTime) {
           Future.delayed(const Duration(seconds: 0), () async {
-            pushAndRemoveUntil(LoginScreen());
+            pushAndRemoveUntil(const LanguageSelect());
           });
+        } else {
+          bool isLoggedIn = GetStorage().read(kIsLoggedIn) ?? false;
+
+          if (isLoggedIn) {
+            await changeLanguage.fetchUserData(
+              areaAndCites: areaAndCites,
+              fishTypes: fishTypes,
+            );
+          } else {
+            Future.delayed(const Duration(seconds: 0), () async {
+              pushAndRemoveUntil(LoginScreen());
+            });
+          }
         }
-      }
+      });
     });
   }
 }

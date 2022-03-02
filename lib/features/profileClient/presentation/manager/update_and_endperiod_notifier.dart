@@ -4,11 +4,13 @@ import 'package:aquameter/core/utils/network_utils.dart';
 
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 final StateNotifierProvider<UpdateAndDeletePeriodNotifier, Object?>
-updateAndDeletePeriodNotifier =
-StateNotifierProvider<UpdateAndDeletePeriodNotifier, Object?>(
-      (ref) => UpdateAndDeletePeriodNotifier(null),
+    updateAndDeletePeriodNotifier =
+    StateNotifierProvider<UpdateAndDeletePeriodNotifier, Object?>(
+  (ref) => UpdateAndDeletePeriodNotifier(null),
 );
+
 class UpdateAndDeletePeriodNotifier extends StateNotifier<void> {
   UpdateAndDeletePeriodNotifier(void state) : super(state);
   final NetworkUtils _utils = NetworkUtils();

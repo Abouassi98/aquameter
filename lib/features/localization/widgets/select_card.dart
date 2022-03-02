@@ -32,12 +32,16 @@ class SelectCard extends HookConsumerWidget {
                 onTap: () {
                   for (int i = 0; i < listOflocalizationModel.length; i++) {
                     listOflocalizationModel[i].selected = false;
-                    ref.read(selectedProvider.state).state = [...listOflocalizationModel];
+                    ref.read(selectedProvider.state).state = [
+                      ...listOflocalizationModel
+                    ];
                   }
                   listOflocalizationModel[index].selected =
                       !listOflocalizationModel[index].selected;
 
-                   ref.read(selectedProvider.state).state = [...listOflocalizationModel];
+                  ref.read(selectedProvider.state).state = [
+                    ...listOflocalizationModel
+                  ];
 
                   debugPrint(
                       listOflocalizationModel[index].selected.toString());

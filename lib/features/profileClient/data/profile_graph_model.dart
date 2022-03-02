@@ -17,12 +17,12 @@ class ProfileGraphModel {
 }
 
 class Graph {
-  List<num>? ammonia;
-  List<num>? avrageWeight;
-  List<int>? totalNumber;
-  List<num>? conversionRate;
-  List<int>? numberOfDead;
-  List<int>? id;
+  List<dynamic>? ammonia;
+  List<dynamic>? avrageWeight;
+  List<dynamic>? totalNumber;
+  List<dynamic>? conversionRate;
+  List<dynamic>? numberOfDead;
+  List<dynamic>? id;
 
   Graph({
     this.ammonia,
@@ -35,12 +35,12 @@ class Graph {
 
   factory Graph.fromJson(Map<String, dynamic> json) {
     return Graph(
-      ammonia: json['ammonia'] as List<double>?,
-      avrageWeight: json['avrage_weight'] as List<num>?,
-      totalNumber: json['total_number'] as List<int>?,
-      conversionRate: json['conversion_rate'] as List<double>?,
-      numberOfDead: json['number_of_dead'] as List<int>?,
-      id: json['id'] as List<int>?,
+      ammonia: json['ammonia'] as List<dynamic>?,
+      avrageWeight: json['avrage_weight'] as List<dynamic>?,
+      totalNumber: json['total_number'] as List<dynamic>?,
+      conversionRate: json['conversion_rate'] as List<dynamic>?,
+      numberOfDead: json['number_of_dead'] as List<dynamic>?,
+      id: json['id'] as List<dynamic>?,
     );
   }
 }

@@ -117,7 +117,8 @@ class LoginScreen extends HookConsumerWidget {
                       ? Icons.visibility_off
                       : Icons.visibility),
                   onPressed: () {
-                    ref.read(visabilityNotifierProvider.state).state = !visabilityNotifier;
+                    ref.read(visabilityNotifierProvider.state).state =
+                        !visabilityNotifier;
                   },
                 ),
               ),

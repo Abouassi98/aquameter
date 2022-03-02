@@ -54,7 +54,7 @@ class MainPage extends HookConsumerWidget {
               drawer: true,
               search: false,
             ),
-            preferredSize: Size.fromHeight(SizeConfig.screenHeight * 0.2),
+            preferredSize: Size.fromHeight(SizeConfig.screenHeight * 0.23),
           ),
           extendBody: true,
           body: widgets[_bottomNavIndex],
@@ -68,7 +68,9 @@ class MainPage extends HookConsumerWidget {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              push(AddClient(fromSearch: false,));
+              push(AddClient(
+                fromSearch: false,
+              ));
             },
             child: const Icon(
               Icons.add,

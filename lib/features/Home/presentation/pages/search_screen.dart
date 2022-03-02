@@ -15,11 +15,10 @@ import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_meeting_&_period_notifier.dart';
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
-import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/profile_client%20_screen.dart';
-
 import '../../../../core/utils/widgets/custom_header_title.dart';
+import '../../../profileClient/presentation/manager/profile_graph_notifier.dart';
 import 'main_page.dart';
 
 // ignore: must_be_immutable
@@ -49,7 +48,7 @@ class SearchScreen extends HookConsumerWidget {
         getAndDeleteClientsCreateMettingAndPeriod = ref.read(
       getClientsNotifier.notifier,
     );
-    final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
+     final ProfileClientNotifer profileClient = ref.read(profileClientNotifer.notifier);
     final FishTypesNotifier fishTypes = ref.read(
       fishTypesNotifier.notifier,
     );
@@ -242,7 +241,7 @@ class SearchScreen extends HookConsumerWidget {
                                                 fishTypes: fishTypes,
                                                 func: () async {
                                                   if (viewProfile == true) {
-                                                    meetingAll.id =
+                                                 profileClient.clientId =
                                                         selected[index].id;
                                                     push(
                                                       ProfileClientScreen(
@@ -356,7 +355,7 @@ class SearchScreen extends HookConsumerWidget {
                                                         func: () async {
                                                           if (viewProfile ==
                                                               true) {
-                                                            meetingAll.id = e
+                                                            profileClient.clientId = e
                                                                 .data![index]
                                                                 .id;
                                                             push(ProfileClientScreen(

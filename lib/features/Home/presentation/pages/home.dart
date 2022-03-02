@@ -22,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../profileClient/data/meeting_all_model..dart';
+import '../../../profileClient/presentation/manager/profile_graph_notifier.dart';
 
 class Home extends HookConsumerWidget {
   Home({Key? key}) : super(key: key);
@@ -41,7 +42,7 @@ class Home extends HookConsumerWidget {
     final GetAndDeleteClientsCreateMettingAndPeriodNotifier getClients =
         ref.read(getClientsNotifier.notifier);
     final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
-
+ final ProfileClientNotifer profileClient = ref.read(profileClientNotifer.notifier);
     final FishTypesNotifier fishTypes = ref.read(
       fishTypesNotifier.notifier,
     );
@@ -153,7 +154,7 @@ class Home extends HookConsumerWidget {
                                           });
                                     },
                                     func: () {
-                                      meetingAll.id = filterClients[i].clientId;
+                                   profileClient .clientId = filterClients[i].clientId;
                                       push(ProfileClientScreen(
                                         fromSearch: false,
                                         client: filterClients[i].client!,

@@ -217,7 +217,6 @@ class ArcieveScreen extends HookConsumerWidget {
                           style: TextStyle(color: Colors.black, fontSize: 20),
                         ),
                         Lottie.asset(
-
                           'assets/images/noData.json',
                           repeat: false,
                         ),

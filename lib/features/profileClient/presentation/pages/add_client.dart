@@ -171,7 +171,9 @@ class AddClient extends HookConsumerWidget {
                                           areaId = 0;
                                           await areaAndCites.getCities(
                                               cityId: v);
-                                          ref.read(listOfCitiesProvider.state).state=
+                                          ref
+                                                  .read(listOfCitiesProvider.state)
+                                                  .state =
                                               areaAndCites.areasModel!.data!;
                                           governorateId = v;
                                           ref

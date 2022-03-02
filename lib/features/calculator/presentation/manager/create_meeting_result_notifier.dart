@@ -31,6 +31,7 @@ class CreateMeetingResultNotifier extends StateNotifier<void> {
     num? conversionRate,
     num? feed,
     int? deadFishes,
+    int? totalFishes,
     num? toxicAmmonia,
     String? notes,
   }) async {
@@ -39,19 +40,20 @@ class CreateMeetingResultNotifier extends StateNotifier<void> {
     Response response = await _utils.requstData(
       body: {
         "meeting_id": meetId,
-        "real_date": realDate,
+        "real_date": realDate.toString().substring(0, 10),
         if (temperature != null) "temperature": temperature,
         if (ph != null) "ph": ph,
         if (salinity != null) "salinity": salinity,
         if (oxygen != null) "oxygen": oxygen,
         if (ammonia != null) "ammonia": ammonia,
-        if (avrageWieght != null) "avrage_wieght": avrageWieght,
+        if (avrageWieght != null) "average_weight": avrageWieght,
         if (totalWeight != null) "total_weight": totalWeight,
         if (conversionRate != null) "conversion_rate": conversionRate,
         if (feed != null) "feed": feed,
         if (deadFishes != null) "dead_fish": deadFishes,
         if (toxicAmmonia != null) "toxic_ammonia": toxicAmmonia,
         if (notes != null) "notes": notes,
+        if (totalFishes != null) "total_number": totalFishes,
       },
       url: 'meetingResult/create',
     );
@@ -59,7 +61,7 @@ class CreateMeetingResultNotifier extends StateNotifier<void> {
     if (response.statusCode == 200) {
       pd.close();
 
-      pushAndRemoveUntil( MainPage());
+      pushAndRemoveUntil(MainPage());
     } else {}
   }
 }
