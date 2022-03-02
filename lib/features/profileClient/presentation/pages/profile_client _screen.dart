@@ -172,7 +172,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                       children: <Widget>[
                         if (client.onlinePeriodsResultCount != 0)
                           SizedBox(
-                            height: SizeConfig.screenHeight * 0.6,
+                            height: SizeConfig.screenHeight * 0.53,
                             child: Calendar(
                               onMonthChanged: (v) {
                                 if (DateTime.now().difference(v).inDays > 0) {}
@@ -256,9 +256,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                 
                   if (client.onlinePeriodsResultCount != 0)
                     Center(
                       child: SizedBox(

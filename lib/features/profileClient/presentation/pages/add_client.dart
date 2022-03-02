@@ -202,7 +202,7 @@ class AddClient extends HookConsumerWidget {
                                       push(CustomMap());
                                     },
                                     child: Container(
-                                      height: 35,
+                                      
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                             width: 1, color: Colors.black38),

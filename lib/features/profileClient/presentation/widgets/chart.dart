@@ -10,7 +10,7 @@ class Chart extends StatelessWidget {
     return SafeArea(
         child: Center(
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.only(right:20.0,left:20),
               child: SfSparkLineChart(
       //Enable the trackball
       trackball: const SparkChartTrackball(
