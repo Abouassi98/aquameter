@@ -256,7 +256,6 @@ class ProfileClientScreen extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                 
                   if (client.onlinePeriodsResultCount != 0)
                     Center(
                       child: SizedBox(

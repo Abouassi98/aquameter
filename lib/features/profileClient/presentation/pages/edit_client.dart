@@ -200,7 +200,9 @@ class EditClient extends HookConsumerWidget {
                                   onTap: () {
                                     map.initialLat = 30.3;
                                     map.initialLong = 31.3;
-                                    push(CustomMap());
+                                    push(CustomMap(
+                                      address: client.address,
+                                    ));
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(

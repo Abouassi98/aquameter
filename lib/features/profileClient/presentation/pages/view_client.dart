@@ -115,6 +115,7 @@ class ViewClient extends HookConsumerWidget {
                                       map.initialLong = 31.3;
                                       push(CustomMap(
                                         show: true,
+                                        address: client.address,
                                       ));
                                     },
                                     child: CustomTextField(
