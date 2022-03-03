@@ -97,6 +97,8 @@ class Statics extends HookConsumerWidget {
                           staticList: true,
                           onChange: (v) async {
                             if (v == 'المحافظات') {
+                                governorates2.clear();
+                                fishes2.clear();
                                   ref.read(governorateProvider.state).state .clear();
                                 ref.read(fishesProvider.state).state .clear();
 
@@ -116,6 +118,8 @@ class Statics extends HookConsumerWidget {
                                 ...governorates2
                               ];
                             } else {
+                              governorates2.clear();
+                                fishes2.clear();
                                   ref.read(governorateProvider.state).state .clear();
                                  ref.read(fishesProvider.state).state .clear();
                               for (int i = 0;
