@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
-import 'package:aquameter/core/utils/network_utils.dart';
+import 'package:aquameter/core/utils/functions/network_utils.dart';
 
 import 'package:aquameter/features/Home/Data/graph_statics_model.dart';
 import 'package:dio/dio.dart';

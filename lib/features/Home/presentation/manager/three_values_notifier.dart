@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:aquameter/core/utils/network_utils.dart';
+import 'package:aquameter/core/utils/functions/network_utils.dart';
 import 'package:aquameter/features/Home/Data/three_values_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

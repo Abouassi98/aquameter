@@ -2,9 +2,9 @@ import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.d
 import 'package:aquameter/core/themes/screen_utility.dart';
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/size_config.dart';
-
-import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:flutter/material.dart';
+
+import '../../Data/clients_model/client_model.dart';
 
 class ClientItem extends StatelessWidget {
   final Client client;

@@ -6,11 +6,12 @@ import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart';
-import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../CustomMap/presentation/manager/map_notifier.dart';
+import '../../../Home/Data/clients_model/client_model.dart';
 
 class ViewClient extends ConsumerWidget {
   final Client client;

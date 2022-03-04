@@ -15,7 +15,6 @@ import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart'
 import 'package:aquameter/core/utils/widgets/custom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
-import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
 
 import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
@@ -27,6 +26,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import '../../../../core/themes/themes.dart';
 import '../../../CustomMap/presentation/manager/map_notifier.dart';
+import '../../../Home/Data/clients_model/client_model.dart';
 
 // ignore: must_be_immutable
 class EditClient extends ConsumerWidget {

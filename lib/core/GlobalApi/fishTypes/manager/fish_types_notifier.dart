@@ -1,6 +1,6 @@
 import 'package:aquameter/core/GlobalApi/fishTypes/Data/fish_types_model.dart';
 
-import 'package:aquameter/core/utils/network_utils.dart';
+import 'package:aquameter/core/utils/functions/network_utils.dart';
 import 'package:dio/dio.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';

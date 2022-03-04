@@ -84,12 +84,12 @@ class Home extends ConsumerWidget {
                             Expanded(child: DaysItem(
                               onChaned: (v) {
                                 ref.read(filterClientsProvider.state).state =
-                                    [...e.data!]
+                                    [...e.data!
                                         .where(
                                           (element) =>
                                               element.meeting!.startsWith(v),
                                         )
-                                        .toList();
+                                        .toList()];
 
                                 getClients.date = v;
                               },

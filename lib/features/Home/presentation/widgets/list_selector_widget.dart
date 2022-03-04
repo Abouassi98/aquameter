@@ -1,8 +1,10 @@
-import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
+
+import '../../Data/clients_model/client_model.dart';
 
 class ListSelectorWidget extends ConsumerWidget {
   final ClientsModel clientsModel;

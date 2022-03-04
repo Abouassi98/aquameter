@@ -12,13 +12,14 @@ import 'package:aquameter/core/utils/widgets/custom_appbar.dart';
 import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
 import 'package:aquameter/core/utils/widgets/custom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
-import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
+
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_meeting_&_period_notifier.dart';
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/profile_client%20_screen.dart';
 import '../../../../core/utils/widgets/custom_header_title.dart';
 import '../../../profileClient/presentation/manager/profile_graph_notifier.dart';
+import '../../Data/clients_model/client_model.dart';
 import 'main_page.dart';
 
 // ignore: must_be_immutable
@@ -42,7 +43,7 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
   });
   final StateProvider<List<Client>> selcetedProvider =
       StateProvider<List<Client>>((ref) => []);
-  TextEditingController controller=TextEditingController();
+  TextEditingController controller = TextEditingController();
   @override
   void dispose() {
     controller.dispose();

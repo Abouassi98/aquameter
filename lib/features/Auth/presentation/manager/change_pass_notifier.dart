@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/utils/network_utils.dart';
+import '../../../../core/utils/functions/network_utils.dart';
 
 import '../../data/user_model.dart';
 

@@ -13,7 +13,8 @@ import 'package:aquameter/features/calculator/presentation/widgets.dart/alert_ca
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../Home/Data/clients_model/clients_model.dart';
+import '../../../Home/Data/clients_model/client_model.dart';
+
 
 // ignore: must_be_immutable
 class Calculator extends ConsumerWidget {

@@ -1,4 +1,4 @@
-import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
+import '../../Home/Data/clients_model/client_model.dart';
 
 class MeetingAllModel {
   int? code;

@@ -1,6 +1,6 @@
 import 'package:aquameter/core/GlobalApi/AreaAndCities/Data/cities_model/area_and_cities_model.dart';
 
-import 'package:aquameter/core/utils/network_utils.dart';
+import 'package:aquameter/core/utils/functions/network_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 

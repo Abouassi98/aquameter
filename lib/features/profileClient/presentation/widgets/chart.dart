@@ -10,18 +10,18 @@ class Chart extends StatelessWidget {
     return SafeArea(
         child: Center(
             child: Padding(
-              padding: const EdgeInsets.only(right:20.0,left:20),
-              child: SfSparkLineChart(
-      //Enable the trackball
-      trackball: const SparkChartTrackball(
-          activationMode: SparkChartActivationMode.tap),
-      //Enable marker
-      marker:
-          const SparkChartMarker(displayMode: SparkChartMarkerDisplayMode.all),
-      //Enable data label
-      labelDisplayMode: SparkChartLabelDisplayMode.all,
-      data: data,
-    ),
-            )));
+      padding: const EdgeInsets.only(right: 20.0, left: 20),
+      child: SfSparkLineChart(
+        //Enable the trackball
+        trackball: const SparkChartTrackball(
+            activationMode: SparkChartActivationMode.tap),
+        //Enable marker
+        marker: const SparkChartMarker(
+            displayMode: SparkChartMarkerDisplayMode.all),
+        //Enable data label
+        labelDisplayMode: SparkChartLabelDisplayMode.all,
+        data: data,
+      ),
+    )));
   }
 }

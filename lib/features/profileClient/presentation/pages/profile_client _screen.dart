@@ -11,7 +11,6 @@ import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/custom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
-import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_meeting_&_period_notifier.dart';
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 import 'package:aquameter/features/calculator/presentation/screen/calculator.dart';
@@ -25,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_calendar/flutter_clean_calendar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../Home/Data/clients_model/client_model.dart';
 import '../../../Home/presentation/pages/search_screen.dart';
 
 import '../../data/period_results_model.dart';

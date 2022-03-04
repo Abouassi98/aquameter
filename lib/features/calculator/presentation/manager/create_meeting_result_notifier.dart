@@ -1,5 +1,5 @@
 import 'package:aquameter/core/utils/functions/helper.dart';
-import 'package:aquameter/core/utils/network_utils.dart';
+import 'package:aquameter/core/utils/functions/network_utils.dart';
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';

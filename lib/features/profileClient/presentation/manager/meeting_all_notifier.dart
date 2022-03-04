@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:aquameter/core/utils/network_utils.dart';
+import 'package:aquameter/core/utils/functions/network_utils.dart';
 
 import 'package:dio/dio.dart';
 

@@ -6,7 +6,7 @@ import 'package:aquameter/core/utils/widgets/custom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/pdf/genrate_pdf.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Home/Data/chart_data_model.dart';
-import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
+
 import 'package:aquameter/features/Home/Data/graph_statics_model.dart';
 
 import 'package:aquameter/features/Home/presentation/manager/graph_statics_notifier.dart';
@@ -20,6 +20,7 @@ import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../core/utils/functions/helper.dart';
+import '../../Data/clients_model/client_model.dart';
 import '../manager/get_&_delete_clients_create_meeting_&_period_notifier.dart';
 
 // ignore: must_be_immutable
@@ -206,8 +207,12 @@ class Statics extends ConsumerWidget {
                     onPressed: () {
                       showDatePicker(
                               context: context,
-                              initialDate: DateTime(2022),
-                              firstDate: DateTime(2021),
+                              initialDate: DateTime(
+                                2022,
+                              ),
+                              firstDate: DateTime(
+                                2022,
+                              ),
                               lastDate: DateTime(2030))
                           .then((pickedDate) {
                         if (pickedDate == null) {
