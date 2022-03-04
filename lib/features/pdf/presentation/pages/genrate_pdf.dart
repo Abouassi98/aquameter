@@ -1,23 +1,30 @@
 ///Package imports
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
-import 'package:aquameter/core/utils/widgets/pdf/save_file.dart';
+import 'package:aquameter/features/pdf/presentation/pages/save_file.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 ///Pdf import
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 
-import '../../../../features/Home/Data/clients_model/client_model.dart';
+import '../../../../core/utils/size_config.dart';
+import '../../../../core/utils/widgets/app_loader.dart';
+import '../../../../core/utils/widgets/text_button.dart';
+import '../../data/report_model.dart';
+import '../manager/report_notifier.dart';
 
-class PdfGenerator {
+
+class PdfGenerator{
+
   Future<List<int>> readFontData() async {
     final ByteData bytes = await rootBundle.load('assets/fonts/arial.ttf');
     return bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
   }
 
-  Future<void> generatePDF({required List<Client> clients}) async {
+  Future<void> generatePDF(List<ReportData> reportData) async {
     //Create a PDF document.
     final PdfDocument document = PdfDocument();
     //Add page to the PDF
@@ -30,7 +37,7 @@ class PdfGenerator {
         bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
         pen: PdfPen(PdfColor(142, 170, 219, 255)));
     //Generate PDF grid.
-    final PdfGrid grid = _getGrid(clients, font);
+    final PdfGrid grid = _getGrid(font,reportData);
 
     //Draw the header section by creating text element
     final PdfLayoutResult result = _drawHeader(page, pageSize, grid);
@@ -120,7 +127,7 @@ class PdfGenerator {
   }
 
   //Create PDF grid and return
-  PdfGrid _getGrid(List<Client> clients, font) {
+  PdfGrid _getGrid( font,List<ReportData>  reportData) {
     //Create a PDF grid
     final PdfGrid grid = PdfGrid();
     //Secify the columns count to the grid.
@@ -139,18 +146,23 @@ class PdfGenerator {
     headerRow.cells[4].value = 'target Weight';
     headerRow.cells[5].value = 'conversion Rate';
     headerRow.cells[6].value = 'totalFeed';
-    for (var element in clients) {
+
+    for (var element in reportData) {
       addClient(
           clientId: element.id.toString(),
-          clientName: element.name!,
+          clientName: element.id.toString(),
           totalFish: "15",
-          averageWeight: element.totalFeed.toString(),
-          conversionRate: element.conversionRate.toString(),
-          totalFeed: element.totalFeed.toString(),
-          targetWeight: element.targetWeight.toString(),
+          averageWeight: "element.totalFeed.toString()",
+          conversionRate: "element.conversionRate.toString()",
+          totalFeed: "element.totalFeed.toString()",
+          targetWeight: "element.targetWeight.toString()",
           grid: grid,
           font: font);
     }
+
+
+
+
 
     grid.applyBuiltInStyle(PdfGridBuiltInStyle.listTable4Accent5);
     // grid.columns[1].width = 200;
@@ -197,4 +209,8 @@ class PdfGenerator {
     row.cells[5].value = conversionRate;
     row.cells[6].value = totalFeed;
   }
+   StateProvider<int> clientValuesProvider =
+   StateProvider<int>((ref) => 0);
+
+
 }
