@@ -2,27 +2,20 @@ import 'dart:developer';
 
 import 'package:aquameter/core/GlobalApi/AreaAndCities/Data/cities_model/area_and_cities_model.dart';
 import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
-
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english_number.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/size_config.dart';
-
 import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
-
 import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart';
 import 'package:aquameter/core/utils/widgets/custom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
-
-import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/widgets/total_fishes.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../../core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import '../../../../core/themes/themes.dart';
 import '../../../CustomMap/presentation/manager/map_notifier.dart';
@@ -58,9 +51,6 @@ class EditClient extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool newCity = ref.watch(newCityProvider);
-
-    final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
-
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
@@ -506,7 +496,7 @@ class EditClient extends ConsumerWidget {
                                 // }
                                 updateClient.totalFishesupdate = totalFishes;
                                 updateClient.typeFishesupdate = typeFishes;
-                                meetingAll.isInit = false;
+                           
                                 updateClient.updateClient(
                                   context: context,
                                   clientId: client.id!,

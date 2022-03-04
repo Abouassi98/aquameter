@@ -8,22 +8,15 @@ import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/size_config.dart';
-
 import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
-
 import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart';
 import 'package:aquameter/core/utils/widgets/custom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
-
-import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
-
 import 'package:aquameter/features/profileClient/presentation/widgets/total_fishes.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../../core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import '../../../../core/themes/themes.dart';
 import '../../../CustomMap/presentation/manager/map_notifier.dart';
@@ -62,7 +55,6 @@ class AddClient extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     List<Cities> listOfCities = ref.watch(listOfCitiesProvider);
     bool newCity = ref.watch(newCityProvider);
-    final MeetingAllNotifier meetingAll = ref.read(meetingAllNotifier.notifier);
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
     );
@@ -480,7 +472,7 @@ class AddClient extends ConsumerWidget {
                                   }
                                   addClient.totalFishes = totalFishes;
                                   addClient.typeFishes = typeFishes;
-                                  meetingAll.isInit = false;
+                                
                                   addClient.addClient(
                                       context: context,
                                       phone: phone,

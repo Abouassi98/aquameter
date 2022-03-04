@@ -1,15 +1,10 @@
 import 'package:aquameter/core/themes/screen_utility.dart';
-
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/features/Home/Data/three_values_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/three_values_notifier.dart';
-
-import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../constants.dart';
 
 import '../size_config.dart';
@@ -77,17 +72,7 @@ class CustomAppBar extends ConsumerWidget {
                         onChange: onChanged,
                       ),
                     )
-                  : Padding(
-                      padding:
-                          EdgeInsets.only(left: SizeConfig.screenWidth * .28),
-                      child: IconButton(
-                          icon: const Icon(Icons.search),
-                          onPressed: () {
-                            push(const SearchScreen(
-                              viewProfile: true,
-                            ));
-                          }),
-                    ),
+                  : const SizedBox(),
               SizedBox(
                   height: SizeConfig.screenHeight * 0.1,
                   width: 100,
@@ -99,9 +84,8 @@ class CustomAppBar extends ConsumerWidget {
           ),
           if (search != true || back != true)
             ref.watch(provider).when(
-                  loading: () => SpinKitFadingCircle(
-                    size: 30,
-                    color: Theme.of(context).primaryColor,
+                  loading: () =>const SizedBox(
+                  
                   ),
                   error: (e, o) {
                     debugPrint(e.toString());

@@ -16,14 +16,15 @@ class ClientItem extends StatelessWidget {
       required this.client,
       required this.func,
       this.fishTypes,
-      required this.confirmDismiss})
+      this.confirmDismiss})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       key: const ValueKey(0),
-      onDismissed: (DismissDirection direction) async {
+      direction:  confirmDismiss!=null?DismissDirection.startToEnd:DismissDirection.none,
+      onDismissed:  (DismissDirection direction) async {
         if (direction == DismissDirection.startToEnd) {
         } else {}
       },

@@ -1,12 +1,9 @@
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/features/Home/Data/departments_model.dart';
-
 import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
-import 'package:aquameter/features/profileClient/presentation/manager/meeting_all_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../manager/get_&_delete_clients_create_meeting_&_period_notifier.dart';
 
 class DaysItem extends ConsumerWidget {
   final ValueChanged onChaned;
@@ -24,8 +21,8 @@ class DaysItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final MeetingAllNotifier getHomeClients =
-        ref.read(meetingAllNotifier.notifier);
+    final GetAndDeleteClientsCreateMettingAndPeriodNotifier getHomeClients =
+        ref.read(getClientsNotifier.notifier);
     String dayCompare = '';
     final PlanOfWeekNotifier departMents =
         ref.watch(departMentProvider.notifier);
@@ -108,9 +105,10 @@ class DaysItem extends ConsumerWidget {
             debugPrint(o.toString());
             return const Text('error');
           },
-          loading: () => SpinKitFadingCircle(
-            size: 30,
-            color: Theme.of(context).primaryColor,
+          loading: () =>const Center(
+            child:  CircularProgressIndicator(
+            
+            ),
           ),
         );
   }

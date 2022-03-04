@@ -17,6 +17,11 @@ class ProfileGraphModel {
 }
 
 class Graph {
+  List<dynamic>? toxicAmmonia;
+  List<dynamic>? temperature;
+  List<dynamic>? ph;
+  List<dynamic>? salinity;
+  List<dynamic>? oxygen;
   List<dynamic>? ammonia;
   List<dynamic>? avrageWeight;
   List<dynamic>? totalNumber;
@@ -25,6 +30,11 @@ class Graph {
   List<dynamic>? id;
 
   Graph({
+    this.temperature,
+    this.ph,
+    this.salinity,
+    this.oxygen,
+    this.toxicAmmonia,
     this.ammonia,
     this.avrageWeight,
     this.totalNumber,
@@ -35,6 +45,11 @@ class Graph {
 
   factory Graph.fromJson(Map<String, dynamic> json) {
     return Graph(
+      oxygen: json['oxygen'] as List<dynamic>?,
+      ph: json['ph'] as List<dynamic>?,
+      salinity: json['salinity'] as List<dynamic>?,
+      temperature: json['temperature'] as List<dynamic>?,
+      toxicAmmonia: json['toxic_ammonia'] as List<dynamic>?,
       ammonia: json['ammonia'] as List<dynamic>?,
       avrageWeight: json['avrage_weight'] as List<dynamic>?,
       totalNumber: json['total_number'] as List<dynamic>?,
