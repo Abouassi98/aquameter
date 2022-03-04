@@ -6,9 +6,9 @@ import 'package:aquameter/features/profileClient/presentation/manager/meeting_al
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DaysItem extends HookConsumerWidget {
+class DaysItem extends ConsumerWidget {
   final ValueChanged onChaned;
   DaysItem({
     Key? key,

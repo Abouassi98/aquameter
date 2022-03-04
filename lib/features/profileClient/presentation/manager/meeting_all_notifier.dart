@@ -4,7 +4,7 @@ import 'package:aquameter/core/utils/network_utils.dart';
 import 'package:dio/dio.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/meeting_all_model..dart';
 
@@ -19,7 +19,6 @@ class MeetingAllNotifier extends StateNotifier<void> {
 
   final NetworkUtils _utils = NetworkUtils();
   MeetingAllModel? meetingAllModel;
-
 
   bool isInit = false;
   DateTime selectedDay = DateTime.now();
@@ -38,7 +37,6 @@ class MeetingAllNotifier extends StateNotifier<void> {
 
     if (response.statusCode == 200) {
       meetingAllModel = MeetingAllModel.fromJson(response.data);
-  
     } else {}
     return meetingAllModel!;
   }

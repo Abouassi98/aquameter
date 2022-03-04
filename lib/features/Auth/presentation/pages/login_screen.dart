@@ -12,10 +12,10 @@ import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart'
 
 import 'package:flutter/material.dart';
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class LoginScreen extends HookConsumerWidget {
+class LoginScreen extends ConsumerWidget {
   final _form = GlobalKey<FormState>();
 
   LoginScreen({Key? key}) : super(key: key);

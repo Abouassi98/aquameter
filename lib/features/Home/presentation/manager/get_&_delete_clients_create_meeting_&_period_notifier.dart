@@ -4,7 +4,7 @@ import 'package:aquameter/core/utils/network_utils.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:aquameter/features/Home/Data/clients_model/delete_client.dart';
 import 'package:dio/dio.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final StateNotifierProvider<GetAndDeleteClientsCreateMettingAndPeriodNotifier,
         Object?> getClientsNotifier =

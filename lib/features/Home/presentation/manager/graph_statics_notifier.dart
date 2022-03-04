@@ -4,7 +4,7 @@ import 'package:aquameter/core/utils/network_utils.dart';
 
 import 'package:aquameter/features/Home/Data/graph_statics_model.dart';
 import 'package:dio/dio.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final AutoDisposeStateNotifierProvider<GraphStaticsNotifer, Object?>
     graphStaticsNotifer =

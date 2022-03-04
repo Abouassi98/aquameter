@@ -7,7 +7,7 @@ import 'package:aquameter/features/profileClient/data/add_client_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
 final StateNotifierProvider<AddClientNotifier, Object?> addClientNotifier =
@@ -70,7 +70,7 @@ class AddClientNotifier extends StateNotifier<void> {
         if (fromSearch == true) {
           pop();
         }
-        pushReplacement(SearchScreen(viewProfile: true));
+        pushReplacement(const SearchScreen(viewProfile: true));
       } else {
         HelperFunctions.errorBar(context, message: 'خطا ف اضافه العميل');
       }

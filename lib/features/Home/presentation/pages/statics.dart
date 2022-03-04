@@ -14,7 +14,7 @@ import 'package:aquameter/features/Home/presentation/manager/graph_statics_notif
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -23,7 +23,7 @@ import '../../../../core/utils/functions/helper.dart';
 import '../manager/get_&_delete_clients_create_meeting_&_period_notifier.dart';
 
 // ignore: must_be_immutable
-class Statics extends HookConsumerWidget {
+class Statics extends ConsumerWidget {
   final GlobalKey<FormFieldState> _multiSelectKey = GlobalKey<FormFieldState>();
 
   Statics({Key? key}) : super(key: key);
@@ -97,10 +97,10 @@ class Statics extends HookConsumerWidget {
                           staticList: true,
                           onChange: (v) async {
                             if (v == 'المحافظات') {
-                                governorates2.clear();
-                                fishes2.clear();
-                                  ref.read(governorateProvider.state).state .clear();
-                                ref.read(fishesProvider.state).state .clear();
+                              governorates2.clear();
+                              fishes2.clear();
+                              ref.read(governorateProvider.state).state.clear();
+                              ref.read(fishesProvider.state).state.clear();
 
                               for (int i = 0;
                                   i <
@@ -119,9 +119,9 @@ class Statics extends HookConsumerWidget {
                               ];
                             } else {
                               governorates2.clear();
-                                fishes2.clear();
-                                  ref.read(governorateProvider.state).state .clear();
-                                 ref.read(fishesProvider.state).state .clear();
+                              fishes2.clear();
+                              ref.read(governorateProvider.state).state.clear();
+                              ref.read(fishesProvider.state).state.clear();
                               for (int i = 0;
                                   i <
                                       graphStatics.graphStaticsModel!.data!
@@ -216,7 +216,8 @@ class Statics extends HookConsumerWidget {
                         } else {
                           ref.read(dateTimeProvider1.state).state = pickedDate;
                           if (dateTime1.difference(dateTime2).inDays > 0) {
-                             ref.read(dateTimeProvider2.state).state= DateTime.utc(1989, 11, 9);
+                            ref.read(dateTimeProvider2.state).state =
+                                DateTime.utc(1989, 11, 9);
                           }
                         }
                       });

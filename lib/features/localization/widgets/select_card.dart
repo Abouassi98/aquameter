@@ -1,9 +1,9 @@
 import 'package:aquameter/features/localization/data/localization_model.dart';
 import 'package:aquameter/features/localization/manager/change_language_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SelectCard extends HookConsumerWidget {
+class SelectCard extends ConsumerWidget {
   final List<LocalizationModel> listOflocalizationModel;
   final ChangeLanguageProvider changeLanguage;
 

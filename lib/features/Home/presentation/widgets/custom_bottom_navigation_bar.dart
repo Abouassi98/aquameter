@@ -2,7 +2,7 @@ import 'package:aquameter/core/themes/themes.dart';
 
 import 'package:flutter/material.dart';
 
-class CustomBottomNavigationbBar extends StatefulWidget {
+class CustomBottomNavigationbBar extends StatelessWidget {
   final Function onTap;
   final int inx;
   const CustomBottomNavigationbBar({
@@ -12,14 +12,6 @@ class CustomBottomNavigationbBar extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CustomBottomNavigationbBarState createState() =>
-      _CustomBottomNavigationbBarState();
-}
-
-class _CustomBottomNavigationbBarState
-    extends State<CustomBottomNavigationbBar> {
-  int inxShop = 0;
-  @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
         selectedLabelStyle: MainTheme.hintTextStyle,
@@ -28,14 +20,11 @@ class _CustomBottomNavigationbBarState
         unselectedItemColor: Colors.black,
         selectedItemColor: const Color.fromRGBO(16, 107, 172, 1),
         iconSize: 25,
-        currentIndex: widget.inx,
+        currentIndex: inx,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.grey[200],
         onTap: (index) {
-          setState(() {
-            inxShop = index;
-          });
-          widget.onTap(index);
+          onTap(index);
         },
         items: const [
           BottomNavigationBarItem(

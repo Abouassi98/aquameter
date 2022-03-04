@@ -11,12 +11,12 @@ import 'package:aquameter/features/archieve/presentation/manager/archieve_notifi
 
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../localization/manager/app_localization.dart';
 
-class ArcieveScreen extends HookConsumerWidget {
+class ArcieveScreen extends ConsumerWidget {
   ArcieveScreen({
     Key? key,
   }) : super(key: key);

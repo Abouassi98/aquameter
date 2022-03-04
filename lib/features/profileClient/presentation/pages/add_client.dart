@@ -22,14 +22,14 @@ import 'package:aquameter/features/profileClient/presentation/manager/meeting_al
 import 'package:aquameter/features/profileClient/presentation/widgets/total_fishes.dart';
 
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import '../../../../core/themes/themes.dart';
 import '../../../CustomMap/presentation/manager/map_notifier.dart';
 
 // ignore: must_be_immutable
-class AddClient extends HookConsumerWidget {
+class AddClient extends ConsumerWidget {
   final bool fromSearch;
   AddClient({Key? key, required this.fromSearch}) : super(key: key);
 
@@ -202,7 +202,6 @@ class AddClient extends HookConsumerWidget {
                                       push(CustomMap());
                                     },
                                     child: Container(
-                                      
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                             width: 1, color: Colors.black38),

@@ -3,7 +3,7 @@ import 'package:aquameter/core/utils/network_utils.dart';
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
 final StateNotifierProvider<CreateMeetingResultNotifier, Object?>

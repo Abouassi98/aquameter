@@ -8,13 +8,13 @@ import 'package:aquameter/features/Home/presentation/manager/three_values_notifi
 import 'package:aquameter/features/Home/presentation/pages/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../constants.dart';
 
 import '../size_config.dart';
 
-class CustomAppBar extends HookConsumerWidget {
+class CustomAppBar extends ConsumerWidget {
   final bool? search, back, drawer;
   final TextEditingController? controller;
   final void Function(String)? onChanged;
@@ -83,7 +83,7 @@ class CustomAppBar extends HookConsumerWidget {
                       child: IconButton(
                           icon: const Icon(Icons.search),
                           onPressed: () {
-                            push(SearchScreen(
+                            push(const SearchScreen(
                               viewProfile: true,
                             ));
                           }),

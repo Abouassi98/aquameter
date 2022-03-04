@@ -3,13 +3,12 @@
 import 'package:aquameter/core/themes/screen_utility.dart';
 import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../size_config.dart';
 
-class CustomBottomSheet extends HookConsumerWidget {
+class CustomBottomSheet extends ConsumerStatefulWidget {
   final String name;
   final List list;
   final bool? staticList;
@@ -23,11 +22,14 @@ class CustomBottomSheet extends HookConsumerWidget {
     this.onChange,
     this.newCity,
   }) : super(key: key);
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final ValueNotifier<String> selectedLabel = useState<String>('');
+  CustomBottomSheetState createState() => CustomBottomSheetState();
+}
 
+class CustomBottomSheetState extends ConsumerState<CustomBottomSheet> {
+  String? selectedLabel;
+  @override
+  Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         showModalBottomSheet(
@@ -40,7 +42,7 @@ class CustomBottomSheet extends HookConsumerWidget {
                     topRight: Radius.circular(20))),
             builder: (_) {
               return ListView.builder(
-                  itemCount: list.length,
+                  itemCount: widget.list.length,
                   itemBuilder: (context, i) {
                     return Column(
                       children: [
@@ -50,24 +52,26 @@ class CustomBottomSheet extends HookConsumerWidget {
                         InkWell(
                           onTap: () {
                             pop();
-                            if (staticList == true) {
-                              selectedLabel.value = list[i]['name'];
-                            } else {
-                              selectedLabel.value = list[i].name;
-                            }
-                            if (onChange != null) {
-                              if (staticList == true) {
-                                onChange!(list[i]['name']);
+                            setState(() {
+                              if (widget.staticList == true) {
+                                selectedLabel = widget.list[i]['name'];
                               } else {
-                                onChange!(list[i].id);
+                                selectedLabel = widget.list[i].name;
+                              }
+                            });
+                            if (widget.onChange != null) {
+                              if (widget.staticList == true) {
+                                widget.onChange!(widget.list[i]['name']);
+                              } else {
+                                widget.onChange!(widget.list[i].id);
                               }
                             }
                           },
                           child: Center(
                             child: Text(
-                              staticList == true
-                                  ? list[i]['name']
-                                  : list[i].name,
+                              widget.staticList == true
+                                  ? widget.list[i]['name']
+                                  : widget.list[i].name,
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),
@@ -90,11 +94,9 @@ class CustomBottomSheet extends HookConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(newCity == true
-                ? name
-                : selectedLabel.value != ''
-                    ? selectedLabel.value
-                    : name),
+            Text(widget.newCity == true
+                ? widget.name
+                : selectedLabel ?? widget.name),
             const Padding(
               padding: EdgeInsets.all(5.0),
               child: CircleAvatar(

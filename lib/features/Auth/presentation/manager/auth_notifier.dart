@@ -10,7 +10,7 @@ import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
 final StateNotifierProvider<AuthNotifier, Object?> loginProvider =

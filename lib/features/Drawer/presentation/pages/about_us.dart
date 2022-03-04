@@ -3,11 +3,11 @@ import 'package:aquameter/features/Drawer/Data/about_terms_model.dart';
 import 'package:aquameter/features/Drawer/manager/about_terms_notifier.dart';
 import 'package:aquameter/features/Drawer/presentation/widgets/about_item.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/utils/widgets/app_loader.dart';
 
-class AboutAndTerms extends HookConsumerWidget {
+class AboutAndTerms extends ConsumerWidget {
   final String title;
   final bool isAbout;
   AboutAndTerms({

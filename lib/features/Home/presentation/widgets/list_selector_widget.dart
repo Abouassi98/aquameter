@@ -1,10 +1,10 @@
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:flutter/material.dart';
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 
-class ListSelectorWidget extends HookConsumerWidget {
+class ListSelectorWidget extends ConsumerWidget {
   final ClientsModel clientsModel;
   ListSelectorWidget({
     required this.clientsModel,

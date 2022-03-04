@@ -8,11 +8,11 @@ import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart';
 import 'package:aquameter/features/Home/Data/clients_model/clients_model.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../CustomMap/presentation/manager/map_notifier.dart';
 
-class ViewClient extends HookConsumerWidget {
+class ViewClient extends ConsumerWidget {
   final Client client;
   final AreaAndCitesNotifier areaAndCites;
   ViewClient({Key? key, required this.client, required this.areaAndCites})

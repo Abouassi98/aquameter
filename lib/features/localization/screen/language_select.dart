@@ -8,9 +8,9 @@ import 'package:aquameter/features/localization/widgets/select_card.dart';
 import 'package:aquameter/features/splashScreen/presentation/splah_view.dart';
 import 'package:flutter/material.dart';
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LanguageSelect extends HookConsumerWidget {
+class LanguageSelect extends ConsumerWidget {
   static bool selectLang = false;
   final bool? changelang;
 

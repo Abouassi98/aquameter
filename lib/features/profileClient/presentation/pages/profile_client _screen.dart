@@ -23,14 +23,14 @@ import 'package:aquameter/features/profileClient/presentation/pages/view_client.
 import 'package:aquameter/features/profileClient/presentation/widgets/chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_calendar/flutter_clean_calendar.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../Home/presentation/pages/search_screen.dart';
 
 import '../../data/period_results_model.dart';
 import '../manager/profile_graph_notifier.dart';
 
-class ProfileClientScreen extends HookConsumerWidget {
+class ProfileClientScreen extends ConsumerWidget {
   final Client client;
   final bool fromSearch;
   final CustomWarningDialog _dialog = CustomWarningDialog();
@@ -644,7 +644,7 @@ class ProfileClientScreen extends HookConsumerWidget {
                                     pop();
                                   }
                                   pushReplacement(
-                                    SearchScreen(
+                                    const SearchScreen(
                                       viewProfile: true,
                                     ),
                                   );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
 import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
@@ -22,10 +22,16 @@ import '../../../profileClient/presentation/manager/profile_graph_notifier.dart'
 import 'main_page.dart';
 
 // ignore: must_be_immutable
-class SearchScreen extends HookConsumerWidget {
+class SearchScreen extends ConsumerStatefulWidget {
   final bool viewProfile;
 
-  SearchScreen({Key? key, required this.viewProfile}) : super(key: key);
+  const SearchScreen({Key? key, required this.viewProfile}) : super(key: key);
+
+  @override
+  SearchScreenState createState() => SearchScreenState();
+}
+
+class SearchScreenState extends ConsumerState<SearchScreen> {
   bool filter = false;
   dynamic fishType;
   final FutureProvider<ClientsModel> provider =
@@ -36,9 +42,15 @@ class SearchScreen extends HookConsumerWidget {
   });
   final StateProvider<List<Client>> selcetedProvider =
       StateProvider<List<Client>>((ref) => []);
+  TextEditingController controller=TextEditingController();
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final TextEditingController controller = useTextEditingController();
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final List<Client> selected = ref.watch(selcetedProvider);
 
     final AreaAndCitesNotifier areaAndCites = ref.read(
@@ -48,7 +60,8 @@ class SearchScreen extends HookConsumerWidget {
         getAndDeleteClientsCreateMettingAndPeriod = ref.read(
       getClientsNotifier.notifier,
     );
-     final ProfileClientNotifer profileClient = ref.read(profileClientNotifer.notifier);
+    final ProfileClientNotifer profileClient =
+        ref.read(profileClientNotifer.notifier);
     final FishTypesNotifier fishTypes = ref.read(
       fishTypesNotifier.notifier,
     );
@@ -108,7 +121,7 @@ class SearchScreen extends HookConsumerWidget {
                       const SizedBox(height: 20),
                       Center(
                         child: CustomHeaderTitle(
-                          title: viewProfile == true
+                          title: widget.viewProfile == true
                               ? 'عرض العملاء'
                               : 'اضافه عميل في الخطه ليوم ${getAndDeleteClientsCreateMettingAndPeriod.date}',
                           color: Colors.blue[400],
@@ -240,8 +253,9 @@ class SearchScreen extends HookConsumerWidget {
                                                 },
                                                 fishTypes: fishTypes,
                                                 func: () async {
-                                                  if (viewProfile == true) {
-                                                 profileClient.clientId =
+                                                  if (widget.viewProfile ==
+                                                      true) {
+                                                    profileClient.clientId =
                                                         selected[index].id;
                                                     push(
                                                       ProfileClientScreen(
@@ -353,11 +367,13 @@ class SearchScreen extends HookConsumerWidget {
                                                         },
                                                         fishTypes: fishTypes,
                                                         func: () async {
-                                                          if (viewProfile ==
+                                                          if (widget
+                                                                  .viewProfile ==
                                                               true) {
-                                                            profileClient.clientId = e
-                                                                .data![index]
-                                                                .id;
+                                                            profileClient
+                                                                    .clientId =
+                                                                e.data![index]
+                                                                    .id;
                                                             push(ProfileClientScreen(
                                                                 fromSearch:
                                                                     true,

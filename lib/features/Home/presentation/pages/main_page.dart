@@ -12,13 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:get_storage/get_storage.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../widgets/custom_bottom_navigation_bar.dart';
 import 'statics.dart';
 import 'home.dart';
 
-class MainPage extends HookConsumerWidget {
+class MainPage extends ConsumerWidget {
   MainPage({Key? key}) : super(key: key);
 
   final StateProvider<int> _bottomNavIndexProvider =

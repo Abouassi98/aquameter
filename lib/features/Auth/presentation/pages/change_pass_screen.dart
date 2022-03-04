@@ -5,9 +5,9 @@ import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Auth/presentation/manager/change_pass_notifier.dart';
 import 'package:aquameter/features/localization/manager/app_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChangePassScreen extends HookConsumerWidget {
+class ChangePassScreen extends ConsumerWidget {
   const ChangePassScreen({Key? key}) : super(key: key);
 
   @override

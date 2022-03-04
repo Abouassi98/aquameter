@@ -22,14 +22,14 @@ import 'package:aquameter/features/profileClient/presentation/manager/meeting_al
 import 'package:aquameter/features/profileClient/presentation/widgets/total_fishes.dart';
 
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import '../../../../core/themes/themes.dart';
 import '../../../CustomMap/presentation/manager/map_notifier.dart';
 
 // ignore: must_be_immutable
-class EditClient extends HookConsumerWidget {
+class EditClient extends ConsumerWidget {
   final Client client;
   EditClient({required this.client, Key? key}) : super(key: key);
   final List<Map<String, dynamic>> listofMeasuer = [

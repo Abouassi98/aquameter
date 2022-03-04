@@ -11,23 +11,22 @@ import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/calculator/presentation/manager/create_meeting_result_notifier.dart';
 import 'package:aquameter/features/calculator/presentation/widgets.dart/alert_calculator.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../Home/Data/clients_model/clients_model.dart';
 
 // ignore: must_be_immutable
-class Calculator extends HookConsumerWidget {
+class Calculator extends ConsumerWidget {
   final int meetingId;
   final num totalFeed;
   final Client client;
   final DateTime dateTime;
-  
+
   Calculator(
       {Key? key,
       required this.totalFeed,
       required this.meetingId,
       required this.dateTime,
-     
       required this.client})
       : super(key: key);
   num tempreatureOfWater = 0.0,
@@ -580,32 +579,31 @@ class Calculator extends HookConsumerWidget {
                             height: 20,
                           ),
                           Text(' عدد السمك الكلي= ${client.fish![0].number}'),
-                          if( client.fish![0].number!='0')
-                          Form(
-                            key: _dieFishes,
-                            child: CustomTextField(
-                              hint: 'عدد السمك النافق',
-                              onChange: (v) {
-                                try {
-                                  dieFishes = int.parse(v);
-                                } on FormatException {
-                                  debugPrint('Format error!');
-                                }
-                              },
-                              minRange: 0,
-                              calculator: false,
-                              
-                              maxRange:int.parse(client.fish![0].number!) ,
-                              validator: (v) {
-                                if (v!.isEmpty) {
-                                  return 'لا يجب ترك الحقل فارغ';
-                                }
-                                return null;
-                              },
-                              type: TextInputType.number,
-                              maxLength: 5,
+                          if (client.fish![0].number != '0')
+                            Form(
+                              key: _dieFishes,
+                              child: CustomTextField(
+                                hint: 'عدد السمك النافق',
+                                onChange: (v) {
+                                  try {
+                                    dieFishes = int.parse(v);
+                                  } on FormatException {
+                                    debugPrint('Format error!');
+                                  }
+                                },
+                                minRange: 0,
+                                calculator: false,
+                                maxRange: int.parse(client.fish![0].number!),
+                                validator: (v) {
+                                  if (v!.isEmpty) {
+                                    return 'لا يجب ترك الحقل فارغ';
+                                  }
+                                  return null;
+                                },
+                                type: TextInputType.number,
+                                maxLength: 5,
+                              ),
                             ),
-                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

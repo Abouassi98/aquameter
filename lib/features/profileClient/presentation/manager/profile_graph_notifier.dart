@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_calendar/clean_calendar_event.dart';
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/period_results_model.dart';
 
@@ -76,7 +76,7 @@ class ProfileClientNotifer extends StateNotifier {
     Response response =
         await _utils.requstData(url: 'clients/graph', body: {'id': clientId});
     if (response.statusCode == 200) {
- profileGraphModel = ProfileGraphModel.fromJson(response.data);
+      profileGraphModel = ProfileGraphModel.fromJson(response.data);
 
       log('correct get data');
     } else {

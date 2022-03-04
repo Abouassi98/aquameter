@@ -4,7 +4,7 @@ import 'package:aquameter/core/utils/network_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final StateNotifierProvider<AreaAndCitesNotifier, Object?>
     areaAndCitesNotifier = StateNotifierProvider(

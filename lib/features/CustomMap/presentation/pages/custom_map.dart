@@ -13,14 +13,14 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 import '../../../../core/utils/size_config.dart';
 import '../manager/map_notifier.dart';
 import '../widgets/maps_sheet.dart';
 
-class CustomMap extends HookConsumerWidget {
+class CustomMap extends ConsumerWidget {
   final bool? show;
   final String? address;
   CustomMap({
@@ -150,56 +150,56 @@ class CustomMap extends HookConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                
-                  Container(
-                    width: SizeConfig.screenWidth * 0.7,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.black38),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(10),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SizedBox(
-                            width: SizeConfig.screenWidth * 0.5,
-                            child: Text(
-                                newAddress ??address??
-                                    'حرك المؤشر ليتم اختيار العنوان المناسب لك',
-                                style: MainTheme.hintTextStyle
-                                    .copyWith(color: Colors.black),
-                                maxLines: null)),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CircleAvatar(
-                            radius: 15,
-                            child: const Icon(
-                              Icons.location_on,
-                              size: 20,
-                              color: Colors.white,
-                            ),
-                            backgroundColor: Theme.of(context).primaryColor,
-                          ),
-                        ),
-                      ],
+                Container(
+                  width: SizeConfig.screenWidth * 0.7,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: Colors.black38),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(10),
                     ),
                   ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                          width: SizeConfig.screenWidth * 0.5,
+                          child: Text(
+                              newAddress ??
+                                  address ??
+                                  'حرك المؤشر ليتم اختيار العنوان المناسب لك',
+                              style: MainTheme.hintTextStyle
+                                  .copyWith(color: Colors.black),
+                              maxLines: null)),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CircleAvatar(
+                          radius: 15,
+                          child: const Icon(
+                            Icons.location_on,
+                            size: 20,
+                            color: Colors.white,
+                          ),
+                          backgroundColor: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 const SizedBox(
                   height: 10,
                 ),
                 if (show != true)
-                CustomTextButton(
-                  title: 'حفظ',
-                  function: () {
-                    if (addClient.lat == null) {
-                      HelperFunctions.errorBar(context,
-                          message: 'يجب عليك اختيار عنوان ');
-                    } else {
-                      pop();
-                    }
-                  },
-                ),
+                  CustomTextButton(
+                    title: 'حفظ',
+                    function: () {
+                      if (addClient.lat == null) {
+                        HelperFunctions.errorBar(context,
+                            message: 'يجب عليك اختيار عنوان ');
+                      } else {
+                        pop();
+                      }
+                    },
+                  ),
               ],
             ),
           ),

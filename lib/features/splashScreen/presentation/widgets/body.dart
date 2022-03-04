@@ -8,13 +8,12 @@ import 'package:aquameter/features/Auth/presentation/pages/login_screen.dart';
 import 'package:aquameter/features/Home/presentation/manager/get_&_delete_clients_create_meeting_&_period_notifier.dart';
 import 'package:aquameter/features/localization/screen/language_select.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import '../../../../core/utils/functions/connectivity/connectivity_service.dart';
 import '../../../Home/presentation/manager/three_values_notifier.dart';
 
-class SplashViewBody extends HookConsumerWidget {
+class SplashViewBody extends ConsumerWidget {
   const SplashViewBody({Key? key}) : super(key: key);
 
   @override
