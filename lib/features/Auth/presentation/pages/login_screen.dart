@@ -15,10 +15,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../localization/manager/app_localization.dart';
+
 class LoginScreen extends ConsumerWidget {
   final _form = GlobalKey<FormState>();
 
   LoginScreen({Key? key}) : super(key: key);
+
   _sendWhatsApp() async {
     var url = "https://wa.me/+201069072590";
     await canLaunch(url) ? launch(url) : debugPrint('No WhatsAPP');
@@ -68,12 +71,12 @@ class LoginScreen extends ConsumerWidget {
               width: SizeConfig.screenWidth * 0.7,
               icon: Icons.phone,
               showCounterTxt: true,
-              hint: "رقم الموبايل",
+              hint: localization.text('phone_number')!,
               maxLength: 11,
               validator: (v) {
                 bool phoneNumberAccepted = false;
                 if (v!.length < 11) {
-                  return 'رقم هاتف قصير';
+                  return localization.text('short_phone_number')!;
                 }
                 for (String char in acceptedNumbers) {
                   phoneNumberAccepted = v.startsWith(char);
@@ -82,7 +85,7 @@ class LoginScreen extends ConsumerWidget {
                   }
                 }
                 if (phoneNumberAccepted == false) {
-                  return 'رقم هاتف غير صالح';
+                  return localization.text('invalid_phone_number')!;
                 }
                 log(
                   phoneNumberAccepted.toString(),
@@ -99,13 +102,14 @@ class LoginScreen extends ConsumerWidget {
             CustomTextField(
               width: SizeConfig.screenWidth * 0.7,
               icon: Icons.lock,
-              hint: "كلمة السر",
+              hint: localization.text('password')!,
               onChange: (v) {
                 password = v;
               },
               validator: (v) {
                 if (v!.isEmpty) {
-                  return ' يجب ملئ الحقل';
+                  return localization
+                      .text('the_field_should_not_be_left_blank')!;
                 }
                 return null;
               },
@@ -125,7 +129,7 @@ class LoginScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 30),
             CustomTextButton(
-              title: 'تسجيل الدخول',
+              title: localization.text('login')!,
               function: () async {
                 final isValid = _form.currentState!.validate();
                 if (!isValid) {
@@ -145,8 +149,9 @@ class LoginScreen extends ConsumerWidget {
             Container(
               alignment: Alignment.center,
               child: TextButton(
-                child: const Text(' نسيت كلمة السر ؟ ',
-                    style: TextStyle(color: Colors.black, fontSize: 15.0)),
+                child: Text(localization.text('forget_password')!,
+                    style:
+                        const TextStyle(color: Colors.black, fontSize: 15.0)),
                 onPressed: () {
                   _sendWhatsApp();
                   // push(

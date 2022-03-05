@@ -2,9 +2,12 @@ import 'package:aquameter/core/themes/themes.dart';
 
 import 'package:flutter/material.dart';
 
+import '../../../localization/manager/app_localization.dart';
+
 class CustomBottomNavigationbBar extends StatelessWidget {
   final Function onTap;
   final int inx;
+
   const CustomBottomNavigationbBar({
     Key? key,
     required this.onTap,
@@ -26,14 +29,14 @@ class CustomBottomNavigationbBar extends StatelessWidget {
         onTap: (index) {
           onTap(index);
         },
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'الرئيسيه',
+            icon: const Icon(Icons.home),
+            label: localization.text('home')!,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.timeline),
-            label: 'الاحصائيات',
+            icon: const Icon(Icons.timeline),
+            label: localization.text('statics')!,
           ),
         ]);
   }

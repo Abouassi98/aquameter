@@ -13,6 +13,7 @@ import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart'
 import 'package:aquameter/core/utils/widgets/custom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
+import 'package:aquameter/features/localization/manager/app_localization.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/widgets/total_fishes.dart';
 import 'package:flutter/material.dart';
@@ -118,7 +119,7 @@ class AddClient extends ConsumerWidget {
                                   const SizedBox(height: 10),
                                   CustomTextField(
                                     showCounterTxt: true,
-                                    hint: 'رقم الموبايل',
+                                    hint: localization.text('phone_number')!,
                                     icon: Icons.phone,
                                     type: TextInputType.phone,
                                     numbersOnly: true,

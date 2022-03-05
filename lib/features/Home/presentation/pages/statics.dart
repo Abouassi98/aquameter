@@ -14,6 +14,7 @@ import 'package:lottie/lottie.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../../../core/utils/functions/helper_functions.dart';
 import '../../../pdf/data/report_model.dart';
 import '../../../pdf/presentation/manager/report_notifier.dart';
 import '../../../pdf/presentation/pages/genrate_pdf.dart';
@@ -37,7 +38,7 @@ class Statics extends ConsumerWidget {
   final FutureProvider<ReportModel> provider =
       FutureProvider<ReportModel>((ref) async {
     return await ref
-        .read(reportNotifier.notifier)
+        .watch(reportNotifier.notifier)
         .getReport(); //; may cause `provider` to rebuild
   });
   final StateProvider<List<Fishes>> fishesProvider =
@@ -48,15 +49,18 @@ class Statics extends ConsumerWidget {
   final StateProvider<DateTime> dateTimeProvider1 =
       StateProvider<DateTime>(((ref) => DateTime.utc(1989, 11, 9)));
   final StateProvider<DateTime> dateTimeProvider2 =
-      StateProvider<DateTime>(((ref) => DateTime.utc(1989, 11, 9)));
+      StateProvider<DateTime>(((ref) => DateTime.utc(2022, 11, 9)));
   final List fishes2 = [];
 
   final List governorates2 = [];
+
   StateProvider<int> clientValuesProvider = StateProvider<int>((ref) => 0);
+  StateProvider<bool> filterProvider = StateProvider<bool>((ref) => false);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     int clientValues = ref.watch(clientValuesProvider);
+    bool filter = ref.watch(filterProvider);
     DateTime dateTime1 = ref.watch(dateTimeProvider1);
     DateTime dateTime2 = ref.watch(dateTimeProvider2);
 
@@ -202,24 +206,34 @@ class Statics extends ConsumerWidget {
                   TextButton(
                     onPressed: () {
                       showDatePicker(
-                              context: context,
-                              initialDate: DateTime(
-                                2022,
-                              ),
-                              firstDate: DateTime(
-                                2022,
-                              ),
-                              lastDate: DateTime(2030))
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(
+                            2022,
+                          ),
+                          lastDate: DateTime(2030))
                           .then((pickedDate) {
                         if (pickedDate == null) {
                           //if user tap cancel then this function will stop
                           return;
                         } else {
-                          ref.read(dateTimeProvider1.state).state = pickedDate;
-                          if (dateTime1.difference(dateTime2).inDays > 0) {
-                            ref.read(dateTimeProvider2.state).state =
-                                DateTime.utc(1989, 11, 9);
-                          }
+                          // debugPrint(
+                          // "kk" + pickedDate.toString().substring(0, 10));
+
+                          ref
+                              .read(dateTimeProvider1.state)
+                              .state = pickedDate;
+                          // // debugPrint("kk"+dateTime1.toString().substring(0, 10));
+                          // ref.read(reportNotifier.notifier).getReport(
+                          //       start: DateTime.tryParse(
+                          //         dateTime1.toString().substring(0, 10),
+                          //       ),
+                          //     );
+
+                          // if (dateTime1.difference(dateTime2).inDays > 0) {
+                          //   // ref.read(dateTimeProvider2.state).state =
+                          //   //     DateTime.utc(1989, 11, 9);
+                          // }
                         }
                       });
                     },
@@ -234,21 +248,30 @@ class Statics extends ConsumerWidget {
                   TextButton(
                     onPressed: () {
                       showDatePicker(
-                              context: context,
-                              initialDate: dateTime1,
-                              firstDate: dateTime1,
-                              lastDate: DateTime(2030))
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(
+                            2022,
+                          ),
+                          lastDate: DateTime(2030))
                           .then((pickedDate) {
                         if (pickedDate == null) {
                           //if user tap cancel then this function will stop
                           return;
                         } else {
-                          ref.read(dateTimeProvider2.state).state = pickedDate;
+                          ref
+                              .read(dateTimeProvider2.state)
+                              .state = pickedDate;
+                          // ref.read(reportNotifier.notifier).getReport(
+                          //       end: DateTime.tryParse(
+                          //         dateTime2.toString().substring(0, 10),
+                          //       ),
+                          //     );
                         }
                       });
                     },
                     child: Text(
-                      dateTime2 != DateTime.utc(1989, 11, 9)
+                      dateTime2 != DateTime.utc(2022, 11, 9)
                           ? dateTime2.toString().substring(0, 10)
                           : 'الي',
                       style: const TextStyle(color: Colors.blueGrey),
@@ -262,29 +285,39 @@ class Statics extends ConsumerWidget {
               Center(
                 child: (e.reportData!.isNotEmpty)
                     ? SizedBox(
-                        width: SizeConfig.screenWidth * 0.6,
-                        child: CustomBottomSheet(
-                          name: 'اختر لعميل',
-                          list: ref
-                              .watch(getClientsNotifier.notifier)
-                              .clientsModel!
-                              .data!
-                              .where((element) => element.onlinePeriodsResult!
-                                  .first.meetingResults!.isNotEmpty)
-                              .toList(),
-                          onChange: (v) {
-                            ref.read(clientValuesProvider.state).state = v;
-                          },
-                        )
-                        // MultiSelectBottomSheetField(
-                        //   key: _multiSelectKey,
-                        //   buttonIcon: const Icon(
-                        //     Icons.arrow_back_ios_new,
-                        //     size: 10,
-                        //   ),
-                        //   cancelText: const Text('الغاء'),
-                        //   confirmText: const Text('موافق'),
-                        //   listType: MultiSelectListType.LIST,
+                    width: SizeConfig.screenWidth * 0.4,
+                    child: CustomBottomSheet(
+                      name: 'اختر لعميل',
+                      list: ref
+                          .watch(getClientsNotifier.notifier)
+                          .clientsModel!
+                          .data!
+                          .where((element) =>
+                      element.onlinePeriodsResult!
+                          .first.meetingResults!.isNotEmpty)
+                          .toList(),
+                      onChange: (v) {
+                        ref
+                            .read(filterProvider.state)
+                            .state = true;
+
+                        ref
+                            .read(clientValuesProvider.state)
+                            .state = v;
+                        // ref
+                        //     .read(reportNotifier.notifier)
+                        //     .getReport(clientId: v);
+                      },
+                    )
+                  // MultiSelectBottomSheetField(
+                  //   key: _multiSelectKey,
+                  //   buttonIcon: const Icon(
+                  //     Icons.arrow_back_ios_new,
+                  //     size: 10,
+                  //   ),
+                  //   cancelText: const Text('الغاء'),
+                  //   confirmText: const Text('موافق'),
+                  //   listType: MultiSelectListType.LIST,
                         //   initialChildSize: 0.7,
                         //   maxChildSize: 0.95,
                         //   title: Padding(
@@ -348,16 +381,42 @@ class Statics extends ConsumerWidget {
               ),
               Center(
                 child: SizedBox(
-                    width: SizeConfig.screenWidth * 0.3,
-                    child: CustomTextButton(
-                        title: "تحميل التقرير",
-                        function: () async {
-                          debugPrint('kk' + clientValues.toString());
-                          PdfGenerator().generatePDF(e.reportData!
-                              .where(
-                                  (element) => element.clientId == clientValues)
-                              .toList());
-                        })),
+                  width: SizeConfig.screenWidth * 0.3,
+                  child: CustomTextButton(
+                    title: "تحميل التقرير",
+                    function: () async {
+                      debugPrint('kk' +
+                          ref
+                              .watch(reportNotifier.notifier)
+                              .reportModel!
+                              .reportData!
+                              .length
+                              .toString());
+                      debugPrint('kk' + e.reportData!.length.toString());
+                      if (filter) {
+                        await ref.read(reportNotifier.notifier).getReport(
+                            start: DateTime.tryParse(
+                              dateTime1.toString().substring(0, 10),
+                            ),
+                            end: DateTime.tryParse(
+                              dateTime2.toString().substring(0, 10),
+                            ),
+                            clientId: clientValues);
+                        PdfGenerator().generatePDF(ref
+                            .watch(reportNotifier.notifier)
+                            .reportModel!
+                            .reportData!
+                          // .where(
+                          //     (element) => element.clientId == clientValues)
+                          // .toList()
+                        );
+                      } else {
+                        HelperFunctions.errorBar(context,
+                            message: 'يجب عليك اختيار العميل');
+                      }
+                    },
+                  ),
+                ),
               ),
               SizedBox(
                 height: context.height * .06,

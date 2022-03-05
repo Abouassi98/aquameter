@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../Home/Data/clients_model/client_model.dart';
+import '../../../localization/manager/app_localization.dart';
 
 // ignore: must_be_immutable
 class Calculator extends ConsumerWidget {
@@ -107,7 +108,9 @@ class Calculator extends ConsumerWidget {
                       child: Column(
                         children: <Widget>[
                           const SizedBox(height: 15),
-                          const CustomHeaderTitle(title: 'جودة المياه'),
+                          CustomHeaderTitle(
+                            title: localization.text('water_quality')!,
+                          ),
                           const SizedBox(height: 15),
                           Form(
                             key: _qualityWater,
@@ -120,7 +123,7 @@ class Calculator extends ConsumerWidget {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     CustomTextField(
-                                      hint: 'معدل ph',
+                                      hint: localization.text('ph_average')!,
                                       numbersOnly: true,
                                       onChange: (v) {
                                         try {
@@ -141,18 +144,21 @@ class Calculator extends ConsumerWidget {
                                         try {
                                           if (value!.isEmpty) {
                                             warningPh = false;
-                                            return 'لا يجب ترك الحقل فارغ';
+                                            return localization.text(
+                                                'the_field_should_not_be_left_blank')!;
                                           } else if (1 <=
                                                   num.parse(value.trim()) &&
                                               num.parse(value.trim()) <= 6.4) {
                                             warningPh = false;
-                                            return 'منخفضه جدا';
+                                            return localization.text(
+                                                'very_low')!;
                                           } else if (9 <=
                                                   num.parse(value.trim()) &&
                                               num.tryParse(value.trim())! <=
                                                   14) {
                                             warningPh = false;
-                                            return 'مرتفعه نسبيا';
+                                            return localization.text(
+                                                'relatively_high')!;
                                           } else {
                                             warningPh = true;
                                           }
@@ -163,7 +169,8 @@ class Calculator extends ConsumerWidget {
                                       },
                                     ),
                                     CustomTextField(
-                                      hint: 'درجة حرارة المياه',
+                                      hint: localization.text(
+                                          'water_temperature')!,
                                       numbersOnly: true,
                                       type: TextInputType.number,
                                       calculator: true,
@@ -184,25 +191,29 @@ class Calculator extends ConsumerWidget {
                                         try {
                                           if (value!.isEmpty) {
                                             warningTempreatureOfWater = false;
-                                            return 'لا يجب ترك الحقل فارغ';
+                                            return localization.text(
+                                                'the_field_should_not_be_left_blank')!;
                                           } else if (0 <=
                                                   num.parse(value.trim()) &&
                                               num.tryParse(value.trim())! <=
                                                   17) {
                                             warningTempreatureOfWater = false;
-                                            return 'منخفضه جدا';
+                                            return localization.text(
+                                                'very_low')!;
                                           } else if (30 <=
                                                   num.parse(value.trim()) &&
                                               num.tryParse(value.trim())! <=
                                                   32) {
                                             warningTempreatureOfWater = false;
-                                            return 'مرتفعه نسبيا';
+                                            return localization.text(
+                                                'relatively_high')!;
                                           } else if (33 <=
                                                   num.parse(value.trim()) &&
                                               num.tryParse(value.trim())! <=
                                                   99) {
                                             warningTempreatureOfWater = false;
-                                            return 'مرتفعه جدا';
+                                            return localization.text(
+                                                'very_high')!;
                                           } else {
                                             warningTempreatureOfWater = true;
                                           }
