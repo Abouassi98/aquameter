@@ -32,7 +32,9 @@ class NoInternetConnection extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const CustomHeaderTitle(title: '  من فضلك افحص اتصالك بالانترنت    ',),
+              const CustomHeaderTitle(
+                title: '  من فضلك افحص اتصالك بالانترنت    ',
+              ),
               const SizedBox(
                 height: 10,
               ),

@@ -1,4 +1,3 @@
-import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/app_loader.dart';
 
@@ -7,23 +6,23 @@ import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Home/Data/chart_data_model.dart';
 import 'package:aquameter/features/Home/Data/graph_statics_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/graph_statics_notifier.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
+
 import 'package:syncfusion_flutter_charts/charts.dart';
-import '../../../../core/utils/functions/helper.dart';
+
 import '../../../pdf/data/report_model.dart';
 import '../../../pdf/presentation/manager/report_notifier.dart';
 import '../../../pdf/presentation/pages/genrate_pdf.dart';
-import '../../Data/clients_model/client_model.dart';
+
 import '../manager/get_&_delete_clients_create_meeting_&_period_notifier.dart';
 
 // ignore: must_be_immutable
 class Statics extends ConsumerWidget {
-  final GlobalKey<FormFieldState> _multiSelectKey = GlobalKey<FormFieldState>();
+  // final GlobalKey<FormFieldState> _multiSelectKey = GlobalKey<FormFieldState>();
 
   Statics({Key? key}) : super(key: key);
   final List<Map<String, dynamic>> list = [
@@ -36,25 +35,24 @@ class Statics extends ConsumerWidget {
   ];
 
   final FutureProvider<ReportModel> provider =
-  FutureProvider<ReportModel>((ref) async {
+      FutureProvider<ReportModel>((ref) async {
     return await ref
         .read(reportNotifier.notifier)
         .getReport(); //; may cause `provider` to rebuild
   });
   final StateProvider<List<Fishes>> fishesProvider =
-  StateProvider<List<Fishes>>((ref) => []);
+      StateProvider<List<Fishes>>((ref) => []);
   final StateProvider<List<Governorate>> governorateProvider =
-  StateProvider<List<Governorate>>((ref) => []);
+      StateProvider<List<Governorate>>((ref) => []);
 
   final StateProvider<DateTime> dateTimeProvider1 =
-  StateProvider<DateTime>(((ref) => DateTime.utc(1989, 11, 9)));
+      StateProvider<DateTime>(((ref) => DateTime.utc(1989, 11, 9)));
   final StateProvider<DateTime> dateTimeProvider2 =
-  StateProvider<DateTime>(((ref) => DateTime.utc(1989, 11, 9)));
+      StateProvider<DateTime>(((ref) => DateTime.utc(1989, 11, 9)));
   final List fishes2 = [];
 
   final List governorates2 = [];
-  StateProvider<int> clientValuesProvider =
-  StateProvider<int>((ref) => 0);
+  StateProvider<int> clientValuesProvider = StateProvider<int>((ref) => 0);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -102,13 +100,13 @@ class Statics extends ConsumerWidget {
                               ref.read(fishesProvider.state).state.clear();
 
                               for (int i = 0;
-                              i <
-                                  graphStatics.graphStaticsModel!.data!
-                                      .governorate!.length;
-                              i++) {
+                                  i <
+                                      graphStatics.graphStaticsModel!.data!
+                                          .governorate!.length;
+                                  i++) {
                                 governorates2.addIf(
                                     graphStatics.graphStaticsModel!.data!
-                                        .governorate![i].clientsCount !=
+                                            .governorate![i].clientsCount !=
                                         0,
                                     graphStatics.graphStaticsModel!.data!
                                         .governorate![i]);
@@ -122,13 +120,13 @@ class Statics extends ConsumerWidget {
                               ref.read(governorateProvider.state).state.clear();
                               ref.read(fishesProvider.state).state.clear();
                               for (int i = 0;
-                              i <
-                                  graphStatics.graphStaticsModel!.data!
-                                      .fishes!.length;
-                              i++) {
+                                  i <
+                                      graphStatics.graphStaticsModel!.data!
+                                          .fishes!.length;
+                                  i++) {
                                 fishes2.addIf(
                                     graphStatics.graphStaticsModel!.data!
-                                        .fishes![i].fishesSumNumber !=
+                                            .fishes![i].fishesSumNumber !=
                                         null,
                                     graphStatics
                                         .graphStaticsModel!.data!.fishes![i]);
@@ -157,7 +155,7 @@ class Statics extends ConsumerWidget {
                               ),
                               dataSource: List.generate(
                                 governorates.length,
-                                    (i) => ChartData(
+                                (i) => ChartData(
                                   governorates[i].names!,
                                   governorates[i].clientsCount!,
                                 ),
@@ -180,7 +178,7 @@ class Statics extends ConsumerWidget {
                               ),
                               dataSource: List.generate(
                                 fishes.length,
-                                    (i) => ChartData(
+                                (i) => ChartData(
                                   fishes[i].name!,
                                   fishes[i].fishesSumNumber!,
                                 ),
@@ -204,14 +202,14 @@ class Statics extends ConsumerWidget {
                   TextButton(
                     onPressed: () {
                       showDatePicker(
-                          context: context,
-                          initialDate: DateTime(
-                            2022,
-                          ),
-                          firstDate: DateTime(
-                            2022,
-                          ),
-                          lastDate: DateTime(2030))
+                              context: context,
+                              initialDate: DateTime(
+                                2022,
+                              ),
+                              firstDate: DateTime(
+                                2022,
+                              ),
+                              lastDate: DateTime(2030))
                           .then((pickedDate) {
                         if (pickedDate == null) {
                           //if user tap cancel then this function will stop
@@ -236,10 +234,10 @@ class Statics extends ConsumerWidget {
                   TextButton(
                     onPressed: () {
                       showDatePicker(
-                          context: context,
-                          initialDate: dateTime1,
-                          firstDate: dateTime1,
-                          lastDate: DateTime(2030))
+                              context: context,
+                              initialDate: dateTime1,
+                              firstDate: dateTime1,
+                              lastDate: DateTime(2030))
                           .then((pickedDate) {
                         if (pickedDate == null) {
                           //if user tap cancel then this function will stop
@@ -264,76 +262,86 @@ class Statics extends ConsumerWidget {
               Center(
                 child: (e.reportData!.isNotEmpty)
                     ? SizedBox(
-                    width: SizeConfig.screenWidth * 0.6,
-                    child:
-                  CustomBottomSheet(name: 'اختر لعميل',list: ref.watch(getClientsNotifier.notifier).clientsModel!.data!.where((element) => element.onlinePeriodsResult!.first.meetingResults!.isNotEmpty).toList(),onChange: (v){
-                    ref.read(clientValuesProvider.state).state=v;
-                  },)
-                    // MultiSelectBottomSheetField(
-                    //   key: _multiSelectKey,
-                    //   buttonIcon: const Icon(
-                    //     Icons.arrow_back_ios_new,
-                    //     size: 10,
-                    //   ),
-                    //   cancelText: const Text('الغاء'),
-                    //   confirmText: const Text('موافق'),
-                    //   listType: MultiSelectListType.LIST,
-                    //   initialChildSize: 0.7,
-                    //   maxChildSize: 0.95,
-                    //   title: Padding(
-                    //     padding: EdgeInsets.only(
-                    //         left: SizeConfig.screenWidth * .4),
-                    //     child: CustomTextButton(
-                    //         hieght: SizeConfig.screenHeight * .04,
-                    //         width: SizeConfig.screenWidth * .2,
-                    //         title: 'تحديد الكل',
-                    //         function: () {
-                    //           ref.read(clientValuesProvider.state).state =
-                    //           e.reportData!;
-                    //           pop();
-                    //           HelperFunctions.successBar(context,
-                    //               message: 'تم اختيار الكل');
-                    //         }),
-                    //   ),
-                    //   buttonText: const Text(
-                    //     'اختار العميل',
-                    //     style: TextStyle(
-                    //       fontSize: 10,
-                    //     ),
-                    //   ),
-                    //   items: e.data!
-                    //       .map((e) => MultiSelectItem(e, e.name!))
-                    //       .toList(),
-                    //   searchable: true,
-                    //   onConfirm: (values) async {
-                    //     ref.read(clientValuesProvider.state).state =
-                    //         values.cast();
-                    //     debugPrint('sdfsfdsfd  ${values.first}');
-                    //     if (values.isNotEmpty) {
-                    //     } else {}
-                    //
-                    //     _multiSelectKey.currentState!.validate();
-                    //   },
-                    //   chipDisplay: MultiSelectChipDisplay(
-                    //     alignment: Alignment.topRight,
-                    //     onTap: (item) {
-                    //       _multiSelectKey.currentState!.validate();
-                    //     },
-                    //   ),
-                    // ))
-                    ): Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'لا يوجد عملاء',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
-                    ),
-                    Lottie.asset(
-                      'assets/images/noData.json',
-                      repeat: false,
-                    ),
-                  ],
-                ),
+                        width: SizeConfig.screenWidth * 0.6,
+                        child: CustomBottomSheet(
+                          name: 'اختر لعميل',
+                          list: ref
+                              .watch(getClientsNotifier.notifier)
+                              .clientsModel!
+                              .data!
+                              .where((element) => element.onlinePeriodsResult!
+                                  .first.meetingResults!.isNotEmpty)
+                              .toList(),
+                          onChange: (v) {
+                            ref.read(clientValuesProvider.state).state = v;
+                          },
+                        )
+                        // MultiSelectBottomSheetField(
+                        //   key: _multiSelectKey,
+                        //   buttonIcon: const Icon(
+                        //     Icons.arrow_back_ios_new,
+                        //     size: 10,
+                        //   ),
+                        //   cancelText: const Text('الغاء'),
+                        //   confirmText: const Text('موافق'),
+                        //   listType: MultiSelectListType.LIST,
+                        //   initialChildSize: 0.7,
+                        //   maxChildSize: 0.95,
+                        //   title: Padding(
+                        //     padding: EdgeInsets.only(
+                        //         left: SizeConfig.screenWidth * .4),
+                        //     child: CustomTextButton(
+                        //         hieght: SizeConfig.screenHeight * .04,
+                        //         width: SizeConfig.screenWidth * .2,
+                        //         title: 'تحديد الكل',
+                        //         function: () {
+                        //           ref.read(clientValuesProvider.state).state =
+                        //           e.reportData!;
+                        //           pop();
+                        //           HelperFunctions.successBar(context,
+                        //               message: 'تم اختيار الكل');
+                        //         }),
+                        //   ),
+                        //   buttonText: const Text(
+                        //     'اختار العميل',
+                        //     style: TextStyle(
+                        //       fontSize: 10,
+                        //     ),
+                        //   ),
+                        //   items: e.data!
+                        //       .map((e) => MultiSelectItem(e, e.name!))
+                        //       .toList(),
+                        //   searchable: true,
+                        //   onConfirm: (values) async {
+                        //     ref.read(clientValuesProvider.state).state =
+                        //         values.cast();
+                        //     debugPrint('sdfsfdsfd  ${values.first}');
+                        //     if (values.isNotEmpty) {
+                        //     } else {}
+                        //
+                        //     _multiSelectKey.currentState!.validate();
+                        //   },
+                        //   chipDisplay: MultiSelectChipDisplay(
+                        //     alignment: Alignment.topRight,
+                        //     onTap: (item) {
+                        //       _multiSelectKey.currentState!.validate();
+                        //     },
+                        //   ),
+                        // ))
+                        )
+                    : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'لا يوجد عملاء',
+                            style: TextStyle(color: Colors.black, fontSize: 20),
+                          ),
+                          Lottie.asset(
+                            'assets/images/noData.json',
+                            repeat: false,
+                          ),
+                        ],
+                      ),
               ),
               SizedBox(
                 height: context.height * .03,
@@ -344,8 +352,11 @@ class Statics extends ConsumerWidget {
                     child: CustomTextButton(
                         title: "تحميل التقرير",
                         function: () async {
-                          debugPrint('kk'+clientValues.toString());
-                          PdfGenerator().generatePDF(e.reportData!.where((element) => element.clientId==clientValues).toList());
+                          debugPrint('kk' + clientValues.toString());
+                          PdfGenerator().generatePDF(e.reportData!
+                              .where(
+                                  (element) => element.clientId == clientValues)
+                              .toList());
                         })),
               ),
               SizedBox(

@@ -20,7 +20,7 @@ class ArchieveModel {
 class ArchieveData {
   int? id;
   String? name;
-  int? phone;
+  String? phone;
   int? governorate;
   int? area;
   String? address;
@@ -40,7 +40,7 @@ class ArchieveData {
   int? userId;
   num? totalFeed;
   num? feed;
-  num? company;
+  String? company;
   num? toxicAmmonia;
   int? periodsResultCount;
   int? onlinePeriodsResultCount;

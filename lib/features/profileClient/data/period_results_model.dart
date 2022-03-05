@@ -29,7 +29,7 @@ class PeriodResults {
   double? conversionRate;
   String? createdAt;
   String? updatedAt;
-  int? feed;
+  num? feed;
   int? deadFish;
   String? notes;
   int? totalNumber;
@@ -75,7 +75,7 @@ class PeriodResults {
       conversionRate: (json['conversion_rate'] as num?)?.toDouble(),
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
-      feed: json['feed'] as int?,
+      feed:( json['feed']as num?)?.toDouble(),
       deadFish: json['dead_fish'] as int?,
       notes: json['notes'] as String?,
       totalNumber: json['total_number'] as int?,

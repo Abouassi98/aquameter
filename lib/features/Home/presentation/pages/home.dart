@@ -83,8 +83,10 @@ class Home extends ConsumerWidget {
                                     .state
                                     .clear();
                                 for (int i = 0; i < e.data!.length; i++) {
-                                  if (e.data![i].onlinePeriodsResult![0]
-                                      .meetings!.isNotEmpty) {
+                                  if (e.data![i].onlinePeriodsResult!
+                                          .isNotEmpty &&
+                                      e.data![i].onlinePeriodsResult![0]
+                                          .meetings!.isNotEmpty) {
                                     for (int x = 0;
                                         x <
                                             e.data![i].onlinePeriodsResult![0]
@@ -171,14 +173,15 @@ class Home extends ConsumerWidget {
                                                 .onlinePeriodsResult![0]
                                                 .meetings!
                                                 .indexWhere((element) =>
-                                                    element.meeting!.substring(0,10) ==
+                                                    element.meeting!
+                                                        .substring(0, 10) ==
                                                     getClients.date);
-                                            
+
                                             deleteMeeting.deleteMeeting(
                                                 meetingId: filterClients[i]
                                                     .onlinePeriodsResult![0]
-                                                    .meetings!
-                                                    [index].id!);
+                                                    .meetings![index]
+                                                    .id!);
 
                                             pushAndRemoveUntil(MainPage());
                                           },

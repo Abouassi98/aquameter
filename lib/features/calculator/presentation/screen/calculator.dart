@@ -15,7 +15,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../Home/Data/clients_model/client_model.dart';
 
-
 // ignore: must_be_immutable
 class Calculator extends ConsumerWidget {
   final int meetingId;

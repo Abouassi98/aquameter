@@ -17,7 +17,6 @@ class ReportModel {
     }
     message = json['message'];
   }
-
 }
 
 class ReportData {
@@ -46,27 +45,27 @@ class ReportData {
 
   ReportData(
       {this.id,
-        this.meetingId,
-        this.temperature,
-        this.ph,
-        this.salinity,
-        this.oxygen,
-        this.ammonia,
-        this.averageWeight,
-        this.totalWeight,
-        this.conversionRate,
-        this.createdAt,
-        this.updatedAt,
-        this.feed,
-        this.deadFish,
-        this.notes,
-        this.totalNumber,
-        this.toxicAmmonia,
-        this.realDate,
-        this.clientId,
-        this.periodId,
-        this.client,
-        this.period});
+      this.meetingId,
+      this.temperature,
+      this.ph,
+      this.salinity,
+      this.oxygen,
+      this.ammonia,
+      this.averageWeight,
+      this.totalWeight,
+      this.conversionRate,
+      this.createdAt,
+      this.updatedAt,
+      this.feed,
+      this.deadFish,
+      this.notes,
+      this.totalNumber,
+      this.toxicAmmonia,
+      this.realDate,
+      this.clientId,
+      this.periodId,
+      this.client,
+      this.period});
 
   ReportData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -89,15 +88,10 @@ class ReportData {
     realDate = json['real_date'];
     clientId = json['client_id'];
     periodId = json['period_id'];
-    client =
-    json['client'] != null ? Client.fromJson(json['client']) : null;
-    period =
-    json['period'] != null ? Period.fromJson(json['period']) : null;
+    client = json['client'] != null ? Client.fromJson(json['client']) : null;
+    period = json['period'] != null ? Period.fromJson(json['period']) : null;
   }
-
 }
-
-
 
 class Period {
   int? id;

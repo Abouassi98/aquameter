@@ -15,10 +15,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/utils/widgets/custom_new_dialog.dart';
 import '../../../Home/Data/clients_model/client_model.dart';
 
+import '../../../profileClient/data/period_results_model.dart';
 import '../manager/create_meeting_result_notifier.dart';
 
 class ShowCalculator extends ConsumerWidget {
-  final MeetingResult periodResults;
+  final PeriodResults periodResults;
   ShowCalculator({Key? key, required this.periodResults}) : super(key: key);
   final CustomWarningDialog _dialog = CustomWarningDialog();
   @override

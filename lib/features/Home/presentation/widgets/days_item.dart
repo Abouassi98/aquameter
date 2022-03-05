@@ -105,10 +105,8 @@ class DaysItem extends ConsumerWidget {
             debugPrint(o.toString());
             return const Text('error');
           },
-          loading: () =>const Center(
-            child:  CircularProgressIndicator(
-            
-            ),
+          loading: () => const Center(
+            child: CircularProgressIndicator(),
           ),
         );
   }

@@ -23,8 +23,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_calendar/flutter_clean_calendar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/utils/widgets/app_loader.dart';
 import '../../../Home/Data/clients_model/client_model.dart';
+
+import '../../data/period_results_model.dart';
 import '../../data/profile_graph_model.dart';
+import '../manager/period_result_notifier.dart';
 import '../manager/profile_graph_notifier.dart';
 
 class ProfileClientScreen extends ConsumerWidget {
@@ -75,6 +79,12 @@ class ProfileClientScreen extends ConsumerWidget {
         .watch(profileClientNotifer.notifier)
         .getProfileGraph(id); //; may cause `provider` to rebuild
   });
+  final FutureProviderFamily<PeriodResultsModel, int> provider2 =
+      FutureProvider.family<PeriodResultsModel, int>((ref, id) async {
+    return await ref
+        .watch(periodResultsNotifier.notifier)
+        .getClients(id); //; may cause `provider` to rebuild
+  });
   final GlobalKey<FormState> _averageWeight = GlobalKey<FormState>();
   final GlobalKey<FormState> _conversionRate = GlobalKey<FormState>();
   String? selctedMeasuer;
@@ -106,6 +116,8 @@ class ProfileClientScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final GetAndDeleteClientsCreateMettingAndPeriodNotifier clients =
         ref.read(getClientsNotifier.notifier);
+    final PeriodResultsNotifier periodResults =
+        ref.read(periodResultsNotifier.notifier);
 
     final AreaAndCitesNotifier areaAndCites = ref.read(
       areaAndCitesNotifier.notifier,
@@ -188,7 +200,13 @@ class ProfileClientScreen extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   if (client.onlinePeriodsResultCount != 0)
-                    SizedBox(
+                  ref.watch(provider2(client.id!)).when( loading: () =>
+                        const AppLoader(),
+                    error: (e, o) {
+                      debugPrint(e.toString());
+                      debugPrint(o.toString());
+                      return const Text('error');
+                    },data: (e)=> SizedBox(
                       height: SizeConfig.screenHeight * 0.53,
                       child: Calendar(
                         onMonthChanged: (v) {
@@ -196,7 +214,7 @@ class ProfileClientScreen extends ConsumerWidget {
                         },
                         onEventSelected: (v) {},
                         hideBottomBar: true,
-                        events: clients.selectedEvents,
+                        events: periodResults.selectedEvents,
                         startOnMonday: true,
                         weekDays: const [
                           'الاثنين',
@@ -217,7 +235,7 @@ class ProfileClientScreen extends ConsumerWidget {
                           if (DateTime.now().difference(v).inDays < 0) {
                             HelperFunctions.errorBar(context,
                                 message: 'لا يمكن زياره تاريخ مستقبلي');
-                          } else if (clients.selectedEvents[DateTime(
+                          } else if (periodResults.selectedEvents[DateTime(
                                 int.parse(v.toString().substring(0, 4)),
                                 int.parse(v.toString().substring(6, 7)),
                                 int.parse(
@@ -226,8 +244,7 @@ class ProfileClientScreen extends ConsumerWidget {
                               )] !=
                               null) {
                             push(ShowCalculator(
-                              periodResults: client
-                                  .onlinePeriodsResult![0].meetingResults!
+                              periodResults: e.data!
                                   .firstWhere((e) =>
                                       e.realDate!.substring(0, 10) ==
                                       v.toString().substring(0, 10)),
@@ -278,13 +295,15 @@ class ProfileClientScreen extends ConsumerWidget {
                             fontWeight: FontWeight.w800,
                             fontSize: 10),
                       ),
-                    ),
+                    ),)
+                   
                 ],
               ),
             ),
             if (client.onlinePeriodsResultCount != 0)
               ref.watch(provider(client.id!)).when(
-                    loading: () => const Center(child:  CircularProgressIndicator()),
+                    loading: () =>
+                        const SizedBox(),
                     error: (e, o) {
                       debugPrint(e.toString());
                       debugPrint(o.toString());

@@ -16,9 +16,7 @@ import '../../../../core/utils/widgets/text_button.dart';
 import '../../data/report_model.dart';
 import '../manager/report_notifier.dart';
 
-
-class PdfGenerator{
-
+class PdfGenerator {
   Future<List<int>> readFontData() async {
     final ByteData bytes = await rootBundle.load('assets/fonts/arial.ttf');
     return bytes.buffer.asUint8List(bytes.offsetInBytes, bytes.lengthInBytes);
@@ -37,7 +35,7 @@ class PdfGenerator{
         bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
         pen: PdfPen(PdfColor(142, 170, 219, 255)));
     //Generate PDF grid.
-    final PdfGrid grid = _getGrid(font,reportData);
+    final PdfGrid grid = _getGrid(font, reportData);
 
     //Draw the header section by creating text element
     final PdfLayoutResult result = _drawHeader(page, pageSize, grid);
@@ -127,7 +125,7 @@ class PdfGenerator{
   }
 
   //Create PDF grid and return
-  PdfGrid _getGrid( font,List<ReportData>  reportData) {
+  PdfGrid _getGrid(font, List<ReportData> reportData) {
     //Create a PDF grid
     final PdfGrid grid = PdfGrid();
     //Secify the columns count to the grid.
@@ -159,10 +157,6 @@ class PdfGenerator{
           grid: grid,
           font: font);
     }
-
-
-
-
 
     grid.applyBuiltInStyle(PdfGridBuiltInStyle.listTable4Accent5);
     // grid.columns[1].width = 200;
@@ -209,8 +203,6 @@ class PdfGenerator{
     row.cells[5].value = conversionRate;
     row.cells[6].value = totalFeed;
   }
-   StateProvider<int> clientValuesProvider =
-   StateProvider<int>((ref) => 0);
 
-
+  StateProvider<int> clientValuesProvider = StateProvider<int>((ref) => 0);
 }

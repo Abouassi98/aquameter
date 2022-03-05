@@ -17,16 +17,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 import '../../../../core/utils/size_config.dart';
+import '../../../Home/Data/clients_model/client_model.dart';
 import '../manager/map_notifier.dart';
 import '../widgets/maps_sheet.dart';
 
 class CustomMap extends ConsumerWidget {
   final bool? show;
   final String? address;
+  final Client? client;
   CustomMap({
     Key? key,
     this.show,
     this.address,
+    this.client,
+   
   }) : super(key: key);
 
   final FutureProvider<Position> provider =
@@ -35,11 +39,11 @@ class CustomMap extends ConsumerWidget {
         .read(mapNotifier.notifier)
         .determinePosition(); //; may cause `provider` to rebuild
   });
-  final FutureProvider<Position> provider2 =
-      FutureProvider<Position>((ref) async {
+  final FutureProviderFamily<Position, Client> provider2 =
+      FutureProvider.family<Position, Client>((ref, client) async {
     return await ref
         .read(mapNotifier.notifier)
-        .addMareker(); //; may cause `provider` to rebuild
+        .addMareker(client); //; may cause `provider` to rebuild
   });
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -61,7 +65,9 @@ class CustomMap extends ConsumerWidget {
               style: MainTheme.headingTextStyle,
             ),
           ),
-          body: ref.watch(map.initialLat == null ? provider : provider2).when(
+          body: ref
+              .watch(client == null ? provider : provider2(client!))
+              .when(
                 error: (e, o) {
                   debugPrint(e.toString());
                   debugPrint(o.toString());
@@ -86,7 +92,7 @@ class CustomMap extends ConsumerWidget {
                           () => EagerGestureRecognizer(),
                         ),
                       },
-                      markers: map.initialLat == null ? {} : map.markers,
+                      markers: client == null ? {} : map.markers,
                       onCameraMove: (v) {
                         if (show != true) {
                           addClient.lat = v.target.latitude.toString();
@@ -110,7 +116,7 @@ class CustomMap extends ConsumerWidget {
                       ),
                     ),
                     if (show != true) pin(),
-                    Platform.isIOS && (show == true || map.initialLat != null)
+                    Platform.isIOS && (show == true || client != null)
                         ? InkWell(
                             onTap: () {
                               MapsSheet.show(

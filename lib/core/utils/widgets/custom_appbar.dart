@@ -84,9 +84,7 @@ class CustomAppBar extends ConsumerWidget {
           ),
           if (search != true || back != true)
             ref.watch(provider).when(
-                  loading: () =>const SizedBox(
-                  
-                  ),
+                  loading: () => const SizedBox(),
                   error: (e, o) {
                     debugPrint(e.toString());
                     debugPrint(o.toString());

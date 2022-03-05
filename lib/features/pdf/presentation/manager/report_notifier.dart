@@ -6,11 +6,9 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
-final AutoDisposeStateNotifierProvider<ReportNotifier, Object?>
-reportNotifier =
-StateNotifierProvider.autoDispose<ReportNotifier, Object?>(
-      (ref) => ReportNotifier(null),
+final AutoDisposeStateNotifierProvider<ReportNotifier, Object?> reportNotifier =
+    StateNotifierProvider.autoDispose<ReportNotifier, Object?>(
+  (ref) => ReportNotifier(null),
 );
 
 class ReportNotifier extends StateNotifier<void> {
@@ -19,8 +17,8 @@ class ReportNotifier extends StateNotifier<void> {
   final NetworkUtils _utils = NetworkUtils();
   ReportModel? reportModel;
 
-  Future<ReportModel> getReport({DateTime? start, DateTime? end,  int? clientId}) async {
-
+  Future<ReportModel> getReport(
+      {DateTime? start, DateTime? end, int? clientId}) async {
     Response response = await _utils.requstData(
       body: FormData.fromMap({
         'clients[]': clientId,
@@ -35,9 +33,7 @@ class ReportNotifier extends StateNotifier<void> {
       debugPrint('report model success');
     } else {
       debugPrint('report model failed');
-
     }
     return reportModel!;
   }
-
 }

@@ -8,6 +8,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:ui' as ui;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../Home/Data/clients_model/client_model.dart';
+
 final AutoDisposeStateProvider<String?> mapAddress =
     StateProvider.autoDispose<String?>((ref) => null);
 final StateNotifierProvider<MapNotifier, Object?> mapNotifier =
@@ -19,7 +21,7 @@ class MapNotifier extends StateNotifier<AsyncValue<String>> {
   MapNotifier(this.ref) : super(const AsyncValue.data(''));
   final Ref ref;
   final Set<Marker> markers = {};
-  double? initialLat, initialLong;
+  
   BitmapDescriptor? userLocationIcon;
   Marker? _addressMarker;
 
@@ -51,22 +53,22 @@ class MapNotifier extends StateNotifier<AsyncValue<String>> {
     debugPrint('get Map Image');
   }
 
-  Future<Position> addMareker() async {
+  Future<Position> addMareker(Client client) async {
     await setCustomMapPin();
-    await placemarkFromCoordinates(initialLat!, initialLong!).then((value) {
+    await placemarkFromCoordinates(client.lat,client.long).then((value) {
       state = AsyncValue.data(value[0].street!);
     });
     _addressMarker = Marker(
       markerId: const MarkerId('address2'),
-      position: LatLng(initialLat!, initialLong!),
+      position: LatLng(client.lat,client.long),
       infoWindow: InfoWindow(title: 'موقع العميل', onTap: () {}),
       icon: userLocationIcon!,
     );
     markers.add(_addressMarker!);
 
     return Position(
-        longitude: initialLong!,
-        latitude: initialLat!,
+        longitude:client.long,
+        latitude: client.lat,
         accuracy: 0.0,
         altitude: 0.0,
         heading: 0.0,
@@ -78,8 +80,7 @@ class MapNotifier extends StateNotifier<AsyncValue<String>> {
   }
 
   Future<Position> determinePosition() async {
-    initialLat = null;
-    initialLong = null;
+  
     state = const AsyncValue.data('');
     LocationPermission permission = await Geolocator.checkPermission();
 

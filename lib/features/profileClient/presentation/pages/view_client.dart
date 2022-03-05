@@ -10,7 +10,7 @@ import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../CustomMap/presentation/manager/map_notifier.dart';
+
 import '../../../Home/Data/clients_model/client_model.dart';
 
 class ViewClient extends ConsumerWidget {
@@ -23,9 +23,7 @@ class ViewClient extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final MapNotifier map = ref.read(
-      mapNotifier.notifier,
-    );
+  
     return SafeArea(
         child: Scaffold(
       body: Directionality(
@@ -112,10 +110,10 @@ class ViewClient extends ConsumerWidget {
                                   const SizedBox(height: 10),
                                   InkWell(
                                     onTap: () {
-                                      map.initialLat = 30.3;
-                                      map.initialLong = 31.3;
+                                     
                                       push(CustomMap(
                                         show: true,
+                                        client: client,
                                         address: client.address,
                                       ));
                                     },
@@ -230,7 +228,7 @@ class ViewClient extends ConsumerWidget {
                                     style: MainTheme.hintTextStyle,
                                   ),
                                   CustomTextField(
-                                    hint: client.startingWeight.toString(),
+                                    hint: client.onlinePeriodsResult![0].startingWeight.toString(),
                                     enabled: false,
                                   ),
                                   const SizedBox(
@@ -241,7 +239,7 @@ class ViewClient extends ConsumerWidget {
                                     style: MainTheme.hintTextStyle,
                                   ),
                                   CustomTextField(
-                                    hint: client.targetWeight.toString(),
+                                    hint: client.onlinePeriodsResult![0].targetWeight.toString(),
                                     enabled: false,
                                   ),
                                 ],

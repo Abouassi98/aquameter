@@ -58,9 +58,7 @@ class EditClient extends ConsumerWidget {
       addClientNotifier.notifier,
     );
     List<Cities>? listOfCities = ref.watch(listOfCitiesProvider);
-    final MapNotifier map = ref.read(
-      mapNotifier.notifier,
-    );
+
     final address = ref.watch(mapAddress);
     areaAndCites.getCities(cityId: client.governorateData!.id);
     listOfCities = areaAndCites.areasModel!.data!;
@@ -188,9 +186,9 @@ class EditClient extends ConsumerWidget {
                                 const SizedBox(height: 10),
                                 InkWell(
                                   onTap: () {
-                                    map.initialLat = 30.3;
-                                    map.initialLong = 31.3;
+                                 
                                     push(CustomMap(
+                                      client: client,
                                       address: client.address,
                                     ));
                                   },
@@ -432,7 +430,7 @@ class EditClient extends ConsumerWidget {
                                 ),
                                 CustomTextField(
                                   initialValue:
-                                      client.startingWeight.toString(),
+                                     client.onlinePeriodsResult![0].startingWeight.toString(),
                                   onChange: (v) {
                                     try {
                                       startingWeight = num.parse(v);
@@ -455,7 +453,7 @@ class EditClient extends ConsumerWidget {
                                   style: MainTheme.hintTextStyle,
                                 ),
                                 CustomTextField(
-                                  initialValue: client.targetWeight.toString(),
+                                  initialValue: client.onlinePeriodsResult![0].targetWeight.toString(),
                                   onChange: (v) {
                                     try {
                                       targetWeight = num.parse(v);
@@ -496,7 +494,7 @@ class EditClient extends ConsumerWidget {
                                 // }
                                 updateClient.totalFishesupdate = totalFishes;
                                 updateClient.typeFishesupdate = typeFishes;
-                           
+
                                 updateClient.updateClient(
                                   context: context,
                                   clientId: client.id!,
@@ -507,9 +505,9 @@ class EditClient extends ConsumerWidget {
                                   areaId: areaId ?? client.area!,
                                   landSize: landSize ?? client.landSize!,
                                   startingWeight:
-                                      startingWeight ?? client.landSize!,
+                                      startingWeight ?? client.onlinePeriodsResult![0].startingWeight!,
                                   targetWeight:
-                                      targetWeight ?? client.targetWeight!,
+                                      targetWeight ?? client.onlinePeriodsResult![0].targetWeight!,
                                   landSizeType: landSizeType ??
                                       client.landSize!.toString(),
                                   company: company ?? client.company,

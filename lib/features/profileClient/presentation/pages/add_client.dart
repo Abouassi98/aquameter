@@ -61,9 +61,7 @@ class AddClient extends ConsumerWidget {
     final AddClientNotifier addClient = ref.read(
       addClientNotifier.notifier,
     );
-    final map = ref.read(
-      mapNotifier.notifier,
-    );
+   
     final address = ref.watch(mapAddress);
     // ValueNotifier<bool> showSecondField = useState<bool>(false);
     // ValueNotifier<bool> showThirdField = useState<bool>(false);
@@ -189,8 +187,6 @@ class AddClient extends ConsumerWidget {
                                   const SizedBox(height: 10),
                                   InkWell(
                                     onTap: () {
-                                      map.initialLat = null;
-                                      map.initialLong = null;
                                       push(CustomMap());
                                     },
                                     child: Container(
@@ -472,7 +468,7 @@ class AddClient extends ConsumerWidget {
                                   }
                                   addClient.totalFishes = totalFishes;
                                   addClient.typeFishes = typeFishes;
-                                
+
                                   addClient.addClient(
                                       context: context,
                                       phone: phone,

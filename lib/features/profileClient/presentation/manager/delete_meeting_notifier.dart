@@ -8,8 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/meeting_all_model..dart';
 
-final StateNotifierProvider<DeleteMeetingNotifier, Object?>
-    meetingAllNotifier =
+final StateNotifierProvider<DeleteMeetingNotifier, Object?> meetingAllNotifier =
     StateNotifierProvider<DeleteMeetingNotifier, Object?>(
   (ref) => DeleteMeetingNotifier(null),
 );

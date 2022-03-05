@@ -23,8 +23,10 @@ class ClientItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dismissible(
       key: const ValueKey(0),
-      direction:  confirmDismiss!=null?DismissDirection.startToEnd:DismissDirection.none,
-      onDismissed:  (DismissDirection direction) async {
+      direction: confirmDismiss != null
+          ? DismissDirection.startToEnd
+          : DismissDirection.none,
+      onDismissed: (DismissDirection direction) async {
         if (direction == DismissDirection.startToEnd) {
         } else {}
       },
