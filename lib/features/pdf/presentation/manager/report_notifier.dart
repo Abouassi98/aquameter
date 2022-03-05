@@ -6,8 +6,8 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final StateNotifierProvider<ReportNotifier, Object?> reportNotifier =
-    StateNotifierProvider<ReportNotifier, Object?>(
+final AutoDisposeStateNotifierProvider<ReportNotifier, Object?> reportNotifier =
+    StateNotifierProvider.autoDispose<ReportNotifier, Object?>(
   (ref) => ReportNotifier(null),
 );
 
