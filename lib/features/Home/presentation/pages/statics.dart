@@ -10,12 +10,12 @@ import 'package:aquameter/features/Home/presentation/manager/graph_statics_notif
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lottie/lottie.dart';
+
 
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../core/utils/functions/helper_functions.dart';
-import '../../../pdf/data/report_model.dart';
+
 import '../../../pdf/presentation/manager/report_notifier.dart';
 import '../../../pdf/presentation/pages/genrate_pdf.dart';
 
@@ -35,11 +35,11 @@ class Statics extends ConsumerWidget {
     },
   ];
 
-  final FutureProvider<ReportModel> provider =
-      FutureProvider<ReportModel>((ref) async {
+  final AutoDisposeFutureProvider<GraphStaticsModel> provider =
+      FutureProvider.autoDispose<GraphStaticsModel>((ref) async {
     return await ref
-        .watch(reportNotifier.notifier)
-        .getReport(); //; may cause `provider` to rebuild
+        .watch(graphStaticsNotifer.notifier)
+        .getGraphStatics(); //; may cause `provider` to rebuild
   });
   final StateProvider<List<Fishes>> fishesProvider =
       StateProvider<List<Fishes>>((ref) => []);
@@ -67,19 +67,7 @@ class Statics extends ConsumerWidget {
     final List<Fishes> fishes = ref.watch(fishesProvider);
     final List<Governorate> governorates = ref.watch(governorateProvider);
 
-    final GraphStaticsNotifer graphStatics = ref.read(
-      graphStaticsNotifer.notifier,
-    );
-
-    return ref.watch(provider).when(
-        loading: () => const AppLoader(),
-        error: (e, o) {
-          debugPrint(e.toString());
-          debugPrint(o.toString());
-          return const Text('error');
-        },
-        data: (e) {
-          graphStatics.getGraphStatics();
+ 
           return ListView(
             children: [
               SizedBox(
@@ -89,7 +77,13 @@ class Statics extends ConsumerWidget {
                     SizedBox(
                       height: SizeConfig.screenHeight * .01,
                     ),
-                    Center(
+                    ref.watch(provider).when(
+        loading: () => const AppLoader(),
+        error: (e, o) {
+          debugPrint(e.toString());
+          debugPrint(o.toString());
+          return const Text('error');
+        },data: (e)=> Center(
                       child: SizedBox(
                         width: context.width * .5,
                         child: CustomBottomSheet(
@@ -104,16 +98,11 @@ class Statics extends ConsumerWidget {
                               ref.read(fishesProvider.state).state.clear();
 
                               for (int i = 0;
-                                  i <
-                                      graphStatics.graphStaticsModel!.data!
-                                          .governorate!.length;
+                                  i < e.data!.governorate!.length;
                                   i++) {
                                 governorates2.addIf(
-                                    graphStatics.graphStaticsModel!.data!
-                                            .governorate![i].clientsCount !=
-                                        0,
-                                    graphStatics.graphStaticsModel!.data!
-                                        .governorate![i]);
+                                    e.data!.governorate![i].clientsCount != 0,
+                                    e.data!.governorate![i]);
                               }
                               ref.read(governorateProvider.state).state = [
                                 ...governorates2
@@ -123,17 +112,10 @@ class Statics extends ConsumerWidget {
                               fishes2.clear();
                               ref.read(governorateProvider.state).state.clear();
                               ref.read(fishesProvider.state).state.clear();
-                              for (int i = 0;
-                                  i <
-                                      graphStatics.graphStaticsModel!.data!
-                                          .fishes!.length;
-                                  i++) {
+                              for (int i = 0; i < e.data!.fishes!.length; i++) {
                                 fishes2.addIf(
-                                    graphStatics.graphStaticsModel!.data!
-                                            .fishes![i].fishesSumNumber !=
-                                        null,
-                                    graphStatics
-                                        .graphStaticsModel!.data!.fishes![i]);
+                                    e.data!.fishes![i].fishesSumNumber != null,
+                                    e.data!.fishes![i]);
                               }
                               ref.read(fishesProvider.state).state = [
                                 ...fishes2
@@ -142,7 +124,8 @@ class Statics extends ConsumerWidget {
                           },
                         ),
                       ),
-                    ),
+                    ),),
+                   
                     SizedBox(
                       height: SizeConfig.screenHeight * .01,
                     ),
@@ -206,12 +189,12 @@ class Statics extends ConsumerWidget {
                   TextButton(
                     onPressed: () {
                       showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(
-                            2022,
-                          ),
-                          lastDate: DateTime(2030))
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(
+                                2022,
+                              ),
+                              lastDate: DateTime(2030))
                           .then((pickedDate) {
                         if (pickedDate == null) {
                           //if user tap cancel then this function will stop
@@ -220,9 +203,7 @@ class Statics extends ConsumerWidget {
                           // debugPrint(
                           // "kk" + pickedDate.toString().substring(0, 10));
 
-                          ref
-                              .read(dateTimeProvider1.state)
-                              .state = pickedDate;
+                          ref.read(dateTimeProvider1.state).state = pickedDate;
                           // // debugPrint("kk"+dateTime1.toString().substring(0, 10));
                           // ref.read(reportNotifier.notifier).getReport(
                           //       start: DateTime.tryParse(
@@ -248,20 +229,18 @@ class Statics extends ConsumerWidget {
                   TextButton(
                     onPressed: () {
                       showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(
-                            2022,
-                          ),
-                          lastDate: DateTime(2030))
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(
+                                2022,
+                              ),
+                              lastDate: DateTime(2030))
                           .then((pickedDate) {
                         if (pickedDate == null) {
                           //if user tap cancel then this function will stop
                           return;
                         } else {
-                          ref
-                              .read(dateTimeProvider2.state)
-                              .state = pickedDate;
+                          ref.read(dateTimeProvider2.state).state = pickedDate;
                           // ref.read(reportNotifier.notifier).getReport(
                           //       end: DateTime.tryParse(
                           //         dateTime2.toString().substring(0, 10),
@@ -283,99 +262,79 @@ class Statics extends ConsumerWidget {
                 height: context.height * .01,
               ),
               Center(
-                child: (e.reportData!.isNotEmpty)
-                    ? SizedBox(
-                    width: SizeConfig.screenWidth * 0.4,
-                    child: CustomBottomSheet(
-                      name: 'اختر لعميل',
-                      list: ref
-                          .watch(getClientsNotifier.notifier)
-                          .clientsModel!
-                          .data!
-                          .where((element) =>
-                      element.onlinePeriodsResult!
-                          .first.meetingResults!.isNotEmpty)
-                          .toList(),
-                      onChange: (v) {
-                        ref
-                            .read(filterProvider.state)
-                            .state = true;
+                  child: SizedBox(
+                      width: SizeConfig.screenWidth * 0.4,
+                      child: CustomBottomSheet(
+                        name: 'اختر لعميل',
+                        list: ref
+                            .watch(getClientsNotifier.notifier)
+                            .clientsModel!
+                            .data!
+                            .where((element) => element.onlinePeriodsResult!
+                                .first.meetingResults!.isNotEmpty)
+                            .toList(),
+                        onChange: (v) {
+                          ref.read(filterProvider.state).state = true;
 
-                        ref
-                            .read(clientValuesProvider.state)
-                            .state = v;
-                        // ref
-                        //     .read(reportNotifier.notifier)
-                        //     .getReport(clientId: v);
-                      },
-                    )
-                  // MultiSelectBottomSheetField(
-                  //   key: _multiSelectKey,
-                  //   buttonIcon: const Icon(
-                  //     Icons.arrow_back_ios_new,
-                  //     size: 10,
-                  //   ),
-                  //   cancelText: const Text('الغاء'),
-                  //   confirmText: const Text('موافق'),
-                  //   listType: MultiSelectListType.LIST,
-                        //   initialChildSize: 0.7,
-                        //   maxChildSize: 0.95,
-                        //   title: Padding(
-                        //     padding: EdgeInsets.only(
-                        //         left: SizeConfig.screenWidth * .4),
-                        //     child: CustomTextButton(
-                        //         hieght: SizeConfig.screenHeight * .04,
-                        //         width: SizeConfig.screenWidth * .2,
-                        //         title: 'تحديد الكل',
-                        //         function: () {
-                        //           ref.read(clientValuesProvider.state).state =
-                        //           e.reportData!;
-                        //           pop();
-                        //           HelperFunctions.successBar(context,
-                        //               message: 'تم اختيار الكل');
-                        //         }),
-                        //   ),
-                        //   buttonText: const Text(
-                        //     'اختار العميل',
-                        //     style: TextStyle(
-                        //       fontSize: 10,
-                        //     ),
-                        //   ),
-                        //   items: e.data!
-                        //       .map((e) => MultiSelectItem(e, e.name!))
-                        //       .toList(),
-                        //   searchable: true,
-                        //   onConfirm: (values) async {
-                        //     ref.read(clientValuesProvider.state).state =
-                        //         values.cast();
-                        //     debugPrint('sdfsfdsfd  ${values.first}');
-                        //     if (values.isNotEmpty) {
-                        //     } else {}
-                        //
-                        //     _multiSelectKey.currentState!.validate();
-                        //   },
-                        //   chipDisplay: MultiSelectChipDisplay(
-                        //     alignment: Alignment.topRight,
-                        //     onTap: (item) {
-                        //       _multiSelectKey.currentState!.validate();
-                        //     },
-                        //   ),
-                        // ))
-                        )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'لا يوجد عملاء',
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                          Lottie.asset(
-                            'assets/images/noData.json',
-                            repeat: false,
-                          ),
-                        ],
-                      ),
-              ),
+                          ref.read(clientValuesProvider.state).state = v;
+                          // ref
+                          //     .read(reportNotifier.notifier)
+                          //     .getReport(clientId: v);
+                        },
+                      )
+                      // MultiSelectBottomSheetField(
+                      //   key: _multiSelectKey,
+                      //   buttonIcon: const Icon(
+                      //     Icons.arrow_back_ios_new,
+                      //     size: 10,
+                      //   ),
+                      //   cancelText: const Text('الغاء'),
+                      //   confirmText: const Text('موافق'),
+                      //   listType: MultiSelectListType.LIST,
+                      //   initialChildSize: 0.7,
+                      //   maxChildSize: 0.95,
+                      //   title: Padding(
+                      //     padding: EdgeInsets.only(
+                      //         left: SizeConfig.screenWidth * .4),
+                      //     child: CustomTextButton(
+                      //         hieght: SizeConfig.screenHeight * .04,
+                      //         width: SizeConfig.screenWidth * .2,
+                      //         title: 'تحديد الكل',
+                      //         function: () {
+                      //           ref.read(clientValuesProvider.state).state =
+                      //           e.reportData!;
+                      //           pop();
+                      //           HelperFunctions.successBar(context,
+                      //               message: 'تم اختيار الكل');
+                      //         }),
+                      //   ),
+                      //   buttonText: const Text(
+                      //     'اختار العميل',
+                      //     style: TextStyle(
+                      //       fontSize: 10,
+                      //     ),
+                      //   ),
+                      //   items: e.data!
+                      //       .map((e) => MultiSelectItem(e, e.name!))
+                      //       .toList(),
+                      //   searchable: true,
+                      //   onConfirm: (values) async {
+                      //     ref.read(clientValuesProvider.state).state =
+                      //         values.cast();
+                      //     debugPrint('sdfsfdsfd  ${values.first}');
+                      //     if (values.isNotEmpty) {
+                      //     } else {}
+                      //
+                      //     _multiSelectKey.currentState!.validate();
+                      //   },
+                      //   chipDisplay: MultiSelectChipDisplay(
+                      //     alignment: Alignment.topRight,
+                      //     onTap: (item) {
+                      //       _multiSelectKey.currentState!.validate();
+                      //     },
+                      //   ),
+                      // ))
+                      )),
               SizedBox(
                 height: context.height * .03,
               ),
@@ -392,7 +351,7 @@ class Statics extends ConsumerWidget {
                               .reportData!
                               .length
                               .toString());
-                      debugPrint('kk' + e.reportData!.length.toString());
+
                       if (filter) {
                         await ref.read(reportNotifier.notifier).getReport(
                             start: DateTime.tryParse(
@@ -403,13 +362,13 @@ class Statics extends ConsumerWidget {
                             ),
                             clientId: clientValues);
                         PdfGenerator().generatePDF(ref
-                            .watch(reportNotifier.notifier)
-                            .reportModel!
-                            .reportData!
-                          // .where(
-                          //     (element) => element.clientId == clientValues)
-                          // .toList()
-                        );
+                                .watch(reportNotifier.notifier)
+                                .reportModel!
+                                .reportData!
+                            // .where(
+                            //     (element) => element.clientId == clientValues)
+                            // .toList()
+                            );
                       } else {
                         HelperFunctions.errorBar(context,
                             message: 'يجب عليك اختيار العميل');
@@ -423,6 +382,6 @@ class Statics extends ConsumerWidget {
               ),
             ],
           );
-        });
+  
   }
 }

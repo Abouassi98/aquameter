@@ -150,15 +150,15 @@ class Calculator extends ConsumerWidget {
                                                   num.parse(value.trim()) &&
                                               num.parse(value.trim()) <= 6.4) {
                                             warningPh = false;
-                                            return localization.text(
-                                                'very_low')!;
+                                            return localization
+                                                .text('very_low')!;
                                           } else if (9 <=
                                                   num.parse(value.trim()) &&
                                               num.tryParse(value.trim())! <=
                                                   14) {
                                             warningPh = false;
-                                            return localization.text(
-                                                'relatively_high')!;
+                                            return localization
+                                                .text('relatively_high')!;
                                           } else {
                                             warningPh = true;
                                           }
@@ -169,8 +169,8 @@ class Calculator extends ConsumerWidget {
                                       },
                                     ),
                                     CustomTextField(
-                                      hint: localization.text(
-                                          'water_temperature')!,
+                                      hint: localization
+                                          .text('water_temperature')!,
                                       numbersOnly: true,
                                       type: TextInputType.number,
                                       calculator: true,
@@ -198,22 +198,22 @@ class Calculator extends ConsumerWidget {
                                               num.tryParse(value.trim())! <=
                                                   17) {
                                             warningTempreatureOfWater = false;
-                                            return localization.text(
-                                                'very_low')!;
+                                            return localization
+                                                .text('very_low')!;
                                           } else if (30 <=
                                                   num.parse(value.trim()) &&
                                               num.tryParse(value.trim())! <=
                                                   32) {
                                             warningTempreatureOfWater = false;
-                                            return localization.text(
-                                                'relatively_high')!;
+                                            return localization
+                                                .text('relatively_high')!;
                                           } else if (33 <=
                                                   num.parse(value.trim()) &&
                                               num.tryParse(value.trim())! <=
                                                   99) {
                                             warningTempreatureOfWater = false;
-                                            return localization.text(
-                                                'very_high')!;
+                                            return localization
+                                                .text('very_high')!;
                                           } else {
                                             warningTempreatureOfWater = true;
                                           }
@@ -733,7 +733,7 @@ class Calculator extends ConsumerWidget {
                                   avrageWieght: averageWeight,
                                   conversionRate: conversionRate,
                                   deadFishes: dieFishes,
-                                  feed: totalFeed,
+                                  feed: feed,
                                   ph: ph,
                                   notes: notes,
                                   oxygen: oxygen,

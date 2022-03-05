@@ -1,20 +1,14 @@
 ///Package imports
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/features/pdf/presentation/pages/save_file.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-
 ///Pdf import
 import 'package:syncfusion_flutter_pdf/pdf.dart';
-
-import '../../../../core/utils/size_config.dart';
-import '../../../../core/utils/widgets/app_loader.dart';
-import '../../../../core/utils/widgets/text_button.dart';
 import '../../data/report_model.dart';
-import '../manager/report_notifier.dart';
+
 
 class PdfGenerator {
   Future<List<int>> readFontData() async {

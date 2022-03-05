@@ -52,7 +52,6 @@ dependencies:
   flutter_phoenix: ^1.0.0
   syncfusion_flutter_charts: ^19.4.48
   sn_progress_dialog: ^1.0.3
-  multi_select_flutter: ^4.0.0
   syncfusion_flutter_pdf: ^19.4.52-beta
   share: ^2.0.4
   flutter_html: ^2.2.1

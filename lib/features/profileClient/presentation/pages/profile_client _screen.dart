@@ -88,7 +88,7 @@ class ProfileClientScreen extends ConsumerWidget {
   final GlobalKey<FormState> _averageWeight = GlobalKey<FormState>();
   final GlobalKey<FormState> _conversionRate = GlobalKey<FormState>();
   String? selctedMeasuer;
-  num totalWeight = 0.0, conversionRate =-1, totalFeed = 0, averageWeight = -1;
+  num totalWeight = 0.0, conversionRate = 0, totalFeed = 0, averageWeight = 0;
   int totalFishes = 0;
 
   final StateProvider<List<num>> ammoniaProvider =
@@ -200,110 +200,110 @@ class ProfileClientScreen extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   if (client.onlinePeriodsResultCount != 0)
-                  ref.watch(provider2(client.id!)).when( loading: () =>
-                        const AppLoader(),
-                    error: (e, o) {
-                      debugPrint(e.toString());
-                      debugPrint(o.toString());
-                      return const Text('error');
-                    },data: (e)=> SizedBox(
-                      height: SizeConfig.screenHeight * 0.53,
-                      child: Calendar(
-                        onMonthChanged: (v) {
-                          if (DateTime.now().difference(v).inDays > 0) {}
-                        },
-                        onEventSelected: (v) {},
-                        hideBottomBar: true,
-                        events: periodResults.selectedEvents,
-                        startOnMonday: true,
-                        weekDays: const [
-                          'الاثنين',
-                          'الثلاثاء',
-                          'الاربعاء',
-                          'الخميس',
-                          'الجمعه',
-                          'السبت',
-                          'الحد'
-                        ],
-                        eventDoneColor: Colors.red,
-                        selectedColor: Colors.pink,
-                        todayColor: Colors.blue,
-                        eventColor: Colors.red,
-                        hideTodayIcon: true,
-                        isExpanded: true,
-                        onDateSelected: (v) {
-                          if (DateTime.now().difference(v).inDays < 0) {
-                            HelperFunctions.errorBar(context,
-                                message: 'لا يمكن زياره تاريخ مستقبلي');
-                          } else if (periodResults.selectedEvents[DateTime(
-                                int.parse(v.toString().substring(0, 4)),
-                                int.parse(v.toString().substring(6, 7)),
-                                int.parse(
-                                  v.toString().substring(8, 10),
-                                ),
-                              )] !=
-                              null) {
-                            push(ShowCalculator(
-                              periodResults: e.data!
-                                  .firstWhere((e) =>
-                                      e.realDate!.substring(0, 10) ==
-                                      v.toString().substring(0, 10)),
-                            ));
-                          } else {
-                            totalFeed = 0;
-                            if (client
-                                .onlinePeriodsResult![0].meetings!.isEmpty) {
-                              HelperFunctions.errorBar(context,
-                                  message:
-                                      'يجب عليك ان تضع العميل ميعاد في الخطه اولا');
-                            } else {
-                              for (int i = 0;
-                                  i <
-                                      client.onlinePeriodsResult![0]
-                                          .meetingResults!
+                    ref.watch(provider2(client.id!)).when(
+                          loading: () => const AppLoader(),
+                          error: (e, o) {
+                            debugPrint(e.toString());
+                            debugPrint(o.toString());
+                            return const Text('error');
+                          },
+                          data: (e) => SizedBox(
+                            height: SizeConfig.screenHeight * 0.53,
+                            child: Calendar(
+                              onMonthChanged: (v) {
+                                if (DateTime.now().difference(v).inDays > 0) {}
+                              },
+                              onEventSelected: (v) {},
+                              hideBottomBar: true,
+                              events: periodResults.selectedEvents,
+                              startOnMonday: true,
+                              weekDays: const [
+                                'الاثنين',
+                                'الثلاثاء',
+                                'الاربعاء',
+                                'الخميس',
+                                'الجمعه',
+                                'السبت',
+                                'الحد'
+                              ],
+                              eventDoneColor: Colors.red,
+                              selectedColor: Colors.pink,
+                              todayColor: Colors.blue,
+                              eventColor: Colors.red,
+                              hideTodayIcon: true,
+                              isExpanded: true,
+                              onDateSelected: (v) {
+                                if (DateTime.now().difference(v).inDays < 0) {
+                                  HelperFunctions.errorBar(context,
+                                      message: 'لا يمكن زياره تاريخ مستقبلي');
+                                } else if (periodResults
+                                        .selectedEvents[DateTime(
+                                      int.parse(v.toString().substring(0, 4)),
+                                      int.parse(v.toString().substring(6, 7)),
+                                      int.parse(
+                                        v.toString().substring(8, 10),
+                                      ),
+                                    )] !=
+                                    null) {
+                                  push(ShowCalculator(
+                                    periodResults: e.data!.firstWhere((e) =>
+                                        e.realDate!.substring(0, 10) ==
+                                        v.toString().substring(0, 10)),
+                                  ));
+                                } else {
+                                  totalFeed = 0;
+                                  if (client.onlinePeriodsResult![0].meetings!
+                                      .isEmpty) {
+                                    HelperFunctions.errorBar(context,
+                                        message:
+                                            'يجب عليك ان تضع العميل ميعاد في الخطه اولا');
+                                  } else {
+                                    for (int i = 0;
+                                        i <
+                                            e
+                                                .data!
+                                                .where((element) =>
+                                                    DateTime.parse(
+                                                            element.realDate!)
+                                                        .difference(v)
+                                                        .inDays <=
+                                                    0)
+                                                .toList()
+                                                .length;
+                                        i++) {
+                                      totalFeed += e.data!
                                           .where((element) =>
                                               DateTime.parse(element.realDate!)
                                                   .difference(v)
                                                   .inDays <=
                                               0)
-                                          .toList()
-                                          .length;
-                                  i++) {
-                                totalFeed += client
-                                    .onlinePeriodsResult![0].meetingResults!
-                                    .where((element) =>
-                                        DateTime.parse(element.realDate!)
-                                            .difference(v)
-                                            .inDays <=
-                                        0)
-                                    .toList()[i]
-                                    .feed!;
-                              }
+                                          .toList()[i]
+                                          .feed!;
+                                    }
 
-                              push(Calculator(
-                                dateTime: v,
-                                client: client,
-                                totalFeed: totalFeed,
-                                meetingId: client
-                                    .onlinePeriodsResult![0].meetings![0].id!,
-                              ));
-                            }
-                          }
-                        },
-                        dayOfWeekStyle: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 10),
-                      ),
-                    ),)
-                   
+                                    push(Calculator(
+                                      dateTime: v,
+                                      client: client,
+                                      totalFeed: totalFeed,
+                                      meetingId: client.onlinePeriodsResult![0]
+                                          .meetings![0].id!,
+                                    ));
+                                  }
+                                }
+                              },
+                              dayOfWeekStyle: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 10),
+                            ),
+                          ),
+                        )
                 ],
               ),
             ),
             if (client.onlinePeriodsResultCount != 0)
               ref.watch(provider(client.id!)).when(
-                    loading: () =>
-                        const SizedBox(),
+                    loading: () => const SizedBox(),
                     error: (e, o) {
                       debugPrint(e.toString());
                       debugPrint(o.toString());
@@ -692,7 +692,7 @@ class ProfileClientScreen extends ConsumerWidget {
                                             text: averageWeight == 0.0
                                                 ? '0.0 = متوسط الوزن'
                                                 : averageWeight
-                                                        .toStringAsFixed(4) +
+                                                        .toStringAsFixed(2) +
                                                     ' = متوسط الوزن',
                                           ),
                                           const SizedBox(
@@ -710,9 +710,8 @@ class ProfileClientScreen extends ConsumerWidget {
                                                     .validate()) {
                                                   setState(() {
                                                     averageWeight =
-                                                        (totalWeight /
-                                                                totalFishes)
-                                                            .round();
+                                                        totalWeight /
+                                                            totalFishes;
                                                   });
                                                 }
                                               }),
@@ -785,12 +784,12 @@ class ProfileClientScreen extends ConsumerWidget {
                                         child: CustomTextButton(
                                             title: 'حفظ',
                                             function: () async {
-                                              if (conversionRate == -1) {
+                                              if (conversionRate == 0) {
                                                 HelperFunctions.errorBar(
                                                     context,
                                                     message:
                                                         'يجب عليك اظهار ناتج معدل التحويل');
-                                              } else if (averageWeight == -1) {
+                                              } else if (averageWeight == 0) {
                                                 HelperFunctions.errorBar(
                                                     context,
                                                     message:
@@ -826,33 +825,35 @@ class ProfileClientScreen extends ConsumerWidget {
                                   )));
                     },
                   ),
-                CustomTextButton(
-                    title: 'دورة جديده',
-                    function: () async {
-                      await _dialog.showOptionDialog(
-                          context: context,
-                          msg: (client.onlinePeriodsResultCount == 0)
-                              ? 'هل ترغب بانشاء دوره جديده'
-                              : 'هل ترغب بانهاء الدوره وانشاء دوره جديده ؟',
-                          okFun: () async {
-                            if (client.onlinePeriodsResultCount != 0) {
-                              await updateAndDeletePeriod.endPeriod(
-                                  clientId: client.id!,
-                                  periodId: client.onlinePeriodsResult![0].id!);
-                            }
+                if (client.onlinePeriodsResultCount == 0)
+                  CustomTextButton(
+                      title: 'دورة جديده',
+                      function: () async {
+                        await _dialog.showOptionDialog(
+                            context: context,
+                            msg: (client.onlinePeriodsResultCount == 0)
+                                ? 'هل ترغب بانشاء دوره جديده'
+                                : 'هل ترغب بانهاء الدوره وانشاء دوره جديده ؟',
+                            okFun: () async {
+                              if (client.onlinePeriodsResultCount != 0) {
+                                await updateAndDeletePeriod.endPeriod(
+                                    clientId: client.id!,
+                                    periodId:
+                                        client.onlinePeriodsResult![0].id!);
+                              }
 
-                            await clients.createPeriod(
-                              clientId: client.id!,
-                            );
+                              await clients.createPeriod(
+                                clientId: client.id!,
+                              );
 
-                            pushAndRemoveUntil(MainPage());
-                          },
-                          okMsg: 'نعم',
-                          cancelMsg: 'لا',
-                          cancelFun: () {
-                            return;
-                          });
-                    }),
+                              pushAndRemoveUntil(MainPage());
+                            },
+                            okMsg: 'نعم',
+                            cancelMsg: 'لا',
+                            cancelFun: () {
+                              return;
+                            });
+                      }),
               ],
             ),
             const SizedBox(
