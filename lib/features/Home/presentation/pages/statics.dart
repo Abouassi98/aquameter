@@ -222,6 +222,7 @@ class Statics extends ConsumerWidget {
                           if (dateTime1.difference(dateTime2).inDays > 0) {
                             ref.read(dateTimeProvider2.state).state =
                                 DateTime.utc(1989, 11, 9);
+                            debugPrint(dateTime1.toString().substring(0, 10));
                           }
                         }
                       });

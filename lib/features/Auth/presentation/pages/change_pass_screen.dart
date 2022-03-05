@@ -24,7 +24,7 @@ class ChangePassScreen extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'تغير كلمة المرور',
+            localization.text('change_pass')!,
             style: MainTheme.headingTextStyle,
           ),
           centerTitle: true,
@@ -58,7 +58,7 @@ class ChangePassScreen extends ConsumerWidget {
                         icon: Icons.lock,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'كلمة السر مطلوبة';
+                            return localization.text('password_required')!;
                           }
                           return null;
                         },
@@ -106,9 +106,10 @@ class ChangePassScreen extends ConsumerWidget {
                         icon: Icons.lock,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return ('من فضلك قم بتأكيد كلمة السر');
+                            return (localization
+                                .text('confirm_password_please')!);
                           } else if (confPassword != password) {
-                            return 'كلمتى السر غير متطابقان';
+                            return localization.text('passwords_don\'t_match')!;
                           }
                           return null;
                         },

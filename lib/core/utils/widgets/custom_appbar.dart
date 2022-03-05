@@ -5,6 +5,7 @@ import 'package:aquameter/features/Home/Data/three_values_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/three_values_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../features/localization/manager/app_localization.dart';
 import '../constants.dart';
 
 import '../size_config.dart';
@@ -106,9 +107,9 @@ class CustomAppBar extends ConsumerWidget {
                                 fontSize: 15,
                               ),
                             ),
-                            const Text(
-                              'معدل التحويل',
-                              style: TextStyle(
+                            Text(
+                              localization.text('conversionRate')!,
+                              style: const TextStyle(
                                 color: Color(0xff282759),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
@@ -127,9 +128,9 @@ class CustomAppBar extends ConsumerWidget {
                                 fontSize: 15,
                               ),
                             ),
-                            const Text(
-                              'الاسماك/طن',
-                              style: TextStyle(
+                            Text(
+                              '${localization.text('fish')!}/${localization.text('ton')!}',
+                              style: const TextStyle(
                                 color: Color(0xff282759),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
@@ -148,9 +149,10 @@ class CustomAppBar extends ConsumerWidget {
                                 fontSize: 15,
                               ),
                             ),
-                            const Text(
-                              'الاعلاف/طن',
-                              style: TextStyle(
+                            Text(
+                              '${localization.text('feed')!}/${localization
+                                  .text('ton')!}',
+                              style: const TextStyle(
                                 color: Color(0xff282759),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15,
