@@ -14,6 +14,7 @@ import 'package:lottie/lottie.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../../../core/utils/functions/helper_functions.dart';
 import '../../../pdf/data/report_model.dart';
 import '../../../pdf/presentation/manager/report_notifier.dart';
 import '../../../pdf/presentation/pages/genrate_pdf.dart';
@@ -37,7 +38,7 @@ class Statics extends ConsumerWidget {
   final FutureProvider<ReportModel> provider =
       FutureProvider<ReportModel>((ref) async {
     return await ref
-        .read(reportNotifier.notifier)
+        .watch(reportNotifier.notifier)
         .getReport(); //; may cause `provider` to rebuild
   });
   final StateProvider<List<Fishes>> fishesProvider =
@@ -48,15 +49,17 @@ class Statics extends ConsumerWidget {
   final StateProvider<DateTime> dateTimeProvider1 =
       StateProvider<DateTime>(((ref) => DateTime.utc(1989, 11, 9)));
   final StateProvider<DateTime> dateTimeProvider2 =
-      StateProvider<DateTime>(((ref) => DateTime.utc(1989, 11, 9)));
+      StateProvider<DateTime>(((ref) => DateTime.utc(2022, 11, 9)));
   final List fishes2 = [];
 
   final List governorates2 = [];
-  StateProvider<int> clientValuesProvider = StateProvider<int>((ref) => 0);
+
+  // StateProvider<int> clientValuesProvider = StateProvider<int>((ref) => 0);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    int clientValues = ref.watch(clientValuesProvider);
+    // int clientValues = ref.watch(clientValuesProvider);
+    bool filter = false;
     DateTime dateTime1 = ref.watch(dateTimeProvider1);
     DateTime dateTime2 = ref.watch(dateTimeProvider2);
 
@@ -262,19 +265,24 @@ class Statics extends ConsumerWidget {
               Center(
                 child: (e.reportData!.isNotEmpty)
                     ? SizedBox(
-                        width: SizeConfig.screenWidth * 0.6,
-                        child: CustomBottomSheet(
-                          name: 'اختر لعميل',
-                          list: ref
-                              .watch(getClientsNotifier.notifier)
-                              .clientsModel!
-                              .data!
-                              .where((element) => element.onlinePeriodsResult!
-                                  .first.meetingResults!.isNotEmpty)
-                              .toList(),
-                          onChange: (v) {
-                            ref.read(clientValuesProvider.state).state = v;
-                          },
+                    width: SizeConfig.screenWidth * 0.4,
+                    child: CustomBottomSheet(
+                      name: 'اختر لعميل',
+                      list: ref
+                          .watch(getClientsNotifier.notifier)
+                          .clientsModel!
+                          .data!
+                          .where((element) =>
+                      element.onlinePeriodsResult!
+                          .first.meetingResults!.isNotEmpty)
+                          .toList(),
+                      onChange: (v) {
+                        // ref.read(clientValuesProvider.state).state = v;
+                        ref
+                            .read(reportNotifier.notifier)
+                            .getReport(clientId: v);
+                        filter = true;
+                      },
                         )
                         // MultiSelectBottomSheetField(
                         //   key: _multiSelectKey,
@@ -348,16 +356,32 @@ class Statics extends ConsumerWidget {
               ),
               Center(
                 child: SizedBox(
-                    width: SizeConfig.screenWidth * 0.3,
-                    child: CustomTextButton(
-                        title: "تحميل التقرير",
-                        function: () async {
-                          debugPrint('kk' + clientValues.toString());
-                          PdfGenerator().generatePDF(e.reportData!
-                              .where(
-                                  (element) => element.clientId == clientValues)
-                              .toList());
-                        })),
+                  width: SizeConfig.screenWidth * 0.3,
+                  child: CustomTextButton(
+                    title: "تحميل التقرير",
+                    function: () async {
+                      debugPrint('kk' +
+                          ref
+                              .watch(reportNotifier.notifier)
+                              .reportModel!
+                              .reportData!
+                              .length
+                              .toString());
+                      debugPrint('kk' + e.reportData!.length.toString());
+                      if (filter) {
+                        PdfGenerator().generatePDF(e.reportData!
+                          // .where(
+                          //     (element) => element.clientId == clientValues)
+                          // .toList()
+                        );
+                      }
+                      else {
+                        HelperFunctions.errorBar(context,
+                            message: 'يجب عليك اختيار العميل');
+                      }
+                    },
+                  ),
+                ),
               ),
               SizedBox(
                 height: context.height * .06,
