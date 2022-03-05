@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_if_null_operators
+
 import 'dart:developer';
 
 import 'package:aquameter/core/GlobalApi/AreaAndCities/Data/cities_model/area_and_cities_model.dart';
@@ -186,7 +188,6 @@ class EditClient extends ConsumerWidget {
                                 const SizedBox(height: 10),
                                 InkWell(
                                   onTap: () {
-                                 
                                     push(CustomMap(
                                       client: client,
                                       address: client.address,
@@ -430,7 +431,11 @@ class EditClient extends ConsumerWidget {
                                 ),
                                 CustomTextField(
                                   initialValue:
-                                     client.onlinePeriodsResult![0].startingWeight.toString(),
+                                      client.onlinePeriodsResult!.isNotEmpty
+                                          ? client.onlinePeriodsResult![0]
+                                              .startingWeight
+                                              .toString()
+                                          : '',
                                   onChange: (v) {
                                     try {
                                       startingWeight = num.parse(v);
@@ -453,7 +458,12 @@ class EditClient extends ConsumerWidget {
                                   style: MainTheme.hintTextStyle,
                                 ),
                                 CustomTextField(
-                                  initialValue: client.onlinePeriodsResult![0].targetWeight.toString(),
+                                  initialValue:
+                                      client.onlinePeriodsResult!.isNotEmpty
+                                          ? client.onlinePeriodsResult![0]
+                                              .targetWeight
+                                              .toString()
+                                          : '',
                                   onChange: (v) {
                                     try {
                                       targetWeight = num.parse(v);
@@ -504,10 +514,18 @@ class EditClient extends ConsumerWidget {
                                       governorateId ?? client.governorate!,
                                   areaId: areaId ?? client.area!,
                                   landSize: landSize ?? client.landSize!,
-                                  startingWeight:
-                                      startingWeight ?? client.onlinePeriodsResult![0].startingWeight!,
-                                  targetWeight:
-                                      targetWeight ?? client.onlinePeriodsResult![0].targetWeight!,
+                                  startingWeight: startingWeight != null
+                                      ? startingWeight
+                                      : client.onlinePeriodsResult!.isNotEmpty
+                                          ? client.onlinePeriodsResult![0]
+                                              .startingWeight!
+                                          : 0,
+                                  targetWeight: targetWeight != null
+                                      ? targetWeight
+                                      : client.onlinePeriodsResult!.isNotEmpty
+                                          ? client.onlinePeriodsResult![0]
+                                              .targetWeight!
+                                          : 0,
                                   landSizeType: landSizeType ??
                                       client.landSize!.toString(),
                                   company: company ?? client.company,

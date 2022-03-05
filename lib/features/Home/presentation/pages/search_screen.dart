@@ -42,7 +42,6 @@ class SearchScreen extends ConsumerStatefulWidget {
 
 class SearchScreenState extends ConsumerState<SearchScreen> {
   bool filter = false;
-  dynamic fishType;
 
   final StateProvider<List<Client>> selcetedProvider =
       StateProvider<List<Client>>((ref) => []);
@@ -53,6 +52,7 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
     super.dispose();
   }
 
+  List fishes = [];
   @override
   Widget build(BuildContext context) {
     final List<Client> selected = ref.watch(selcetedProvider);
@@ -151,14 +151,10 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
                         .data!,
                     onChange: (v) async {
                       ref.read(selcetedProvider.state).state = [
-                        ...widget.clients.where((element) {
-                          for (int i = 0; i < element.fish!.length; i++) {
-                            fishType = element.fish![i].fishType!.id
-                                .toString()
-                                .startsWith(v.toString());
-                          }
-                          return fishType;
-                        }).toList()
+                        ...widget.clients
+                            .where(
+                                (element) => element.fish![0].fishType!.id == v)
+                            .toList()
                       ];
 
                       filter = true;

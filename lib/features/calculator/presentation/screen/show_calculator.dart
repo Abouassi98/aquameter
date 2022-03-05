@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/utils/widgets/custom_new_dialog.dart';
-import '../../../Home/Data/clients_model/client_model.dart';
+
 
 import '../../../profileClient/data/period_results_model.dart';
 import '../manager/create_meeting_result_notifier.dart';
@@ -208,7 +208,7 @@ class ShowCalculator extends ConsumerWidget {
                             height: 20,
                           ),
                           Text(
-                            'الوزن الكلي بالجرام',
+                            'عدد السمك النافق',
                             style: MainTheme.hintTextStyle,
                           ),
                           CustomTextField(

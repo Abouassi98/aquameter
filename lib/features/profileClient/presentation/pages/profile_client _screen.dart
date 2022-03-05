@@ -88,7 +88,7 @@ class ProfileClientScreen extends ConsumerWidget {
   final GlobalKey<FormState> _averageWeight = GlobalKey<FormState>();
   final GlobalKey<FormState> _conversionRate = GlobalKey<FormState>();
   String? selctedMeasuer;
-  num totalWeight = 0.0, conversionRate = 0.0, totalFeed = 0, averageWeight = 0;
+  num totalWeight = 0.0, conversionRate =-1, totalFeed = 0, averageWeight = -1;
   int totalFishes = 0;
 
   final StateProvider<List<num>> ammoniaProvider =
@@ -692,7 +692,7 @@ class ProfileClientScreen extends ConsumerWidget {
                                             text: averageWeight == 0.0
                                                 ? '0.0 = متوسط الوزن'
                                                 : averageWeight
-                                                        .toStringAsFixed(2) +
+                                                        .toStringAsFixed(4) +
                                                     ' = متوسط الوزن',
                                           ),
                                           const SizedBox(
@@ -785,12 +785,12 @@ class ProfileClientScreen extends ConsumerWidget {
                                         child: CustomTextButton(
                                             title: 'حفظ',
                                             function: () async {
-                                              if (conversionRate == 0.0) {
+                                              if (conversionRate == -1) {
                                                 HelperFunctions.errorBar(
                                                     context,
                                                     message:
                                                         'يجب عليك اظهار ناتج معدل التحويل');
-                                              } else if (averageWeight == 0.0) {
+                                              } else if (averageWeight == -1) {
                                                 HelperFunctions.errorBar(
                                                     context,
                                                     message:

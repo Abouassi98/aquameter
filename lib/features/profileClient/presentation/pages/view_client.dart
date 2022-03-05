@@ -228,7 +228,7 @@ class ViewClient extends ConsumerWidget {
                                     style: MainTheme.hintTextStyle,
                                   ),
                                   CustomTextField(
-                                    hint: client.onlinePeriodsResult![0].startingWeight.toString(),
+                                    hint: client.onlinePeriodsResult!.isNotEmpty? client.onlinePeriodsResult![0].startingWeight.toString():'',
                                     enabled: false,
                                   ),
                                   const SizedBox(
@@ -239,7 +239,7 @@ class ViewClient extends ConsumerWidget {
                                     style: MainTheme.hintTextStyle,
                                   ),
                                   CustomTextField(
-                                    hint: client.onlinePeriodsResult![0].targetWeight.toString(),
+                                    hint: client.onlinePeriodsResult!.isNotEmpty?client.onlinePeriodsResult![0].targetWeight.toString():'',
                                     enabled: false,
                                   ),
                                 ],

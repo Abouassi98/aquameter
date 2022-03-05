@@ -61,7 +61,7 @@ class AddClient extends ConsumerWidget {
     final AddClientNotifier addClient = ref.read(
       addClientNotifier.notifier,
     );
-   
+
     final address = ref.watch(mapAddress);
     // ValueNotifier<bool> showSecondField = useState<bool>(false);
     // ValueNotifier<bool> showThirdField = useState<bool>(false);
@@ -451,11 +451,14 @@ class AddClient extends ConsumerWidget {
                                 } else if (typeFishes1 == 0) {
                                   HelperFunctions.errorBar(context,
                                       message: 'يجب عليك تحديد نوع السمك اولا');
-                                } else if (addClient.address == null) {
-                                  HelperFunctions.errorBar(context,
-                                      message:
-                                          'يجب عليك تحديد الموقع للعمل اولا');
-                                } else if (_formKey.currentState!.validate()) {
+                                }
+                                // else if (addClient.address == null) {
+                                //   HelperFunctions.errorBar(context,
+                                //        message:
+                                //           'يجب عليك تحديد الموقع للعمل اولا');
+
+                                // }
+                                else if (_formKey.currentState!.validate()) {
                                   totalFishes.add(totalFishes1);
                                   typeFishes.add(typeFishes1);
                                   if (totalFishes2 != null) {
