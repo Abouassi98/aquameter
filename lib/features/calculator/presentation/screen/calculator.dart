@@ -103,7 +103,7 @@ class Calculator extends ConsumerWidget {
                     ),
                     Container(
                       alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width * 0.9,
+                      width: MediaQuery.of(context).size.width * 0.8,
                       margin: const EdgeInsets.only(bottom: 20),
                       child: Column(
                         children: <Widget>[
@@ -225,7 +225,6 @@ class Calculator extends ConsumerWidget {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 15),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -306,7 +305,6 @@ class Calculator extends ConsumerWidget {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 15),
                                 Center(
                                   child: CustomTextField(
                                     hint: 'امونيات كلية',
@@ -337,9 +335,7 @@ class Calculator extends ConsumerWidget {
                                     },
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
+
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -500,7 +496,7 @@ class Calculator extends ConsumerWidget {
                                   ],
                                 ),
                                 const SizedBox(
-                                  height: 50,
+                                  height: 20,
                                 ),
                               ],
                             ),
@@ -555,9 +551,7 @@ class Calculator extends ConsumerWidget {
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -676,9 +670,7 @@ class Calculator extends ConsumerWidget {
                               numbersOnly: true,
                             ),
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
+
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

@@ -6,6 +6,7 @@ import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,32 +52,30 @@ class ViewClient extends ConsumerWidget {
                             ),
                             const SizedBox(height: 15),
                             const CustomHeaderTitle(title: 'بيانات العميل'),
-                            const SizedBox(height: 15),
                             Container(
                               alignment: Alignment.center,
                               margin: const EdgeInsets.all(20),
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  const SizedBox(height: 15),
                                   CustomTextField(
                                     enabled: false,
-                                    width: SizeConfig.screenWidth * 0.7,
+                                    width: SizeConfig.screenWidth * 0.75,
                                     icon: Icons.person,
                                     hint: client.name,
                                   ),
-                                  const SizedBox(height: 10),
                                   CustomTextField(
                                     enabled: false,
                                     hint: client.phone.toString(),
                                     icon: Icons.call,
-                                    width: SizeConfig.screenWidth * 0.7,
+                                    width: SizeConfig.screenWidth * 0.75,
                                   ),
-                                  const SizedBox(height: 10),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       const Text(" اتصل بالعميل "),
                                       IconButton(
+                                        padding: EdgeInsets.zero,
                                         icon: const Icon(Icons.call),
                                         onPressed: () async {
                                           await launch(
@@ -86,10 +85,13 @@ class ViewClient extends ConsumerWidget {
                                     ],
                                   ),
                                   Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       CustomTextField(
+                                        width: SizeConfig.screenWidth * .35,
                                         hint: areaAndCites
                                             .governorateModel!.data!
                                             .firstWhere((element) =>
@@ -99,32 +101,35 @@ class ViewClient extends ConsumerWidget {
                                             .toString(),
                                       ),
                                       CustomTextField(
+                                        width: SizeConfig.screenWidth * .35,
+
                                         hint: areaAndCites.areasModel!.data!
                                             .firstWhere((element) =>
-                                                element.id == client.area)
+                                        element.id == client.area)
                                             .name
                                             .toString(),
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 10),
-                                  InkWell(
-                                    onTap: () {
-                                     
-                                      push(CustomMap(
-                                        show: true,
-                                        client: client,
-                                        address: client.address,
-                                      ));
-                                    },
-                                    child: CustomTextField(
-                                      enabled: false,
-                                      width: SizeConfig.screenWidth * 0.7,
-                                      icon: Icons.location_pin,
-                                      hint: client.address,
+                                  SizedBox(
+                                    width: SizeConfig.screenWidth * .75,
+
+                                    child: InkWell(
+                                      onTap: () {
+                                        push(CustomMap(
+                                          show: true,
+                                          client: client,
+                                          address: client.address,
+                                        ));
+                                      },
+                                      child: CustomTextField(
+                                        enabled: false,
+                                        width: SizeConfig.screenWidth * 0.7,
+                                        icon: Icons.location_pin,
+                                        hint: client.address,
+                                      ),
                                     ),
                                   ),
-                                  const SizedBox(height: 15),
                                   const CustomHeaderTitle(
                                       title: 'بيانات المزرعه'),
                                   const SizedBox(height: 10),
@@ -134,7 +139,7 @@ class ViewClient extends ConsumerWidget {
                                       children: [
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                          MainAxisAlignment.spaceAround,
                                           children: [
                                             Text(
                                               'مساحه الارض',
@@ -148,14 +153,20 @@ class ViewClient extends ConsumerWidget {
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceEvenly,
                                           children: [
                                             CustomTextField(
+                                              width: SizeConfig.screenWidth *
+                                                  .35,
+
                                               initialValue:
-                                                  client.landSize.toString(),
+                                              client.landSize.toString(),
                                               enabled: false,
                                             ),
                                             CustomTextField(
+                                              width: SizeConfig.screenWidth *
+                                                  .35,
+
                                               initialValue: client.landSizeType,
                                               enabled: false,
                                             ),
@@ -163,7 +174,7 @@ class ViewClient extends ConsumerWidget {
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                          MainAxisAlignment.spaceAround,
                                           children: [
                                             Text(
                                               'اجمالي الاسماك',
@@ -177,16 +188,22 @@ class ViewClient extends ConsumerWidget {
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                          MainAxisAlignment.spaceEvenly,
                                           children: [
                                             CustomTextField(
-                                              hint: client.fish?[0].number
+                                              width: SizeConfig.screenWidth *
+                                                  .35,
+
+                                              hint: client.fish ? [0].number
                                                   .toString(),
                                               enabled: false,
                                             ),
                                             CustomTextField(
+                                              width: SizeConfig.screenWidth *
+                                                  .35,
+
                                               hint: client
-                                                  .fish?[0].fishType!.name,
+                                                  .fish ? [0].fishType!.name,
                                               enabled: false,
                                             ),
                                           ],
@@ -196,7 +213,7 @@ class ViewClient extends ConsumerWidget {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.spaceAround,
                                     children: [
                                       Text(
                                         'نوع العلف',
@@ -210,19 +227,22 @@ class ViewClient extends ConsumerWidget {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                     children: [
                                       CustomTextField(
+                                        width: SizeConfig.screenWidth * .35,
+
                                         hint: client.feed ?? '',
                                         enabled: false,
                                       ),
                                       CustomTextField(
+                                        width: SizeConfig.screenWidth * .35,
+
                                         hint: client.company ?? '',
                                         enabled: false,
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
                                   Text(
                                     'وزن السمكه الابتدائي بالجرام',
                                     style: MainTheme.hintTextStyle,
@@ -253,9 +273,8 @@ class ViewClient extends ConsumerWidget {
                       ],
                     ),
                     IconButton(
-                      padding:
-                          EdgeInsets.only(top: SizeConfig.screenHeight * 0.08),
-                      onPressed: () {
+
+                    onPressed: () {
                         pop();
                       },
                       icon: const Icon(Icons.arrow_back_ios),

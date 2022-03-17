@@ -111,7 +111,6 @@ class ShowCalculator extends ConsumerWidget {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 15),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -140,7 +139,6 @@ class ShowCalculator extends ConsumerWidget {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 15),
                               Center(
                                 child: Text(
                                   'امونيات كليه',
@@ -153,9 +151,6 @@ class ShowCalculator extends ConsumerWidget {
                                   enabled: false,
                                 ),
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
                               Center(
                                 child: CustomBtn(
                                   text:
@@ -163,7 +158,7 @@ class ShowCalculator extends ConsumerWidget {
                                 ),
                               ),
                               const SizedBox(
-                                height: 50,
+                                height: 20,
                               ),
                             ],
                           ),
@@ -195,9 +190,7 @@ class ShowCalculator extends ConsumerWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
+
                           Center(
                             child: CustomBtn(
                               text:
@@ -231,9 +224,7 @@ class ShowCalculator extends ConsumerWidget {
                             hint: periodResults.feed.toString(),
                             enabled: false,
                           ),
-                          const SizedBox(
-                            height: 20,
-                          ),
+
                           Center(
                             child: CustomBtn(
                                 text:

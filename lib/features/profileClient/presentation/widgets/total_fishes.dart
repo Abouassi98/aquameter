@@ -25,23 +25,21 @@ class TotalFishesItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Padding(
-          padding: EdgeInsets.only(top: SizeConfig.screenHeight * 0.04),
-          child: CustomTextField(
-            type: TextInputType.phone,
-            numbersOnly: true,
-            hint: 'إجمالى الأسماك',
-            initialValue: initialvalue,
-            onChange: (v) {
-              try {
-                onTotalFishesChange!(int.parse(v));
-              } on FormatException {
-                debugPrint('Format error!');
-              }
-            },
-          ),
+        CustomTextField(
+          type: TextInputType.phone,
+          numbersOnly: true,
+          hint: '    إجمالى الأسماك',
+          initialValue: initialvalue,
+          onChange: (v) {
+            try {
+              onTotalFishesChange!(int.parse(v));
+            } on FormatException {
+              debugPrint('Format error!');
+            }
+          },
         ),
         CustomBottomSheet(
           name: typeOfFish ?? 'النوع',

@@ -115,17 +115,16 @@ class LoginScreen extends ConsumerWidget {
                 return null;
               },
               visibility: visabilityNotifier,
-              suffixIcon: Padding(
-                padding: const EdgeInsets.all(6),
-                child: IconButton(
-                  icon: Icon(visabilityNotifier
-                      ? Icons.visibility_off
-                      : Icons.visibility),
-                  onPressed: () {
-                    ref.read(visabilityNotifierProvider.state).state =
-                    !visabilityNotifier;
-                  },
-                ),
+              suffixIcon: IconButton(
+                icon: Icon(visabilityNotifier
+                    ? Icons.visibility_off
+                    : Icons.visibility),
+                onPressed: () {
+                  ref
+                      .read(visabilityNotifierProvider.state)
+                      .state =
+                  !visabilityNotifier;
+                },
               ),
             ),
             const SizedBox(height: 30),

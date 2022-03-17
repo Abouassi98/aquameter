@@ -100,7 +100,7 @@ class EditClient extends ConsumerWidget {
                                     title: "تعديل بيانات العميل "),
                                 const SizedBox(height: 15),
                                 CustomTextField(
-                                  width: SizeConfig.screenWidth * 0.7,
+                                  width: SizeConfig.screenWidth * 0.75,
                                   icon: Icons.person,
                                   initialValue: client.name,
                                   type: TextInputType.text,
@@ -114,14 +114,13 @@ class EditClient extends ConsumerWidget {
                                     return null;
                                   },
                                 ),
-                                const SizedBox(height: 10),
                                 CustomTextField(
                                   showCounterTxt: true,
                                   initialValue: client.phone.toString(),
                                   icon: Icons.phone,
                                   type: TextInputType.phone,
                                   numbersOnly: true,
-                                  width: SizeConfig.screenWidth * 0.7,
+                                  width: SizeConfig.screenWidth * 0.75,
                                   maxLength: 11,
                                   validator: (v) {
                                     bool phoneNumberAccepted = false;
@@ -185,7 +184,7 @@ class EditClient extends ConsumerWidget {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 10),
+                                const SizedBox(height: 15),
                                 InkWell(
                                   onTap: () {
                                     push(CustomMap(
@@ -194,11 +193,12 @@ class EditClient extends ConsumerWidget {
                                     ));
                                   },
                                   child: Container(
+                                    width: SizeConfig.screenWidth * .75,
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                           width: 1, color: Colors.black38),
                                       borderRadius: const BorderRadius.all(
-                                        Radius.circular(10),
+                                        Radius.circular(25),
                                       ),
                                     ),
                                     child: Row(
@@ -211,7 +211,7 @@ class EditClient extends ConsumerWidget {
                                                 address ?? client.address!,
                                                 style: MainTheme.hintTextStyle
                                                     .copyWith(
-                                                        color: Colors.black),
+                                                    color: Colors.black),
                                                 maxLines: null)),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
@@ -223,7 +223,7 @@ class EditClient extends ConsumerWidget {
                                               color: Colors.white,
                                             ),
                                             backgroundColor:
-                                                Theme.of(context).primaryColor,
+                                            Theme.of(context).primaryColor,
                                           ),
                                         ),
                                       ],
@@ -237,10 +237,12 @@ class EditClient extends ConsumerWidget {
                                 SizedBox(
                                   width: SizeConfig.screenWidth * 0.9,
                                   child: Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
+                                        MainAxisAlignment.spaceAround,
                                         children: [
                                           Text(
                                             'مساحه الارض',
@@ -253,28 +255,25 @@ class EditClient extends ConsumerWidget {
                                         ],
                                       ),
                                       Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                top: SizeConfig.screenHeight *
-                                                    0.04),
-                                            child: CustomTextField(
-                                              paste: false,
-                                              type: TextInputType.phone,
-                                              validator: (v) {
-                                                if (v!.isEmpty) {
-                                                  return 'لا يجب ترك الحقل فارغ';
-                                                }
-                                                return null;
-                                              },
-                                              initialValue:
-                                                  client.landSize.toString(),
-                                              onChange: (v) {
-                                                landSize = num.parse(v);
-                                              },
-                                            ),
+                                          CustomTextField(
+                                            paste: false,
+                                            type: TextInputType.phone,
+                                            validator: (v) {
+                                              if (v!.isEmpty) {
+                                                return 'لا يجب ترك الحقل فارغ';
+                                              }
+                                              return null;
+                                            },
+                                            initialValue:
+                                            client.landSize.toString(),
+                                            onChange: (v) {
+                                              landSize = num.parse(v);
+                                            },
                                           ),
                                           CustomBottomSheet(
                                             staticList: true,
@@ -289,7 +288,7 @@ class EditClient extends ConsumerWidget {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
+                                        MainAxisAlignment.spaceAround,
                                         children: [
                                           Text(
                                             'اجمالي الاسماك',
@@ -304,11 +303,11 @@ class EditClient extends ConsumerWidget {
                                       TotalFishesItem(
                                         initialvalue: client.fish![0].number,
                                         typeOfFish:
-                                            client.fish![0].fishType!.name,
+                                        client.fish![0].fishType!.name,
                                         list: ref
                                             .read(
-                                              fishTypesNotifier.notifier,
-                                            )
+                                          fishTypesNotifier.notifier,
+                                        )
                                             .fishTypesModel!
                                             .data!,
                                         onTotalFishesChange: (v) {
@@ -383,7 +382,6 @@ class EditClient extends ConsumerWidget {
                                 //           const Text('إضافة عدد من نوع آخر '),
                                 //     ),
                                 //   ),
-                                const SizedBox(height: 20),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
@@ -399,13 +397,17 @@ class EditClient extends ConsumerWidget {
                                   ],
                                 ),
                                 Row(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  MainAxisAlignment.spaceEvenly,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(
-                                          top: SizeConfig.screenHeight * 0.04),
+                                      padding:
+                                      const EdgeInsets.only(right: 5.0),
                                       child: CustomTextField(
+                                        width: SizeConfig.screenWidth * .38,
+
                                         hint: client.feed ?? 'نوع العلف',
                                         onChange: (v) {
                                           feed = v;
@@ -413,9 +415,11 @@ class EditClient extends ConsumerWidget {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(
-                                          top: SizeConfig.screenHeight * 0.04),
+                                      padding:
+                                      const EdgeInsets.only(left: 6.0),
                                       child: CustomTextField(
+                                        width: SizeConfig.screenWidth * .31,
+
                                         hint: client.company ?? 'اسم الشركه',
                                         onChange: (v) {
                                           company = v;
@@ -424,7 +428,6 @@ class EditClient extends ConsumerWidget {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 20),
                                 Text(
                                   'وزن السمكه الابتدائي بالجرام',
                                   style: MainTheme.hintTextStyle,
@@ -450,9 +453,7 @@ class EditClient extends ConsumerWidget {
                                     return null;
                                   },
                                 ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
+
                                 Text(
                                   'وزن السمكه المستهدف بالجرام',
                                   style: MainTheme.hintTextStyle,
@@ -542,9 +543,8 @@ class EditClient extends ConsumerWidget {
                     ],
                   ),
                   IconButton(
-                    padding:
-                        EdgeInsets.only(top: SizeConfig.screenHeight * 0.08),
-                    onPressed: () {
+
+                  onPressed: () {
                       pop();
                     },
                     icon: const Icon(Icons.arrow_back_ios),

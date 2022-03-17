@@ -26,6 +26,7 @@ import '../../../CustomMap/presentation/manager/map_notifier.dart';
 // ignore: must_be_immutable
 class AddClient extends ConsumerWidget {
   final bool fromSearch;
+
   AddClient({Key? key, required this.fromSearch}) : super(key: key);
 
   final List<Map<String, dynamic>> listofMeasuer = [
@@ -200,7 +201,7 @@ class AddClient extends ConsumerWidget {
                                       ),
                                       child: Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.spaceEvenly,
                                         children: [
                                           SizedBox(
                                             width: SizeConfig.screenWidth * 0.4,
@@ -209,10 +210,12 @@ class AddClient extends ConsumerWidget {
                                                     'حرك المؤشر ليتم اختيار العنوان',
                                                 style: MainTheme.hintTextStyle
                                                     .copyWith(
-                                                    color: Colors.black),
+                                                        color: Colors.black),
                                                 maxLines: null),
                                           ),
-                                          const SizedBox(width: 40,),
+                                          const SizedBox(
+                                            width: 40,
+                                          ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: CircleAvatar(
@@ -222,8 +225,7 @@ class AddClient extends ConsumerWidget {
                                                 size: 17,
                                                 color: Colors.white,
                                               ),
-                                              backgroundColor: Theme
-                                                  .of(context)
+                                              backgroundColor: Theme.of(context)
                                                   .primaryColor,
                                             ),
                                           ),
@@ -237,52 +239,47 @@ class AddClient extends ConsumerWidget {
                                   SizedBox(
                                     width: SizeConfig.screenWidth * 0.9,
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .start,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
+                                        const SizedBox(height: 15),
 
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.all(
-                                                    8.0),
-                                                child: CustomTextField(
-                                                  numbersOnly: true,
-                                                  calculator: true,
-                                                  paste: false,
-                                                  type: TextInputType.phone,
-                                                  validator: (v) {
-                                                    if (v!.isEmpty) {
-                                                      return 'لا يجب ترك الحقل فارغ';
-                                                    }
-                                                    return null;
-                                                  },
-                                                  hint: 'مساحة الأرض',
-                                                  onChange: (v) {
-                                                    try {
-                                                      landSize = num.parse(v);
-                                                    } on FormatException {
-                                                      debugPrint(
-                                                          'Format error!');
-                                                    }
-                                                  },
-                                                ),
-                                              ),
-                                              CustomBottomSheet(
-                                                staticList: true,
-                                                name: 'فدان/ م2',
-                                                list: listofMeasuer,
-                                                onChange: (v) {
-                                                  landSizeType = v;
-                                                  debugPrint(v);
-                                                },
-                                              ),
-                                            ],
-                                          ),
+                                        Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            CustomTextField(
+                                              numbersOnly: true,
+                                              calculator: true,
+                                              paste: false,
+                                              type: TextInputType.phone,
+                                              validator: (v) {
+                                                if (v!.isEmpty) {
+                                                  return 'لا يجب ترك الحقل فارغ';
+                                                }
+                                                return null;
+                                              },
+                                              hint: '     مساحة الأرض',
+                                              onChange: (v) {
+                                                try {
+                                                  landSize = num.parse(v);
+                                                } on FormatException {
+                                                  debugPrint('Format error!');
+                                                }
+                                              },
+                                            ),
+                                            CustomBottomSheet(
+                                              staticList: true,
+                                              name: 'فدان/ م2',
+                                              list: listofMeasuer,
+                                              onChange: (v) {
+                                                landSizeType = v;
+                                                debugPrint(v);
+                                              },
+                                            ),
+                                          ],
                                         ),
                                         TotalFishesItem(
                                           list: ref
@@ -361,16 +358,17 @@ class AddClient extends ConsumerWidget {
                                   //   ),
                                   // const SizedBox(height: 20),
                                   Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                     mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.only(
-                                            top:
-                                                SizeConfig.screenHeight * 0.04),
+                                        padding:
+                                        const EdgeInsets.only(right: 5.0),
                                         child: CustomTextField(
-                                          width: SizeConfig.screenWidth * .36,
-                                          hint: 'نوع العلف',
+                                          width: SizeConfig.screenWidth * .38,
+                                          hint: '     نوع العلف',
                                           onChange: (v) {
                                             feed = v;
                                           },
@@ -383,12 +381,10 @@ class AddClient extends ConsumerWidget {
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.only(
-                                            top:
-                                                SizeConfig.screenHeight * 0.04),
+                                        padding:
+                                        const EdgeInsets.only(left: 6.0),
                                         child: CustomTextField(
-                                          width: SizeConfig.screenWidth * .36,
-
+                                          width: SizeConfig.screenWidth * .31,
                                           hint: 'اسم الشركة',
                                           onChange: (v) {
                                             company = v;
@@ -403,10 +399,8 @@ class AddClient extends ConsumerWidget {
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 20),
                                   CustomTextField(
-
-                                  calculator: true,
+                                    calculator: true,
                                     paste: false,
                                     type: TextInputType.number,
                                     numbersOnly: true,
@@ -506,8 +500,7 @@ class AddClient extends ConsumerWidget {
                       ],
                     ),
                     IconButton(
-
-                    onPressed: () {
+                      onPressed: () {
                         pop();
                       },
                       icon: const Icon(Icons.arrow_back_ios),
