@@ -20,7 +20,7 @@ class CustomTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: hieght ?? SizeConfig.screenHeight * 0.08,
-      width: width ?? SizeConfig.screenWidth * 0.3,
+      width: width ?? SizeConfig.screenWidth * 0.35,
       child: TextButton(
         onPressed: function,
         child: Text(
@@ -31,8 +31,7 @@ class CustomTextButton extends StatelessWidget {
           padding: const EdgeInsets.all(4),
           elevation: 5,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(radius ?? 10)),
-          shadowColor: MainStyle.shadowColor,
+              borderRadius: BorderRadius.circular(radius ?? 30)),
           backgroundColor: const Color.fromRGBO(16, 107, 172, 1),
         ),
       ),

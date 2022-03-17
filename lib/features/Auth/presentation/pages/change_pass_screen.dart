@@ -133,7 +133,6 @@ class ChangePassScreen extends ConsumerWidget {
                     }
                   },
                   width: SizeConfig.screenWidth * 0.3,
-                  radius: 20,
                 ))
               ],
             ),

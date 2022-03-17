@@ -63,7 +63,7 @@ class Home extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: SizedBox(
-                        height: SizeConfig.screenHeight * 0.22,
+                        height: SizeConfig.screenHeight * 0.16,
                         width: SizeConfig.screenWidth * 0.8,
                         child: Column(
                           children: [

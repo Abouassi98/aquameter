@@ -100,6 +100,7 @@ class LoginScreen extends ConsumerWidget {
               height: 15,
             ),
             CustomTextField(
+              height: SizeConfig.screenHeight * .09,
               width: SizeConfig.screenWidth * 0.7,
               icon: Icons.lock,
               hint: localization.text('password')!,
@@ -122,7 +123,7 @@ class LoginScreen extends ConsumerWidget {
                       : Icons.visibility),
                   onPressed: () {
                     ref.read(visabilityNotifierProvider.state).state =
-                        !visabilityNotifier;
+                    !visabilityNotifier;
                   },
                 ),
               ),
@@ -144,7 +145,6 @@ class LoginScreen extends ConsumerWidget {
                   fishTypes,
                 );
               },
-              radius: 20,
             ),
             Container(
               alignment: Alignment.center,

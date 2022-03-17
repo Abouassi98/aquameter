@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/utils/widgets/custom_new_dialog.dart';
 import '../widgets/custom_bottom_navigation_bar.dart';
 import 'statics.dart';
 import 'home.dart';
@@ -32,15 +33,14 @@ class MainPage extends ConsumerWidget {
       Statics(),
     ];
     log("Token=${GetStorage().read(kToken)}");
+    final CustomWarningDialog _dialog = CustomWarningDialog();
+
     return WillPopScope(
       onWillPop: () async {
-        return await showDialog(
+        return await _dialog.showOptionDialog(
+            okFun: () => SystemNavigator.pop(),
             context: context,
-            useSafeArea: true,
-            builder: (context) => CustomOptionDialog(
-                  title: 'هل تود الخروج',
-                  function: () => SystemNavigator.pop(),
-                ));
+            msg: 'هل تود الخروج');
       },
       child: Directionality(
         textDirection: localization.currentLanguage.toString() == 'en'

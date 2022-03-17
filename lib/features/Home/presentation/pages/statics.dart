@@ -184,7 +184,8 @@ class Statics extends ConsumerWidget {
                         dataLabelSettings: const DataLabelSettings(
                           isVisible: true,
                                 textStyle: TextStyle(fontSize: 15),
-                                color: Colors.red,
+                                borderRadius: 25,
+                                color: Colors.white,
                                 labelPosition: ChartDataLabelPosition.inside,
                               ),
                               dataSource: List.generate(
@@ -207,7 +208,8 @@ class Statics extends ConsumerWidget {
                               dataLabelSettings: const DataLabelSettings(
                                 isVisible: true,
                                 textStyle: TextStyle(fontSize: 15),
-                                color: Colors.red,
+                                borderRadius: 25,
+                                color: Colors.white,
                                 labelPosition: ChartDataLabelPosition.inside,
                               ),
                               dataSource: List.generate(
@@ -326,8 +328,9 @@ class Statics extends ConsumerWidget {
                             .clientsModel!
                             .data!
                             .where((element) =>
-                        element.onlinePeriodsResult!
-                            .first.meetingResults!.isNotEmpty)
+                            element.onlinePeriodsResult!
+                                .any((element) =>
+                            element.meetingResults!.isNotEmpty))
                             .toList(),
                         onChange: (v) {
                           ref
@@ -422,8 +425,8 @@ class Statics extends ConsumerWidget {
                         dateTime2.toString().substring(0, 10),
                       ),
                       clientId: clientValues);
-                        PdfGenerator().generatePDF(ref
-                                .watch(reportNotifier.notifier)
+                  PdfGenerator().generatePDF(ref
+                      .watch(reportNotifier.notifier)
                                 .reportModel!
                                 .reportData!
                             // .where(

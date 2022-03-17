@@ -1,14 +1,14 @@
 ///Package imports
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
+import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/features/pdf/presentation/pages/save_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+
 ///Pdf import
 import 'package:syncfusion_flutter_pdf/pdf.dart';
 import '../../data/report_model.dart';
-
 
 class PdfGenerator {
   Future<List<int>> readFontData() async {
@@ -24,7 +24,8 @@ class PdfGenerator {
     //Get page client size
     final Size pageSize = page.getClientSize();
     //Draw rectangle
-    PdfFont font = PdfTrueTypeFont(await readFontData(), 12);
+    PdfFont font =
+        PdfTrueTypeFont(await readFontData(), SizeConfig.screenWidth * .015);
     page.graphics.drawRectangle(
         bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
         pen: PdfPen(PdfColor(142, 170, 219, 255)));
@@ -123,52 +124,71 @@ class PdfGenerator {
     //Create a PDF grid
     final PdfGrid grid = PdfGrid();
     //Secify the columns count to the grid.
-    grid.columns.add(count: 7);
+    grid.columns.add(count: 13);
     //Create the header row of the grid.
     final PdfGridRow headerRow = grid.headers.add(1)[0];
     //Set style
     headerRow.style.backgroundBrush = PdfSolidBrush(PdfColor(68, 114, 196));
     headerRow.style.textBrush = PdfBrushes.white;
+    headerRow.style.font = font;
     // headerRow.style.font = PdfFont[];
-    headerRow.cells[0].value = 'client Id';
-    headerRow.cells[0].stringFormat.alignment = PdfTextAlignment.center;
-    headerRow.cells[1].value = 'client Name';
-    headerRow.cells[2].value = 'Fish Number';
-    headerRow.cells[3].value = 'average Weight';
-    headerRow.cells[4].value = 'target Weight';
-    headerRow.cells[5].value = 'conversion Rate';
-    headerRow.cells[6].value = 'totalFeed';
+    headerRow.cells[0].value = 'Date';
+    headerRow.cells[1].value = 'ph';
+    headerRow.cells[2].value = 'Temperature';
+    headerRow.cells[3].value = 'oxygen';
+    headerRow.cells[4].value = 'salinity';
+    headerRow.cells[5].value = 'ammonia';
+    headerRow.cells[6].value = 'Toxic Ammonia';
+    headerRow.cells[7].value = 'Fish Number';
+    headerRow.cells[8].value = 'Total Weight';
+    headerRow.cells[9].value = 'average Weight';
+    headerRow.cells[10].value = 'Dead Fish';
+    headerRow.cells[11].value = 'Total Feed';
+    headerRow.cells[12].value = 'conversion Rate';
+    // headerRow.cells[13].value = 'toxicAmmonia';
 
     for (var element in reportData) {
       addClient(
-          clientId: element.id.toString(),
-          clientName: element.id.toString(),
-          totalFish: "15",
-          averageWeight: "element.totalFeed.toString()",
-          conversionRate: "element.conversionRate.toString()",
-          totalFeed: "element.totalFeed.toString()",
-          targetWeight: "element.targetWeight.toString()",
-          grid: grid,
-          font: font);
+        realDate: element.realDate.toString().substring(0, 10),
+        ph: element.ph.toString(),
+        temperature: element.temperature.toString(),
+        oxygen: element.oxygen.toString(),
+        salinity: element.salinity.toString(),
+        ammonia: element.ammonia.toString(),
+        toxicAmmonia: element.toxicAmmonia.toString(),
+        fishNumber: element.totalNumber.toString(),
+        conversionRate: element.conversionRate.toString(),
+        deadFish: element.deadFish.toString(),
+        totalWeight: element.totalWeight.toString(),
+        averageWeight: element.averageWeight.toString(),
+        totalFeed: element.feed.toString(),
+        grid: grid,
+        font: font,
+
+      );
     }
 
     grid.applyBuiltInStyle(PdfGridBuiltInStyle.listTable4Accent5);
     // grid.columns[1].width = 200;
     for (int i = 0; i < headerRow.cells.count; i++) {
       headerRow.cells[i].style.cellPadding =
-          PdfPaddings(bottom: 5, left: 5, right: 5, top: 5);
+          PdfPaddings(bottom: 5, left: 2, right: 2, top: 5);
+      headerRow.cells[i].stringFormat.textDirection =
+          PdfTextDirection.leftToRight;
+
+      headerRow.cells[i].stringFormat.alignment = PdfTextAlignment.center;
     }
     for (int i = 0; i < grid.rows.count; i++) {
       final PdfGridRow row = grid.rows[i];
       for (int j = 0; j < row.cells.count; j++) {
         final PdfGridCell cell = row.cells[j];
 
-        cell.stringFormat.textDirection = PdfTextDirection.rightToLeft;
-        if (j == 0) {
-          cell.stringFormat.alignment = PdfTextAlignment.center;
-        }
+        cell.stringFormat.textDirection = PdfTextDirection.leftToRight;
+
+        cell.stringFormat.alignment = PdfTextAlignment.center;
+
         cell.style.cellPadding =
-            PdfPaddings(bottom: 5, left: 5, right: 5, top: 5);
+            PdfPaddings(bottom: 5, left: 2, right: 2, top: 5);
       }
     }
     return grid;
@@ -176,27 +196,37 @@ class PdfGenerator {
 
   //Create and row for the grid.
   void addClient({
-    required String clientId,
-    required String clientName,
-    required String totalFish,
+    required String realDate,
+    required String ph,
+    required String temperature,
+    required String oxygen,
+    required String toxicAmmonia,
+    required String salinity,
+    required String ammonia,
+    required String fishNumber,
+    required String totalWeight,
     required String averageWeight,
-    required String targetWeight,
-    required String conversionRate,
+    required String deadFish,
     required String totalFeed,
+    required String conversionRate,
     required PdfGrid grid,
     required PdfFont font,
   }) {
     final PdfGridRow row = grid.rows.add();
     row.style.font = font;
-
-    row.cells[0].value = clientId;
-    row.cells[1].value = clientName;
-    row.cells[2].value = totalFish;
-    row.cells[3].value = averageWeight;
-    row.cells[4].value = targetWeight;
-    row.cells[5].value = conversionRate;
-    row.cells[6].value = totalFeed;
+    row.cells[0].value = realDate;
+    row.cells[1].value = ph;
+    row.cells[2].value = temperature;
+    row.cells[3].value = oxygen;
+    row.cells[4].value = salinity;
+    row.cells[5].value = ammonia;
+    row.cells[6].value = toxicAmmonia;
+    row.cells[7].value = fishNumber;
+    row.cells[8].value = totalWeight;
+    row.cells[9].value = averageWeight;
+    row.cells[10].value = deadFish;
+    row.cells[11].value = totalFeed;
+    row.cells[12].value = conversionRate;
+    // row.cells[13].value = ammonia;
   }
-
-  StateProvider<int> clientValuesProvider = StateProvider<int>((ref) => 0);
 }

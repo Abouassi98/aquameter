@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -27,33 +28,32 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validator;
   final AutovalidateMode? autovalidateMode;
 
-  const CustomTextField(
-      {Key? key,
-      this.hint,
-      this.icon,
-      this.initialValue,
-      this.type,
-      this.maxLines,
-      this.numbersOnly,
-      this.onChange,
-      this.edit,
-      this.enabled,
-      this.visibility,
-      this.onChangeCountry,
-      this.onInit,
-      this.controller,
-      this.validator,
-      this.fillColor,
-      this.height,
-      this.width,
-      this.maxLength,
-      this.calculator,
-      this.paste,
-      this.minRange,
-      this.maxRange,
-      this.autovalidateMode,
-      this.showCounterTxt,
-      this.suffixIcon})
+  const CustomTextField({Key? key,
+    this.hint,
+    this.icon,
+    this.initialValue,
+    this.type,
+    this.maxLines,
+    this.numbersOnly,
+    this.onChange,
+    this.edit,
+    this.enabled,
+    this.visibility,
+    this.onChangeCountry,
+    this.onInit,
+    this.controller,
+    this.validator,
+    this.fillColor,
+    this.height,
+    this.width,
+    this.maxLength,
+    this.calculator,
+    this.paste,
+    this.minRange,
+    this.maxRange,
+    this.autovalidateMode,
+    this.showCounterTxt,
+    this.suffixIcon})
       : super(key: key);
 
   @override
@@ -75,35 +75,60 @@ class CustomTextField extends StatelessWidget {
           textAlign: TextAlign.right,
           inputFormatters: calculator == true
               ? <TextInputFormatter>[
-                  DecimalTextInputFormatter(decimalRange: 3),
-                  FilteringTextInputFormatter.deny(' '),
-                  FilteringTextInputFormatter.deny('-'),
-                  if (maxRange != null)
-                    LimitRangeTextInputFormatter(minRange!, maxRange!),
-                ]
+            DecimalTextInputFormatter(decimalRange: 3),
+            FilteringTextInputFormatter.deny(' '),
+            FilteringTextInputFormatter.deny('-'),
+            if (maxRange != null)
+              LimitRangeTextInputFormatter(minRange!, maxRange!),
+          ]
               : calculator == false
-                  ? <TextInputFormatter>[
-                      LimitRangeTextInputFormatter(minRange!, maxRange!),
-                      FilteringTextInputFormatter.digitsOnly,
-                    ]
-                  : numbersOnly == true
-                      ? <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly,
-                        ]
-                      : null,
+              ? <TextInputFormatter>[
+            LimitRangeTextInputFormatter(minRange!, maxRange!),
+            FilteringTextInputFormatter.digitsOnly,
+          ]
+              : numbersOnly == true
+              ? <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly,
+          ]
+              : null,
           keyboardType: type,
           onChanged: onChange,
           autovalidateMode: autovalidateMode,
           validator: validator,
           decoration: InputDecoration(
             counterText: showCounterTxt == true ? null : '',
-            errorBorder: const OutlineInputBorder(
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25),
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1.0,
+                )),
+            disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25),
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1.0,
+                )),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25),
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1.0,
+                )),
+            focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25),
+                borderSide: const BorderSide(
+                  color: Colors.red,
+                  width: 1.0,
+                )),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25),
               borderSide: BorderSide(
                 color: Colors.red,
                 width: 1.0,
               ),
             ),
-            filled: true,
+            filled: false,
             helperText: '',
             prefixIcon: icon != null
                 ? Padding(
@@ -120,6 +145,7 @@ class CustomTextField extends StatelessWidget {
               color: Colors.grey,
               fontSize: 10,
               fontWeight: FontWeight.bold,
+
             ),
             floatingLabelBehavior: hint != null
                 ? FloatingLabelBehavior.always

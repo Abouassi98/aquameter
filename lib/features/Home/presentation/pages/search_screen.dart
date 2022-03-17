@@ -76,7 +76,7 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: MainStyle.backGroundColor,
+        backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             push(AddClient(
@@ -118,7 +118,7 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
                   title: widget.viewProfile == true
                       ? 'عرض العملاء'
                       : 'اضافه عميل في الخطه ليوم ${getAndDeleteClientsCreateMettingAndPeriod.date}',
-                  color: Colors.blue[400],
+                  color: Colors.black,
                 ),
               ),
               const SizedBox(height: 20),
@@ -194,209 +194,204 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         width: SizeConfig.screenWidth * .9,
-                        child: Card(
-                          margin: const EdgeInsets.only(
-                            left: 10,
-                            right: 10,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const SizedBox(height: 10),
-                              (selected.isNotEmpty)
-                                  ? ListView.builder(
-                                      primary: false,
-                                      shrinkWrap: true,
-                                      itemCount: selected.length,
-                                      itemBuilder: (context, index) =>
-                                          ClientItem(
-                                        confirmDismiss:
-                                            (DismissDirection direction) async {
-                                          return await _dialog.showOptionDialog(
-                                              context: context,
-                                              msg: 'هل ترغب بحذف العميل؟',
-                                              okFun: () async {
-                                                await getClient.deleteClient(
-                                                    clientId:
-                                                        selected[index].id!);
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SizedBox(height: 10),
+                            (selected.isNotEmpty)
+                                ? ListView.builder(
 
-                                                // pushReplacement(SearchScreen(
-                                                //   viewProfile: viewProfile,
-                                                // ));
+                              primary: false,
+                              shrinkWrap: true,
+                              itemCount: selected.length,
+                              itemBuilder: (context, index) =>
+                                  ClientItem(
+                                    confirmDismiss:
+                                        (DismissDirection direction) async {
+                                      return await _dialog.showOptionDialog(
+                                          context: context,
+                                          msg: 'هل ترغب بحذف العميل؟',
+                                          okFun: () async {
+                                            await getClient.deleteClient(
+                                                clientId:
+                                                selected[index].id!);
+
+                                            // pushReplacement(SearchScreen(
+                                            //   viewProfile: viewProfile,
+                                            // ));
+                                          },
+                                          okMsg: 'نعم',
+                                          cancelMsg: 'لا',
+                                          cancelFun: () {
+                                            return;
+                                          });
+                                    },
+                                    fishTypes: fishTypes,
+                                    func: () async {
+                                      if (widget.viewProfile == true) {
+                                        push(
+                                          ProfileClientScreen(
+                                              client: selected[index]),
+                                        );
+                                      } else {
+                                        if (selected[index]
+                                            .onlinePeriodsResult!
+                                            .isNotEmpty) {
+                                          await _dialog.showOptionDialog(
+                                              context: context,
+                                              msg:
+                                              'هل ترغب باضافه العميل للخطه الاسبوعيه ؟',
+                                              okFun: () async {
+                                                if (selected[index]
+                                                    .onlinePeriodsResult![
+                                                0]
+                                                    .meetings!
+                                                    .indexWhere((element) =>
+                                                element.meeting!
+                                                    .substring(
+                                                    0,
+                                                    10) ==
+                                                    getClient
+                                                        .date) >
+                                                    -1) {
+                                                  HelperFunctions.errorBar(
+                                                      context,
+                                                      message:
+                                                      'لا يمكن اضافه العميل الي نفس الموعد مرتين');
+                                                } else {
+                                                  await getClient
+                                                      .createMetting(
+                                                    clientId:
+                                                    selected[index].id!,
+                                                  );
+                                                  pushAndRemoveUntil(
+                                                      MainPage());
+                                                }
                                               },
                                               okMsg: 'نعم',
                                               cancelMsg: 'لا',
                                               cancelFun: () {
                                                 return;
                                               });
-                                        },
-                                        fishTypes: fishTypes,
-                                        func: () async {
-                                          if (widget.viewProfile == true) {
-                                            push(
-                                              ProfileClientScreen(
-                                                  client: selected[index]),
-                                            );
-                                          } else {
-                                            if (selected[index]
-                                                .onlinePeriodsResult!
-                                                .isNotEmpty) {
-                                              await _dialog.showOptionDialog(
-                                                  context: context,
-                                                  msg:
-                                                      'هل ترغب باضافه العميل للخطه الاسبوعيه ؟',
-                                                  okFun: () async {
-                                                    if (selected[index]
-                                                            .onlinePeriodsResult![
-                                                                0]
-                                                            .meetings!
-                                                            .indexWhere((element) =>
-                                                                element.meeting!
-                                                                    .substring(
-                                                                        0,
-                                                                        10) ==
-                                                                getClient
-                                                                    .date) >
-                                                        -1) {
-                                                      HelperFunctions.errorBar(
-                                                          context,
-                                                          message:
-                                                              'لا يمكن اضافه العميل الي نفس الموعد مرتين');
-                                                    } else {
-                                                      await getClient
-                                                          .createMetting(
-                                                        clientId:
-                                                            selected[index].id!,
-                                                      );
-                                                      pushAndRemoveUntil(
-                                                          MainPage());
-                                                    }
-                                                  },
-                                                  okMsg: 'نعم',
-                                                  cancelMsg: 'لا',
-                                                  cancelFun: () {
-                                                    return;
-                                                  });
-                                            } else {
-                                              await _dialog.showOptionDialog(
-                                                  context: context,
-                                                  msg:
-                                                      'هل ترغب باضافة دوره جديده',
-                                                  okFun: () async {
-                                                    await getClient
-                                                        .createPeriod(
-                                                      clientId:
-                                                          selected[index].id!,
-                                                    );
+                                        } else {
+                                          await _dialog.showOptionDialog(
+                                              context: context,
+                                              msg:
+                                              'هل ترغب باضافة دوره جديده',
+                                              okFun: () async {
+                                                await getClient
+                                                    .createPeriod(
+                                                  clientId:
+                                                  selected[index].id!,
+                                                );
 
-                                                    pop();
-                                                  },
-                                                  okMsg: 'نعم',
-                                                  cancelMsg: 'لا',
-                                                  cancelFun: () {
-                                                    return;
-                                                  });
-                                            }
-                                          }
-                                        },
-                                        client: selected[index],
-                                      ),
-                                    )
-                                  : (selected.isEmpty && controller.text != '')
-                                      ? const Center(
-                                          child: Text('لا يوجد عملاء'))
-                                      : (selected.isEmpty &&
-                                              controller.text == '' &&
-                                              filter == true)
-                                          ? const Center(
-                                              child: Text('لا يوجد عملاء'))
-                                          : ListView.builder(
-                                              primary: false,
-                                              shrinkWrap: true,
-                                              itemCount: widget.clients.length,
-                                              itemBuilder: (context, index) =>
-                                                  ClientItem(
-                                                fishTypes: fishTypes,
-                                                func: () async {
-                                                  if (widget.viewProfile ==
-                                                      true) {
-                                                    push(ProfileClientScreen(
-                                                        client: widget
-                                                            .clients[index]));
-                                                  } else {
-                                                    if (widget
-                                                        .clients[index]
-                                                        .onlinePeriodsResult!
-                                                        .isNotEmpty) {
-                                                      await _dialog
-                                                          .showOptionDialog(
-                                                              context: context,
-                                                              msg:
-                                                                  'هل ترغب باضافه العميل للخطه الاسبوعيه ؟',
-                                                              okFun: () async {
-                                                                if (widget
-                                                                        .clients[
-                                                                            index]
-                                                                        .onlinePeriodsResult![
-                                                                            0]
-                                                                        .meetings!
-                                                                        .indexWhere((element) =>
-                                                                            element.meeting!.substring(0,
-                                                                                10) ==
-                                                                            getClient.date) >
-                                                                    -1) {
-                                                                  HelperFunctions
-                                                                      .errorBar(
-                                                                          context,
-                                                                          message:
-                                                                              'لا يمكن اضافه العميل الي نفس الموعد مرتين');
-                                                                } else {
-                                                                  await getClient
-                                                                      .createMetting(
-                                                                    clientId: widget
-                                                                        .clients[
-                                                                            index]
-                                                                        .id!,
-                                                                  );
-                                                                  pushAndRemoveUntil(
-                                                                      MainPage());
-                                                                }
-                                                              },
-                                                              okMsg: 'نعم',
-                                                              cancelMsg: 'لا',
-                                                              cancelFun: () {
-                                                                return;
-                                                              });
-                                                    } else {
-                                                      await _dialog
-                                                          .showOptionDialog(
-                                                              context: context,
-                                                              msg:
-                                                                  'هل ترغب باضافة دوره جديده',
-                                                              okFun: () async {
-                                                                await getClient
-                                                                    .createPeriod(
-                                                                  clientId: widget
-                                                                      .clients[
-                                                                          index]
-                                                                      .id!,
-                                                                );
+                                                pop();
+                                              },
+                                              okMsg: 'نعم',
+                                              cancelMsg: 'لا',
+                                              cancelFun: () {
+                                                return;
+                                              });
+                                        }
+                                      }
+                                    },
+                                    client: selected[index],
+                                  ),
+                            )
+                                : (selected.isEmpty && controller.text != '')
+                                ? const Center(
+                                child: Text('لا يوجد عملاء'))
+                                : (selected.isEmpty &&
+                                controller.text == '' &&
+                                filter == true)
+                                ? const Center(
+                                child: Text('لا يوجد عملاء'))
+                                : ListView.builder(
+                              primary: false,
+                              shrinkWrap: true,
+                              itemCount: widget.clients.length,
+                              itemBuilder: (context, index) =>
+                                  ClientItem(
+                                    fishTypes: fishTypes,
+                                    func: () async {
+                                      if (widget.viewProfile ==
+                                          true) {
+                                        push(ProfileClientScreen(
+                                            client: widget
+                                                .clients[index]));
+                                      } else {
+                                        if (widget
+                                            .clients[index]
+                                            .onlinePeriodsResult!
+                                            .isNotEmpty) {
+                                          await _dialog
+                                              .showOptionDialog(
+                                              context: context,
+                                              msg:
+                                              'هل ترغب باضافه العميل للخطه الاسبوعيه ؟',
+                                              okFun: () async {
+                                                if (widget
+                                                    .clients[
+                                                index]
+                                                    .onlinePeriodsResult![
+                                                0]
+                                                    .meetings!
+                                                    .indexWhere((element) =>
+                                                element.meeting!.substring(0,
+                                                    10) ==
+                                                    getClient.date) >
+                                                    -1) {
+                                                  HelperFunctions
+                                                      .errorBar(
+                                                      context,
+                                                      message:
+                                                      'لا يمكن اضافه العميل الي نفس الموعد مرتين');
+                                                } else {
+                                                  await getClient
+                                                      .createMetting(
+                                                    clientId: widget
+                                                        .clients[
+                                                    index]
+                                                        .id!,
+                                                  );
+                                                  pushAndRemoveUntil(
+                                                      MainPage());
+                                                }
+                                              },
+                                              okMsg: 'نعم',
+                                              cancelMsg: 'لا',
+                                              cancelFun: () {
+                                                return;
+                                              });
+                                        } else {
+                                          await _dialog
+                                              .showOptionDialog(
+                                              context: context,
+                                              msg:
+                                              'هل ترغب باضافة دوره جديده',
+                                              okFun: () async {
+                                                await getClient
+                                                    .createPeriod(
+                                                  clientId: widget
+                                                      .clients[
+                                                  index]
+                                                      .id!,
+                                                );
 
-                                                                pop();
-                                                              },
-                                                              okMsg: 'نعم',
-                                                              cancelMsg: 'لا',
-                                                              cancelFun: () {
-                                                                return;
-                                                              });
-                                                    }
-                                                  }
-                                                },
-                                                client: widget.clients[index],
-                                              ),
-                                            ),
-                            ],
-                          ),
+                                                pop();
+                                              },
+                                              okMsg: 'نعم',
+                                              cancelMsg: 'لا',
+                                              cancelFun: () {
+                                                return;
+                                              });
+                                        }
+                                      }
+                                    },
+                                    client: widget.clients[index],
+                                  ),
+                            ),
+                          ],
                         ),
                       ),
                     )

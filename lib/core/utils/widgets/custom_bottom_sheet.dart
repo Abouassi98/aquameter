@@ -83,12 +83,12 @@ class CustomBottomSheetState extends ConsumerState<CustomBottomSheet> {
             });
       },
       child: Container(
-        height: SizeConfig.screenHeight * 0.08,
+        height: SizeConfig.screenHeight * 0.062,
         width: SizeConfig.screenWidth * 0.3,
         decoration: BoxDecoration(
           border: Border.all(width: 1, color: Colors.black38),
           borderRadius: const BorderRadius.all(
-            Radius.circular(10),
+            Radius.circular(25),
           ),
         ),
         child: Row(

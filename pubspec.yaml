@@ -84,7 +84,7 @@ dev_dependencies:
 
 
 flutter_native_splash:
-  image: assets/images/Aquameter.png
+  image: assets/images/LogoSplash.png
   color: "#ffffff"
   android: true
   ios: true

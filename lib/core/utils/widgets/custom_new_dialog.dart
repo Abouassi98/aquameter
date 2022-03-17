@@ -98,7 +98,8 @@ class CustomWarningDialog {
               },
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10), color: Colors.red),
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.black),
                 height: 30,
                 child: const Center(
                     child: Text(
@@ -115,15 +116,15 @@ class CustomWarningDialog {
               },
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Theme.of(context).primaryColor),
+                  borderRadius: BorderRadius.circular(10),
+                  color: const Color.fromRGBO(16, 107, 172, 1),),
                 height: 30,
                 child: const Center(
                     child: Text(
-                  "نعم",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                )),
+                      "نعم",
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )),
               ),
             ),
             btnOkColor: Theme.of(context).primaryColor,

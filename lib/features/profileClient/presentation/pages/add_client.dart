@@ -16,6 +16,7 @@ import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/localization/manager/app_localization.dart';
 import 'package:aquameter/features/profileClient/presentation/manager/add_client_notifier.dart';
 import 'package:aquameter/features/profileClient/presentation/widgets/total_fishes.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
@@ -102,7 +103,7 @@ class AddClient extends ConsumerWidget {
                                       title: "إضافة عميل جديد"),
                                   const SizedBox(height: 15),
                                   CustomTextField(
-                                    width: SizeConfig.screenWidth * 0.7,
+                                    width: SizeConfig.screenWidth * 0.75,
                                     icon: Icons.person,
                                     hint: "اسم العميل",
                                     type: TextInputType.text,
@@ -116,14 +117,13 @@ class AddClient extends ConsumerWidget {
                                       return null;
                                     },
                                   ),
-                                  const SizedBox(height: 10),
                                   CustomTextField(
                                     showCounterTxt: true,
                                     hint: localization.text('phone_number')!,
                                     icon: Icons.phone,
                                     type: TextInputType.phone,
                                     numbersOnly: true,
-                                    width: SizeConfig.screenWidth * 0.7,
+                                    width: SizeConfig.screenWidth * 0.75,
                                     maxLength: 11,
                                     validator: (v) {
                                       bool phoneNumberAccepted = false;
@@ -149,13 +149,12 @@ class AddClient extends ConsumerWidget {
                                       phone = convertToEnglishNumbers(v.trim());
                                     },
                                   ),
-                                  const SizedBox(height: 10),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
                                       CustomBottomSheet(
-                                        name: 'المحافظه',
+                                        name: 'المحافظة',
                                         list: areaAndCites
                                             .governorateModel!.data!,
                                         onChange: (v) async {
@@ -173,7 +172,7 @@ class AddClient extends ConsumerWidget {
                                         },
                                       ),
                                       CustomBottomSheet(
-                                        name: 'المدينه',
+                                        name: 'المدينة',
                                         list: listOfCities,
                                         newCity: newCity,
                                         onChange: (v) {
@@ -185,33 +184,35 @@ class AddClient extends ConsumerWidget {
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 10),
+                                  const SizedBox(height: 15),
                                   InkWell(
                                     onTap: () {
                                       push(CustomMap());
                                     },
                                     child: Container(
+                                      width: SizeConfig.screenWidth * .75,
                                       decoration: BoxDecoration(
                                         border: Border.all(
                                             width: 1, color: Colors.black38),
                                         borderRadius: const BorderRadius.all(
-                                          Radius.circular(10),
+                                          Radius.circular(25),
                                         ),
                                       ),
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                         children: [
                                           SizedBox(
-                                            width: SizeConfig.screenWidth * 0.5,
+                                            width: SizeConfig.screenWidth * 0.4,
                                             child: Text(
                                                 address ??
-                                                    'حرك المؤشر ليتم اختيار العنوان المناسب لك',
+                                                    'حرك المؤشر ليتم اختيار العنوان',
                                                 style: MainTheme.hintTextStyle
                                                     .copyWith(
-                                                        color: Colors.black),
+                                                    color: Colors.black),
                                                 maxLines: null),
                                           ),
+                                          const SizedBox(width: 40,),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: CircleAvatar(
@@ -221,7 +222,8 @@ class AddClient extends ConsumerWidget {
                                                 size: 17,
                                                 color: Colors.white,
                                               ),
-                                              backgroundColor: Theme.of(context)
+                                              backgroundColor: Theme
+                                                  .of(context)
                                                   .primaryColor,
                                             ),
                                           ),
@@ -231,57 +233,62 @@ class AddClient extends ConsumerWidget {
                                   ),
                                   const SizedBox(height: 15),
                                   const CustomHeaderTitle(
-                                      title: 'بيانات المزرعه'),
-                                  const SizedBox(height: 10),
+                                      title: 'بيانات المزرعة'),
                                   SizedBox(
                                     width: SizeConfig.screenWidth * 0.9,
                                     child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .start,
                                       children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: SizeConfig.screenHeight *
-                                                      0.04),
-                                              child: CustomTextField(
-                                                numbersOnly: true,
-                                                calculator: true,
-                                                paste: false,
-                                                type: TextInputType.phone,
-                                                validator: (v) {
-                                                  if (v!.isEmpty) {
-                                                    return 'لا يجب ترك الحقل فارغ';
-                                                  }
-                                                  return null;
-                                                },
-                                                hint: 'مساحة الأرض',
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.all(
+                                                    8.0),
+                                                child: CustomTextField(
+                                                  numbersOnly: true,
+                                                  calculator: true,
+                                                  paste: false,
+                                                  type: TextInputType.phone,
+                                                  validator: (v) {
+                                                    if (v!.isEmpty) {
+                                                      return 'لا يجب ترك الحقل فارغ';
+                                                    }
+                                                    return null;
+                                                  },
+                                                  hint: 'مساحة الأرض',
+                                                  onChange: (v) {
+                                                    try {
+                                                      landSize = num.parse(v);
+                                                    } on FormatException {
+                                                      debugPrint(
+                                                          'Format error!');
+                                                    }
+                                                  },
+                                                ),
+                                              ),
+                                              CustomBottomSheet(
+                                                staticList: true,
+                                                name: 'فدان/ م2',
+                                                list: listofMeasuer,
                                                 onChange: (v) {
-                                                  try {
-                                                    landSize = num.parse(v);
-                                                  } on FormatException {
-                                                    debugPrint('Format error!');
-                                                  }
+                                                  landSizeType = v;
+                                                  debugPrint(v);
                                                 },
                                               ),
-                                            ),
-                                            CustomBottomSheet(
-                                              staticList: true,
-                                              name: 'فدان/ م',
-                                              list: listofMeasuer,
-                                              onChange: (v) {
-                                                landSizeType = v;
-                                                debugPrint(v);
-                                              },
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                         TotalFishesItem(
                                           list: ref
                                               .read(
-                                                fishTypesNotifier.notifier,
-                                              )
+                                            fishTypesNotifier.notifier,
+                                          )
                                               .fishTypesModel!
                                               .data!,
                                           onTotalFishesChange: (v) {
@@ -362,6 +369,7 @@ class AddClient extends ConsumerWidget {
                                             top:
                                                 SizeConfig.screenHeight * 0.04),
                                         child: CustomTextField(
+                                          width: SizeConfig.screenWidth * .36,
                                           hint: 'نوع العلف',
                                           onChange: (v) {
                                             feed = v;
@@ -379,7 +387,9 @@ class AddClient extends ConsumerWidget {
                                             top:
                                                 SizeConfig.screenHeight * 0.04),
                                         child: CustomTextField(
-                                          hint: 'اسم الشركه',
+                                          width: SizeConfig.screenWidth * .36,
+
+                                          hint: 'اسم الشركة',
                                           onChange: (v) {
                                             company = v;
                                           },
@@ -395,7 +405,8 @@ class AddClient extends ConsumerWidget {
                                   ),
                                   const SizedBox(height: 20),
                                   CustomTextField(
-                                    calculator: true,
+
+                                  calculator: true,
                                     paste: false,
                                     type: TextInputType.number,
                                     numbersOnly: true,
@@ -414,9 +425,7 @@ class AddClient extends ConsumerWidget {
                                       return null;
                                     },
                                   ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
+
                                   CustomTextField(
                                     numbersOnly: true,
                                     calculator: true,
@@ -497,9 +506,8 @@ class AddClient extends ConsumerWidget {
                       ],
                     ),
                     IconButton(
-                      padding:
-                          EdgeInsets.only(top: SizeConfig.screenHeight * 0.08),
-                      onPressed: () {
+
+                    onPressed: () {
                         pop();
                       },
                       icon: const Icon(Icons.arrow_back_ios),
