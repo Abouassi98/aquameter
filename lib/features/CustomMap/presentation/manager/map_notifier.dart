@@ -25,9 +25,7 @@ class MapNotifier extends StateNotifier<AsyncValue<String>> {
   BitmapDescriptor? userLocationIcon;
   Marker? _addressMarker;
 
-  void selectAddress(String addressParm) {
-    state = AsyncValue.data(addressParm);
-  }
+ 
 
   Future<Uint8List> _getBytesFromAsset(
     String path,
