@@ -18,7 +18,7 @@ class LimitRangeTextInputFormatter extends TextInputFormatter {
         return TextEditingValue(text: max.toString());
       }
     } on FormatException {
-      debugPrint('Format error!');
+      debugPrint('Format e rror!');
     }
     return newValue;
   }
