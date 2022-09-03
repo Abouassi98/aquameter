@@ -15,7 +15,7 @@ class CustomWarningDialog {
             animType: AnimType.SCALE,
             dialogType: DialogType.NO_HEADER,
             body: Center(child: Text(msg)),
-            btnOkOnPress: btnOnPress,
+            btnOkOnPress: btnOnPress!(),
             btnOkText: 'موافق')
         .show();
   }
@@ -46,7 +46,7 @@ class CustomWarningDialog {
                     ),
                   ),
                 )),
-            btnOkOnPress: btnOnPress,
+            btnOkOnPress: btnOnPress!(),
             btnOkText: ok)
         .show();
   }
@@ -76,7 +76,7 @@ class CustomWarningDialog {
                     ),
                   ),
                 )),
-            btnOkOnPress: btnOnPress,
+            btnOkOnPress: btnOnPress!(),
             btnOkText: btnMsg,
             aligment: Alignment.center)
         .show();
@@ -140,7 +140,7 @@ class CustomWarningDialog {
             ),
             btnOkOnPress: okFun,
             btnOkText: okMsg,
-            btnCancelOnPress: cancelFun,
+            btnCancelOnPress: cancelFun!(),
             btnCancelText: cancelMsg)
         .show();
   }
@@ -158,7 +158,7 @@ class CustomWarningDialog {
       animType: AnimType.SCALE,
       dialogType: DialogType.NO_HEADER,
       body: body,
-      btnOkOnPress: okFun,
+      btnOkOnPress: okFun!(),
       btnOkText: okMsg,
     ).show();
   }

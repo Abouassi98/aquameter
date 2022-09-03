@@ -39,7 +39,7 @@ class PdfGenerator {
     //Add invoice footer
     _drawFooter(page, pageSize);
     //Save and dispose the document.
-    final List<int> bytes = document.save();
+    final List<int> bytes =await document.save();
     document.dispose();
     //Launch file.
     await saveAndLaunchFile(bytes, 'Report.pdf');
