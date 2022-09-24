@@ -9,7 +9,8 @@ import 'package:lottie/lottie.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../../core/utils/functions/helper_functions.dart';
 import '../../../../core/utils/sizes.dart';
-import '../../../../core/utils/widgets/loading_indicators.dart';
+import '../../../../core/utils/widgets/app_loader.dart';
+
 import '../../../pdf/presentation/manager/report_notifier.dart';
 import '../../../pdf/presentation/pages/genrate_pdf.dart';
 import '../manager/get_client_notifier.dart';
@@ -81,10 +82,7 @@ class Statics extends ConsumerWidget {
                       height: Sizes.fullScreenHeight(context) * .01,
                     ),
                     ref.watch(provider).when(
-                          loading: () =>
-                              LoadingIndicators.instance.smallLoadingAnimation(
-                            context,
-                          ),
+                            loading: () =>const AppLoader(),
                           error: (e, o) {
                             debugPrint(e.toString());
                             debugPrint(o.toString());

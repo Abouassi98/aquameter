@@ -7,15 +7,14 @@ import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/archieve/data/archieve_model.dart';
 import 'package:aquameter/features/archieve/presentation/manager/archieve_notifier.dart';
-
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
-
 import '../../../../core/utils/services/localization_service.dart';
 import '../../../../core/utils/sizes.dart';
-import '../../../../core/utils/widgets/loading_indicators.dart';
+import '../../../../core/utils/widgets/app_loader.dart';
+
 
 class ArcieveScreen extends ConsumerWidget {
   ArcieveScreen({
@@ -45,10 +44,7 @@ class ArcieveScreen extends ConsumerWidget {
           centerTitle: true,
         ),
         body: ref.watch(provider).when(
-              loading: () => LoadingIndicators.instance.smallLoadingAnimation(
-              context,
-         
-            ),
+              loading: () =>const AppLoader(),
               error: (e, o) {
                 debugPrint(e.toString());
                 debugPrint(o.toString());

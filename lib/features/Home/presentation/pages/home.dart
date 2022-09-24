@@ -13,7 +13,8 @@ import 'package:aquameter/features/profileClient/presentation/pages/profile_clie
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../core/utils/sizes.dart';
-import '../../../../core/utils/widgets/loading_indicators.dart';
+import '../../../../core/utils/widgets/app_loader.dart';
+
 import '../../../profileClient/presentation/manager/delete_meeting_notifier.dart';
 import '../../Data/clients_model/client_model.dart';
 import '../manager/get_client_notifier.dart';
@@ -39,10 +40,7 @@ class Home extends ConsumerWidget {
     return PopUpPage(
       backgroundColor: MainStyle.backGroundColor,
       body: ref.watch(provider).when(
-            loading: () => LoadingIndicators.instance.smallLoadingAnimation(
-              context,
-          
-            ),
+            loading: () =>const AppLoader(),
             error: (e, o) {
               debugPrint(e.toString());
               debugPrint(o.toString());

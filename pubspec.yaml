@@ -125,7 +125,7 @@ flutter_native_splash:
   android_gravity: fill_vertical
   ios_content_mode: scaleAspectFill
   android_12:
-    image: "assets/images/appstore.png"
+    image: "assets/images/nativesplash.png"
     
     
 

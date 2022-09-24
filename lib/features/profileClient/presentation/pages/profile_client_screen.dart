@@ -24,7 +24,7 @@ import '../../../../core/screens/popup_page.dart';
 import '../../../../core/utils/functions/helper_functions.dart';
 import '../../../../core/utils/routing/navigation_service.dart';
 import '../../../../core/utils/sizes.dart';
-import '../../../../core/utils/widgets/loading_indicators.dart';
+import '../../../../core/utils/widgets/app_loader.dart';
 import '../../../Home/Data/clients_model/client_model.dart';
 
 import '../../data/period_results_model.dart';
@@ -207,10 +207,7 @@ class ProfileClientScreen extends ConsumerWidget {
               children: <Widget>[
                 if (client.onlinePeriodsResultCount != 0)
                   ref.watch(provider2(client.id!)).when(
-                        loading: () =>
-                            LoadingIndicators.instance.smallLoadingAnimation(
-                          context,
-                        ),
+                          loading: () =>const AppLoader(),
                         error: (e, o) {
                           debugPrint(e.toString());
                           debugPrint(o.toString());

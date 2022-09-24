@@ -50,7 +50,7 @@ class LoadingIndicators {
       child: Container(
         color: const Color.fromARGB(0, 83, 83, 83),
         child: Lottie.asset(
-          kAppLoading,
+          kAppLogo,
           height: height ?? Sizes.loadingAnimationDefaultHeight(context),
           width: width ?? Sizes.loadingAnimationDefaultWidth(context),
         ),
