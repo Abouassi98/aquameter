@@ -1,26 +1,34 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/routing/navigation_service.dart';
 import 'package:aquameter/features/Auth/data/user_model.dart';
-
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get_storage/get_storage.dart';
-import '../constants.dart';
+import '../services/storage_service.dart';
+
+final authRepoProvider = Provider<NetworkUtils>((ref) => NetworkUtils());
 
 class NetworkUtils {
   NetworkUtils();
   final baseUrl = 'https://aquameter-eg.com/public/api/';
-  Dio dio = Dio();
+  Dio dio = Dio(
+    BaseOptions(
+      connectTimeout: 20000,
+      receiveTimeout: 20000,
+    ),
+  );
+
   Response? response;
   static UserModel? loginData;
   final Map<String, String> _headers = {
     'Accept': 'application/json',
-    'Authorization': 'Bearer ${GetStorage().read(kToken)}',
+    if (StorageService.instance.restoreUserData().data != null)
+      'Authorization': 'Bearer ${StorageService.instance.restoreToken()}'
   };
 
   Future<Response> requstData({
@@ -36,11 +44,12 @@ class NetworkUtils {
       return client;
     };
     try {
-      if (GetStorage().read(kIsLoggedIn) == true) {
+      if (StorageService.instance.restoreUserData().data != null) {
         _headers.addAll({
-          'Authorization': 'Bearer ${GetStorage().read(kToken)}',
+          'Authorization': 'Bearer ${StorageService.instance.restoreToken()}',
         });
       }
+
       if (get == true) {
         response = await dio.get(baseUrl + url,
             options: Options(headers: _headers, receiveTimeout: 3000));
@@ -57,14 +66,17 @@ class NetworkUtils {
       }
     } on DioError catch (e) {
       if (e.response != null) {
+    
         response = e.response;
-        debugPrint('response: ' + e.response.toString());
+        debugPrint('response: ${e.response}');
       } else {
+
         dio.interceptors.add(
+
           RetryInterceptor(
             dio: dio,
             logPrint: print, // specify log function (optional)
-
+ignoreRetryEvaluatorExceptions: true,
             retries: 4, // retry count (optional)
             retryDelays: const [
               // set delays between retries (optional)
@@ -75,9 +87,9 @@ class NetworkUtils {
             ],
           ),
         );
-        if (GetStorage().read(kIsLoggedIn) == true) {
+        if (StorageService.instance.restoreUserData().data != null) {
           _headers.addAll({
-            'Authorization': 'Bearer ${GetStorage().read(kToken)}',
+            'Authorization': 'Bearer ${StorageService.instance.restoreToken()}',
           });
         }
         if (get == true) {
@@ -123,8 +135,8 @@ class NetworkUtils {
           requestOptions: RequestOptions(path: ''));
     } else {
       final int statusCode = response.statusCode!;
-      log('response: ' + response.toString());
-      log('statusCode: ' + statusCode.toString());
+      log('response: $response');
+      log('statusCode: $statusCode');
       if (statusCode == 200 && statusCode < 300) {
         return response;
       } else if (statusCode == 400) {
@@ -142,7 +154,7 @@ class NetworkUtils {
         Fluttertoast.showToast(
             msg: user.message!, toastLength: Toast.LENGTH_SHORT);
         // pushAndRemoveUntil(const SplashView());
-        pop();
+        NavigationService.goBack(NavigationService.context);
         return response;
       } else if (statusCode <= 500) {
         Fluttertoast.showToast(

@@ -1,20 +1,13 @@
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/constants.dart';
-import 'package:aquameter/core/utils/functions/helper.dart';
-
-import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_btn.dart';
-
 import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
-
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../../../core/utils/routing/navigation_service.dart';
+import '../../../../core/utils/sizes.dart';
 import '../../../../core/utils/widgets/custom_new_dialog.dart';
-
-
 import '../../../profileClient/data/period_results_model.dart';
 import '../manager/create_meeting_result_notifier.dart';
 
@@ -42,7 +35,7 @@ class ShowCalculator extends ConsumerWidget {
                     const SizedBox(height: 15),
                     Image.asset(
                       kAppLogo,
-                      height: SizeConfig.screenHeight * 0.1,
+                      height: Sizes.fullScreenHeight(context) * 0.1,
                       width: 120,
                       fit: BoxFit.cover,
                     ),
@@ -152,7 +145,7 @@ class ShowCalculator extends ConsumerWidget {
                                 ),
                               ),
                               Center(
-                                child: CustomBtn(
+                                child: CustomText(
                                   text:
                                       '${periodResults.toxicAmmonia} = امونيات السامه',
                                 ),
@@ -190,9 +183,8 @@ class ShowCalculator extends ConsumerWidget {
                               ),
                             ],
                           ),
-
                           Center(
-                            child: CustomBtn(
+                            child: CustomText(
                               text:
                                   '${periodResults.averageWeight} = متوسط الوزن',
                             ),
@@ -209,7 +201,7 @@ class ShowCalculator extends ConsumerWidget {
                             enabled: false,
                           ),
                           Center(
-                            child: CustomBtn(
+                            child: CustomText(
                                 text:
                                     '${periodResults.totalWeight} = اجمالي الوزن'),
                           ),
@@ -224,9 +216,8 @@ class ShowCalculator extends ConsumerWidget {
                             hint: periodResults.feed.toString(),
                             enabled: false,
                           ),
-
                           Center(
-                            child: CustomBtn(
+                            child: CustomText(
                                 text:
                                     '${periodResults.conversionRate} = معدل التحويل'),
                           ),
@@ -234,7 +225,7 @@ class ShowCalculator extends ConsumerWidget {
                             height: 20,
                           ),
                           CustomTextField(
-                            width: SizeConfig.screenWidth * 0.7,
+                            width: Sizes.fullScreenWidth(context) * 0.7,
                             maxLines: 5,
                             hint: periodResults.notes,
                             onChange: (v) {},
@@ -248,7 +239,7 @@ class ShowCalculator extends ConsumerWidget {
               ),
               IconButton(
                   onPressed: () {
-                    pop();
+                    NavigationService.goBack(context);
                   },
                   icon: const Icon(Icons.arrow_forward_ios))
             ],

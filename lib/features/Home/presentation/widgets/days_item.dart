@@ -2,44 +2,45 @@ import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/features/Home/Data/departments_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../manager/get_&_delete_clients_create_meeting_&_period_notifier.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+
+import '../manager/get_client_notifier.dart';
+
+String dayCompare = '';
+
+final AutoDisposeFutureProvider<List<PlanOfWeek>> provider =
+    FutureProvider.autoDispose<List<PlanOfWeek>>((ref) async {
+  return await ref
+      .read(departMentProvider.notifier)
+      .assigndepartMent(); //; may cause `provider` to rebuild
+});
 
 class DaysItem extends ConsumerWidget {
   final ValueChanged onChaned;
-  DaysItem({
+  const DaysItem({
     Key? key,
     required this.onChaned,
   }) : super(key: key);
 
-  final AutoDisposeFutureProvider<List<PlanOfWeek>> provider =
-      FutureProvider.autoDispose<List<PlanOfWeek>>((ref) async {
-    return await ref
-        .read(departMentProvider.notifier)
-        .assigndepartMent(); //; may cause `provider` to rebuild
-  });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final GetAndDeleteClientsCreateMettingAndPeriodNotifier getHomeClients =
-        ref.read(getClientsNotifier.notifier);
-    String dayCompare = '';
+
     final PlanOfWeekNotifier departMents =
         ref.watch(departMentProvider.notifier);
     final StateProvider<List<PlanOfWeek>> selectedProvider =
         StateProvider<List<PlanOfWeek>>(((ref) => departMents.departments));
-    List<PlanOfWeek> selected = ref.watch(selectedProvider);
+    final List<PlanOfWeek> selected = ref.watch(selectedProvider);
     return ref.watch(provider).when(
           data: (e) {
-            if (getHomeClients.isInit == false) {
+            if (ref.read(getClientsNotifier.notifier).isInit == false) {
               Future.delayed(const Duration(seconds: 0), () {
                 e[0].selected = true;
                 dayCompare = departMents.groupedTransactionValues[0]
                     ['dayCompare'] as String;
                 onChaned(dayCompare);
-
                 ref.read(selectedProvider.state).state = [...e];
-                getHomeClients.isInit = true;
+               ref.read(getClientsNotifier.notifier).isInit = true;
               });
             }
             return ListView.builder(

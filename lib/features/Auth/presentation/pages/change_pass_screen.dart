@@ -1,13 +1,17 @@
+import 'package:aquameter/core/screens/popup_page.dart';
 import 'package:aquameter/core/themes/themes.dart';
-import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Auth/presentation/manager/change_pass_notifier.dart';
-import 'package:aquameter/features/localization/manager/app_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ChangePassScreen extends ConsumerWidget {
+import '../../../../core/utils/services/localization_service.dart';
+import '../../../../core/utils/sizes.dart';
+
+class ChangePassScreen extends HookConsumerWidget {
   const ChangePassScreen({Key? key}) : super(key: key);
 
   @override
@@ -15,22 +19,19 @@ class ChangePassScreen extends ConsumerWidget {
     String? password;
     String? confPassword;
     String? currentPassword;
-    final ChangePassNotifier changePass =
-        ref.watch(changePassProvider.notifier);
+    final changePassFormKey = useMemoized(() => GlobalKey<FormState>());
 
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
+      child: PopUpPage(
+        appBar: PlatformAppBar(
           title: Text(
-            localization.text('change_pass')!,
+            tr(context).change_password,
             style: MainTheme.headingTextStyle,
           ),
-          centerTitle: true,
         ),
         body: Form(
-          key: _formKey,
+          key: changePassFormKey,
           child: Container(
             color: Colors.white,
             padding: const EdgeInsets.all(30),
@@ -41,10 +42,10 @@ class ChangePassScreen extends ConsumerWidget {
                 Column(
                   children: [
                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.04,
+                      height: Sizes.fullScreenHeight(context) * 0.04,
                     ),
                     Container(
-                      width: SizeConfig.screenWidth * 0.7,
+                      width: Sizes.fullScreenWidth(context) * 0.7,
                       decoration: const BoxDecoration(
                         border: Border(bottom: BorderSide(color: Colors.grey)),
                       ),
@@ -52,23 +53,23 @@ class ChangePassScreen extends ConsumerWidget {
                         onChange: (v) {
                           currentPassword = v;
                         },
-                        hint: localization.text('old_password'),
+                        hint: tr(context).password,
                         visibility: true,
                         type: TextInputType.text,
                         icon: Icons.lock,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return localization.text('password_required')!;
+                            return tr(context).password_required;
                           }
                           return null;
                         },
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.04,
+                      height: Sizes.fullScreenHeight(context) * 0.04,
                     ),
                     Container(
-                      width: SizeConfig.screenWidth * 0.7,
+                      width: Sizes.fullScreenWidth(context) * 0.7,
                       decoration: const BoxDecoration(
                         border: Border(bottom: BorderSide(color: Colors.grey)),
                       ),
@@ -76,23 +77,23 @@ class ChangePassScreen extends ConsumerWidget {
                         onChange: (v) {
                           password = v;
                         },
-                        hint: localization.text('new_password'),
+                        hint: tr(context).new_password,
                         visibility: true,
                         type: TextInputType.text,
                         icon: Icons.lock,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return localization.text('change_pass');
+                            return tr(context).change_password;
                           }
                           return null;
                         },
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.04,
+                      height: Sizes.fullScreenHeight(context) * 0.04,
                     ),
                     Container(
-                      width: SizeConfig.screenWidth * 0.7,
+                      width: Sizes.fullScreenWidth(context) * 0.7,
                       decoration: const BoxDecoration(
                         border: Border(bottom: BorderSide(color: Colors.grey)),
                       ),
@@ -100,39 +101,38 @@ class ChangePassScreen extends ConsumerWidget {
                         onChange: (v) {
                           confPassword = v;
                         },
-                        hint: localization.text('confirm_password'),
+                        hint: tr(context).confirm_password,
                         visibility: true,
                         type: TextInputType.text,
                         icon: Icons.lock,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return (localization
-                                .text('confirm_password_please')!);
+                            return (tr(context).confirm_password_please);
                           } else if (confPassword != password) {
-                            return localization.text('passwords_don\'t_match')!;
+                            return tr(context).passwords_doesnot_match;
                           }
                           return null;
                         },
                       ),
                     ),
                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.04,
+                      height: Sizes.fullScreenHeight(context) * 0.04,
                     ),
                   ],
                 ),
                 Center(
                     child: CustomTextButton(
-                  title: localization.text('save'),
+                  title: tr(context).save,
                   function: () {
-                    if (_formKey.currentState!.validate()) {
-                      changePass.changepassword(
-                        confPass: confPassword!,
-                        currentPassword: currentPassword!,
-                        newPassword: password!,
-                      );
+                    if (changePassFormKey.currentState!.validate()) {
+                      ref.read(changePassProvider.notifier).changepassword(
+                            confPass: confPassword!,
+                            currentPassword: currentPassword!,
+                            newPassword: password!,
+                          );
                     }
                   },
-                  width: SizeConfig.screenWidth * 0.3,
+                  width: Sizes.fullScreenWidth(context) * 0.3,
                 ))
               ],
             ),

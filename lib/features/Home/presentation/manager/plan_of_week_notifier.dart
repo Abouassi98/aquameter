@@ -1,7 +1,7 @@
 import 'package:aquameter/features/Home/Data/departments_model.dart';
 import 'package:aquameter/features/Home/Data/transaction_model.dart';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 final AutoDisposeStateNotifierProvider<PlanOfWeekNotifier, Object?>
@@ -52,6 +52,7 @@ class PlanOfWeekNotifier extends StateNotifier<void> {
   }
 
   Future<List<PlanOfWeek>> assigndepartMent() async {
+ 
     if (departments.length < 7) {
       await Future.delayed(const Duration(seconds: 1), () {
         for (var element in groupedTransactionValues) {

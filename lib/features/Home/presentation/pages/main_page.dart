@@ -1,87 +1,93 @@
 import 'dart:developer';
-
-import 'package:aquameter/core/utils/constants.dart';
-import 'package:aquameter/core/utils/functions/helper.dart';
-import 'package:aquameter/core/utils/size_config.dart';
+import 'package:aquameter/core/screens/popup_page.dart';
 import 'package:aquameter/core/utils/widgets/custom_appbar.dart';
-import 'package:aquameter/core/utils/widgets/custom_option_dialog.dart';
 import 'package:aquameter/features/Drawer/drawer_menu.dart';
-import 'package:aquameter/features/localization/manager/app_localization.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:get_storage/get_storage.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../../../core/themes/themes.dart';
+import '../../../../core/utils/routing/navigation_service.dart';
+import '../../../../core/utils/services/localization_service.dart';
+import '../../../../core/utils/services/storage_service.dart';
+import '../../../../core/utils/sizes.dart';
 import '../../../../core/utils/widgets/custom_new_dialog.dart';
-import '../widgets/custom_bottom_navigation_bar.dart';
+
 import 'statics.dart';
 import 'home.dart';
 
-class MainPage extends ConsumerWidget {
-  MainPage({Key? key}) : super(key: key);
+final CustomWarningDialog dialog = CustomWarningDialog();
+final StateProvider<int> _bottomNavIndexProvider =
+    StateProvider<int>(((ref) => 0));
 
-  final StateProvider<int> _bottomNavIndexProvider =
-      StateProvider<int>(((ref) => 0));
+class MainPage extends ConsumerWidget {
+  const MainPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    int _bottomNavIndex = ref.watch(_bottomNavIndexProvider);
     final List<Widget> widgets = [
       Home(),
-      Statics(),
+      const Statics(),
     ];
-    log("Token=${GetStorage().read(kToken)}");
-    final CustomWarningDialog _dialog = CustomWarningDialog();
-
-    return WillPopScope(
+    int bottomNavIndex = ref.watch(_bottomNavIndexProvider);
+    log('Token >>> ${StorageService.instance.restoreToken()}');
+    return PopUpPage(
+      drawer: const DrawerMenu(),
+      extendBodyBehindAppBar: true,
+      consumerAppBar: PreferredSize(
+        preferredSize: Size.fromHeight(Sizes.appBarCustomHeight(context)),
+        child: const CustomAppBar(
+          drawer: true,
+          search: false,
+        ),
+      ),
       onWillPop: () async {
-        return await _dialog.showOptionDialog(
+        return await dialog.showOptionDialog(
             okFun: () => SystemNavigator.pop(),
             context: context,
             msg: 'هل تود الخروج');
       },
-      child: Directionality(
-        textDirection: localization.currentLanguage.toString() == 'en'
-            ? TextDirection.ltr
-            : TextDirection.rtl,
-        child: Scaffold(
-          drawer: const DrawerMenu(),
-          extendBodyBehindAppBar: true,
-          appBar: PreferredSize(
-            child: CustomAppBar(
-              drawer: true,
-              search: false,
+      body: widgets[bottomNavIndex],
+      bottomNavigationBar: PlatformNavBar(
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.home),
+              label: tr(context).home,
             ),
-            preferredSize: Size.fromHeight(SizeConfig.screenHeight * 0.23),
-          ),
-          extendBody: true,
-          body: widgets[_bottomNavIndex],
-          bottomNavigationBar: BottomAppBar(
-            child: CustomBottomNavigationbBar(
-              onTap: (v) {
-                ref.read(_bottomNavIndexProvider.state).state = v;
-              },
-              inx: _bottomNavIndex,
-            ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              push(AddClient(
+            BottomNavigationBarItem(
+                icon: const Icon(Icons.timeline), label: tr(context).statics)
+          ],
+          backgroundColor: Colors.grey[200],
+          itemChanged: (v) {
+            ref.read(_bottomNavIndexProvider.state).state = v;
+          },
+          currentIndex: bottomNavIndex,
+          material: ((context, platform) => MaterialNavBarData(
+                selectedLabelStyle: MainTheme.hintTextStyle,
+                unselectedLabelStyle: MainTheme.subTextStyle2,
+                unselectedIconTheme:
+                    const IconThemeData(color: Colors.grey, size: 25),
+                unselectedItemColor: Colors.black,
+                selectedItemColor: const Color.fromRGBO(16, 107, 172, 1),
+                iconSize: 25,
+                type: BottomNavigationBarType.fixed,
+              ))),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          NavigationService.push(context,
+              page: const AddClient(
                 fromSearch: false,
-              ));
-            },
-            child: const Icon(
-              Icons.add,
-              size: 40,
-            ),
-            backgroundColor: const Color(0xff91dced),
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+              ),
+              isNamed: false);
+        },
+        backgroundColor: const Color(0xff91dced),
+        child: const Icon(
+          Icons.add,
+          size: 40,
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

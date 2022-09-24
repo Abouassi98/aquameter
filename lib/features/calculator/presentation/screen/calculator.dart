@@ -1,83 +1,84 @@
 import 'dart:math';
+import 'package:aquameter/core/screens/popup_page.dart';
 import 'package:aquameter/core/utils/constants.dart';
-import 'package:aquameter/core/utils/functions/helper.dart';
-import 'package:aquameter/core/utils/functions/helper_functions.dart';
-import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_btn.dart';
 import 'package:aquameter/core/utils/widgets/custom_dialog.dart';
 import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/calculator/presentation/manager/create_meeting_result_notifier.dart';
-import 'package:aquameter/features/calculator/presentation/widgets.dart/alert_calculator.dart';
+import 'package:aquameter/features/calculator/presentation/widgets/alert_calculator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../../../core/utils/functions/helper_functions.dart';
+import '../../../../core/utils/routing/navigation_service.dart';
+import '../../../../core/utils/services/localization_service.dart';
+import '../../../../core/utils/sizes.dart';
 import '../../../Home/Data/clients_model/client_model.dart';
-import '../../../localization/manager/app_localization.dart';
 
-// ignore: must_be_immutable
-class Calculator extends ConsumerWidget {
+num tempreatureOfWater = 0.0,
+    ph = 0.0,
+    s = 0.0,
+    feed = 0.0,
+    oxygen = 0.0,
+    totalAmmonia = 0.0,
+    molalIconicStrength = 0.0,
+    pka = 0.0,
+    theUnIonizedAmmonia = 0.0,
+    totalWeightFishes = 0.0;
+
+int totalFishes = 0, dieFishes = 0, totalPreviousFishes = 0;
+bool warningPh = false,
+    warningS = false,
+    warningTotalAmmonia = false,
+    warningOxygen = false,
+    warningTempreatureOfWater = false;
+
+String notes = '';
+
+class Calculator extends HookConsumerWidget {
   final int meetingId;
   final num totalFeed;
   final Client client;
   final DateTime dateTime;
 
-  Calculator(
+   Calculator(
       {Key? key,
       required this.totalFeed,
       required this.meetingId,
       required this.dateTime,
       required this.client})
       : super(key: key);
-  num tempreatureOfWater = 0.0,
-      ph = 0.0,
-      s = 0.0,
-      feed = 0.0,
-      oxygen = 0.0,
-      totalAmmonia = 0.0,
-      molalIconicStrength = 0.0,
-      pka = 0.0,
-      theUnIonizedAmmonia = 0.0,
-      totalWeightFishes = 0.0;
 
-  final GlobalKey<FormState> _qualityWater = GlobalKey<FormState>();
-  final GlobalKey<FormState> _averageWeight = GlobalKey<FormState>();
-  final GlobalKey<FormState> _dieFishes = GlobalKey<FormState>();
-  final GlobalKey<FormState> _conversionRate = GlobalKey<FormState>();
-  int totalFishes = 0, dieFishes = 0;
-  bool warningPh = false,
-      warningS = false,
-      warningTotalAmmonia = false,
-      warningOxygen = false,
-      warningTempreatureOfWater = false;
 
-  String notes = '';
-  int totalPreviousFishes = 0;
-  final StateProvider<num> nH3Provider = StateProvider<num>((ref) => 0.0);
+final StateProvider<num> nH3Provider = StateProvider<num>((ref) => 0.0);
 
-  final StateProvider<num> averageWeightProvider =
-      StateProvider<num>((ref) => 0.0);
-  final StateProvider<num> totalWeightProvider =
-      StateProvider<num>((ref) => 0.0);
-  final StateProvider<num> conversionRateProvider =
-      StateProvider<num>((ref) => 0.0);
+final StateProvider<num> averageWeightProvider =
+    StateProvider<num>((ref) => 0.0);
+final StateProvider<num> totalWeightProvider = StateProvider<num>((ref) => 0.0);
+final StateProvider<num> conversionRateProvider =
+    StateProvider<num>((ref) => 0.0);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final qualityWaterKey = useMemoized(() => GlobalKey<FormState>());
+    final averageWeightKey = useMemoized(() => GlobalKey<FormState>());
+    final dieFishesKey = useMemoized(() => GlobalKey<FormState>());
+    final conversionRateKey = useMemoized(() => GlobalKey<FormState>());
     final CreateMeetingResultNotifier createMeetingResult = ref.read(
       createMeetingResultNotifier.notifier,
     );
     final num nH3 = ref.watch(nH3Provider);
-    num averageWeight = ref.watch(averageWeightProvider);
-    num totalWeight = ref.watch(totalWeightProvider);
-    num conversionRate = ref.watch(conversionRateProvider);
+    final num averageWeight = ref.watch(averageWeightProvider);
+    final num totalWeight = ref.watch(totalWeightProvider);
+    final num conversionRate = ref.watch(conversionRateProvider);
 
-    totalPreviousFishes = 0;
     for (int i = 0; i < client.fish!.length; i++) {
       totalPreviousFishes += int.parse(client.fish![i].number!);
     }
 
-    return Scaffold(
+    return PopUpPage(
       body: ListView(
         primary: false,
         shrinkWrap: true,
@@ -92,7 +93,7 @@ class Calculator extends ConsumerWidget {
                     const SizedBox(height: 15),
                     Image.asset(
                       kAppLogo,
-                      height: SizeConfig.screenHeight * 0.1,
+                      height: Sizes.fullScreenHeight(context) * 0.1,
                       width: 120,
                       fit: BoxFit.cover,
                     ),
@@ -109,11 +110,11 @@ class Calculator extends ConsumerWidget {
                         children: <Widget>[
                           const SizedBox(height: 15),
                           CustomHeaderTitle(
-                            title: localization.text('water_quality')!,
+                            title: tr(context).water_quality,
                           ),
                           const SizedBox(height: 15),
                           Form(
-                            key: _qualityWater,
+                            key: qualityWaterKey,
                             child: ListView(
                               primary: false,
                               shrinkWrap: true,
@@ -123,7 +124,7 @@ class Calculator extends ConsumerWidget {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     CustomTextField(
-                                      hint: localization.text('ph_average')!,
+                                      hint: tr(context).ph_average,
                                       numbersOnly: true,
                                       onChange: (v) {
                                         try {
@@ -144,21 +145,19 @@ class Calculator extends ConsumerWidget {
                                         try {
                                           if (value!.isEmpty) {
                                             warningPh = false;
-                                            return localization.text(
-                                                'the_field_should_not_be_left_blank')!;
+                                            return tr(context)
+                                                .the_field_should_not_be_left_blank;
                                           } else if (1 <=
                                                   num.parse(value.trim()) &&
                                               num.parse(value.trim()) <= 6.4) {
                                             warningPh = false;
-                                            return localization
-                                                .text('very_low')!;
+                                            return tr(context).very_low;
                                           } else if (9 <=
                                                   num.parse(value.trim()) &&
                                               num.tryParse(value.trim())! <=
                                                   14) {
                                             warningPh = false;
-                                            return localization
-                                                .text('relatively_high')!;
+                                            return tr(context).relatively_high;
                                           } else {
                                             warningPh = true;
                                           }
@@ -169,8 +168,7 @@ class Calculator extends ConsumerWidget {
                                       },
                                     ),
                                     CustomTextField(
-                                      hint: localization
-                                          .text('water_temperature')!,
+                                      hint: tr(context).water_temperature,
                                       numbersOnly: true,
                                       type: TextInputType.number,
                                       calculator: true,
@@ -191,29 +189,26 @@ class Calculator extends ConsumerWidget {
                                         try {
                                           if (value!.isEmpty) {
                                             warningTempreatureOfWater = false;
-                                            return localization.text(
-                                                'the_field_should_not_be_left_blank')!;
+                                            return tr(context)
+                                                .the_field_should_not_be_left_blank;
                                           } else if (0 <=
                                                   num.parse(value.trim()) &&
                                               num.tryParse(value.trim())! <=
                                                   17) {
                                             warningTempreatureOfWater = false;
-                                            return localization
-                                                .text('very_low')!;
+                                            return tr(context).very_low;
                                           } else if (30 <=
                                                   num.parse(value.trim()) &&
                                               num.tryParse(value.trim())! <=
                                                   32) {
                                             warningTempreatureOfWater = false;
-                                            return localization
-                                                .text('relatively_high')!;
+                                            return tr(context).relatively_high;
                                           } else if (33 <=
                                                   num.parse(value.trim()) &&
                                               num.tryParse(value.trim())! <=
                                                   99) {
                                             warningTempreatureOfWater = false;
-                                            return localization
-                                                .text('very_high')!;
+                                            return tr(context).very_high;
                                           } else {
                                             warningTempreatureOfWater = true;
                                           }
@@ -335,30 +330,32 @@ class Calculator extends ConsumerWidget {
                                     },
                                   ),
                                 ),
-
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    CustomBtn(
+                                    CustomText(
                                       text: nH3 == 0.0
                                           ? '0.0 = امونيات السامه'
-                                          : nH3.toStringAsFixed(4) +
-                                              ' = امونيات السامه',
+                                          : '${nH3.toStringAsFixed(4)} = امونيات السامه',
                                     ),
                                     const SizedBox(
                                       width: 20,
                                     ),
                                     CustomTextButton(
-                                        width: SizeConfig.screenWidth * 0.1,
-                                        hieght: SizeConfig.screenHeight * 0.05,
-                                        radius: 15,
+                                        width: Sizes.roundedButtonMinWidth(
+                                            context),
+                                        hieght: Sizes.roundedButtonMinHeight(
+                                            context),
+                                        radius:
+                                            Sizes.roundedButtonDefaultRadius(
+                                                context),
                                         title: ' = ',
                                         function: () async {
                                           if (s == 0.0 ||
                                               tempreatureOfWater == 0.0 ||
                                               totalAmmonia == 0.0 ||
                                               ph == 0.0) {
-                                            _qualityWater.currentState!
+                                            qualityWaterKey.currentState!
                                                 .validate();
                                           } else {
                                             molalIconicStrength = 19.973 *
@@ -391,105 +388,107 @@ class Calculator extends ConsumerWidget {
                                                     false) {
                                               await showDialog(
                                                   context: context,
-                                                  builder: (context) =>
-                                                      CustomDialog(
-                                                        title: 'نصائح وارشادات',
-                                                        widget: [
-                                                          if (1 <= ph &&
-                                                              ph <= 6.4)
-                                                            const AlertCalCulator(
-                                                              advice1:
-                                                                  ' - تاكد من معدلات الاكسجين ',
-                                                              advice2:
-                                                                  ' - اضافه الجير الحي',
-                                                              title:
-                                                                  'درجة الحموضه منخفضه جدا',
-                                                            ),
-                                                          if (9 <= ph &&
-                                                              ph <= 14)
-                                                            const AlertCalCulator(
-                                                              advice1:
-                                                                  ' - تاكد من معدلات الامونيا',
-                                                              advice2:
-                                                                  ' - اضافه بعض الاحماض او سوبر فوسفات',
-                                                              title:
-                                                                  'درجة الحموضه مرتفعه جدا',
-                                                            ),
-                                                          if (0 <=
-                                                                  tempreatureOfWater &&
-                                                              tempreatureOfWater <=
-                                                                  17)
-                                                            const AlertCalCulator(
-                                                              advice1:
-                                                                  ' - اوقف التغذيه',
-                                                              advice2:
-                                                                  ' - استخدم سخانات المياه',
-                                                              advice3:
-                                                                  ' - استخدم الصوب الزراعيه ( ان امكن )',
-                                                              title:
-                                                                  'درجة حرارة المياه منخفضه جدا',
-                                                            ),
-                                                          if (30 <=
-                                                                  tempreatureOfWater &&
-                                                              tempreatureOfWater <=
-                                                                  32)
-                                                            const AlertCalCulator(
-                                                              advice1:
-                                                                  ' - قلل كمية العلف المستخدم',
-                                                              advice2:
-                                                                  ' - استخدم معدلات التهويه مثل البدالات ( ان وجد )',
-                                                              title:
-                                                                  'درجة حرارة المياه مرتفعه نسبيا',
-                                                            ),
-                                                          if (33 <=
-                                                                  tempreatureOfWater &&
-                                                              tempreatureOfWater <=
-                                                                  99)
-                                                            const AlertCalCulator(
-                                                              advice1:
-                                                                  ' -  اوقف التغذيه',
-                                                              advice2:
-                                                                  ' -  استخدم معدلات التهويه مثل البدالات (ان وجد )',
-                                                              title:
-                                                                  'درجة حرارة المياه مرتفعه جدا',
-                                                            ),
-                                                          if (0 <= oxygen &&
-                                                              oxygen <= 1)
-                                                            const AlertCalCulator(
-                                                              advice1:
-                                                                  ' - أوقف التغذيه ',
-                                                              advice2:
-                                                                  ' - استخدم اكسجين بودر للطوارئ',
-                                                              advice3:
-                                                                  ' - استخدم معدات التهويه مثل البدالات (ان وجدت )',
-                                                              advice4:
-                                                                  ' - تأكد من معدلات الحموضه والامونيا',
-                                                              title:
-                                                                  'درجة الاكسجين منخفضه جدا',
-                                                            ),
-                                                          if (nH3 > 0.5)
-                                                            const AlertCalCulator(
-                                                              advice1:
-                                                                  ' - اوقف التغذيه',
-                                                              advice2:
-                                                                  ' - اضافه بروبيوتك او يوكا',
-                                                              advice3:
-                                                                  '- تاكد من معدلات الحموضه و الاكسجين',
-                                                              title:
-                                                                  'درجة الامونيا مرتفعه جدا',
-                                                            ),
-                                                          Center(
-                                                            child:
-                                                                CustomTextButton(
-                                                                    title:
-                                                                        'اغلاق',
-                                                                    function:
-                                                                        () {
-                                                                      pop();
-                                                                    }),
-                                                          ),
-                                                        ],
-                                                      ));
+                                                  builder:
+                                                      (context) => CustomDialog(
+                                                            title:
+                                                                'نصائح وارشادات',
+                                                            widget: [
+                                                              if (1 <= ph &&
+                                                                  ph <= 6.4)
+                                                                const AlertCalCulator(
+                                                                  advice1:
+                                                                      ' - تاكد من معدلات الاكسجين ',
+                                                                  advice2:
+                                                                      ' - اضافه الجير الحي',
+                                                                  title:
+                                                                      'درجة الحموضه منخفضه جدا',
+                                                                ),
+                                                              if (9 <= ph &&
+                                                                  ph <= 14)
+                                                                const AlertCalCulator(
+                                                                  advice1:
+                                                                      ' - تاكد من معدلات الامونيا',
+                                                                  advice2:
+                                                                      ' - اضافه بعض الاحماض او سوبر فوسفات',
+                                                                  title:
+                                                                      'درجة الحموضه مرتفعه جدا',
+                                                                ),
+                                                              if (0 <=
+                                                                      tempreatureOfWater &&
+                                                                  tempreatureOfWater <=
+                                                                      17)
+                                                                const AlertCalCulator(
+                                                                  advice1:
+                                                                      ' - اوقف التغذيه',
+                                                                  advice2:
+                                                                      ' - استخدم سخانات المياه',
+                                                                  advice3:
+                                                                      ' - استخدم الصوب الزراعيه ( ان امكن )',
+                                                                  title:
+                                                                      'درجة حرارة المياه منخفضه جدا',
+                                                                ),
+                                                              if (30 <=
+                                                                      tempreatureOfWater &&
+                                                                  tempreatureOfWater <=
+                                                                      32)
+                                                                const AlertCalCulator(
+                                                                  advice1:
+                                                                      ' - قلل كمية العلف المستخدم',
+                                                                  advice2:
+                                                                      ' - استخدم معدلات التهويه مثل البدالات ( ان وجد )',
+                                                                  title:
+                                                                      'درجة حرارة المياه مرتفعه نسبيا',
+                                                                ),
+                                                              if (33 <=
+                                                                      tempreatureOfWater &&
+                                                                  tempreatureOfWater <=
+                                                                      99)
+                                                                const AlertCalCulator(
+                                                                  advice1:
+                                                                      ' -  اوقف التغذيه',
+                                                                  advice2:
+                                                                      ' -  استخدم معدلات التهويه مثل البدالات (ان وجد )',
+                                                                  title:
+                                                                      'درجة حرارة المياه مرتفعه جدا',
+                                                                ),
+                                                              if (0 <= oxygen &&
+                                                                  oxygen <= 1)
+                                                                const AlertCalCulator(
+                                                                  advice1:
+                                                                      ' - أوقف التغذيه ',
+                                                                  advice2:
+                                                                      ' - استخدم اكسجين بودر للطوارئ',
+                                                                  advice3:
+                                                                      ' - استخدم معدات التهويه مثل البدالات (ان وجدت )',
+                                                                  advice4:
+                                                                      ' - تأكد من معدلات الحموضه والامونيا',
+                                                                  title:
+                                                                      'درجة الاكسجين منخفضه جدا',
+                                                                ),
+                                                              if (nH3 > 0.5)
+                                                                const AlertCalCulator(
+                                                                  advice1:
+                                                                      ' - اوقف التغذيه',
+                                                                  advice2:
+                                                                      ' - اضافه بروبيوتك او يوكا',
+                                                                  advice3:
+                                                                      '- تاكد من معدلات الحموضه و الاكسجين',
+                                                                  title:
+                                                                      'درجة الامونيا مرتفعه جدا',
+                                                                ),
+                                                              Center(
+                                                                child:
+                                                                    CustomTextButton(
+                                                                        title:
+                                                                            'اغلاق',
+                                                                        function:
+                                                                            () {
+                                                                          NavigationService.goBack(
+                                                                              context);
+                                                                        }),
+                                                              ),
+                                                            ],
+                                                          ));
                                             }
                                           }
                                         }),
@@ -504,7 +503,7 @@ class Calculator extends ConsumerWidget {
                           const CustomHeaderTitle(title: "عينه الاسماك"),
                           const SizedBox(height: 15),
                           Form(
-                            key: _averageWeight,
+                            key: averageWeightKey,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -551,26 +550,28 @@ class Calculator extends ConsumerWidget {
                               ],
                             ),
                           ),
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              CustomBtn(
+                              CustomText(
                                 text: averageWeight == 0.0
                                     ? '0.0 = متوسط الوزن'
-                                    : averageWeight.toStringAsFixed(2) +
-                                        ' = متوسط الوزن',
+                                    : '${averageWeight.toStringAsFixed(2)} = متوسط الوزن',
                               ),
                               const SizedBox(
                                 width: 20,
                               ),
                               CustomTextButton(
-                                  width: SizeConfig.screenWidth * 0.1,
-                                  hieght: SizeConfig.screenHeight * 0.05,
-                                  radius: 15,
+                                    width: Sizes.roundedButtonMinWidth(
+                                            context),
+                                        hieght: Sizes.roundedButtonMinHeight(
+                                            context),
+                                        radius:
+                                            Sizes.roundedButtonDefaultRadius(
+                                                context),
                                   title: ' = ',
                                   function: () {
-                                    if (_averageWeight.currentState!
+                                    if (averageWeightKey.currentState!
                                         .validate()) {
                                       ref
                                               .read(averageWeightProvider.state)
@@ -586,7 +587,7 @@ class Calculator extends ConsumerWidget {
                           Text(' عدد السمك الكلي= ${client.fish![0].number}'),
                           if (client.fish![0].number != '0')
                             Form(
-                              key: _dieFishes,
+                              key: dieFishesKey,
                               child: CustomTextField(
                                 hint: 'عدد السمك النافق',
                                 onChange: (v) {
@@ -612,7 +613,7 @@ class Calculator extends ConsumerWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              CustomBtn(
+                              CustomText(
                                   text: totalWeight == 0.0
                                       ? '0.0 = اجمالي الوزن'
                                       : '${totalWeight.toStringAsFixed(2)} =  اجمالي الوزن'),
@@ -620,16 +621,20 @@ class Calculator extends ConsumerWidget {
                                 width: 20,
                               ),
                               CustomTextButton(
-                                  width: SizeConfig.screenWidth * 0.1,
-                                  hieght: SizeConfig.screenHeight * 0.05,
-                                  radius: 15,
+                                 width: Sizes.roundedButtonMinWidth(
+                                            context),
+                                        hieght: Sizes.roundedButtonMinHeight(
+                                            context),
+                                        radius:
+                                            Sizes.roundedButtonDefaultRadius(
+                                                context),
                                   title: ' = ',
                                   function: () {
                                     if (averageWeight == 0.0) {
                                       HelperFunctions.errorBar(context,
                                           message:
                                               'يجب عليك اظهار ناتج متوسط الوزن الكلي للسمك بالكجم');
-                                    } else if (_dieFishes.currentState!
+                                    } else if (dieFishesKey.currentState!
                                         .validate()) {
                                       ref
                                               .read(totalWeightProvider.state)
@@ -647,7 +652,7 @@ class Calculator extends ConsumerWidget {
                           Text(
                               'اجمال العلف الكلي للزيارات السابقه = $totalFeed'),
                           Form(
-                            key: _conversionRate,
+                            key: conversionRateKey,
                             child: CustomTextField(
                               hint: 'اجمالي العلف بالكجم',
                               paste: false,
@@ -670,11 +675,10 @@ class Calculator extends ConsumerWidget {
                               numbersOnly: true,
                             ),
                           ),
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              CustomBtn(
+                              CustomText(
                                   text: conversionRate == 0.0
                                       ? '0.0 = معدل التحويل'
                                       : '${conversionRate.toStringAsFixed(2)} = معدل التحويل'),
@@ -682,16 +686,20 @@ class Calculator extends ConsumerWidget {
                                 width: 20,
                               ),
                               CustomTextButton(
-                                  width: SizeConfig.screenWidth * 0.1,
-                                  hieght: SizeConfig.screenHeight * 0.05,
-                                  radius: 15,
+                                    width: Sizes.roundedButtonMinWidth(
+                                            context),
+                                        hieght: Sizes.roundedButtonMinHeight(
+                                            context),
+                                        radius:
+                                            Sizes.roundedButtonDefaultRadius(
+                                                context),
                                   title: ' = ',
                                   function: () {
                                     if (totalWeight == 0.0) {
                                       HelperFunctions.errorBar(context,
                                           message:
                                               'يجب عليك اظهار ناتج اجمالي الوزن الكلي للسمك بالكجم');
-                                    } else if (_conversionRate.currentState!
+                                    } else if (conversionRateKey.currentState!
                                         .validate()) {
                                       ref
                                           .read(conversionRateProvider.state)
@@ -706,7 +714,7 @@ class Calculator extends ConsumerWidget {
                             height: 20,
                           ),
                           CustomTextField(
-                            width: SizeConfig.screenWidth * 0.7,
+                            width: Sizes.fullScreenWidth(context) * 0.7,
                             maxLines: 5,
                             hint: 'ملاحظاتك',
                             onChange: (v) {
@@ -744,9 +752,9 @@ class Calculator extends ConsumerWidget {
               ),
               IconButton(
                   onPressed: () {
-                    pop();
+                    NavigationService.goBack(context);
                   },
-                  icon: const Icon(Icons.arrow_forward_ios))
+              icon: const Icon(Icons.arrow_back_ios),)
             ],
           ),
         ],

@@ -1,9 +1,9 @@
 import 'package:aquameter/core/themes/themes.dart';
-import 'package:aquameter/core/utils/functions/helper.dart';
+import 'package:aquameter/core/utils/services/localization_service.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
-import 'package:aquameter/features/localization/manager/app_localization.dart';
 import 'package:flutter/material.dart';
-import '../size_config.dart';
+import '../routing/navigation_service.dart';
+import '../sizes.dart';
 
 class CustomOptionDialog extends StatelessWidget {
   final String title;
@@ -22,18 +22,18 @@ class CustomOptionDialog extends StatelessWidget {
       ),
       actions: [
         SizedBox(
-          width: SizeConfig.screenWidth * 0.7,
+          width: Sizes.fullScreenWidth(context) * 0.7,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               CustomTextButton(
-                title: localization.text('no'),
+                title: tr(context).cancel,
                 function: () {
-                  pop();
+                  NavigationService.goBack(context);
                 },
               ),
               CustomTextButton(
-                title: localization.text('yes'),
+                title: tr(context).confirm,
                 function: function,
               )
             ],

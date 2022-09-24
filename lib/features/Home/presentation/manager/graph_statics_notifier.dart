@@ -1,10 +1,11 @@
 import 'dart:developer';
-import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/functions/network_utils.dart';
 
 import 'package:aquameter/features/Home/Data/graph_statics_model.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+
 
 final AutoDisposeStateNotifierProvider<GraphStaticsNotifer, Object?>
     graphStaticsNotifer =
@@ -19,9 +20,8 @@ class GraphStaticsNotifer extends StateNotifier<void> {
   GraphStaticsModel? graphStaticsModel;
 
   Future<GraphStaticsModel> getGraphStatics() async {
-    Response response = await _utils.requstData(
-        url: 'clients/graphAll',
-        body: {'id': HelperFunctions.getUser().data!.id});
+    Response response =
+        await _utils.requstData(url: 'clients/graphAll', body: {});
     if (response.statusCode == 200) {
       graphStaticsModel = GraphStaticsModel.fromJson(response.data);
 

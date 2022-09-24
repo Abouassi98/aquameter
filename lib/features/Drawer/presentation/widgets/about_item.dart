@@ -1,8 +1,9 @@
 import 'package:aquameter/core/themes/screen_utility.dart';
 import 'package:aquameter/core/utils/constants.dart';
-import 'package:aquameter/core/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+
+import '../../../../core/utils/sizes.dart';
 
 class AboutItem extends StatelessWidget {
   final String? text;
@@ -17,8 +18,8 @@ class AboutItem extends StatelessWidget {
     return ListView(
       children: [
         Container(
-          height: SizeConfig.screenHeight * 0.3,
-          width: SizeConfig.screenWidth * 0.9,
+          height: Sizes.fullScreenHeight(context) * 0.3,
+          width: Sizes.fullScreenWidth(context) * 0.9,
           decoration: BoxDecoration(
             image: const DecorationImage(
                 image: AssetImage(kAppLogo), fit: BoxFit.fill),
@@ -26,7 +27,7 @@ class AboutItem extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: SizeConfig.screenHeight * 0.05,
+          height: Sizes.fullScreenHeight(context) * 0.05,
         ),
         Html(data: text, style: {
           'h1': Style(

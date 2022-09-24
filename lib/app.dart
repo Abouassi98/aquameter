@@ -1,44 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'core/utils/constants.dart';
-import 'core/utils/functions/helper.dart';
-import 'core/utils/functions/services_initializer.dart';
-import 'features/splashScreen/presentation/splah_view.dart';
+import 'core/utils/routing/app_router.dart';
+import 'core/utils/routing/navigation_service.dart';
+import 'core/utils/routing/route_paths.dart';
+import 'features/localization/presentation/manager/app_locale_provider.dart';
+import 'l10n/l10n.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: ServiceInitializer.instance.initializeFlutterFire(),
-        builder: (context, snapShot) {
-          if (snapShot.hasError) {
-            return Center(
-              child: Text('Error: ${snapShot.error}'),
-            );
-          } else {
-            return ProviderScope(
-              child: MaterialApp(
-                useInheritedMediaQuery: true, // Set to true_device_preview
-                localizationsDelegates: const [
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: const [
-                  Locale('en', 'USA'),
-                  Locale('ar', 'SA'),
-                ],
-                debugShowCheckedModeBanner: false,
-                title: 'AquaMeter',
-                navigatorKey: navigator,
-                theme: appTheme,
-                home: const SplashView(),
-              ),
-            );
-          }
-        });
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appLocale = ref.watch(appLocaleProvider);
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Theme(
+        data: appTheme,
+        child: PlatformApp(
+          navigatorKey: NavigationService.navigationKey,
+          useInheritedMediaQuery: true, // Set to true_device_preview
+          supportedLocales: L10n.all,
+          localizationsDelegates: L10n.localizationsDelegates,
+          locale: appLocale,
+          debugShowCheckedModeBanner: false,
+          title: 'AquaMeter',
+          initialRoute: RoutePaths.coreSplash,
+          onGenerateRoute: AppRouter.generateRoute,
+        ),
+      ),
+    );
   }
 }

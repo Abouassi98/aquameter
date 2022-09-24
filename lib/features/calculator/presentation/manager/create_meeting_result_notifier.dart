@@ -1,10 +1,11 @@
-import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/network_utils.dart';
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
+
+import '../../../../core/utils/routing/navigation_service.dart';
 
 final StateNotifierProvider<CreateMeetingResultNotifier, Object?>
     createMeetingResultNotifier =
@@ -61,7 +62,8 @@ class CreateMeetingResultNotifier extends StateNotifier<void> {
     if (response.statusCode == 200) {
       pd.close();
 
-      pushAndRemoveUntil(MainPage());
+      NavigationService.pushReplacementAll(NavigationService.context,
+          page: const MainPage(), isNamed: false);
     } else {}
   }
 
@@ -74,7 +76,8 @@ class CreateMeetingResultNotifier extends StateNotifier<void> {
     );
 
     if (response.statusCode == 200) {
-      pushAndRemoveUntil(MainPage());
+      NavigationService.pushReplacementAll(NavigationService.context,
+          page: const MainPage(), isNamed: false);
     } else {}
   }
 }

@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import '../limit_range.dart';
-import '../size_config.dart';
-import 'decimal_text_input_formatter.dart';
+import '../sizes.dart';
+import '../decimal_text_input_formatter.dart';
 
 class CustomTextField extends StatelessWidget {
   final String? hint, initialValue;
@@ -59,7 +57,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width ?? SizeConfig.screenWidth * 0.38,
+      width: width ?? Sizes.fullScreenWidth(context) * 0.38,
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: TextFormField(
@@ -123,7 +121,7 @@ class CustomTextField extends StatelessWidget {
                 )),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: Colors.red,
                 width: 1.0,
               ),
@@ -151,7 +149,7 @@ class CustomTextField extends StatelessWidget {
                 ? FloatingLabelBehavior.always
                 : FloatingLabelBehavior.auto,
             contentPadding: EdgeInsets.only(
-                top: icon != null ? SizeConfig.screenHeight * 0.02 : 0.0,
+                top: icon != null ? Sizes.fullScreenHeight(context) * 0.02 : 0.0,
                 right: 5),
             border: InputBorder.none,
           ),

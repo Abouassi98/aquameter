@@ -4,19 +4,19 @@ import 'package:aquameter/core/utils/functions/network_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final StateNotifierProvider<AreaAndCitesNotifier, Object?>
+final StateNotifierProvider<AreaAndCitesNotifier,Object?>
     areaAndCitesNotifier = StateNotifierProvider(
-  (ref) => AreaAndCitesNotifier(null),
+  (ref) => AreaAndCitesNotifier(),
 );
 
 class AreaAndCitesNotifier extends StateNotifier<void> {
-  AreaAndCitesNotifier(void state) : super(state);
+  AreaAndCitiesModel? governorateModel;
+  AreaAndCitesNotifier() : super(null);
 
   final NetworkUtils _utils = NetworkUtils();
 
-  AreaAndCitiesModel? governorateModel;
   AreaAndCitiesModel? areasModel;
 
   Future<AreaAndCitiesModel> getCities({int? cityId}) async {

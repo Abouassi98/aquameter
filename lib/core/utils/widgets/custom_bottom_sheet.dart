@@ -1,12 +1,8 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:aquameter/core/themes/screen_utility.dart';
-import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:flutter/material.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../size_config.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../routing/navigation_service.dart';
+import '../sizes.dart';
 
 class CustomBottomSheet extends ConsumerStatefulWidget {
   final String name;
@@ -51,7 +47,7 @@ class CustomBottomSheetState extends ConsumerState<CustomBottomSheet> {
                         ),
                         InkWell(
                           onTap: () {
-                            pop();
+                            NavigationService.goBack(context);
                             setState(() {
                               if (widget.staticList == true) {
                                 selectedLabel = widget.list[i]['name'];
@@ -83,8 +79,8 @@ class CustomBottomSheetState extends ConsumerState<CustomBottomSheet> {
             });
       },
       child: Container(
-        height: SizeConfig.screenHeight * 0.062,
-        width: SizeConfig.screenWidth * 0.3,
+        height: Sizes.fullScreenHeight(context) * 0.062,
+        width: Sizes.fullScreenWidth(context) * 0.3,
         decoration: BoxDecoration(
           border: Border.all(width: 1, color: Colors.black38),
           borderRadius: const BorderRadius.all(
@@ -101,12 +97,12 @@ class CustomBottomSheetState extends ConsumerState<CustomBottomSheet> {
               padding: EdgeInsets.all(5.0),
               child: CircleAvatar(
                 radius: 11,
+                backgroundColor: MainStyle.primaryColor,
                 child: Icon(
                   Icons.keyboard_arrow_down_rounded,
                   size: 20,
                   color: Colors.white,
                 ),
-                backgroundColor: MainStyle.primaryColor,
               ),
             ),
           ],

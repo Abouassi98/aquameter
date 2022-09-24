@@ -4,9 +4,9 @@ import 'package:aquameter/core/utils/functions/network_utils.dart';
 import 'package:dio/dio.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../data/meeting_all_model..dart';
+import '../../data/meeting_all_model.dart';
 
 final StateNotifierProvider<DeleteMeetingNotifier, Object?> meetingAllNotifier =
     StateNotifierProvider<DeleteMeetingNotifier, Object?>(
@@ -19,7 +19,7 @@ class DeleteMeetingNotifier extends StateNotifier<void> {
   final NetworkUtils _utils = NetworkUtils();
   MeetingAllModel? meetingAllModel;
 
-  deleteMeeting({required int meetingId}) async {
+  Future deleteMeeting({required int meetingId}) async {
     Response response = await _utils.requstData(
       url: 'meeting/delete/$meetingId',
     );

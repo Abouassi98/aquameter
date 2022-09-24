@@ -1,134 +1,123 @@
 import 'package:aquameter/core/themes/themes.dart';
-import 'package:aquameter/core/utils/constants.dart';
-import 'package:aquameter/core/utils/functions/helper.dart';
-import 'package:aquameter/core/utils/functions/helper_functions.dart';
+import 'package:aquameter/core/utils/services/localization_service.dart';
 import 'package:aquameter/features/Auth/presentation/pages/change_pass_screen.dart';
-
 import 'package:aquameter/features/Drawer/presentation/pages/about_us.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../core/utils/routing/navigation_service.dart';
+import '../../core/utils/services/storage_service.dart';
+import '../../core/utils/sizes.dart';
+import '../localization/presentation/manager/app_locale_provider.dart';
 import '../archieve/presentation/pages/archieve.dart';
-import 'package:aquameter/features/localization/manager/app_localization.dart';
-import 'package:aquameter/features/localization/screen/language_select.dart';
-import 'package:aquameter/features/splashScreen/presentation/splah_view.dart';
 import 'package:flutter/material.dart';
-
-import 'package:get_storage/get_storage.dart';
-import 'package:share/share.dart';
-
-import '../../core/utils/size_config.dart';
-
+import 'package:share_plus/share_plus.dart';
+import '../localization/presentation/widgets/select_language.dart';
 import 'drawer_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class DrawerMenu extends StatelessWidget {
+final List<String> data = ["English", "Arabic"];
+_sendWhatsApp() async {
+  Uri url = Uri.parse("whatsapp://send?phone=201069072590");
+  await canLaunchUrl(url) ? launchUrl(url) : debugPrint('No WhatsAPP');
+}
+
+class DrawerMenu extends ConsumerWidget {
   const DrawerMenu({
     Key? key,
   }) : super(key: key);
-  _sendWhatsApp() async {
-    var url = "https://wa.me/+201069072590";
-    await canLaunch(url) ? launch(url) : debugPrint('No WhatsAPP');
-  }
 
   @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: localization.currentLanguage.toString() == 'en'
-          ? TextDirection.ltr
-          : TextDirection.rtl,
-      child: Container(
-        padding: Localizations.localeOf(context).languageCode == 'en'
-            ? const EdgeInsets.only(right: 15)
-            : const EdgeInsets.only(left: 15),
-        margin: EdgeInsets.only(
-            top: SizeConfig.screenHeight * 0.04,
-            bottom: SizeConfig.screenHeight * 0.09),
-        width: SizeConfig.screenWidth * 0.8,
-        decoration: BoxDecoration(
-          borderRadius: localization.currentLanguage.toString() == 'en'
-              ? const BorderRadius.only(
-                  topRight: Radius.circular(50),
-                  bottomRight: Radius.circular(50))
-              : const BorderRadius.only(
-                  topLeft: Radius.circular(50),
-                  bottomLeft: Radius.circular(50)),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AppLocaleNotifier appLocal = ref.watch(appLocaleProvider.notifier);
+    return Container(
+      padding: appLocal.languageType == 'en'
+          ? const EdgeInsets.only(left: 20)
+          : const EdgeInsets.only(right: 15),
+      margin: EdgeInsets.only(
+          top: Sizes.mainDrawerHPadding(context) * 2,
+          bottom: Sizes.mainDrawerVPadding(context)),
+      width: Sizes.mainDrawerWidth(context),
+      decoration: BoxDecoration(
           color: Colors.white,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const SizedBox(
-              height: 15,
+          borderRadius: appLocal.languageType == 'en'
+              ? const BorderRadius.only(
+                  topRight: Radius.circular(20),
+                  bottomRight: Radius.circular(20))
+              : const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  bottomLeft: Radius.circular(20))),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          const SizedBox(
+            height: 15,
+          ),
+          Center(
+            child: Text(
+              StorageService.instance.restoreUserData().data!.name!,
+              style: MainTheme.subTextStyle.copyWith(color: Colors.black26),
             ),
-            Center(
-              child: Text(
-                HelperFunctions.getUser().data!.name!,
-                style: MainTheme.subTextStyle.copyWith(color: Colors.black26),
-              ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            DrwaerItem(
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          DrwaerItem(
               widget: const Icon(Icons.archive),
-              text: localization.text('archieve')!,
-              onTap: () => push(
-                ArcieveScreen(),
-              ),
-            ),
-            DrwaerItem(
+              text: tr(context).archieve,
+              onTap: () => NavigationService.push(context,
+                  page: ArcieveScreen(), isNamed: false)),
+          DrwaerItem(
               widget: const Icon(Icons.password),
-              text: localization.text('change_pass')!,
-              onTap: () => push(const ChangePassScreen()),
-            ),
-            DrwaerItem(
-                widget: const Icon(Icons.settings),
-                text: localization.text('change_language')!,
-                onTap: () => push(const LanguageSelect())),
-            DrwaerItem(
-                widget:
-                    const ImageIcon(AssetImage('assets/images/polices.png')),
-                text: localization.text('about')!,
-                onTap: () {
-                  push(AboutAndTerms(
-                    isAbout: true,
-                    title: localization.text('about')!,
-                  ));
-                }),
-            DrwaerItem(
-                widget:
-                    const ImageIcon(AssetImage('assets/images/contact.png')),
-                text: localization.text('contact_us')!,
-                onTap: _sendWhatsApp),
-            DrwaerItem(
-                widget:
-                    const ImageIcon(AssetImage('assets/images/polices.png')),
-                text: localization.text('terms_and_conditions')!,
-                onTap: () {
-                  push(AboutAndTerms(
-                    isAbout: false,
-                    title: localization.text('terms_and_conditions')!,
-                  ));
-                }),
-            DrwaerItem(
-                widget: const Icon(Icons.share_outlined),
-                text: localization.text('share_app')!,
-                onTap: () {
-                  Theme.of(context).platform != TargetPlatform.iOS
-                      ? shareTheApp(context,
-                          'https://play.google.com/store/apps/details?id=com.food_menu.food_menu')
-                      : shareTheApp(context, '');
-                }),
-            DrwaerItem(
-                widget: const Icon(Icons.logout),
-                text: localization.text('logout')!,
-                onTap: () async {
-                  await GetStorage.init().then((value) async {
-                    await GetStorage().remove(kcashedUserData);
-                    await GetStorage().remove(kIsLoggedIn);
-                  });
-                  pushAndRemoveUntil(const SplashView());
-                }),
-          ],
-        ),
+              text: tr(context).change_password,
+              onTap: () => NavigationService.push(context,
+                  page: const ChangePassScreen(), isNamed: false)),
+          DrwaerItem(
+            widget: const Icon(Icons.settings),
+            text: tr(context).selected_language,
+            onTap: () =>
+                SelectLanguage.show(context: context, appLocal: appLocal),
+          ),
+          DrwaerItem(
+              widget: const ImageIcon(AssetImage('assets/images/polices.png')),
+              text: tr(context).about,
+              onTap: () {
+                NavigationService.push(context,
+                    page: AboutAndTerms(
+                      isAbout: true,
+                      title: tr(context).about,
+                    ),
+                    isNamed: false);
+              }),
+          DrwaerItem(
+              widget: const ImageIcon(AssetImage('assets/images/contact.png')),
+              text: tr(context).contact_us,
+              onTap: _sendWhatsApp),
+          DrwaerItem(
+              widget: const ImageIcon(AssetImage('assets/images/polices.png')),
+              text: tr(context).terms_of_Services,
+              onTap: () {
+                NavigationService.push(context,
+                    page: AboutAndTerms(
+                      isAbout: false,
+                      title: tr(context).terms_of_Services,
+                    ),
+                    isNamed: false);
+              }),
+          DrwaerItem(
+              widget: const Icon(Icons.share_outlined),
+              text: tr(context).share_app,
+              onTap: () {
+                Theme.of(context).platform != TargetPlatform.iOS
+                    ? shareTheApp(context,
+                        'https://play.google.com/store/apps/details?id=com.food_menu.food_menu')
+                    : shareTheApp(context, '');
+              }),
+          DrwaerItem(
+              widget: const Icon(Icons.logout),
+              text: tr(context).logOut,
+              onTap: () async {
+                StorageService.instance.logOut(context);
+              }),
+        ],
       ),
     );
   }

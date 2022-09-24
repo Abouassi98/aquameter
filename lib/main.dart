@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'package:fcm_config/fcm_config.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:fcm_config/fcm_config.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'app.dart';
-import 'core/utils/functions/services_initializer.dart';
+import 'core/utils/services/services_initializer.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -26,8 +26,8 @@ void main() async {
       defaultAndroidForegroundIcon:
           '@mipmap/ic_launcher', //default is @mipmap/ic_launcher
       defaultAndroidChannel: const AndroidNotificationChannel(
-        'my_channel', // same as value from android setup
-        'Your app name',
+        'high_importance_channel', // same as value from android setup
+        'AquaMeter',
         importance: Importance.high,
         // sound: RawResourceAndroidNotificationSound('notification'),// دي لو عتدك الصوت فعلا
       ),
@@ -35,16 +35,19 @@ void main() async {
       sound: true,
     )
         .then((value) {
-      FCMConfig.instance.messaging.subscribeToTopic('test_fcm_topic');
+      // FCMConfig.messaging.subscribeToTopic('test_fcm_topic');
     });
+    final container = ProviderContainer();
+    WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+    await ServicesInitializer.instance.init(widgetsBinding, container);
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-    WidgetsFlutterBinding.ensureInitialized();
-
-    await ServiceInitializer.instance.initializeSettings();
     runApp(
-      Phoenix(
-        child: const MyApp(),
-      ),
+      UncontrolledProviderScope(container: container, child: const MyApp()),
     );
-  }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
+  },
+      (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack,
+          reason: 'a fatal error',
+          // Pass in 'fatal' argument
+          fatal: true));
 }

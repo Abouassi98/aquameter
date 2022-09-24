@@ -1,21 +1,28 @@
 import 'package:aquameter/core/themes/screen_utility.dart';
-import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/features/Home/Data/three_values_model.dart';
 import 'package:aquameter/features/Home/presentation/manager/three_values_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../features/localization/manager/app_localization.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../constants.dart';
 
-import '../size_config.dart';
+import '../routing/navigation_service.dart';
+import '../services/localization_service.dart';
+import '../sizes.dart';
+
+final AutoDisposeFutureProvider<ThreeValuesModel> provider =
+    FutureProvider.autoDispose<ThreeValuesModel>((ref) async {
+  return await ref
+      .read(getThreeValuesNotifier.notifier)
+      .getValues(); //; may cause `provider` to rebuild
+});
 
 class CustomAppBar extends ConsumerWidget {
   final bool? search, back, drawer;
   final TextEditingController? controller;
   final void Function(String)? onChanged;
 
-  CustomAppBar(
+  const CustomAppBar(
       {Key? key,
       this.search,
       this.onChanged,
@@ -23,13 +30,6 @@ class CustomAppBar extends ConsumerWidget {
       this.back,
       this.drawer})
       : super(key: key);
-
-  final AutoDisposeFutureProvider<ThreeValuesModel> provider =
-      FutureProvider.autoDispose<ThreeValuesModel>((ref) async {
-    return await ref
-        .read(getThreeValuesNotifier.notifier)
-        .getValues(); //; may cause `provider` to rebuild
-  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,7 +47,7 @@ class CustomAppBar extends ConsumerWidget {
       child: Column(
         children: [
           SizedBox(
-            height: SizeConfig.screenHeight * 0.04,
+            height: Sizes.fullScreenHeight(context) * 0.04,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -61,7 +61,7 @@ class CustomAppBar extends ConsumerWidget {
                 InkWell(
                   child: const Icon(Icons.arrow_back_ios),
                   onTap: () {
-                    pop();
+                    NavigationService.goBack(context);
                   },
                 ),
               search == true
@@ -75,7 +75,7 @@ class CustomAppBar extends ConsumerWidget {
                     )
                   : const SizedBox(),
               SizedBox(
-                  height: SizeConfig.screenHeight * 0.1,
+                  height: Sizes.fullScreenHeight(context) * 0.1,
                   width: 100,
                   child: Image.asset(
                     kAppLogo,
@@ -108,7 +108,7 @@ class CustomAppBar extends ConsumerWidget {
                               ),
                             ),
                             Text(
-                              localization.text('conversionRate')!,
+                              tr(context).conversionRate,
                               style: const TextStyle(
                                 color: Color(0xff282759),
                                 fontWeight: FontWeight.bold,
@@ -129,7 +129,7 @@ class CustomAppBar extends ConsumerWidget {
                               ),
                             ),
                             Text(
-                              '${localization.text('fish')!}/${localization.text('ton')!}',
+                              '${tr(context).fish}/${tr(context).ton}',
                               style: const TextStyle(
                                 color: Color(0xff282759),
                                 fontWeight: FontWeight.bold,
@@ -150,8 +150,7 @@ class CustomAppBar extends ConsumerWidget {
                               ),
                             ),
                             Text(
-                              '${localization.text('feed')!}/${localization
-                                  .text('ton')!}',
+                              '${tr(context).feed}/${tr(context).ton}',
                               style: const TextStyle(
                                 color: Color(0xff282759),
                                 fontWeight: FontWeight.bold,

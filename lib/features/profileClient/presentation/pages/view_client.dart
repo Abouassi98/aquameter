@@ -1,17 +1,14 @@
 import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/constants.dart';
-import 'package:aquameter/core/utils/functions/helper.dart';
-import 'package:aquameter/core/utils/size_config.dart';
 import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
-import 'package:aquameter/features/CustomMap/presentation/pages/custom_map.dart';
-import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import '../../../../core/utils/routing/navigation_service.dart';
+import '../../../../core/utils/sizes.dart';
+import '../../../CustomMap/presentation/pages/custom_map_edit_show_address.dart';
 import '../../../Home/Data/clients_model/client_model.dart';
 
 class ViewClient extends ConsumerWidget {
@@ -24,7 +21,6 @@ class ViewClient extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-  
     return SafeArea(
         child: Scaffold(
       body: Directionality(
@@ -46,7 +42,7 @@ class ViewClient extends ConsumerWidget {
                           children: [
                             Image.asset(
                               kAppLogo,
-                              height: SizeConfig.screenHeight * 0.1,
+                              height: Sizes.fullScreenHeight(context) * 0.1,
                               width: 120,
                               fit: BoxFit.cover,
                             ),
@@ -60,7 +56,8 @@ class ViewClient extends ConsumerWidget {
                                 children: <Widget>[
                                   CustomTextField(
                                     enabled: false,
-                                    width: SizeConfig.screenWidth * 0.75,
+                                    width:
+                                        Sizes.fullScreenWidth(context) * 0.75,
                                     icon: Icons.person,
                                     hint: client.name,
                                   ),
@@ -68,7 +65,8 @@ class ViewClient extends ConsumerWidget {
                                     enabled: false,
                                     hint: client.phone.toString(),
                                     icon: Icons.call,
-                                    width: SizeConfig.screenWidth * 0.75,
+                                    width:
+                                        Sizes.fullScreenWidth(context) * 0.75,
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -78,8 +76,8 @@ class ViewClient extends ConsumerWidget {
                                         padding: EdgeInsets.zero,
                                         icon: const Icon(Icons.call),
                                         onPressed: () async {
-                                          await launch(
-                                              "tel:+20${client.phone}");
+                                          await launchUrl(Uri.parse(
+                                              "tel:+20${client.phone}"));
                                         },
                                       ),
                                     ],
@@ -91,7 +89,8 @@ class ViewClient extends ConsumerWidget {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       CustomTextField(
-                                        width: SizeConfig.screenWidth * .35,
+                                        width: Sizes.fullScreenWidth(context) *
+                                            .35,
                                         hint: areaAndCites
                                             .governorateModel!.data!
                                             .firstWhere((element) =>
@@ -101,30 +100,32 @@ class ViewClient extends ConsumerWidget {
                                             .toString(),
                                       ),
                                       CustomTextField(
-                                        width: SizeConfig.screenWidth * .35,
-
+                                        width: Sizes.fullScreenWidth(context) *
+                                            .35,
                                         hint: areaAndCites.areasModel!.data!
                                             .firstWhere((element) =>
-                                        element.id == client.area)
+                                                element.id == client.area)
                                             .name
                                             .toString(),
                                       ),
                                     ],
                                   ),
                                   SizedBox(
-                                    width: SizeConfig.screenWidth * .75,
-
+                                    width: Sizes.fullScreenWidth(context) * .75,
                                     child: InkWell(
                                       onTap: () {
-                                        push(CustomMap(
-                                          show: true,
-                                          client: client,
-                                          address: client.address,
-                                        ));
+                                        NavigationService.push(context,
+                                            page: CustomMapEditAndShowAddress(
+                                              show: true,
+                                              client: client,
+                                              address: client.address,
+                                            ),
+                                            isNamed: false);
                                       },
                                       child: CustomTextField(
                                         enabled: false,
-                                        width: SizeConfig.screenWidth * 0.7,
+                                        width: Sizes.fullScreenWidth(context) *
+                                            0.7,
                                         icon: Icons.location_pin,
                                         hint: client.address,
                                       ),
@@ -134,12 +135,12 @@ class ViewClient extends ConsumerWidget {
                                       title: 'بيانات المزرعه'),
                                   const SizedBox(height: 10),
                                   SizedBox(
-                                    width: SizeConfig.screenWidth * 0.9,
+                                    width: Sizes.fullScreenWidth(context) * 0.9,
                                     child: Column(
                                       children: [
                                         Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
+                                              MainAxisAlignment.spaceAround,
                                           children: [
                                             Text(
                                               'مساحه الارض',
@@ -153,20 +154,20 @@ class ViewClient extends ConsumerWidget {
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
                                             CustomTextField(
-                                              width: SizeConfig.screenWidth *
+                                              width: Sizes.fullScreenWidth(
+                                                      context) *
                                                   .35,
-
                                               initialValue:
-                                              client.landSize.toString(),
+                                                  client.landSize.toString(),
                                               enabled: false,
                                             ),
                                             CustomTextField(
-                                              width: SizeConfig.screenWidth *
+                                              width: Sizes.fullScreenWidth(
+                                                      context) *
                                                   .35,
-
                                               initialValue: client.landSizeType,
                                               enabled: false,
                                             ),
@@ -174,7 +175,7 @@ class ViewClient extends ConsumerWidget {
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
+                                              MainAxisAlignment.spaceAround,
                                           children: [
                                             Text(
                                               'اجمالي الاسماك',
@@ -188,22 +189,22 @@ class ViewClient extends ConsumerWidget {
                                         ),
                                         Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                              MainAxisAlignment.spaceEvenly,
                                           children: [
                                             CustomTextField(
-                                              width: SizeConfig.screenWidth *
+                                              width: Sizes.fullScreenWidth(
+                                                      context) *
                                                   .35,
-
-                                              hint: client.fish ? [0].number
+                                              hint: client.fish?[0].number
                                                   .toString(),
                                               enabled: false,
                                             ),
                                             CustomTextField(
-                                              width: SizeConfig.screenWidth *
+                                              width: Sizes.fullScreenWidth(
+                                                      context) *
                                                   .35,
-
                                               hint: client
-                                                  .fish ? [0].fishType!.name,
+                                                  .fish?[0].fishType!.name,
                                               enabled: false,
                                             ),
                                           ],
@@ -213,7 +214,7 @@ class ViewClient extends ConsumerWidget {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                        MainAxisAlignment.spaceAround,
                                     children: [
                                       Text(
                                         'نوع العلف',
@@ -227,17 +228,17 @@ class ViewClient extends ConsumerWidget {
                                   ),
                                   Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
                                       CustomTextField(
-                                        width: SizeConfig.screenWidth * .35,
-
+                                        width: Sizes.fullScreenWidth(context) *
+                                            .35,
                                         hint: client.feed ?? '',
                                         enabled: false,
                                       ),
                                       CustomTextField(
-                                        width: SizeConfig.screenWidth * .35,
-
+                                        width: Sizes.fullScreenWidth(context) *
+                                            .35,
                                         hint: client.company ?? '',
                                         enabled: false,
                                       ),
@@ -248,7 +249,11 @@ class ViewClient extends ConsumerWidget {
                                     style: MainTheme.hintTextStyle,
                                   ),
                                   CustomTextField(
-                                    hint: client.onlinePeriodsResult!.isNotEmpty? client.onlinePeriodsResult![0].startingWeight.toString():'',
+                                    hint: client.onlinePeriodsResult!.isNotEmpty
+                                        ? client.onlinePeriodsResult![0]
+                                            .startingWeight
+                                            .toString()
+                                        : '',
                                     enabled: false,
                                   ),
                                   const SizedBox(
@@ -259,7 +264,11 @@ class ViewClient extends ConsumerWidget {
                                     style: MainTheme.hintTextStyle,
                                   ),
                                   CustomTextField(
-                                    hint: client.onlinePeriodsResult!.isNotEmpty?client.onlinePeriodsResult![0].targetWeight.toString():'',
+                                    hint: client.onlinePeriodsResult!.isNotEmpty
+                                        ? client.onlinePeriodsResult![0]
+                                            .targetWeight
+                                            .toString()
+                                        : '',
                                     enabled: false,
                                   ),
                                 ],
@@ -273,9 +282,8 @@ class ViewClient extends ConsumerWidget {
                       ],
                     ),
                     IconButton(
-
-                    onPressed: () {
-                        pop();
+                      onPressed: () {
+                        NavigationService.goBack(context);
                       },
                       icon: const Icon(Icons.arrow_back_ios),
                     ),

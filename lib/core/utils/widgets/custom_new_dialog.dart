@@ -1,7 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-
-import '../functions/helper.dart';
+import '../routing/navigation_service.dart';
 
 class CustomWarningDialog {
   Future<dynamic> showWarningDialog(
@@ -12,8 +11,8 @@ class CustomWarningDialog {
             headerAnimationLoop: false,
             btnOkColor: Theme.of(context).primaryColor,
             context: context,
-            animType: AnimType.SCALE,
-            dialogType: DialogType.NO_HEADER,
+            animType: AnimType.scale,
+            dialogType: DialogType.noHeader,
             body: Center(child: Text(msg)),
             btnOkOnPress: btnOnPress!(),
             btnOkText: 'موافق')
@@ -30,8 +29,8 @@ class CustomWarningDialog {
             headerAnimationLoop: false,
             btnOkColor: Theme.of(context).primaryColor,
             context: context,
-            animType: AnimType.SCALE,
-            dialogType: DialogType.NO_HEADER,
+            animType: AnimType.scale,
+            dialogType: DialogType.noHeader,
             body: Directionality(
                 textDirection:
                     // localization.currentLanguage.toString() == "en"
@@ -57,29 +56,28 @@ class CustomWarningDialog {
       String? btnMsg,
       Function? btnOnPress}) {
     return AwesomeDialog(
-            headerAnimationLoop: false,
-            btnOkColor: Theme.of(context).primaryColor,
-            context: context,
-            animType: AnimType.SCALE,
-            dialogType: DialogType.NO_HEADER,
-            body: Directionality(
-                textDirection:
-                    // localization.currentLanguage.toString() == "en"
-                    //     ? TextDirection.ltr
-                    //     :
-                    TextDirection.rtl,
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      msg,
-                    ),
-                  ),
-                )),
-            btnOkOnPress: btnOnPress!(),
-            btnOkText: btnMsg,
-            aligment: Alignment.center)
-        .show();
+      headerAnimationLoop: false,
+      btnOkColor: Theme.of(context).primaryColor,
+      context: context,
+      animType: AnimType.scale,
+      dialogType: DialogType.noHeader,
+      body: Directionality(
+          textDirection:
+              // localization.currentLanguage.toString() == "en"
+              //     ? TextDirection.ltr
+              //     :
+              TextDirection.rtl,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                msg,
+              ),
+            ),
+          )),
+      btnOkOnPress: btnOnPress!(),
+      btnOkText: btnMsg,
+    ).show();
   }
 
   Future<dynamic> showOptionDialog(
@@ -111,25 +109,26 @@ class CustomWarningDialog {
             ),
             btnOk: InkWell(
               onTap: () {
-                pop();
+                NavigationService.goBack(context);
                 okFun!();
               },
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: const Color.fromRGBO(16, 107, 172, 1),),
+                  color: const Color.fromRGBO(16, 107, 172, 1),
+                ),
                 height: 30,
                 child: const Center(
                     child: Text(
-                      "نعم",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    )),
+                  "نعم",
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                )),
               ),
             ),
             btnOkColor: Theme.of(context).primaryColor,
-            animType: AnimType.SCALE,
-            dialogType: DialogType.NO_HEADER,
+            animType: AnimType.scale,
+            dialogType: DialogType.noHeader,
             body: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Center(
@@ -155,8 +154,8 @@ class CustomWarningDialog {
       headerAnimationLoop: false,
       context: context,
       btnOkColor: Theme.of(context).primaryColor,
-      animType: AnimType.SCALE,
-      dialogType: DialogType.NO_HEADER,
+      animType: AnimType.scale,
+      dialogType: DialogType.noHeader,
       body: body,
       btnOkOnPress: okFun!(),
       btnOkText: okMsg,

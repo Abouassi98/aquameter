@@ -1,5 +1,4 @@
 import 'package:aquameter/core/themes/themes.dart';
-import 'package:aquameter/features/localization/manager/app_localization.dart';
 import 'package:flutter/material.dart';
 
 class DrwaerItem extends StatelessWidget {
@@ -17,11 +16,10 @@ class DrwaerItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
             top: 10,
             bottom: 15,
-            left: localization.currentLanguage.toString() == 'en' ? 10 : 0,
-            right: localization.currentLanguage.toString() == 'en' ? 0 : 10),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

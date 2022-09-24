@@ -1,12 +1,10 @@
 import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
-
-import 'package:aquameter/features/splashScreen/presentation/splah_view.dart';
-
+import 'package:aquameter/features/splashScreen/presentation/screen/splah_screen.dart';
 import 'package:flutter/material.dart';
-
+import '../../routing/navigation_service.dart';
 import 'connectivity_service.dart';
-import '../helper.dart';
+
 
 class NoInternetConnection extends StatelessWidget {
   const NoInternetConnection({
@@ -17,7 +15,8 @@ class NoInternetConnection extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        pushAndRemoveUntil(const SplashView());
+                  NavigationService.pushReplacement(context,
+                          page: const SplashScreen(), isNamed: false);
         return Future.value(true);
       },
       child: Scaffold(
@@ -44,7 +43,8 @@ class NoInternetConnection extends StatelessWidget {
                     ConnectivityService.instance
                         .checkIfConnected()
                         .then((value) {
-                      pushAndRemoveUntil(const SplashView());
+                      NavigationService.pushReplacement(context,
+                          page: const SplashScreen(), isNamed: false);
                     });
                   })
             ],

@@ -1,6 +1,7 @@
 
-import 'package:aquameter/core/utils/size_config.dart';
 import 'package:flutter/material.dart';
+
+import '../sizes.dart';
 
 class CustomHeaderTitle extends StatelessWidget {
   final String title;
@@ -11,8 +12,8 @@ class CustomHeaderTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: SizeConfig.screenHeight * .03,
-      width: SizeConfig.screenWidth * .75,
+      height: Sizes.fullScreenHeight(context) * .03,
+      width: Sizes.fullScreenWidth(context) * .75,
       decoration: BoxDecoration(
           color: color ?? Colors.black,
           borderRadius: const BorderRadius.all(Radius.circular(25))),

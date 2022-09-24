@@ -2,24 +2,23 @@ import 'dart:developer';
 import 'package:aquameter/core/utils/functions/network_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_clean_calendar/clean_calendar_event.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:flutter_neat_and_clean_calendar/neat_and_clean_calendar_event.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../data/period_results_model.dart';
 
-final StateNotifierProvider<PeriodResultsNotifier, Object?> periodResultsNotifier =
+final StateNotifierProvider<PeriodResultsNotifier, Object?>
+    periodResultsNotifier =
     StateNotifierProvider<PeriodResultsNotifier, Object?>(
   (ref) => PeriodResultsNotifier(),
 );
 
-class PeriodResultsNotifier
-    extends StateNotifier<void> {
+class PeriodResultsNotifier extends StateNotifier<void> {
   PeriodResultsNotifier() : super(null);
   final NetworkUtils _utils = NetworkUtils();
 
   PeriodResultsModel? periodResultsModel;
-  Map<DateTime, List<CleanCalendarEvent>> selectedEvents = {};
+  Map<DateTime, List<NeatCleanCalendarEvent>> selectedEvents = {};
   late String date;
   bool isInit = false;
   Future<PeriodResultsModel> getClients(int clientId) async {
@@ -38,26 +37,27 @@ class PeriodResultsNotifier
               periodResultsModel!.data![i].realDate!.substring(8, 10),
             ),
           ): [
-            CleanCalendarEvent('الزيارات السابقه',
-                startTime: DateTime(
+            NeatCleanCalendarEvent(
+              '',
+              
+              isMultiDay: true,
+              color: Colors.white,
+              startTime: DateTime(
+                int.parse(
+                    periodResultsModel!.data![i].realDate!.substring(0, 4)),
+                int.parse(
+                    periodResultsModel!.data![i].realDate!.substring(6, 7)),
+                int.parse(
+                    periodResultsModel!.data![i].realDate!.substring(8, 10)),
+              ),
+              endTime: DateTime(
                   int.parse(
                       periodResultsModel!.data![i].realDate!.substring(0, 4)),
                   int.parse(
                       periodResultsModel!.data![i].realDate!.substring(6, 7)),
                   int.parse(
-                      periodResultsModel!.data![i].realDate!.substring(8, 10)),
-                ),
-                description: 'زيارات مهمه',
-                isAllDay: true,
-                isDone: true,
-                endTime: DateTime(
-                    int.parse(
-                        periodResultsModel!.data![i].realDate!.substring(0, 4)),
-                    int.parse(
-                        periodResultsModel!.data![i].realDate!.substring(6, 7)),
-                    int.parse(periodResultsModel!.data![i].realDate!
-                        .substring(8, 10))),
-                color: Colors.brown)
+                      periodResultsModel!.data![i].realDate!.substring(8, 10))),
+            )
           ]
         });
       }

@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:aquameter/core/utils/functions/network_utils.dart';
 import 'package:aquameter/features/profileClient/data/profile_graph_model.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../data/period_results_model.dart';
 
 final StateNotifierProvider<ProfileClientNotifer, Object?>

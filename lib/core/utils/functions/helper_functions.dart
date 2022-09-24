@@ -1,10 +1,9 @@
-import 'dart:developer';
-import 'package:aquameter/features/Auth/data/user_model.dart';
+
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 
-import '../constants.dart';
+
+
 
 class HelperFunctions {
   static String formatTime(int milliseconds) {
@@ -80,48 +79,7 @@ class HelperFunctions {
     );
   }
 
-  static Future saveUser(data) async {
-    await GetStorage.init().then((value) {
-      GetStorage().write(kcashedUserData, data);
-      GetStorage().write(kIsLoggedIn, true);
-
-      log('IsLoggedIn >>> ${GetStorage().read(kIsLoggedIn)}');
-      log(('cashedUserData >>> ${GetStorage().read(kcashedUserData)}'));
-    });
-  }
-
-  static Future saveToken(String data) async {
-    await GetStorage.init().then((value) {
-      GetStorage().write(kToken, data);
-
-      log(('kToken >>> ${GetStorage().read(kToken)}'));
-    });
-  }
-
-  static Future saveFirstTime() async {
-    await GetStorage.init().then((value) {
-      GetStorage().write(kIsFirstTime, false);
-      debugPrint(GetStorage().read(kIsFirstTime).toString());
-    });
-  }
-
-  static Future saveLang(String? lang) async {
-    await GetStorage.init().then((value) {
-      GetStorage().write(klanguage, lang);
-    });
-  }
-
-  static Future saveApplicationInformation(String name, String value) async {
-    await GetStorage.init().then((value) {
-      GetStorage().write(storageKey + name, value);
-    });
-  }
-
-  static UserModel getUser() {
-    return UserModel.fromJson(
-      GetStorage().read(kcashedUserData),
-    );
-  }
+ 
 }
 
 TextStyle _titleStyle(BuildContext context, [Color? color]) {

@@ -4,10 +4,10 @@ import 'package:aquameter/features/pdf/data/report_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final AutoDisposeStateNotifierProvider<ReportNotifier, Object?> reportNotifier =
-    StateNotifierProvider.autoDispose<ReportNotifier, Object?>(
+final StateNotifierProvider<ReportNotifier, Object?> reportNotifier =
+    StateNotifierProvider<ReportNotifier, Object?>(
   (ref) => ReportNotifier(null),
 );
 

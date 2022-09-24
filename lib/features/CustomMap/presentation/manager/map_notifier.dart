@@ -1,12 +1,11 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:ui' as ui;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 import '../../../Home/Data/clients_model/client_model.dart';
 
@@ -77,28 +76,5 @@ class MapNotifier extends StateNotifier<AsyncValue<String>> {
         isMocked: false);
   }
 
-  Future<Position> determinePosition() async {
-  
-    state = const AsyncValue.data('');
-    LocationPermission permission = await Geolocator.checkPermission();
 
-    if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      await Geolocator.openAppSettings();
-    }
-    if (permission == LocationPermission.denied) {
-      await Geolocator.requestPermission();
-      // Permissions are denied, next time you could try
-      // requesting permissions again (this is also where
-      // Android's shouldShowRequestPermissionRationale
-      // returned true. According to Android guidelines
-      // your App should show an explanatory UI now.
-
-      return Future.error('Location permissions are denied');
-    }
-// When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-  }
 }

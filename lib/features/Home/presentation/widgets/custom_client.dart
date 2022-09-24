@@ -1,9 +1,10 @@
 import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
 import 'package:aquameter/core/themes/screen_utility.dart';
 import 'package:aquameter/core/themes/themes.dart';
-import 'package:aquameter/core/utils/size_config.dart';
+
 import 'package:flutter/material.dart';
 
+import '../../../../core/utils/sizes.dart';
 import '../../Data/clients_model/client_model.dart';
 
 class ClientItem extends StatelessWidget {
@@ -53,7 +54,7 @@ class ClientItem extends StatelessWidget {
               children: [
                 // Shop Image
                 FadeInImage.assetNetwork(
-                  height: SizeConfig.screenHeight * 0.1,
+                  height: Sizes.fullScreenHeight(context) * 0.1,
                   image: fishTypes!.fishTypesModel!.data!
                       .firstWhere((element) =>
                           element.id == client.fish![0].fishType!.id)

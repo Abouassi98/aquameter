@@ -1,8 +1,7 @@
+import 'package:aquameter/core/utils/routing/navigation_service.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-
-import '../helper.dart';
 import 'no_internet_connection_screen.dart';
 
 class ConnectivityService {
@@ -24,7 +23,7 @@ class ConnectivityService {
   //connectivity_plus: check for cellular and wifi connection "Does not guarantee connection to Internet".
   _initConnectivityStream() {
     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-      debugPrint("Connection status changed: " + result.toString());
+      debugPrint("Connection status changed: $result");
       if (result == ConnectivityResult.none) {
         _navigateToNoInternetScreen();
       }
@@ -34,7 +33,7 @@ class ConnectivityService {
   //internet_connection_checker: checks for an internet (data) connection, by opening a socket to a list of addresses. DEFAULT_INTERVAL is 10 seconds which is the time between automatic checks.
   _initInternetCheckerStream() {
     InternetConnectionChecker().onStatusChange.listen((status) {
-      debugPrint("Connection status changed : " + status.toString());
+      debugPrint("Connection status changed : $status");
       checkIfConnectedByConnectivity().then((value) {
         //If no connection from Connectivity plugin "value=false" then no need to check here. Also this fix the exception happening if the app started with no connection as the InternetConnectionChecker doesn't wait till Flutter is ready to navigate "till it renders its first frames" (unlike the Connectivity plugin).
         if (value == true) {
@@ -47,7 +46,8 @@ class ConnectivityService {
   }
 
   _navigateToNoInternetScreen() {
-    push(const NoInternetConnection());
+    NavigationService.push(NavigationService.context,
+        page: const NoInternetConnection(), isNamed: false);
   }
 
   Future<bool> checkIfConnectedByConnectivity() async {

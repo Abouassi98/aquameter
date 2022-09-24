@@ -1,13 +1,14 @@
 ///Package imports
-import 'package:aquameter/core/utils/functions/helper_functions.dart';
-import 'package:aquameter/core/utils/size_config.dart';
-import 'package:aquameter/features/pdf/presentation/pages/save_file.dart';
-import 'package:flutter/material.dart';
+
+import 'package:aquameter/features/pdf/presentation/manager/save_file.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 ///Pdf import
 import 'package:syncfusion_flutter_pdf/pdf.dart';
+import '../../../../core/utils/routing/navigation_service.dart';
+import '../../../../core/utils/services/storage_service.dart';
+import '../../../../core/utils/sizes.dart';
 import '../../data/report_model.dart';
 
 class PdfGenerator {
@@ -24,8 +25,8 @@ class PdfGenerator {
     //Get page client size
     final Size pageSize = page.getClientSize();
     //Draw rectangle
-    PdfFont font =
-        PdfTrueTypeFont(await readFontData(), SizeConfig.screenWidth * .015);
+    PdfFont font = PdfTrueTypeFont(await readFontData(),
+        Sizes.fullScreenWidth(NavigationService.context) * .015);
     page.graphics.drawRectangle(
         bounds: Rect.fromLTWH(0, 0, pageSize.width, pageSize.height),
         pen: PdfPen(PdfColor(142, 170, 219, 255)));
@@ -39,7 +40,7 @@ class PdfGenerator {
     //Add invoice footer
     _drawFooter(page, pageSize);
     //Save and dispose the document.
-    final List<int> bytes =await document.save();
+    final List<int> bytes = await document.save();
     document.dispose();
     //Launch file.
     await saveAndLaunchFile(bytes, 'Report.pdf');
@@ -78,11 +79,10 @@ class PdfGenerator {
     //Create data foramt and convert it to text.
     final DateFormat format = DateFormat.yMMMMd('en_US');
     final String invoiceNumber =
-        'User Number: ${HelperFunctions.getUser().data!.phone!}\r\n\r\nDate: ' +
-            format.format(DateTime.now());
+        'User Number: ${StorageService.instance.restoreUserData().data!.phone!}\r\n\r\nDate: ${format.format(DateTime.now())}';
     final Size contentSize = contentFont.measureString(invoiceNumber);
     String address =
-        'user info: \r\n\r\n${HelperFunctions.getUser().data!.name!} \r\n\r\n${HelperFunctions.getUser().data!.email!} \r\n\r\n';
+        'user info: \r\n\r\n${StorageService.instance.restoreUserData().data!.name} \r\n\r\n${StorageService.instance.restoreUserData().data!.email!} \r\n\r\n';
     PdfTextElement(text: invoiceNumber, font: contentFont).draw(
         page: page,
         bounds: Rect.fromLTWH(pageSize.width - (contentSize.width + 30), 120,
@@ -164,7 +164,6 @@ class PdfGenerator {
         totalFeed: element.feed.toString(),
         grid: grid,
         font: font,
-
       );
     }
 

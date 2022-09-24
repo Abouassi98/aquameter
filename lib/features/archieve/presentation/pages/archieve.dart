@@ -1,6 +1,5 @@
 import 'package:aquameter/core/themes/themes.dart';
-import 'package:aquameter/core/utils/size_config.dart';
-import 'package:aquameter/core/utils/widgets/app_loader.dart';
+
 import 'package:aquameter/core/utils/widgets/custom_btn.dart';
 import 'package:aquameter/core/utils/widgets/custom_dialog.dart';
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
@@ -11,10 +10,12 @@ import 'package:aquameter/features/archieve/presentation/manager/archieve_notifi
 
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../localization/manager/app_localization.dart';
+import '../../../../core/utils/services/localization_service.dart';
+import '../../../../core/utils/sizes.dart';
+import '../../../../core/utils/widgets/loading_indicators.dart';
 
 class ArcieveScreen extends ConsumerWidget {
   ArcieveScreen({
@@ -38,13 +39,16 @@ class ArcieveScreen extends ConsumerWidget {
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
-            localization.text('archieve')!,
+            tr(context).archieve,
             style: MainTheme.headingTextStyle,
           ),
           centerTitle: true,
         ),
         body: ref.watch(provider).when(
-              loading: () => const AppLoader(),
+              loading: () => LoadingIndicators.instance.smallLoadingAnimation(
+              context,
+         
+            ),
               error: (e, o) {
                 debugPrint(e.toString());
                 debugPrint(o.toString());
@@ -60,13 +64,16 @@ class ArcieveScreen extends ConsumerWidget {
                         itemCount: archive.archiveModel!.data!.length,
                         itemBuilder: (context, index) {
                           return ExpandablePanel(
-                            collapsed: Container(),
-                            header: Text(
-                              archive.archiveModel!.data![index].name
-                                  .toString(),
-                              textAlign: TextAlign.right,
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
+                            collapsed: const SizedBox(),
+                            header: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Text(
+                                archive.archiveModel!.data![index].name
+                                    .toString(),
+                                textAlign: TextAlign.right,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                             expanded: ListView.builder(
                               scrollDirection: Axis.vertical,
@@ -80,13 +87,12 @@ class ArcieveScreen extends ConsumerWidget {
                                   child: Center(
                                     child: CustomTextButton(
                                       title:
-                                          "${localization.text('period')!}  ${archive.archiveModel!.data![index].periodsResult![i].mceeting.toString().substring(0, 10)}",
+                                          "${tr(context).period}  ${archive.archiveModel!.data![index].periodsResult![i].mceeting.toString().substring(0, 10)}",
                                       function: () {
                                         showDialog(
                                           context: context,
                                           builder: (context) => CustomDialog(
-                                            title: localization
-                                                .text('periodResult')!,
+                                            title: tr(context).periodResult,
                                             widget: [
                                               Column(
                                                 children: [
@@ -96,14 +102,12 @@ class ArcieveScreen extends ConsumerWidget {
                                                             .spaceAround,
                                                     children: [
                                                       Text(
-                                                        localization.text(
-                                                            'TotalWeight')!,
+                                                        tr(context).totalWeight,
                                                         style: MainTheme
                                                             .hintTextStyle,
                                                       ),
                                                       Text(
-                                                        localization.text(
-                                                            'FishNumber')!,
+                                                        tr(context).fishNumber,
                                                         style: MainTheme
                                                             .hintTextStyle,
                                                       ),
@@ -121,8 +125,9 @@ class ArcieveScreen extends ConsumerWidget {
                                                             .periodsResult![i]
                                                             .totalWieght
                                                             .toString(),
-                                                        width: SizeConfig
-                                                                .screenWidth *
+                                                        width: Sizes
+                                                                .fullScreenWidth(
+                                                                    context) *
                                                             0.3,
                                                         enabled: false,
                                                       ),
@@ -133,8 +138,9 @@ class ArcieveScreen extends ConsumerWidget {
                                                             .periodsResult![i]
                                                             .totalNumber
                                                             .toString()),
-                                                        width: SizeConfig
-                                                                .screenWidth *
+                                                        width: Sizes
+                                                                .fullScreenWidth(
+                                                                    context) *
                                                             0.3,
                                                         enabled: false,
                                                       ),
@@ -143,10 +149,10 @@ class ArcieveScreen extends ConsumerWidget {
                                                 ],
                                               ),
                                               Center(
-                                                child: CustomBtn(
+                                                child: CustomText(
                                                   text:
                                                       '${archive.archiveModel!.data![index].periodsResult![i].avrageWieght ?? '0'}'
-                                                      ' = ${localization.text('avrageWieght')!}',
+                                                      ' = ${tr(context).avrageWieght}',
                                                 ),
                                               ),
                                               const SizedBox(
@@ -156,8 +162,7 @@ class ArcieveScreen extends ConsumerWidget {
                                                 child: Column(
                                                   children: [
                                                     Text(
-                                                      localization.text(
-                                                          'avrageFooder')!,
+                                                      tr(context).avrageFooder,
                                                       style: MainTheme
                                                           .hintTextStyle,
                                                     ),
@@ -182,7 +187,7 @@ class ArcieveScreen extends ConsumerWidget {
                                                 ),
                                               ),
                                               Center(
-                                                child: CustomBtn(
+                                                child: CustomText(
                                                   text: archive
                                                               .archiveModel!
                                                               .data![index]
@@ -191,7 +196,7 @@ class ArcieveScreen extends ConsumerWidget {
                                                           null
                                                       ? 'error'
                                                       : '${archive.archiveModel!.data![index].periodsResult![i].conversionRate!.toStringAsFixed(2)}'
-                                                          ' = ${localization.text('conversionRate')!}',
+                                                          ' = ${tr(context).conversionRate}',
                                                 ),
                                               ),
                                               const SizedBox(

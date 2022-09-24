@@ -1,11 +1,10 @@
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/features/Drawer/Data/about_terms_model.dart';
-import 'package:aquameter/features/Drawer/manager/about_terms_notifier.dart';
+import 'package:aquameter/features/Drawer/presentation/manager/about_terms_notifier.dart';
 import 'package:aquameter/features/Drawer/presentation/widgets/about_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../../core/utils/widgets/app_loader.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import '../../../../core/utils/widgets/loading_indicators.dart';
 
 class AboutAndTerms extends ConsumerWidget {
   final String title;
@@ -39,7 +38,10 @@ class AboutAndTerms extends ConsumerWidget {
           centerTitle: true,
         ),
         body: ref.watch(provider).when(
-              loading: () => const AppLoader(),
+              loading: () =>  LoadingIndicators.instance.smallLoadingAnimation(
+              context,
+         
+            ),
               error: (e, o) {
                 debugPrint(e.toString());
                 debugPrint(o.toString());

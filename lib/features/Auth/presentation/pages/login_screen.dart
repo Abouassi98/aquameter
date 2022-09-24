@@ -1,82 +1,66 @@
 import 'dart:developer';
-
-import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
-import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
+import 'package:aquameter/core/screens/popup_page.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english_number.dart';
-import 'package:aquameter/core/utils/size_config.dart';
-
 import 'package:aquameter/core/utils/widgets/custom_text_field.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
 import 'package:aquameter/features/Auth/presentation/manager/auth_notifier.dart';
-
 import 'package:flutter/material.dart';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../../core/utils/services/localization_service.dart';
+import '../../../../core/utils/sizes.dart';
 
-import '../../../localization/manager/app_localization.dart';
+_sendWhatsApp() async {
+  Uri url = Uri.parse("whatsapp://send?phone=201069072590");
+  await canLaunchUrl(url) ? launchUrl(url) : debugPrint('No WhatsAPP');
+}
 
-class LoginScreen extends ConsumerWidget {
-  final _form = GlobalKey<FormState>();
+final List<String> acceptedNumbers = [
+  '012',
+  '011',
+  '015',
+  '010',
+];
+final loginFormKey = useMemoized(() => GlobalKey<FormState>());
+final StateProvider<bool> visabilityNotifierProvider =
+    StateProvider<bool>((ref) => true);
 
-  LoginScreen({Key? key}) : super(key: key);
+String phone = '', password = '';
 
-  _sendWhatsApp() async {
-    var url = "https://wa.me/+201069072590";
-    await canLaunch(url) ? launch(url) : debugPrint('No WhatsAPP');
-  }
-
-  final List<String> acceptedNumbers = [
-    '012',
-    '011',
-    '015',
-    '010',
-  ];
-  final StateProvider<bool> visabilityNotifierProvider =
-      StateProvider<bool>((ref) => true);
+class LoginScreen extends HookConsumerWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    bool visabilityNotifier = ref.watch(visabilityNotifierProvider);
-    final AreaAndCitesNotifier areaAndCites = ref.read(
-      areaAndCitesNotifier.notifier,
-    );
-    final FishTypesNotifier fishTypes = ref.read(
-      fishTypesNotifier.notifier,
-    );
+    final bool visabilityNotifier = ref.watch(visabilityNotifierProvider);
 
-    String phone = '', password = '';
-    final AuthNotifier login = ref.read(loginProvider.notifier);
-    return Scaffold(
+    return PopUpPage(
       body: Form(
-        key: _form,
+        key: loginFormKey,
         child: Column(
-          mainAxisSize: MainAxisSize.max,
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
               kAppLogo,
-              height: SizeConfig.screenHeight * 0.2,
-              width: 200,
-              fit: BoxFit.cover,
-            ),
-            const SizedBox(
-              height: 20,
+              height: Sizes.pickedImageMaxSize(context),
+              fit: BoxFit.fill,
             ),
             CustomTextField(
               numbersOnly: true,
               type: TextInputType.phone,
-              width: SizeConfig.screenWidth * 0.7,
+              width: Sizes.fullScreenWidth(context) * 0.7,
               icon: Icons.phone,
               showCounterTxt: true,
-              hint: localization.text('phone_number')!,
+              hint: tr(context).phone,
               maxLength: 11,
               validator: (v) {
                 bool phoneNumberAccepted = false;
                 if (v!.length < 11) {
-                  return localization.text('short_phone_number')!;
+                  return tr(context).short_phone_number;
                 }
                 for (String char in acceptedNumbers) {
                   phoneNumberAccepted = v.startsWith(char);
@@ -85,7 +69,7 @@ class LoginScreen extends ConsumerWidget {
                   }
                 }
                 if (phoneNumberAccepted == false) {
-                  return localization.text('invalid_phone_number')!;
+                  return tr(context).invalid_phone_number;
                 }
                 log(
                   phoneNumberAccepted.toString(),
@@ -100,17 +84,16 @@ class LoginScreen extends ConsumerWidget {
               height: 15,
             ),
             CustomTextField(
-              height: SizeConfig.screenHeight * .09,
-              width: SizeConfig.screenWidth * 0.7,
+              height: Sizes.fullScreenHeight(context) * .09,
+              width: Sizes.fullScreenWidth(context) * 0.7,
               icon: Icons.lock,
-              hint: localization.text('password')!,
+              hint: tr(context).password,
               onChange: (v) {
                 password = v;
               },
               validator: (v) {
                 if (v!.isEmpty) {
-                  return localization
-                      .text('the_field_should_not_be_left_blank')!;
+                  return tr(context).the_field_should_not_be_left_blank;
                 }
                 return null;
               },
@@ -120,35 +103,32 @@ class LoginScreen extends ConsumerWidget {
                     ? Icons.visibility_off
                     : Icons.visibility),
                 onPressed: () {
-                  ref
-                      .read(visabilityNotifierProvider.state)
-                      .state =
-                  !visabilityNotifier;
+                  ref.read(visabilityNotifierProvider.state).state =
+                      !visabilityNotifier;
                 },
               ),
             ),
             const SizedBox(height: 30),
             CustomTextButton(
-              title: localization.text('login')!,
+              title: tr(context).login,
               function: () async {
-                final isValid = _form.currentState!.validate();
+                final isValid = loginFormKey.currentState!.validate();
                 if (!isValid) {
                   return;
                 }
-                _form.currentState!.save();
-                login.login(
-                  context,
-                  phone,
-                  password,
-                  areaAndCites,
-                  fishTypes,
-                );
+                loginFormKey.currentState!.save();
+
+                ref.read(loginProvider.notifier).login(
+                      context,
+                      phone,
+                      password,
+                    );
               },
             ),
             Container(
               alignment: Alignment.center,
               child: TextButton(
-                child: Text(localization.text('forget_password')!,
+                child: Text(tr(context).forget_password,
                     style:
                         const TextStyle(color: Colors.black, fontSize: 15.0)),
                 onPressed: () {

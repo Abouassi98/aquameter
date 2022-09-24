@@ -1,12 +1,12 @@
-import 'package:aquameter/core/utils/functions/helper.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/functions/network_utils.dart';
+import 'package:aquameter/core/utils/routing/navigation_service.dart';
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 import 'package:aquameter/features/profileClient/data/add_client_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
 final StateNotifierProvider<AddClientNotifier, Object?> addClientNotifier =
@@ -62,18 +62,23 @@ class AddClientNotifier extends StateNotifier<void> {
     if (response.statusCode == 200) {
       addClientModel = AddClientModel.fromJson(response.data);
       if (addClientModel!.code == 200) {
-        HelperFunctions.successBar(context, message: 'تم الاضافه بنجاح');
+        HelperFunctions.successBar(NavigationService.context,
+            message: 'تم الاضافه بنجاح');
         totalFishes.clear();
         typeFishes.clear();
         pd.close();
         if (fromSearch == true) {
-          pop();
+          NavigationService.goBack(NavigationService.context);
         }
-        pushAndRemoveUntil(MainPage());
+        NavigationService.pushReplacementAll(NavigationService.context,
+            page: const MainPage(), isNamed: false);
       } else {
-        HelperFunctions.errorBar(context, message: 'خطا ف اضافه العميل');
+        HelperFunctions.errorBar(NavigationService.context,
+            message: 'خطا ف اضافه العميل');
       }
-    } else {}
+    } else {
+      pd.close();
+    }
   }
 
   Future<void> updateClient({
@@ -126,13 +131,16 @@ class AddClientNotifier extends StateNotifier<void> {
 
     addClientModel = AddClientModel.fromJson(response.data);
     if (addClientModel!.code == 200) {
-      HelperFunctions.successBar(context, message: 'تم التعديل بنجاح');
+      HelperFunctions.successBar(NavigationService.context,
+          message: 'تم التعديل بنجاح');
       totalFishes.clear();
       typeFishes.clear();
 
-      pushReplacement(MainPage());
+      NavigationService.pushReplacementAll(NavigationService.context,
+          page: const MainPage(), isNamed: false);
     } else {
-      HelperFunctions.errorBar(context, message: 'خطا ف تعديل بيانات العميل');
+      HelperFunctions.errorBar(NavigationService.context,
+          message: 'خطا ف تعديل بيانات العميل');
     }
   }
 }

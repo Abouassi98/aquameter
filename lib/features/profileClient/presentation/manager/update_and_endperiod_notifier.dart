@@ -1,9 +1,9 @@
 import 'dart:developer';
-import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:aquameter/core/utils/functions/network_utils.dart';
-
+import 'package:aquameter/core/utils/services/storage_service.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 
 final StateNotifierProvider<UpdateAndDeletePeriodNotifier, Object?>
     updateAndDeletePeriodNotifier =
@@ -27,7 +27,7 @@ class UpdateAndDeletePeriodNotifier extends StateNotifier<void> {
     Response response = await _utils.requstData(url: 'periods/update', body: {
       "id": periodId,
       "status": 0,
-      "user_id": HelperFunctions.getUser().data!.id,
+      "user_id": StorageService.instance.restoreUserData().data!.id,
       "client_id": clientId,
       if (totalWeight != null) "total_wieght": totalWeight,
       if (averageWeight != null) "avrage_wieght": averageWeight,
