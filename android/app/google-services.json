@@ -37,6 +37,13 @@
             {
               "client_id": "862644530715-u6kgfqi835cndkbalefk2supvc8nokui.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "862644530715-j7l0iu2uigd6j6pljpik91tpphns2ppi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aquameter.aquameter"
+              }
             }
           ]
         }

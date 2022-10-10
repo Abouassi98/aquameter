@@ -9,6 +9,7 @@ import 'core/utils/services/services_initializer.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
+
   debugPrint('Handling a background message: ${message.messageId}');
 }
 
@@ -35,6 +36,9 @@ void main() async {
       sound: true,
     )
         .then((value) {
+      FCMConfig.instance.messaging.getToken().then((token) {
+        debugPrint('device token >>>$token');
+      });
       // FCMConfig.messaging.subscribeToTopic('test_fcm_topic');
     });
     final container = ProviderContainer();

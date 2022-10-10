@@ -12,6 +12,7 @@ import '../../../../core/utils/sizes.dart';
 import '../../../../core/utils/widgets/app_loader.dart';
 
 import '../../../pdf/presentation/manager/report_notifier.dart';
+
 import '../../../pdf/presentation/pages/genrate_pdf.dart';
 import '../manager/get_client_notifier.dart';
 
@@ -82,7 +83,7 @@ class Statics extends ConsumerWidget {
                       height: Sizes.fullScreenHeight(context) * .01,
                     ),
                     ref.watch(provider).when(
-                            loading: () =>const AppLoader(),
+                          loading: () => const AppLoader(),
                           error: (e, o) {
                             debugPrint(e.toString());
                             debugPrint(o.toString());
@@ -300,7 +301,7 @@ class Statics extends ConsumerWidget {
                                   dateTime2.toString().substring(0, 10),
                                 ),
                                 clientId: clientId)
-                            .whenComplete(() => PdfGenerator().generatePDF(ref
+                            .whenComplete(() => generateReport(ref
                                 .read(reportNotifier.notifier)
                                 .reportModel!
                                 .reportData!));

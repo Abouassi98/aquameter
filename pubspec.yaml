@@ -40,16 +40,16 @@ dependencies:
   intl: ^0.17.0
 
   #StateManagement
-  hooks_riverpod: ^2.0.0-dev.9
+  hooks_riverpod: ^2.0.2
 
 
   #Connectivity
-  connectivity_plus: ^2.3.7
+  connectivity_plus: ^2.3.9
   internet_connection_checker: ^1.0.0+1
 
 
   #maps
-  google_maps_flutter: ^2.2.0
+  google_maps_flutter: ^2.2.1
   map_launcher: ^2.4.0
 
 
@@ -65,10 +65,10 @@ dependencies:
 
 
   #Firebase
-  firebase_auth: ^3.10.0
-  firebase_crashlytics: ^2.8.11
-  firebase_core: ^1.23.0
-  fcm_config: ^3.3.7
+  firebase_auth: ^3.11.2
+  firebase_crashlytics: ^2.8.13
+  firebase_core: ^1.24.0
+  fcm_config: ^3.4.0
 
 
   #LocalStorage
@@ -82,10 +82,10 @@ dependencies:
   #Utils 
   freezed_annotation: ^2.1.0
   flutter_fadein: ^2.0.0
-  url_launcher: ^6.1.5
+  url_launcher: ^6.1.6
   path_provider: ^2.0.11
   timeago: ^3.3.0
-  open_file: ^3.2.1
+  printing: ^5.9.3
   path_provider_platform_interface:
   flutter_hooks: ^0.18.5+1
 
@@ -95,14 +95,14 @@ dependencies:
   awesome_dialog: ^3.0.2
   flutter_platform_widgets: ^2.0.0
   fluttertoast: ^8.0.9
-  flash: ^2.0.3+3
-  syncfusion_flutter_charts: ^20.2.50
-  syncfusion_flutter_pdf: ^20.2.50
+  flash: ^2.0.5
+  syncfusion_flutter_charts: ^20.3.48
+  pdf: ^3.8.3
   sn_progress_dialog: ^1.0.8
-  share_plus: ^4.4.0
+  share_plus: ^4.5.3
   flutter_html:
   flutter_svg: ^1.1.5
-  flutter_neat_and_clean_calendar: ^0.3.8+22
+  flutter_neat_and_clean_calendar: ^0.3.8+23
   expandable: ^5.0.1
 
 dev_dependencies:
@@ -116,7 +116,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.1
   flutter_launcher_icons: ^0.10.0
-  flutter_native_splash: ^2.2.9
+  flutter_native_splash: ^2.2.10+1
 
 
 
