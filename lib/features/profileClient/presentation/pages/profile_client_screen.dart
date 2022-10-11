@@ -15,9 +15,10 @@ import 'package:aquameter/features/profileClient/presentation/pages/edit_client.
 import 'package:aquameter/features/profileClient/presentation/pages/view_client.dart';
 import 'package:aquameter/features/profileClient/presentation/widgets/chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
+
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import '../../../../core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
 import '../../../../core/screens/popup_page.dart';
 import '../../../../core/utils/functions/helper_functions.dart';
@@ -28,8 +29,10 @@ import '../../../Home/Data/clients_model/client_model.dart';
 
 import '../../data/period_results_model.dart';
 import '../../data/profile_graph_model.dart';
+
 import '../manager/period_result_notifier.dart';
 import '../manager/profile_graph_notifier.dart';
+import '../widgets/table_events.dart';
 
 final List<Map<String, dynamic>> list = [
   {
@@ -64,31 +67,11 @@ final List<Map<String, dynamic>> list = [
   },
 ];
 
-final GlobalKey<FormState> _conversionRate =  GlobalKey<FormState>();
-final GlobalKey<FormState> _averageWeight =  GlobalKey<FormState>();
+final GlobalKey<FormState> _conversionRate = GlobalKey<FormState>();
+final GlobalKey<FormState> _averageWeight = GlobalKey<FormState>();
 final CustomWarningDialog _dialog = CustomWarningDialog();
-
-final StateProvider<List<num>> ammoniaProvider =
-    StateProvider<List<num>>((ref) => []);
-final StateProvider<List<num>> averageWeightProvider =
-    StateProvider<List<num>>((ref) => []);
-final StateProvider<List<num>> conversionRateProvider =
-    StateProvider<List<num>>((ref) => []);
-final StateProvider<List<num>> totalFishesProvider =
-    StateProvider<List<num>>((ref) => []);
-final StateProvider<List<num>> deadFishesProvider =
-    StateProvider<List<num>>((ref) => []);
-final StateProvider<List<num>> toxicAmmoniaProvider =
-    StateProvider<List<num>>((ref) => []);
-final StateProvider<List<num>> temperatureProvider =
-    StateProvider<List<num>>((ref) => []);
-final StateProvider<List<num>> phProvider =
-    StateProvider<List<num>>((ref) => []);
-final StateProvider<List<num>> salinityProvider =
-    StateProvider<List<num>>((ref) => []);
-final StateProvider<List<num>> oxygenProvider =
-    StateProvider<List<num>>((ref) => []);
 String? selctedMeasuer;
+
 num totalWeight = 0.0, conversionRate = 0, totalFeed = 0, averageWeight = 0;
 int totalFishes = 0;
 
@@ -110,8 +93,26 @@ class ProfileClientScreen extends ConsumerWidget {
         .watch(periodResultsNotifier.notifier)
         .getClients(id); //; may cause `provider` to rebuild
   });
-
-
+  final StateProvider<List<num>> ammoniaProvider =
+      StateProvider<List<num>>((ref) => []);
+  final StateProvider<List<num>> averageWeightProvider =
+      StateProvider<List<num>>((ref) => []);
+  final StateProvider<List<num>> conversionRateProvider =
+      StateProvider<List<num>>((ref) => []);
+  final StateProvider<List<num>> totalFishesProvider =
+      StateProvider<List<num>>((ref) => []);
+  final StateProvider<List<num>> deadFishesProvider =
+      StateProvider<List<num>>((ref) => []);
+  final StateProvider<List<num>> toxicAmmoniaProvider =
+      StateProvider<List<num>>((ref) => []);
+  final StateProvider<List<num>> temperatureProvider =
+      StateProvider<List<num>>((ref) => []);
+  final StateProvider<List<num>> phProvider =
+      StateProvider<List<num>>((ref) => []);
+  final StateProvider<List<num>> salinityProvider =
+      StateProvider<List<num>>((ref) => []);
+  final StateProvider<List<num>> oxygenProvider =
+      StateProvider<List<num>>((ref) => []);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final DeleteClientsCreateMettingAndPeriodNotifier clients =
@@ -199,41 +200,36 @@ class ProfileClientScreen extends ConsumerWidget {
         shrinkWrap: true,
         //scrollDirection: Axis.horizontal,
         children: [
-          Directionality(
-            textDirection: TextDirection.ltr,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                if (client.onlinePeriodsResultCount != 0)
-                  ref.watch(provider2(client.id!)).when(
-                          loading: () =>const AppLoader(),
-                        error: (e, o) {
-                          debugPrint(e.toString());
-                          debugPrint(o.toString());
-                          return const Text('error');
-                        },
-                        data: (e) => SizedBox(
-                          height: Sizes.fullScreenHeight(context) * 0.4,
-                          child: Calendar(
-                            onMonthChanged: (v) {
-                              if (DateTime.now().difference(v).inDays > 0) {}
-                            },
-                            allDayEventText: '',
-                            events: periodResults.selectedEvents,
-                            selectedColor: Colors.pink,
-                            todayColor: Colors.blue,
-                            eventColor: Colors.red,
-                            hideTodayIcon: true,
-                            isExpanded: true,
-                            onDateSelected: (v) {
-                              if (DateTime.now().difference(v).inDays < 0) {
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              if (client.onlinePeriodsResultCount != 0)
+                ref.watch(provider2(client.id!)).when(
+                    loading: () => const AppLoader(),
+                    error: (e, o) {
+                      debugPrint(e.toString());
+                      debugPrint(o.toString());
+                      return const Text('error');
+                    },
+                    data: (e) => SizedBox(
+                          height: Sizes.fullScreenHeight(context) * 0.47,
+                          child: TableEventsExample(
+                            
+                            kEvents: periodResults.kEvents,
+                            onDaySelected: (selectedDay, focusedDay) {
+                              if (DateTime.now()
+                                      .difference(selectedDay)
+                                      .inDays <
+                                  0) {
                                 HelperFunctions.errorBar(context,
                                     message: 'لا يمكن زياره تاريخ مستقبلي');
-                              } else if (periodResults.selectedEvents[DateTime(
-                                    int.parse(v.toString().substring(0, 4)),
-                                    int.parse(v.toString().substring(6, 7)),
+                              } else if (periodResults.kEvents[DateTime(
                                     int.parse(
-                                      v.toString().substring(8, 10),
+                                        selectedDay.toString().substring(0, 4)),
+                                    int.parse(
+                                        selectedDay.toString().substring(5, 7)),
+                                    int.parse(
+                                      selectedDay.toString().substring(8, 10),
                                     ),
                                   )] !=
                                   null) {
@@ -241,7 +237,9 @@ class ProfileClientScreen extends ConsumerWidget {
                                     page: ShowCalculator(
                                         periodResults: e.data!.firstWhere((e) =>
                                             e.realDate!.substring(0, 10) ==
-                                            v.toString().substring(0, 10))),
+                                            selectedDay
+                                                .toString()
+                                                .substring(0, 10))),
                                     isNamed: false);
                               } else {
                                 totalFeed = 0;
@@ -257,7 +255,7 @@ class ProfileClientScreen extends ConsumerWidget {
                                               .where((element) =>
                                                   DateTime.parse(
                                                           element.realDate!)
-                                                      .difference(v)
+                                                      .difference(selectedDay)
                                                       .inDays <=
                                                   0)
                                               .toList()
@@ -266,7 +264,7 @@ class ProfileClientScreen extends ConsumerWidget {
                                     totalFeed += e.data!
                                         .where((element) =>
                                             DateTime.parse(element.realDate!)
-                                                .difference(v)
+                                                .difference(selectedDay)
                                                 .inDays <=
                                             0)
                                         .toList()[i]
@@ -274,7 +272,7 @@ class ProfileClientScreen extends ConsumerWidget {
                                   }
                                   NavigationService.push(context,
                                       page: Calculator(
-                                        dateTime: v,
+                                        dateTime: selectedDay,
                                         client: client,
                                         totalFeed: totalFeed,
                                         meetingId: client
@@ -286,15 +284,9 @@ class ProfileClientScreen extends ConsumerWidget {
                                 }
                               }
                             },
-                            dayOfWeekStyle: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w800,
-                                fontSize: 10),
                           ),
-                        ),
-                      )
-              ],
-            ),
+                        ))
+            ],
           ),
           if (client.onlinePeriodsResultCount != 0)
             ref.watch(provider(client.id!)).when(

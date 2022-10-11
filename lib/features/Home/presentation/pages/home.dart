@@ -20,9 +20,6 @@ import '../../Data/clients_model/client_model.dart';
 import '../manager/get_client_notifier.dart';
 
 final CustomWarningDialog _dialog = CustomWarningDialog();
-final StateProvider<List<Client>> filterClientsProvider =
-    StateProvider<List<Client>>(((ref) => []));
-final List<Client> filterClients2 = [];
 
 class Home extends ConsumerWidget {
   final AutoDisposeFutureProvider<ClientsModel> provider =
@@ -31,6 +28,9 @@ class Home extends ConsumerWidget {
         .watch(getClientsNotifier.notifier)
         .getClients(); //; may cause `provider` to rebuild
   });
+final StateProvider<List<Client>> filterClientsProvider =
+    StateProvider<List<Client>>(((ref) => []));
+final List<Client> filterClients2 = [];
 
   Home({
     Key? key,

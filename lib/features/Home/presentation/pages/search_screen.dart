@@ -13,6 +13,7 @@ import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart'
 import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/profile_client_screen.dart';
 import '../../../../core/utils/routing/navigation_service.dart';
+import '../../../../core/utils/routing/route_paths.dart';
 import '../../../../core/utils/sizes.dart';
 import '../../../../core/utils/widgets/custom_header_title.dart';
 import '../../Data/clients_model/client_model.dart';
@@ -20,6 +21,10 @@ import 'main_page.dart';
 
 final CustomWarningDialog dialog = CustomWarningDialog();
 
+
+  final StateProvider<List<Client>> selcetedProvider =
+      StateProvider<List<Client>>((ref) => []);
+  TextEditingController controller = TextEditingController();
 class SearchScreen extends ConsumerStatefulWidget {
   final bool viewProfile;
   final List<Client> clients;
@@ -38,13 +43,9 @@ class SearchScreen extends ConsumerStatefulWidget {
 
 class SearchScreenState extends ConsumerState<SearchScreen> {
   bool filter = false;
-
-  final StateProvider<List<Client>> selcetedProvider =
-      StateProvider<List<Client>>((ref) => []);
-  TextEditingController controller = TextEditingController();
   @override
   void dispose() {
-    controller.dispose();
+    controller.clear();
     super.dispose();
   }
 
@@ -205,8 +206,6 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
                                           okFun: () async {
                                             await getClient.deleteClient(
                                                 clientId: selected[index].id!);
-
-                                           
                                           },
                                           okMsg: 'نعم',
                                           cancelMsg: 'لا',
@@ -267,7 +266,13 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
                                                     )
                                                     .whenComplete(() =>
                                                         NavigationService
-                                                            .goBack(context));
+                                                            .pushReplacementAll(
+                                                          NavigationService
+                                                              .context,
+                                                          isNamed: true,
+                                                          page: RoutePaths
+                                                              .homeBase,
+                                                        ));
                                               },
                                               okMsg: 'نعم',
                                               cancelMsg: 'لا',
@@ -366,8 +371,13 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
                                                             )
                                                             .whenComplete(() =>
                                                                 NavigationService
-                                                                    .goBack(
-                                                                        context));
+                                                            .pushReplacementAll(
+                                                          NavigationService
+                                                              .context,
+                                                          isNamed: true,
+                                                          page: RoutePaths
+                                                              .homeBase,
+                                                        ));
                                                       },
                                                       okMsg: 'نعم',
                                                       cancelMsg: 'لا',

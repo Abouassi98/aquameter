@@ -19,7 +19,7 @@ class SplashProvider {
   final Ref ref;
   late MainCoreProvider _mainCoreProvider;
   late AuthNotifier _loginProvider;
-  late String secondPage;
+ String ?secondPage;
 
   init() {
     _mainCoreProvider.isConnectedToInternet().then((value) {

@@ -22,9 +22,8 @@ class DeleteClientsCreateMettingAndPeriodNotifier
 
   DeleteClientModel? _model;
 
-
   late String date;
- 
+
   deleteClient({required int clientId}) async {
     Response response = await _utils.requstData(
       url: 'clients/delete/$clientId',

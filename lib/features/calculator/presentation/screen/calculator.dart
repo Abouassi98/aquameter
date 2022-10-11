@@ -38,13 +38,18 @@ bool warningPh = false,
 
 String notes = '';
 
+final qualityWaterKey = useMemoized(() => GlobalKey<FormState>());
+final averageWeightKey = useMemoized(() => GlobalKey<FormState>());
+final dieFishesKey = useMemoized(() => GlobalKey<FormState>());
+final conversionRateKey = useMemoized(() => GlobalKey<FormState>());
+
 class Calculator extends HookConsumerWidget {
   final int meetingId;
   final num totalFeed;
   final Client client;
   final DateTime dateTime;
 
-   Calculator(
+  Calculator(
       {Key? key,
       required this.totalFeed,
       required this.meetingId,
@@ -52,20 +57,16 @@ class Calculator extends HookConsumerWidget {
       required this.client})
       : super(key: key);
 
+  final StateProvider<num> nH3Provider = StateProvider<num>((ref) => 0.0);
 
-final StateProvider<num> nH3Provider = StateProvider<num>((ref) => 0.0);
-
-final StateProvider<num> averageWeightProvider =
-    StateProvider<num>((ref) => 0.0);
-final StateProvider<num> totalWeightProvider = StateProvider<num>((ref) => 0.0);
-final StateProvider<num> conversionRateProvider =
-    StateProvider<num>((ref) => 0.0);
+  final StateProvider<num> averageWeightProvider =
+      StateProvider<num>((ref) => 0.0);
+  final StateProvider<num> totalWeightProvider =
+      StateProvider<num>((ref) => 0.0);
+  final StateProvider<num> conversionRateProvider =
+      StateProvider<num>((ref) => 0.0);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final qualityWaterKey = useMemoized(() => GlobalKey<FormState>());
-    final averageWeightKey = useMemoized(() => GlobalKey<FormState>());
-    final dieFishesKey = useMemoized(() => GlobalKey<FormState>());
-    final conversionRateKey = useMemoized(() => GlobalKey<FormState>());
     final CreateMeetingResultNotifier createMeetingResult = ref.read(
       createMeetingResultNotifier.notifier,
     );
@@ -562,13 +563,10 @@ final StateProvider<num> conversionRateProvider =
                                 width: 20,
                               ),
                               CustomTextButton(
-                                    width: Sizes.roundedButtonMinWidth(
-                                            context),
-                                        hieght: Sizes.roundedButtonMinHeight(
-                                            context),
-                                        radius:
-                                            Sizes.roundedButtonDefaultRadius(
-                                                context),
+                                  width: Sizes.roundedButtonMinWidth(context),
+                                  hieght: Sizes.roundedButtonMinHeight(context),
+                                  radius:
+                                      Sizes.roundedButtonDefaultRadius(context),
                                   title: ' = ',
                                   function: () {
                                     if (averageWeightKey.currentState!
@@ -621,13 +619,10 @@ final StateProvider<num> conversionRateProvider =
                                 width: 20,
                               ),
                               CustomTextButton(
-                                 width: Sizes.roundedButtonMinWidth(
-                                            context),
-                                        hieght: Sizes.roundedButtonMinHeight(
-                                            context),
-                                        radius:
-                                            Sizes.roundedButtonDefaultRadius(
-                                                context),
+                                  width: Sizes.roundedButtonMinWidth(context),
+                                  hieght: Sizes.roundedButtonMinHeight(context),
+                                  radius:
+                                      Sizes.roundedButtonDefaultRadius(context),
                                   title: ' = ',
                                   function: () {
                                     if (averageWeight == 0.0) {
@@ -686,13 +681,10 @@ final StateProvider<num> conversionRateProvider =
                                 width: 20,
                               ),
                               CustomTextButton(
-                                    width: Sizes.roundedButtonMinWidth(
-                                            context),
-                                        hieght: Sizes.roundedButtonMinHeight(
-                                            context),
-                                        radius:
-                                            Sizes.roundedButtonDefaultRadius(
-                                                context),
+                                  width: Sizes.roundedButtonMinWidth(context),
+                                  hieght: Sizes.roundedButtonMinHeight(context),
+                                  radius:
+                                      Sizes.roundedButtonDefaultRadius(context),
                                   title: ' = ',
                                   function: () {
                                     if (totalWeight == 0.0) {
@@ -751,10 +743,11 @@ final StateProvider<num> conversionRateProvider =
                 ),
               ),
               IconButton(
-                  onPressed: () {
-                    NavigationService.goBack(context);
-                  },
-              icon: const Icon(Icons.arrow_back_ios),)
+                onPressed: () {
+                  NavigationService.goBack(context);
+                },
+                icon: const Icon(Icons.arrow_back_ios),
+              )
             ],
           ),
         ],

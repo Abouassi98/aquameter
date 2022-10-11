@@ -39,7 +39,7 @@ final StateProvider<List<Governorate>> governorateProvider =
 final StateProvider<DateTime> dateTimeProvider1 =
     StateProvider<DateTime>(((ref) => DateTime.utc(2020, 11, 9)));
 final StateProvider<DateTime> dateTimeProvider2 =
-    StateProvider<DateTime>(((ref) => DateTime.utc(2022, 11, 9)));
+    StateProvider<DateTime>(((ref) => DateTime.utc(2020, 11, 9)));
 final List fishes2 = [];
 
 final List governorates2 = [];
@@ -226,6 +226,8 @@ class Statics extends ConsumerWidget {
                           return;
                         } else {
                           ref.read(dateTimeProvider1.state).state = pickedDate;
+                          ref.read(dateTimeProvider2.state).state =
+                              DateTime.utc(2020, 11, 9);
                         }
                       });
                     },
@@ -254,7 +256,7 @@ class Statics extends ConsumerWidget {
                       });
                     },
                     child: Text(
-                      dateTime2 != DateTime.utc(2022, 11, 9)
+                      dateTime2 != DateTime.utc(2020, 11, 9)
                           ? dateTime2.toString().substring(0, 10)
                           : 'الي',
                       style: const TextStyle(color: Colors.blueGrey),
@@ -294,12 +296,16 @@ class Statics extends ConsumerWidget {
                         await ref
                             .read(reportNotifier.notifier)
                             .getReport(
-                                start: DateTime.tryParse(
-                                  dateTime1.toString().substring(0, 10),
-                                ),
-                                end: DateTime.tryParse(
-                                  dateTime2.toString().substring(0, 10),
-                                ),
+                                start: dateTime1 == DateTime.utc(2020, 11, 9)
+                                    ? null
+                                    : DateTime.tryParse(
+                                        dateTime1.toString().substring(0, 10),
+                                      ),
+                                end: dateTime2 == DateTime.utc(2020, 11, 9)
+                                    ? null
+                                    : DateTime.tryParse(
+                                        dateTime2.toString().substring(0, 10),
+                                      ),
                                 clientId: clientId)
                             .whenComplete(() => generateReport(ref
                                 .read(reportNotifier.notifier)
