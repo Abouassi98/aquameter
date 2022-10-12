@@ -21,13 +21,14 @@ final CustomWarningDialog dialog = CustomWarningDialog();
 
 final StateProvider<int> _bottomNavIndexProvider =
     StateProvider<int>(((ref) => 0));
+
 class MainPage extends ConsumerWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final List<Widget> widgets = [
-      Home(),
+      Home(ref: ref),
       const Statics(),
     ];
     int bottomNavIndex = ref.watch(_bottomNavIndexProvider);
@@ -36,7 +37,7 @@ class MainPage extends ConsumerWidget {
       drawer: const DrawerMenu(),
       extendBodyBehindAppBar: true,
       consumerAppBar: PreferredSize(
-        preferredSize: Size.fromHeight(Sizes.appBarCustomHeight(context)),
+        preferredSize: Size.fromHeight(Sizes.appBarCustomHeight(context) * 0.8),
         child: const CustomAppBar(
           drawer: true,
           search: false,

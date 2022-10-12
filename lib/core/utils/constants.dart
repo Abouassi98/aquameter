@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 const kAppLogo = 'assets/images/Aquameter.png';
 const kAppLoading = 'assets/json/loading_animation.json';
 const kBackGroungLogo = 'assets/images/background.jfif';
+final kToday = DateTime.now();
+final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
+final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
+
 
 ///////////////////////////////////////////////////////////
 /// theme

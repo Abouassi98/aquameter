@@ -17,7 +17,6 @@ class GetClientsNotifier extends StateNotifier<ClientsModel> {
 
   bool isInit = false;
   Future<ClientsModel> getClients() async {
-
     isInit = false;
     Response response = await _utils.requstData(url: 'clients', body: {});
     if (response.statusCode == 200) {
@@ -31,7 +30,6 @@ class GetClientsNotifier extends StateNotifier<ClientsModel> {
 
   @override
   void dispose() {
-
     super.dispose();
   }
 }

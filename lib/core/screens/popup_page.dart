@@ -49,6 +49,7 @@ class PopUpPage extends StatelessWidget {
       child: SafeArea(
         top: safeAreaTop,
         bottom: safeAreaBottom,
+
         child: PlatformScaffold(
           
           widgetKey: scaffoldKey,

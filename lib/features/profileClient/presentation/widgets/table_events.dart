@@ -2,7 +2,8 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../data/utils.dart';
+import '../../../../core/utils/constants.dart';
+import '../../data/table_events_utils.dart';
 
 class TableEventsExample extends StatefulWidget {
   final LinkedHashMap<DateTime, List<Event>> kEvents;
@@ -79,6 +80,7 @@ class TableEventsExampleState extends State<TableEventsExample> {
           firstDay: kFirstDay,
           lastDay: kLastDay,
           focusedDay: _focusedDay,
+          
           selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
           rangeStartDay: _rangeStart,
           rangeEndDay: _rangeEnd,

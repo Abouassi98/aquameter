@@ -241,7 +241,7 @@ class ShowCalculator extends ConsumerWidget {
                   onPressed: () {
                     NavigationService.goBack(context);
                   },
-                  icon: const Icon(Icons.arrow_forward_ios))
+                  icon: const Icon(Icons.arrow_back_ios))
             ],
           ),
         ],

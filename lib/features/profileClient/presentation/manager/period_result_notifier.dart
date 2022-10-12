@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../data/period_results_model.dart';
-import '../../data/utils.dart';
+import '../../data/table_events_utils.dart';
 
 final StateNotifierProvider<PeriodResultsNotifier, Object?>
     periodResultsNotifier =

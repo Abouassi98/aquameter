@@ -21,26 +21,45 @@ import '../manager/get_client_notifier.dart';
 
 final CustomWarningDialog _dialog = CustomWarningDialog();
 
-class Home extends ConsumerWidget {
-  final AutoDisposeFutureProvider<ClientsModel> provider =
-      FutureProvider.autoDispose<ClientsModel>((ref) async {
-    return await ref
-        .watch(getClientsNotifier.notifier)
-        .getClients(); //; may cause `provider` to rebuild
-  });
 final StateProvider<List<Client>> filterClientsProvider =
     StateProvider<List<Client>>(((ref) => []));
 final List<Client> filterClients2 = [];
+late AutoDisposeFutureProvider<ClientsModel> provider;
 
-  Home({
+class Home extends StatefulWidget {
+  final WidgetRef ref;
+
+  const Home({
     Key? key,
+    required this.ref,
   }) : super(key: key);
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  bool isInit = false;
+  @override
+  void didChangeDependencies() {
+    if (isInit == false) {
+      provider = FutureProvider.autoDispose<ClientsModel>((ref) async {
+        return await ref
+            .watch(getClientsNotifier.notifier)
+            .getClients(); //; may cause `provider` to rebuild
+      });
+    }
+    isInit = true;
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return PopUpPage(
+      resizeToAvoidBottomInset: false,
       backgroundColor: MainStyle.backGroundColor,
-      body: ref.watch(provider).when(
-            loading: () =>const AppLoader(),
+      body: widget.ref.watch(provider).when(
+            loading: () => const AppLoader(),
             error: (e, o) {
               debugPrint(e.toString());
               debugPrint(o.toString());
@@ -72,7 +91,7 @@ final List<Client> filterClients2 = [];
                           Expanded(child: DaysItem(
                             onChaned: (v) {
                               filterClients2.clear();
-                              ref
+                              widget.ref
                                   .read(filterClientsProvider.state)
                                   .state
                                   .clear();
@@ -92,14 +111,13 @@ final List<Client> filterClients2 = [];
                                       filterClients2.add(e.data![i]);
                                     }
                                   }
-                                  
                                 }
                               }
-                              ref.read(filterClientsProvider.state).state = [
-                                ...filterClients2
-                              ];
+                              widget.ref
+                                  .read(filterClientsProvider.state)
+                                  .state = [...filterClients2];
 
-                              ref
+                              widget.ref
                                   .read(deleteAndCreateClientsNotifier.notifier)
                                   .date = v;
                             },
@@ -128,7 +146,7 @@ final List<Client> filterClients2 = [];
                                       page: SearchScreen(
                                         viewProfile: true,
                                         clients: e.data!,
-                                        ref: ref,
+                                        ref: widget.ref,
                                       ),
                                       isNamed: false);
                                 }),
@@ -138,7 +156,7 @@ final List<Client> filterClients2 = [];
                                     page: SearchScreen(
                                       viewProfile: false,
                                       clients: e.data!,
-                                      ref: ref,
+                                      ref: widget.ref,
                                     ),
                                     isNamed: false);
                               },
@@ -146,7 +164,7 @@ final List<Client> filterClients2 = [];
                             ),
                           ],
                         ),
-                        ref.watch(filterClientsProvider).isEmpty
+                        widget.ref.watch(filterClientsProvider).isEmpty
                             ? Center(
                                 child: Text(
                                   'لايوجد عملاء',
@@ -157,10 +175,11 @@ final List<Client> filterClients2 = [];
                             : ListView.builder(
                                 primary: false,
                                 shrinkWrap: true,
-                                itemCount:
-                                    ref.watch(filterClientsProvider).length,
+                                itemCount: widget.ref
+                                    .watch(filterClientsProvider)
+                                    .length,
                                 itemBuilder: (context, i) => ClientItem(
-                                  fishTypes: ref.read(
+                                  fishTypes: widget.ref.read(
                                     fishTypesNotifier.notifier,
                                   ),
                                   confirmDismiss:
@@ -169,23 +188,23 @@ final List<Client> filterClients2 = [];
                                         context: context,
                                         msg: 'هل ترغب بحذف العميل؟',
                                         okFun: () async {
-                                          final int index = ref
+                                          final int index = widget.ref
                                               .watch(filterClientsProvider)[i]
                                               .onlinePeriodsResult![0]
                                               .meetings!
                                               .indexWhere((element) =>
                                                   element.meeting!
                                                       .substring(0, 10) ==
-                                                  ref
+                                                  widget.ref
                                                       .read(
                                                           deleteAndCreateClientsNotifier
                                                               .notifier)
                                                       .date);
 
-                                          await ref
+                                          await widget.ref
                                               .read(meetingAllNotifier.notifier)
                                               .deleteMeeting(
-                                                  meetingId: ref
+                                                  meetingId: widget.ref
                                                       .watch(filterClientsProvider)[
                                                           i]
                                                       .onlinePeriodsResult![0]
@@ -212,12 +231,13 @@ final List<Client> filterClients2 = [];
                                   func: () {
                                     NavigationService.push(context,
                                         page: ProfileClientScreen(
-                                          client: ref
+                                          client: widget.ref
                                               .watch(filterClientsProvider)[i],
                                         ),
                                         isNamed: false);
                                   },
-                                  client: ref.watch(filterClientsProvider)[i],
+                                  client: widget.ref
+                                      .watch(filterClientsProvider)[i],
                                 ),
                               ),
                         const SizedBox(

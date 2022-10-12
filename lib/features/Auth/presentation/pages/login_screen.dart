@@ -37,109 +37,112 @@ class LoginScreen extends HookConsumerWidget {
     final bool visabilityNotifier = ref.watch(visabilityNotifierProvider);
 
     return PopUpPage(
+      
       body: Form(
         key: loginFormKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              kAppLogo,
-              height: Sizes.pickedImageMaxSize(context),
-              fit: BoxFit.fill,
-            ),
-            CustomTextField(
-              numbersOnly: true,
-              type: TextInputType.phone,
-              width: Sizes.fullScreenWidth(context) * 0.7,
-              icon: Icons.phone,
-              showCounterTxt: true,
-              hint: tr(context).phone,
-              maxLength: 11,
-              validator: (v) {
-                bool phoneNumberAccepted = false;
-                if (v!.length < 11) {
-                  return tr(context).short_phone_number;
-                }
-                for (String char in acceptedNumbers) {
-                  phoneNumberAccepted = v.startsWith(char);
-                  if (phoneNumberAccepted) {
-                    break;
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                kAppLogo,
+                height: Sizes.pickedImageMaxSize(context),
+                fit: BoxFit.fill,
+              ),
+              CustomTextField(
+                numbersOnly: true,
+                type: TextInputType.phone,
+                width: Sizes.fullScreenWidth(context) * 0.7,
+                icon: Icons.phone,
+                showCounterTxt: true,
+                hint: tr(context).phone,
+                maxLength: 11,
+                validator: (v) {
+                  bool phoneNumberAccepted = false;
+                  if (v!.length < 11) {
+                    return tr(context).short_phone_number;
                   }
-                }
-                if (phoneNumberAccepted == false) {
-                  return tr(context).invalid_phone_number;
-                }
-                log(
-                  phoneNumberAccepted.toString(),
-                );
-                return null;
-              },
-              onChange: (v) {
-                phone = convertToEnglishNumbers(v.trim());
-              },
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            CustomTextField(
-              height: Sizes.fullScreenHeight(context) * .09,
-              width: Sizes.fullScreenWidth(context) * 0.7,
-              icon: Icons.lock,
-              hint: tr(context).password,
-              onChange: (v) {
-                password = v;
-              },
-              validator: (v) {
-                if (v!.isEmpty) {
-                  return tr(context).the_field_should_not_be_left_blank;
-                }
-                return null;
-              },
-              visibility: visabilityNotifier,
-              suffixIcon: IconButton(
-                icon: Icon(visabilityNotifier
-                    ? Icons.visibility_off
-                    : Icons.visibility),
-                onPressed: () {
-                  ref.read(visabilityNotifierProvider.state).state =
-                      !visabilityNotifier;
+                  for (String char in acceptedNumbers) {
+                    phoneNumberAccepted = v.startsWith(char);
+                    if (phoneNumberAccepted) {
+                      break;
+                    }
+                  }
+                  if (phoneNumberAccepted == false) {
+                    return tr(context).invalid_phone_number;
+                  }
+                  log(
+                    phoneNumberAccepted.toString(),
+                  );
+                  return null;
+                },
+                onChange: (v) {
+                  phone = convertToEnglishNumbers(v.trim());
                 },
               ),
-            ),
-            const SizedBox(height: 30),
-            CustomTextButton(
-              title: tr(context).login,
-              function: () async {
-                final isValid = loginFormKey.currentState!.validate();
-                if (!isValid) {
-                  return;
-                }
-                loginFormKey.currentState!.save();
+              const SizedBox(
+                height: 15,
+              ),
+              CustomTextField(
+                height: Sizes.fullScreenHeight(context) * .09,
+                width: Sizes.fullScreenWidth(context) * 0.7,
+                icon: Icons.lock,
+                hint: tr(context).password,
+                onChange: (v) {
+                  password = v;
+                },
+                validator: (v) {
+                  if (v!.isEmpty) {
+                    return tr(context).the_field_should_not_be_left_blank;
+                  }
+                  return null;
+                },
+                visibility: visabilityNotifier,
+                suffixIcon: IconButton(
+                  icon: Icon(visabilityNotifier
+                      ? Icons.visibility_off
+                      : Icons.visibility),
+                  onPressed: () {
+                    ref.read(visabilityNotifierProvider.state).state =
+                        !visabilityNotifier;
+                  },
+                ),
+              ),
+              const SizedBox(height: 30),
+              CustomTextButton(
+                title: tr(context).login,
+                function: () async {
+                  final isValid = loginFormKey.currentState!.validate();
+                  if (!isValid) {
+                    return;
+                  }
+                  loginFormKey.currentState!.save();
 
-                ref.read(loginProvider.notifier).login(
-                      context,
-                      phone,
-                      password,
-                    );
-              },
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: TextButton(
-                child: Text(tr(context).forget_password,
-                    style:
-                        const TextStyle(color: Colors.black, fontSize: 15.0)),
-                onPressed: () {
-                  _sendWhatsApp();
-                  // push(
-                  //   SendCodeScreen(inx: 1),
-                  // );
+                  ref.read(loginProvider.notifier).login(
+                        context,
+                        phone,
+                        password,
+                      );
                 },
               ),
-            ),
-          ],
+              Container(
+                alignment: Alignment.center,
+                child: TextButton(
+                  child: Text(tr(context).forget_password,
+                      style:
+                          const TextStyle(color: Colors.black, fontSize: 15.0)),
+                  onPressed: () {
+                    _sendWhatsApp();
+                    // push(
+                    //   SendCodeScreen(inx: 1),
+                    // );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

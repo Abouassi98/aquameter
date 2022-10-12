@@ -1,6 +1,6 @@
 import 'package:aquameter/core/utils/routing/route_paths.dart';
 import 'package:aquameter/features/CustomMap/presentation/pages/custom_map_select_address.dart';
-import 'package:aquameter/features/Home/presentation/pages/home.dart';
+
 import 'package:aquameter/features/Home/presentation/pages/main_page.dart';
 import 'package:aquameter/features/splashScreen/presentation/screen/splah_screen.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +72,7 @@ class AppRouter {
       //Home
       case RoutePaths.home:
         return NavigationFadeTransition(
-          Home(),
+          const MainPage(),
           settings: settings,
         );
       // case RoutePaths.profile:
@@ -85,7 +85,7 @@ class AppRouter {
 
       default:
         return NavigationFadeTransition(
-          Home(),
+          const MainPage(),
           settings: settings,
         );
     }
