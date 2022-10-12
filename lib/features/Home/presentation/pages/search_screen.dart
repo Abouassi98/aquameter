@@ -1,3 +1,4 @@
+import 'package:aquameter/core/screens/popup_page.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,10 +22,10 @@ import 'main_page.dart';
 
 final CustomWarningDialog dialog = CustomWarningDialog();
 
+final StateProvider<List<Client>> selcetedProvider =
+    StateProvider<List<Client>>((ref) => []);
+TextEditingController controller = TextEditingController();
 
-  final StateProvider<List<Client>> selcetedProvider =
-      StateProvider<List<Client>>((ref) => []);
-  TextEditingController controller = TextEditingController();
 class SearchScreen extends ConsumerStatefulWidget {
   final bool viewProfile;
   final List<Client> clients;
@@ -68,7 +69,7 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
       fishTypesNotifier.notifier,
     );
 
-    return Scaffold(
+    return PopUpPage(
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -84,8 +85,9 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
           size: 40,
         ),
       ),
-      appBar: PreferredSize(
-          preferredSize: Size.fromHeight(Sizes.fullScreenHeight(context) * 0.2),
+      consumerAppBar: PreferredSize(
+          preferredSize:
+              Size.fromHeight(Sizes.appBarCustomHeight(context) * 0.55),
           child: CustomAppBar(
             controller: controller,
             search: true,
@@ -371,13 +373,13 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
                                                             )
                                                             .whenComplete(() =>
                                                                 NavigationService
-                                                            .pushReplacementAll(
-                                                          NavigationService
-                                                              .context,
-                                                          isNamed: true,
-                                                          page: RoutePaths
-                                                              .homeBase,
-                                                        ));
+                                                                    .pushReplacementAll(
+                                                                  NavigationService
+                                                                      .context,
+                                                                  isNamed: true,
+                                                                  page: RoutePaths
+                                                                      .homeBase,
+                                                                ));
                                                       },
                                                       okMsg: 'نعم',
                                                       cancelMsg: 'لا',
