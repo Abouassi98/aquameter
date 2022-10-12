@@ -109,7 +109,8 @@ class CustomWarningDialog {
             ),
             btnOk: InkWell(
               onTap: () {
-                okFun ?? NavigationService.goBack(context);
+                NavigationService.goBack(context);
+                okFun!();
               },
               child: Container(
                 decoration: BoxDecoration(

@@ -44,7 +44,6 @@ class MainPage extends ConsumerWidget {
         ),
       ),
       onWillPop: () async {
-      
         return await showDialog(
             context: context,
             barrierDismissible: true,
