@@ -66,8 +66,6 @@ class _HomeState extends State<Home> {
               return const Text('error');
             },
             data: (e) => ListView(
-              primary: false,
-              shrinkWrap: true,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -76,8 +74,7 @@ class _HomeState extends State<Home> {
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: SizedBox(
-                      height: Sizes.fullScreenHeight(context) * 0.16,
-                      width: Sizes.fullScreenWidth(context) * 0.8,
+                      height: Sizes.fullScreenHeight(context) * 0.13,
                       child: Column(
                         children: [
                           Padding(

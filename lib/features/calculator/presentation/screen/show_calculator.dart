@@ -1,3 +1,4 @@
+import 'package:aquameter/core/screens/popup_page.dart';
 import 'package:aquameter/core/themes/themes.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/widgets/custom_btn.dart';
@@ -20,10 +21,8 @@ class ShowCalculator extends ConsumerWidget {
     final CreateMeetingResultNotifier removeMeetingResult = ref.read(
       createMeetingResultNotifier.notifier,
     );
-    return Scaffold(
+    return PopUpPage(
       body: ListView(
-        primary: false,
-        shrinkWrap: true,
         children: [
           Stack(
             alignment: Alignment.topRight,

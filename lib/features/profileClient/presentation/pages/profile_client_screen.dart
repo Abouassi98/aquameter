@@ -196,98 +196,84 @@ class ProfileClientScreen extends ConsumerWidget {
         ],
       ),
       body: ListView(
-        primary: false,
-        shrinkWrap: true,
-        //scrollDirection: Axis.horizontal,
-        children: [
-          Column(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              if (client.onlinePeriodsResultCount != 0)
-                ref.watch(provider2(client.id!)).when(
-                    loading: () => const AppLoader(),
-                    error: (e, o) {
-                      debugPrint(e.toString());
-                      debugPrint(o.toString());
-                      return const Text('error');
-                    },
-                    data: (e) => SizedBox(
-                          height: Sizes.fullScreenHeight(context) * 0.47,
-                          child: TableEventsExample(
-                            
-                            kEvents: periodResults.kEvents,
-                            onDaySelected: (selectedDay, focusedDay) {
-                              if (DateTime.now()
-                                      .difference(selectedDay)
-                                      .inDays <
-                                  0) {
-                                HelperFunctions.errorBar(context,
-                                    message: 'لا يمكن زياره تاريخ مستقبلي');
-                              } else if (periodResults.kEvents[DateTime(
-                                    int.parse(
-                                        selectedDay.toString().substring(0, 4)),
-                                    int.parse(
-                                        selectedDay.toString().substring(5, 7)),
-                                    int.parse(
-                                      selectedDay.toString().substring(8, 10),
-                                    ),
-                                  )] !=
-                                  null) {
-                                NavigationService.push(context,
-                                    page: ShowCalculator(
-                                        periodResults: e.data!.firstWhere((e) =>
-                                            e.realDate!.substring(0, 10) ==
-                                            selectedDay
-                                                .toString()
-                                                .substring(0, 10))),
-                                    isNamed: false);
-                              } else {
-                                totalFeed = 0;
-                                if (client.onlinePeriodsResult![0].meetings!
-                                    .isEmpty) {
-                                  HelperFunctions.errorBar(context,
-                                      message:
-                                          'يجب عليك ان تضع العميل ميعاد في الخطه اولا');
-                                } else {
-                                  for (int i = 0;
-                                      i <
-                                          e.data!
-                                              .where((element) =>
-                                                  DateTime.parse(
-                                                          element.realDate!)
-                                                      .difference(selectedDay)
-                                                      .inDays <=
-                                                  0)
-                                              .toList()
-                                              .length;
-                                      i++) {
-                                    totalFeed += e.data!
-                                        .where((element) =>
-                                            DateTime.parse(element.realDate!)
-                                                .difference(selectedDay)
-                                                .inDays <=
-                                            0)
-                                        .toList()[i]
-                                        .feed!;
-                                  }
-                                  NavigationService.push(context,
-                                      page: Calculator(
-                                        dateTime: selectedDay,
-                                        client: client,
-                                        totalFeed: totalFeed,
-                                        meetingId: client
-                                            .onlinePeriodsResult![0]
-                                            .meetings![0]
-                                            .id!,
-                                      ),
-                                      isNamed: false);
-                                }
+        children: <Widget>[
+          if (client.onlinePeriodsResultCount != 0)
+            ref.watch(provider2(client.id!)).when(
+                loading: () => const AppLoader(),
+                error: (e, o) {
+                  debugPrint(e.toString());
+                  debugPrint(o.toString());
+                  return const Text('error');
+                },
+                data: (e) => SizedBox(
+                      height: Sizes.fullScreenHeight(context) * 0.47,
+                      child: TableEventsExample(
+                        kEvents: periodResults.kEvents,
+                        onDaySelected: (selectedDay, focusedDay) {
+                          if (DateTime.now().difference(selectedDay).inDays <
+                              0) {
+                            HelperFunctions.errorBar(context,
+                                message: 'لا يمكن زياره تاريخ مستقبلي');
+                          } else if (periodResults.kEvents[DateTime(
+                                int.parse(
+                                    selectedDay.toString().substring(0, 4)),
+                                int.parse(
+                                    selectedDay.toString().substring(5, 7)),
+                                int.parse(
+                                  selectedDay.toString().substring(8, 10),
+                                ),
+                              )] !=
+                              null) {
+                            NavigationService.push(context,
+                                page: ShowCalculator(
+                                    periodResults: e.data!.firstWhere((e) =>
+                                        e.realDate!.substring(0, 10) ==
+                                        selectedDay
+                                            .toString()
+                                            .substring(0, 10))),
+                                isNamed: false);
+                          } else {
+                            totalFeed = 0;
+                            if (client
+                                .onlinePeriodsResult![0].meetings!.isEmpty) {
+                              HelperFunctions.errorBar(context,
+                                  message:
+                                      'يجب عليك ان تضع العميل ميعاد في الخطه اولا');
+                            } else {
+                              for (int i = 0;
+                                  i <
+                                      e.data!
+                                          .where((element) =>
+                                              DateTime.parse(element.realDate!)
+                                                  .difference(selectedDay)
+                                                  .inDays <=
+                                              0)
+                                          .toList()
+                                          .length;
+                                  i++) {
+                                totalFeed += e.data!
+                                    .where((element) =>
+                                        DateTime.parse(element.realDate!)
+                                            .difference(selectedDay)
+                                            .inDays <=
+                                        0)
+                                    .toList()[i]
+                                    .feed!;
                               }
-                            },
-                          ),
-                        ))
-            ],
-          ),
+                              NavigationService.push(context,
+                                  page: Calculator(
+                                    dateTime: selectedDay,
+                                    client: client,
+                                    totalFeed: totalFeed,
+                                    meetingId: client.onlinePeriodsResult![0]
+                                        .meetings![0].id!,
+                                  ),
+                                  isNamed: false);
+                            }
+                          }
+                        },
+                      ),
+                    )),
           if (client.onlinePeriodsResultCount != 0)
             ref.watch(provider(client.id!)).when(
                   loading: () => const SizedBox(),

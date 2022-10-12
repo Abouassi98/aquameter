@@ -15,7 +15,6 @@ import '../../../../core/utils/services/localization_service.dart';
 import '../../../../core/utils/sizes.dart';
 import '../../../../core/utils/widgets/app_loader.dart';
 
-
 class ArcieveScreen extends ConsumerWidget {
   ArcieveScreen({
     Key? key,
@@ -44,7 +43,7 @@ class ArcieveScreen extends ConsumerWidget {
           centerTitle: true,
         ),
         body: ref.watch(provider).when(
-              loading: () =>const AppLoader(),
+              loading: () => const AppLoader(),
               error: (e, o) {
                 debugPrint(e.toString());
                 debugPrint(o.toString());

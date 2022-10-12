@@ -80,9 +80,8 @@ class Calculator extends HookConsumerWidget {
     }
 
     return PopUpPage(
+      resizeToAvoidBottomInset: true,
       body: ListView(
-        primary: false,
-        shrinkWrap: true,
         children: [
           Stack(
             alignment: Alignment.topRight,

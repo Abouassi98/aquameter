@@ -75,11 +75,10 @@ class CustomAppBar extends ConsumerWidget {
                     )
                   : const SizedBox(),
               SizedBox(
-                  height: Sizes.fullScreenHeight(context) * 0.1,
-                  width: 100,
+                  height: Sizes.fullScreenHeight(context) * 0.09,
                   child: Image.asset(
                     kAppLogo,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                   )),
             ],
           ),

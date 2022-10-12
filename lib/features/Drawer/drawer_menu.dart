@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../core/utils/routing/navigation_service.dart';
 import '../../core/utils/services/storage_service.dart';
 import '../../core/utils/sizes.dart';
+import '../../core/utils/widgets/custom_option_dialog.dart';
 import '../localization/presentation/manager/app_locale_provider.dart';
 import '../archieve/presentation/pages/archieve.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +116,12 @@ class DrawerMenu extends ConsumerWidget {
               widget: const Icon(Icons.logout),
               text: tr(context).logOut,
               onTap: () async {
-                StorageService.instance.logOut(context);
+                await showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) => CustomOptionDialog(
+                        function: () => StorageService.instance.logOut(context),
+                        title: 'هل تود تسجيل الخروج'));
               }),
         ],
       ),

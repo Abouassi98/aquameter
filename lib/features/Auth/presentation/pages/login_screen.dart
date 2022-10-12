@@ -37,14 +37,12 @@ class LoginScreen extends HookConsumerWidget {
     final bool visabilityNotifier = ref.watch(visabilityNotifierProvider);
 
     return PopUpPage(
-      
+      resizeToAvoidBottomInset: true,
       body: Form(
         key: loginFormKey,
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
                 kAppLogo,

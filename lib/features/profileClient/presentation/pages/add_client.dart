@@ -59,365 +59,354 @@ class AddClient extends HookConsumerWidget {
     );
     final address = ref.watch(mapAddress);
     return PopUpPage(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: Form(
         key: formKey,
-        child: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.only(top: Sizes.appBarDefaultHeight(context)),
-            child: Stack(
-              children: [
-                ListView(
-                  shrinkWrap: true,
-                  physics: const ScrollPhysics(),
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          kAppLogo,
-                          height: Sizes.fullScreenHeight(context) * 0.1,
-                          width: 120,
-                          fit: BoxFit.cover,
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.all(20),
-                          child: Column(
-                            children: <Widget>[
-                              const CustomHeaderTitle(title: "إضافة عميل جديد"),
-                              const SizedBox(height: 15),
-                              CustomTextField(
-                                width: Sizes.fullScreenWidth(context) * 0.75,
-                                icon: Icons.person,
-                                hint: "اسم العميل",
-                                type: TextInputType.text,
-                                onChange: (v) {
-                                  name = v;
-                                },
-                                validator: (v) {
-                                  if (v!.isEmpty) {
-                                    return 'لا يجب ترك الحقل فارغ';
+        child: Container(
+          margin: EdgeInsets.only(top: Sizes.appBarDefaultHeight(context)),
+          child: Stack(
+            children: [
+              ListView(
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        kAppLogo,
+                        height: Sizes.fullScreenHeight(context) * 0.1,
+                        width: 120,
+                        fit: BoxFit.cover,
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.all(20),
+                        child: Column(
+                          children: <Widget>[
+                            const CustomHeaderTitle(title: "إضافة عميل جديد"),
+                            const SizedBox(height: 15),
+                            CustomTextField(
+                              width: Sizes.fullScreenWidth(context) * 0.75,
+                              icon: Icons.person,
+                              hint: "اسم العميل",
+                              type: TextInputType.text,
+                              onChange: (v) {
+                                name = v;
+                              },
+                              validator: (v) {
+                                if (v!.isEmpty) {
+                                  return 'لا يجب ترك الحقل فارغ';
+                                }
+                                return null;
+                              },
+                            ),
+                            CustomTextField(
+                              showCounterTxt: true,
+                              hint: tr(context).phone,
+                              icon: Icons.phone,
+                              type: TextInputType.phone,
+                              numbersOnly: true,
+                              width: Sizes.fullScreenWidth(context) * 0.75,
+                              maxLength: 11,
+                              validator: (v) {
+                                bool phoneNumberAccepted = false;
+                                if (v!.length < 10) {
+                                  return 'رقم هاتف قصير';
+                                }
+                                for (String char in acceptedNumbers) {
+                                  phoneNumberAccepted = v.startsWith(char);
+                                  if (phoneNumberAccepted) {
+                                    break;
                                   }
-                                  return null;
-                                },
-                              ),
-                              CustomTextField(
-                                showCounterTxt: true,
-                                
-                                hint: tr(context).phone,
-                                icon: Icons.phone,
-                                type: TextInputType.phone,
-                                numbersOnly: true,
-                                width: Sizes.fullScreenWidth(context) * 0.75,
-                                maxLength: 11,
-                                validator: (v) {
-                                  bool phoneNumberAccepted = false;
-                                  if (v!.length < 10) {
-                                    return 'رقم هاتف قصير';
-                                  }
-                                  for (String char in acceptedNumbers) {
-                                    phoneNumberAccepted = v.startsWith(char);
-                                    if (phoneNumberAccepted) {
-                                      break;
-                                    }
-                                  }
-                                  if (phoneNumberAccepted == false) {
-                                    return 'رقم هاتف غير صالح';
-                                  }
-                                  log(
-                                    phoneNumberAccepted.toString(),
-                                  );
-                                  return null;
-                                },
-                                onChange: (v) {
-                                  phone = convertToEnglishNumbers(v.trim());
-                                },
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  CustomBottomSheet(
-                                    name: 'المحافظة',
-                                    list: areaAndCites.governorateModel!.data!,
-                                    onChange: (v) async {
-                                      areaId = 0;
-                                      await areaAndCites.getCities(cityId: v);
-                                      ref
-                                              .read(listOfCitiesProvider.state)
-                                              .state =
-                                          areaAndCites.areasModel!.data!;
-                                      governorateId = v;
-                                      ref.read(newCityProvider.state).state =
-                                          true;
-                                    },
-                                  ),
-                                  CustomBottomSheet(
-                                    name: 'المدينة',
-                                    list: listOfCities,
-                                    newCity: newCity,
-                                    onChange: (v) {
-                                      areaId = v;
-                                      ref.read(newCityProvider.state).state =
-                                          false;
-                                    },
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 15),
-                              InkWell(
-                                onTap: () {
-                                  NavigationService.push(context,
-                                      page: const CustomMapSelectAddress(),
-                                      isNamed: false);
-                                },
-                                child: Container(
-                                  width: Sizes.fullScreenWidth(context) * .75,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 1, color: Colors.black38),
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(25),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SizedBox(
-                                        width: Sizes.fullScreenWidth(context) *
-                                            0.4,
-                                        child: Text(
-                                            address ??
-                                                'حرك المؤشر ليتم اختيار العنوان',
-                                            style: MainTheme.hintTextStyle
-                                                .copyWith(color: Colors.black),
-                                            maxLines: null),
-                                      ),
-                                      const SizedBox(
-                                        width: 40,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: CircleAvatar(
-                                          radius: 12,
-                                          backgroundColor:
-                                              Theme.of(context).primaryColor,
-                                          child: const Icon(
-                                            Icons.location_on,
-                                            size: 17,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                }
+                                if (phoneNumberAccepted == false) {
+                                  return 'رقم هاتف غير صالح';
+                                }
+                                log(
+                                  phoneNumberAccepted.toString(),
+                                );
+                                return null;
+                              },
+                              onChange: (v) {
+                                phone = convertToEnglishNumbers(v.trim());
+                              },
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                CustomBottomSheet(
+                                  name: 'المحافظة',
+                                  list: areaAndCites.governorateModel!.data!,
+                                  onChange: (v) async {
+                                    areaId = 0;
+                                    await areaAndCites.getCities(cityId: v);
+                                    ref.read(listOfCitiesProvider.state).state =
+                                        areaAndCites.areasModel!.data!;
+                                    governorateId = v;
+                                    ref.read(newCityProvider.state).state =
+                                        true;
+                                  },
+                                ),
+                                CustomBottomSheet(
+                                  name: 'المدينة',
+                                  list: listOfCities,
+                                  newCity: newCity,
+                                  onChange: (v) {
+                                    areaId = v;
+                                    ref.read(newCityProvider.state).state =
+                                        false;
+                                  },
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 15),
+                            InkWell(
+                              onTap: () {
+                                NavigationService.push(context,
+                                    page: const CustomMapSelectAddress(),
+                                    isNamed: false);
+                              },
+                              child: Container(
+                                width: Sizes.fullScreenWidth(context) * .75,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1, color: Colors.black38),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(25),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(height: 15),
-                              const CustomHeaderTitle(title: 'بيانات المزرعة'),
-                              SizedBox(
-                                width: Sizes.fullScreenWidth(context) * 0.9,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    const SizedBox(height: 15),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        CustomTextField(
-                                          numbersOnly: true,
-                                          calculator: true,
-                                          paste: false,
-                                          type: TextInputType.phone,
-                                          validator: (v) {
-                                            if (v!.isEmpty) {
-                                              return 'لا يجب ترك الحقل فارغ';
-                                            }
-                                            return null;
-                                          },
-                                          hint: '     مساحة الأرض',
-                                          onChange: (v) {
-                                            try {
-                                              landSize = num.parse(v);
-                                            } on FormatException {
-                                              debugPrint('Format error!');
-                                            }
-                                          },
-                                        ),
-                                        CustomBottomSheet(
-                                          staticList: true,
-                                          name: 'فدان/ م2',
-                                          list: listofMeasuer,
-                                          onChange: (v) {
-                                            landSizeType = v;
-                                            debugPrint(v);
-                                          },
-                                        ),
-                                      ],
+                                    SizedBox(
+                                      width:
+                                          Sizes.fullScreenWidth(context) * 0.4,
+                                      child: Text(
+                                          address ??
+                                              'حرك المؤشر ليتم اختيار العنوان',
+                                          style: MainTheme.hintTextStyle
+                                              .copyWith(color: Colors.black),
+                                          maxLines: null),
                                     ),
-                                    TotalFishesItem(
-                                      list: ref
-                                          .read(
-                                            fishTypesNotifier.notifier,
-                                          )
-                                          .fishTypesModel!
-                                          .data!,
-                                      onTotalFishesChange: (v) {
-                                        totalFishes1 = v;
-                                      },
-                                      onTypeFishesChange: (v) {
-                                        typeFishes1 = v;
-                                      },
+                                    const SizedBox(
+                                      width: 40,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: CircleAvatar(
+                                        radius: 12,
+                                        backgroundColor:
+                                            Theme.of(context).primaryColor,
+                                        child: const Icon(
+                                          Icons.location_on,
+                                          size: 17,
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                            ),
+                            const SizedBox(height: 15),
+                            const CustomHeaderTitle(title: 'بيانات المزرعة'),
+                            SizedBox(
+                              width: Sizes.fullScreenWidth(context) * 0.9,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 5.0),
-                                    child: CustomTextField(
-                                      width:
-                                          Sizes.fullScreenWidth(context) * .38,
-                                      hint: '     نوع العلف',
-                                      onChange: (v) {
-                                        feed = v;
-                                      },
-                                      validator: (v) {
-                                        if (v!.isEmpty) {
-                                          return 'لا يجب ترك الحقل فارغ';
-                                        }
-                                        return null;
-                                      },
-                                    ),
+                                  const SizedBox(height: 15),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      CustomTextField(
+                                        numbersOnly: true,
+                                        calculator: true,
+                                        paste: false,
+                                        type: TextInputType.phone,
+                                        validator: (v) {
+                                          if (v!.isEmpty) {
+                                            return 'لا يجب ترك الحقل فارغ';
+                                          }
+                                          return null;
+                                        },
+                                        hint: '     مساحة الأرض',
+                                        onChange: (v) {
+                                          try {
+                                            landSize = num.parse(v);
+                                          } on FormatException {
+                                            debugPrint('Format error!');
+                                          }
+                                        },
+                                      ),
+                                      CustomBottomSheet(
+                                        staticList: true,
+                                        name: 'فدان/ م2',
+                                        list: listofMeasuer,
+                                        onChange: (v) {
+                                          landSizeType = v;
+                                          debugPrint(v);
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 6.0),
-                                    child: CustomTextField(
-                                      width:
-                                          Sizes.fullScreenWidth(context) * .31,
-                                      hint: 'اسم الشركة',
-                                      onChange: (v) {
-                                        company = v;
-                                      },
-                                      validator: (v) {
-                                        if (v!.isEmpty) {
-                                          return 'لا يجب ترك الحقل فارغ';
-                                        }
-                                        return null;
-                                      },
-                                    ),
+                                  TotalFishesItem(
+                                    list: ref
+                                        .read(
+                                          fishTypesNotifier.notifier,
+                                        )
+                                        .fishTypesModel!
+                                        .data!,
+                                    onTotalFishesChange: (v) {
+                                      totalFishes1 = v;
+                                    },
+                                    onTypeFishesChange: (v) {
+                                      typeFishes1 = v;
+                                    },
                                   ),
                                 ],
                               ),
-                              CustomTextField(
-                                calculator: true,
-                                paste: false,
-                                type: TextInputType.number,
-                                numbersOnly: true,
-                                hint: 'وزن السمكة الابتدائى بالجرام',
-                                onChange: (v) {
-                                  try {
-                                    startingWeight = num.parse(v);
-                                  } on FormatException {
-                                    debugPrint('Format error!');
-                                  }
-                                },
-                                validator: (v) {
-                                  if (v!.isEmpty) {
-                                    return 'لا يجب ترك الحقل فارغ';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              CustomTextField(
-                                numbersOnly: true,
-                                calculator: true,
-                                paste: false,
-                                type: TextInputType.number,
-                                hint: 'وزن السمكة المستهدف بالجرام',
-                                onChange: (v) {
-                                  try {
-                                    targetWeight = num.parse(v);
-                                  } on FormatException {
-                                    debugPrint('Format error!');
-                                  }
-                                },
-                                validator: (v) {
-                                  if (v!.isEmpty) {
-                                    return 'لا يجب ترك الحقل فارغ';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ],
-                          ),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 5.0),
+                                  child: CustomTextField(
+                                    width: Sizes.fullScreenWidth(context) * .38,
+                                    hint: '     نوع العلف',
+                                    onChange: (v) {
+                                      feed = v;
+                                    },
+                                    validator: (v) {
+                                      if (v!.isEmpty) {
+                                        return 'لا يجب ترك الحقل فارغ';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 6.0),
+                                  child: CustomTextField(
+                                    width: Sizes.fullScreenWidth(context) * .31,
+                                    hint: 'اسم الشركة',
+                                    onChange: (v) {
+                                      company = v;
+                                    },
+                                    validator: (v) {
+                                      if (v!.isEmpty) {
+                                        return 'لا يجب ترك الحقل فارغ';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            CustomTextField(
+                              calculator: true,
+                              paste: false,
+                              type: TextInputType.number,
+                              numbersOnly: true,
+                              hint: 'وزن السمكة الابتدائى بالجرام',
+                              onChange: (v) {
+                                try {
+                                  startingWeight = num.parse(v);
+                                } on FormatException {
+                                  debugPrint('Format error!');
+                                }
+                              },
+                              validator: (v) {
+                                if (v!.isEmpty) {
+                                  return 'لا يجب ترك الحقل فارغ';
+                                }
+                                return null;
+                              },
+                            ),
+                            CustomTextField(
+                              numbersOnly: true,
+                              calculator: true,
+                              paste: false,
+                              type: TextInputType.number,
+                              hint: 'وزن السمكة المستهدف بالجرام',
+                              onChange: (v) {
+                                try {
+                                  targetWeight = num.parse(v);
+                                } on FormatException {
+                                  debugPrint('Format error!');
+                                }
+                              },
+                              validator: (v) {
+                                if (v!.isEmpty) {
+                                  return 'لا يجب ترك الحقل فارغ';
+                                }
+                                return null;
+                              },
+                            ),
+                          ],
                         ),
-                        CustomTextButton(
-                          title: "حفظ",
-                          function: () {
-                            if (landSizeType == '') {
-                              HelperFunctions.errorBar(context,
-                                  message: 'يجب عليك تحديد نوع الارض اولا');
-                            } else if (areaId == 0) {
-                              HelperFunctions.errorBar(context,
-                                  message: 'يجب عليك تحديد المدينه اولا');
-                            } else if (typeFishes1 == 0) {
-                              HelperFunctions.errorBar(context,
-                                  message: 'يجب عليك تحديد نوع السمك اولا');
-                            } else if (formKey.currentState!.validate()) {
-                              totalFishes.add(totalFishes1);
-                              typeFishes.add(typeFishes1);
-                              if (totalFishes2 != null) {
-                                totalFishes.add(totalFishes2!);
-                                typeFishes.add(typeFishes2!);
-                              }
-                              if (totalFishes3 != null) {
-                                totalFishes.add(totalFishes3!);
-                                typeFishes.add(typeFishes3!);
-                              }
-                              addClient.totalFishes = totalFishes;
-                              addClient.typeFishes = typeFishes;
-
-                              addClient.addClient(
-                                  context: context,
-                                  phone: phone,
-                                  name: name,
-                                  governorateId: governorateId,
-                                  areaId: areaId,
-                                  landSize: landSize,
-                                  startingWeight: startingWeight,
-                                  targetWeight: targetWeight,
-                                  landSizeType: landSizeType,
-                                  company: company,
-                                  feed: feed,
-                                  fromSearch: fromSearch);
+                      ),
+                      CustomTextButton(
+                        title: "حفظ",
+                        function: () {
+                          if (landSizeType == '') {
+                            HelperFunctions.errorBar(context,
+                                message: 'يجب عليك تحديد نوع الارض اولا');
+                          } else if (areaId == 0) {
+                            HelperFunctions.errorBar(context,
+                                message: 'يجب عليك تحديد المدينه اولا');
+                          } else if (typeFishes1 == 0) {
+                            HelperFunctions.errorBar(context,
+                                message: 'يجب عليك تحديد نوع السمك اولا');
+                          } else if (formKey.currentState!.validate()) {
+                            totalFishes.add(totalFishes1);
+                            typeFishes.add(typeFishes1);
+                            if (totalFishes2 != null) {
+                              totalFishes.add(totalFishes2!);
+                              typeFishes.add(typeFishes2!);
                             }
-                          },
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                IconButton(
-                  onPressed: () {
-                    NavigationService.goBack(context);
-                  },
-                  icon: const Icon(Icons.arrow_back_ios),
-                ),
-              ],
-            ),
+                            if (totalFishes3 != null) {
+                              totalFishes.add(totalFishes3!);
+                              typeFishes.add(typeFishes3!);
+                            }
+                            addClient.totalFishes = totalFishes;
+                            addClient.typeFishes = typeFishes;
+
+                            addClient.addClient(
+                                context: context,
+                                phone: phone,
+                                name: name,
+                                governorateId: governorateId,
+                                areaId: areaId,
+                                landSize: landSize,
+                                startingWeight: startingWeight,
+                                targetWeight: targetWeight,
+                                landSizeType: landSizeType,
+                                company: company,
+                                feed: feed,
+                                fromSearch: fromSearch);
+                          }
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              IconButton(
+                onPressed: () {
+                  NavigationService.goBack(context);
+                },
+                icon: const Icon(Icons.arrow_back_ios),
+              ),
+            ],
           ),
         ),
       ),

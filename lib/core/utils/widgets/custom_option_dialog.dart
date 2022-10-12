@@ -27,12 +27,14 @@ class CustomOptionDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               CustomTextButton(
+                width: Sizes.roundedButtonDefaultWidth(context) * 0.4,
                 title: tr(context).cancel,
                 function: () {
                   NavigationService.goBack(context);
                 },
               ),
               CustomTextButton(
+                width: Sizes.roundedButtonDefaultWidth(context) * 0.4,
                 title: tr(context).confirm,
                 function: function,
               )

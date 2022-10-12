@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:aquameter/core/GlobalApi/AreaAndCities/Data/cities_model/area_and_cities_model.dart';
 import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
+import 'package:aquameter/core/screens/popup_page.dart';
 import 'package:aquameter/core/utils/constants.dart';
 import 'package:aquameter/core/utils/functions/convert_arabic_numbers_to_english_number.dart';
 import 'package:aquameter/core/utils/widgets/custom_header_title.dart';
@@ -59,279 +60,180 @@ class EditClient extends ConsumerWidget {
     );
     List<Cities>? listOfCities = ref.watch(listOfCitiesProvider);
 
-
     areaAndCites.getCities(cityId: client.governorateData!.id);
     listOfCities = areaAndCites.areasModel!.data!;
 
     List<int> totalFishes = [], typeFishes = [];
-    return SafeArea(
-        child: Scaffold(
-      body: Directionality(
-        textDirection: TextDirection.rtl,
-        child: ListView(
+    return PopUpPage(
+      resizeToAvoidBottomInset: true,
+      body: Container(
+        margin: EdgeInsets.only(top: Sizes.appBarDefaultHeight(context)),
+        child: Stack(
           children: [
-            Container(
-              margin: const EdgeInsets.only(top: 20),
-              child: Stack(
-                children: [
-                  ListView(
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            kAppLogo,
-                            height: Sizes.fullScreenHeight(context) * 0.1,
-                            width: 120,
-                            fit: BoxFit.cover,
+            ListView(
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      kAppLogo,
+                      height: Sizes.fullScreenHeight(context) * 0.1,
+                      width: 120,
+                      fit: BoxFit.cover,
+                    ),
+                    const SizedBox(height: 15),
+                    Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.all(20),
+                      child: Column(
+                        children: <Widget>[
+                          const CustomHeaderTitle(
+                              title: "تعديل بيانات العميل "),
+                          const SizedBox(height: 15),
+                          CustomTextField(
+                            width: Sizes.fullScreenWidth(context) * 0.75,
+                            icon: Icons.person,
+                            initialValue: client.name,
+                            type: TextInputType.text,
+                            onChange: (v) {
+                              name = v;
+                            },
+                            validator: (v) {
+                              if (v!.isEmpty) {
+                                return 'لا يجب ترك الحقل فارغ';
+                              }
+                              return null;
+                            },
+                          ),
+                          CustomTextField(
+                            showCounterTxt: true,
+                            initialValue: client.phone.toString(),
+                            icon: Icons.phone,
+                            type: TextInputType.phone,
+                            numbersOnly: true,
+                            width: Sizes.fullScreenWidth(context) * 0.75,
+                            maxLength: 11,
+                            validator: (v) {
+                              bool phoneNumberAccepted = false;
+                              if (v!.length < 10) {
+                                return 'رقم هاتف قصير';
+                              }
+                              for (String char in acceptedNumbers) {
+                                phoneNumberAccepted = v.startsWith(char);
+                                if (phoneNumberAccepted) {
+                                  break;
+                                }
+                              }
+                              if (phoneNumberAccepted == false) {
+                                return 'رقم هاتف غير صالح';
+                              }
+                              log(
+                                phoneNumberAccepted.toString(),
+                              );
+                              return null;
+                            },
+                            onChange: (v) {
+                              phone = convertToEnglishNumbers(v.trim());
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              CustomBottomSheet(
+                                name: areaAndCites.governorateModel!.data!
+                                    .firstWhere((element) =>
+                                        element.id == client.governorate)
+                                    .name
+                                    .toString(),
+                                list: areaAndCites.governorateModel!.data!,
+                                onChange: (v) async {
+                                  areaId = 0;
+                                  await areaAndCites.getCities(cityId: v);
+                                  ref.read(listOfCitiesProvider.state).state =
+                                      areaAndCites.areasModel!.data!;
+                                  governorateId = v;
+                                  ref.read(newCityProvider.state).state = true;
+                                },
+                              ),
+                              CustomBottomSheet(
+                                newCity: newCity,
+                                name: newCity == true
+                                    ? 'المدينه'
+                                    : client.areaData!.names!,
+                                list: listOfCities,
+                                onChange: (v) {
+                                  areaId = v;
+                                  ref.read(newCityProvider.state).state = false;
+                                },
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 15),
-                          Container(
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.all(20),
+                          InkWell(
+                            onTap: () {
+                              NavigationService.push(context,
+                                  page: CustomMapEditAndShowAddress(
+                                    client: client,
+                                    address: client.address,
+                                  ),
+                                  isNamed: false);
+                            },
+                            child: Container(
+                              width: Sizes.fullScreenWidth(context) * .75,
+                              decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 1, color: Colors.black38),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(25),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  SizedBox(
+                                      width:
+                                          Sizes.fullScreenWidth(context) * 0.5,
+                                      child: Text(address ?? client.address!,
+                                          style: MainTheme.hintTextStyle
+                                              .copyWith(color: Colors.black),
+                                          maxLines: null)),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: CircleAvatar(
+                                      radius: 12,
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
+                                      child: const Icon(
+                                        Icons.location_on,
+                                        size: 17,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 15),
+                          const CustomHeaderTitle(title: 'بيانات المزرعه'),
+                          const SizedBox(height: 10),
+                          SizedBox(
+                            width: Sizes.fullScreenWidth(context) * 0.9,
                             child: Column(
-                              children: <Widget>[
-                                const CustomHeaderTitle(
-                                    title: "تعديل بيانات العميل "),
-                                const SizedBox(height: 15),
-                                CustomTextField(
-                                  width: Sizes.fullScreenWidth(context) * 0.75,
-                                  icon: Icons.person,
-                                  initialValue: client.name,
-                                  type: TextInputType.text,
-                                  onChange: (v) {
-                                    name = v;
-                                  },
-                                  validator: (v) {
-                                    if (v!.isEmpty) {
-                                      return 'لا يجب ترك الحقل فارغ';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                CustomTextField(
-                                  showCounterTxt: true,
-                                  initialValue: client.phone.toString(),
-                                  icon: Icons.phone,
-                                  type: TextInputType.phone,
-                                  numbersOnly: true,
-                                  width: Sizes.fullScreenWidth(context) * 0.75,
-                                  maxLength: 11,
-                                  validator: (v) {
-                                    bool phoneNumberAccepted = false;
-                                    if (v!.length < 10) {
-                                      return 'رقم هاتف قصير';
-                                    }
-                                    for (String char in acceptedNumbers) {
-                                      phoneNumberAccepted = v.startsWith(char);
-                                      if (phoneNumberAccepted) {
-                                        break;
-                                      }
-                                    }
-                                    if (phoneNumberAccepted == false) {
-                                      return 'رقم هاتف غير صالح';
-                                    }
-                                    log(
-                                      phoneNumberAccepted.toString(),
-                                    );
-                                    return null;
-                                  },
-                                  onChange: (v) {
-                                    phone = convertToEnglishNumbers(v.trim());
-                                  },
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    CustomBottomSheet(
-                                      name: areaAndCites.governorateModel!.data!
-                                          .firstWhere((element) =>
-                                              element.id == client.governorate)
-                                          .name
-                                          .toString(),
-                                      list:
-                                          areaAndCites.governorateModel!.data!,
-                                      onChange: (v) async {
-                                        areaId = 0;
-                                        await areaAndCites.getCities(cityId: v);
-                                        ref
-                                                .read(listOfCitiesProvider.state)
-                                                .state =
-                                            areaAndCites.areasModel!.data!;
-                                        governorateId = v;
-                                        ref.read(newCityProvider.state).state =
-                                            true;
-                                      },
-                                    ),
-                                    CustomBottomSheet(
-                                      newCity: newCity,
-                                      name: newCity == true
-                                          ? 'المدينه'
-                                          : client.areaData!.names!,
-                                      list: listOfCities,
-                                      onChange: (v) {
-                                        areaId = v;
-                                        ref.read(newCityProvider.state).state =
-                                            false;
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 15),
-                                InkWell(
-                                  onTap: () {
-                                    NavigationService.push(context,
-                                        page: CustomMapEditAndShowAddress(
-                                          client: client,
-                                          address: client.address,
-                                        ),
-                                        isNamed: false);
-                                  },
-                                  child: Container(
-                                    width: Sizes.fullScreenWidth(context) * .75,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1, color: Colors.black38),
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(25),
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        SizedBox(
-                                            width:
-                                                Sizes.fullScreenWidth(context) *
-                                                    0.5,
-                                            child: Text(
-                                                address ?? client.address!,
-                                                style: MainTheme.hintTextStyle
-                                                    .copyWith(
-                                                        color: Colors.black),
-                                                maxLines: null)),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: CircleAvatar(
-                                            radius: 12,
-                                            backgroundColor:
-                                                Theme.of(context).primaryColor,
-                                            child: const Icon(
-                                              Icons.location_on,
-                                              size: 17,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 15),
-                                const CustomHeaderTitle(
-                                    title: 'بيانات المزرعه'),
-                                const SizedBox(height: 10),
-                                SizedBox(
-                                  width: Sizes.fullScreenWidth(context) * 0.9,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Text(
-                                            'مساحه الارض',
-                                            style: MainTheme.hintTextStyle,
-                                          ),
-                                          Text(
-                                            'نوع/م',
-                                            style: MainTheme.hintTextStyle,
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          CustomTextField(
-                                            paste: false,
-                                            type: TextInputType.phone,
-                                            validator: (v) {
-                                              if (v!.isEmpty) {
-                                                return 'لا يجب ترك الحقل فارغ';
-                                              }
-                                              return null;
-                                            },
-                                            initialValue:
-                                                client.landSize.toString(),
-                                            onChange: (v) {
-                                              landSize = num.parse(v);
-                                            },
-                                          ),
-                                          CustomBottomSheet(
-                                            staticList: true,
-                                            name: client.landSizeType!,
-                                            list: listofMeasuer,
-                                            onChange: (v) {
-                                              landSizeType = v;
-                                              debugPrint(v);
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Text(
-                                            'اجمالي الاسماك',
-                                            style: MainTheme.hintTextStyle,
-                                          ),
-                                          Text(
-                                            'النوع',
-                                            style: MainTheme.hintTextStyle,
-                                          ),
-                                        ],
-                                      ),
-                                      TotalFishesItem(
-                                        initialvalue: client.fish![0].number,
-                                        typeOfFish:
-                                            client.fish![0].fishType!.name,
-                                        list: ref
-                                            .read(
-                                              fishTypesNotifier.notifier,
-                                            )
-                                            .fishTypesModel!
-                                            .data!,
-                                        onTotalFishesChange: (v) {
-                                          totalFishes1 = v;
-                                        },
-                                        onTypeFishesChange: (v) {
-                                          typeFishes1 = v;
-                                        },
-                                      ),
-                                   
-                                    ],
-                                  ),
-                                ),
-                             
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     Text(
-                                      'نوع العلف',
+                                      'مساحه الارض',
                                       style: MainTheme.hintTextStyle,
                                     ),
                                     Text(
-                                      'اسم الشركه',
+                                      'نوع/م',
                                       style: MainTheme.hintTextStyle,
                                     ),
                                   ],
@@ -341,148 +243,211 @@ class EditClient extends ConsumerWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 5.0),
-                                      child: CustomTextField(
-                                        width: Sizes.fullScreenWidth(context) *
-                                            .38,
-                                        hint: client.feed ?? 'نوع العلف',
-                                        onChange: (v) {
-                                          feed = v;
-                                        },
-                                      ),
+                                    CustomTextField(
+                                      paste: false,
+                                      type: TextInputType.phone,
+                                      validator: (v) {
+                                        if (v!.isEmpty) {
+                                          return 'لا يجب ترك الحقل فارغ';
+                                        }
+                                        return null;
+                                      },
+                                      initialValue: client.landSize.toString(),
+                                      onChange: (v) {
+                                        landSize = num.parse(v);
+                                      },
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 6.0),
-                                      child: CustomTextField(
-                                        width: Sizes.fullScreenWidth(context) *
-                                            .31,
-                                        hint: client.company ?? 'اسم الشركه',
-                                        onChange: (v) {
-                                          company = v;
-                                        },
-                                      ),
+                                    CustomBottomSheet(
+                                      staticList: true,
+                                      name: client.landSizeType!,
+                                      list: listofMeasuer,
+                                      onChange: (v) {
+                                        landSizeType = v;
+                                        debugPrint(v);
+                                      },
                                     ),
                                   ],
                                 ),
-                                Text(
-                                  'وزن السمكه الابتدائي بالجرام',
-                                  style: MainTheme.hintTextStyle,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      'اجمالي الاسماك',
+                                      style: MainTheme.hintTextStyle,
+                                    ),
+                                    Text(
+                                      'النوع',
+                                      style: MainTheme.hintTextStyle,
+                                    ),
+                                  ],
                                 ),
-                                CustomTextField(
-                                  initialValue:
-                                      client.onlinePeriodsResult!.isNotEmpty
-                                          ? client.onlinePeriodsResult![0]
-                                              .startingWeight
-                                              .toString()
-                                          : '',
-                                  onChange: (v) {
-                                    try {
-                                      startingWeight = num.parse(v);
-                                    } on FormatException {
-                                      debugPrint('Format error!');
-                                    }
+                                TotalFishesItem(
+                                  initialvalue: client.fish![0].number,
+                                  typeOfFish: client.fish![0].fishType!.name,
+                                  list: ref
+                                      .read(
+                                        fishTypesNotifier.notifier,
+                                      )
+                                      .fishTypesModel!
+                                      .data!,
+                                  onTotalFishesChange: (v) {
+                                    totalFishes1 = v;
                                   },
-                                  validator: (v) {
-                                    if (v!.isEmpty) {
-                                      return 'لا يجب ترك الحقل فارغ';
-                                    }
-                                    return null;
-                                  },
-                                ),
-
-                                Text(
-                                  'وزن السمكه المستهدف بالجرام',
-                                  style: MainTheme.hintTextStyle,
-                                ),
-                                CustomTextField(
-                                  initialValue:
-                                      client.onlinePeriodsResult!.isNotEmpty
-                                          ? client.onlinePeriodsResult![0]
-                                              .targetWeight
-                                              .toString()
-                                          : '',
-                                  onChange: (v) {
-                                    try {
-                                      targetWeight = num.parse(v);
-                                    } on FormatException {
-                                      debugPrint('Format error!');
-                                    }
-                                  },
-                                  validator: (v) {
-                                    if (v!.isEmpty) {
-                                      return 'لا يجب ترك الحقل فارغ';
-                                    }
-                                    return null;
+                                  onTypeFishesChange: (v) {
+                                    typeFishes1 = v;
                                   },
                                 ),
                               ],
                             ),
                           ),
-                          CustomTextButton(
-                            title: "حفظ",
-                            function: () {
-                              if (newCity == true) {
-                                HelperFunctions.errorBar(context,
-                                    message: 'يجب عليك اختيار مدينه');
-                              } else {
-                                totalFishes.add(totalFishes1 != 0
-                                    ? totalFishes1
-                                    : int.parse(client.fish![0].number!));
-                                typeFishes.add(typeFishes1 != 0
-                                    ? typeFishes1
-                                    : client.fish![0].fishType!.id!);
-                             
-                                updateClient.totalFishesupdate = totalFishes;
-                                updateClient.typeFishesupdate = typeFishes;
-
-                                updateClient.updateClient(
-                                  context: context,
-                                  clientId: client.id!,
-                                  phone: phone ?? client.phone.toString(),
-                                  name: name ?? client.name!,
-                                  governorateId:
-                                      governorateId ?? client.governorate!,
-                                  areaId: areaId ?? client.area!,
-                                  landSize: landSize ?? client.landSize!,
-                                  startingWeight: startingWeight ??
-                                      (client.onlinePeriodsResult!.isNotEmpty
-                                          ? client.onlinePeriodsResult![0]
-                                              .startingWeight!
-                                          : 0),
-                                  targetWeight: targetWeight ??
-                                      (client.onlinePeriodsResult!.isNotEmpty
-                                          ? client.onlinePeriodsResult![0]
-                                              .targetWeight!
-                                          : 0),
-                                  landSizeType: landSizeType ??
-                                      client.landSize!.toString(),
-                                  company: company ?? client.company,
-                                  feed: feed ?? client.feed,
-                                );
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                'نوع العلف',
+                                style: MainTheme.hintTextStyle,
+                              ),
+                              Text(
+                                'اسم الشركه',
+                                style: MainTheme.hintTextStyle,
+                              ),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 5.0),
+                                child: CustomTextField(
+                                  width: Sizes.fullScreenWidth(context) * .38,
+                                  hint: client.feed ?? 'نوع العلف',
+                                  onChange: (v) {
+                                    feed = v;
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 6.0),
+                                child: CustomTextField(
+                                  width: Sizes.fullScreenWidth(context) * .31,
+                                  hint: client.company ?? 'اسم الشركه',
+                                  onChange: (v) {
+                                    company = v;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            'وزن السمكه الابتدائي بالجرام',
+                            style: MainTheme.hintTextStyle,
+                          ),
+                          CustomTextField(
+                            initialValue: client.onlinePeriodsResult!.isNotEmpty
+                                ? client.onlinePeriodsResult![0].startingWeight
+                                    .toString()
+                                : '',
+                            onChange: (v) {
+                              try {
+                                startingWeight = num.parse(v);
+                              } on FormatException {
+                                debugPrint('Format error!');
                               }
                             },
+                            validator: (v) {
+                              if (v!.isEmpty) {
+                                return 'لا يجب ترك الحقل فارغ';
+                              }
+                              return null;
+                            },
                           ),
-                          const SizedBox(
-                            height: 20,
+                          Text(
+                            'وزن السمكه المستهدف بالجرام',
+                            style: MainTheme.hintTextStyle,
+                          ),
+                          CustomTextField(
+                            initialValue: client.onlinePeriodsResult!.isNotEmpty
+                                ? client.onlinePeriodsResult![0].targetWeight
+                                    .toString()
+                                : '',
+                            onChange: (v) {
+                              try {
+                                targetWeight = num.parse(v);
+                              } on FormatException {
+                                debugPrint('Format error!');
+                              }
+                            },
+                            validator: (v) {
+                              if (v!.isEmpty) {
+                                return 'لا يجب ترك الحقل فارغ';
+                              }
+                              return null;
+                            },
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      NavigationService.goBack(context);
-                    },
-                    icon: const Icon(Icons.arrow_back_ios),
-                  ),
-                ],
-              ),
+                    ),
+                    CustomTextButton(
+                      title: "حفظ",
+                      function: () {
+                        if (newCity == true) {
+                          HelperFunctions.errorBar(context,
+                              message: 'يجب عليك اختيار مدينه');
+                        } else {
+                          totalFishes.add(totalFishes1 != 0
+                              ? totalFishes1
+                              : int.parse(client.fish![0].number!));
+                          typeFishes.add(typeFishes1 != 0
+                              ? typeFishes1
+                              : client.fish![0].fishType!.id!);
+
+                          updateClient.totalFishesupdate = totalFishes;
+                          updateClient.typeFishesupdate = typeFishes;
+
+                          updateClient.updateClient(
+                            context: context,
+                            clientId: client.id!,
+                            phone: phone ?? client.phone.toString(),
+                            name: name ?? client.name!,
+                            governorateId: governorateId ?? client.governorate!,
+                            areaId: areaId ?? client.area!,
+                            landSize: landSize ?? client.landSize!,
+                            startingWeight: startingWeight ??
+                                (client.onlinePeriodsResult!.isNotEmpty
+                                    ? client
+                                        .onlinePeriodsResult![0].startingWeight!
+                                    : 0),
+                            targetWeight: targetWeight ??
+                                (client.onlinePeriodsResult!.isNotEmpty
+                                    ? client
+                                        .onlinePeriodsResult![0].targetWeight!
+                                    : 0),
+                            landSizeType:
+                                landSizeType ?? client.landSize!.toString(),
+                            company: company ?? client.company,
+                            feed: feed ?? client.feed,
+                          );
+                        }
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            IconButton(
+              onPressed: () {
+                NavigationService.goBack(context);
+              },
+              icon: const Icon(Icons.arrow_back_ios),
             ),
           ],
         ),
       ),
-    ));
+    );
   }
 }

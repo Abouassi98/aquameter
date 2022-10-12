@@ -26,7 +26,8 @@ class CustomTextButton extends StatelessWidget {
           padding: const EdgeInsets.all(4),
           elevation: 5,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(radius ?? 30)),
+              borderRadius: BorderRadius.circular(
+                  radius ?? Sizes.roundedButtonDefaultRadius(context))),
           backgroundColor: const Color.fromRGBO(16, 107, 172, 1),
         ),
         child: Text(

@@ -13,7 +13,7 @@ import '../../../../core/utils/services/localization_service.dart';
 import '../../../../core/utils/services/storage_service.dart';
 import '../../../../core/utils/sizes.dart';
 import '../../../../core/utils/widgets/custom_new_dialog.dart';
-
+import '../../../../core/utils/widgets/custom_option_dialog.dart';
 import 'statics.dart';
 import 'home.dart';
 
@@ -44,10 +44,12 @@ class MainPage extends ConsumerWidget {
         ),
       ),
       onWillPop: () async {
-        return await dialog.showOptionDialog(
-            okFun: () => SystemNavigator.pop(),
+      
+        return await showDialog(
             context: context,
-            msg: 'هل تود الخروج');
+            barrierDismissible: true,
+            builder: (BuildContext context) => CustomOptionDialog(
+                function: () => SystemNavigator.pop(), title: 'هل تود الخروج'));
       },
       body: widgets[bottomNavIndex],
       bottomNavigationBar: PlatformNavBar(

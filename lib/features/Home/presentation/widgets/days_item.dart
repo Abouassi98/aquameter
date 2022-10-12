@@ -4,7 +4,6 @@ import 'package:aquameter/features/Home/presentation/manager/plan_of_week_notifi
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-
 import '../manager/get_client_notifier.dart';
 
 String dayCompare = '';
@@ -25,7 +24,6 @@ class DaysItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final PlanOfWeekNotifier departMents =
         ref.watch(departMentProvider.notifier);
     final StateProvider<List<PlanOfWeek>> selectedProvider =
@@ -40,7 +38,7 @@ class DaysItem extends ConsumerWidget {
                     ['dayCompare'] as String;
                 onChaned(dayCompare);
                 ref.read(selectedProvider.state).state = [...e];
-               ref.read(getClientsNotifier.notifier).isInit = true;
+                ref.read(getClientsNotifier.notifier).isInit = true;
               });
             }
             return ListView.builder(
@@ -48,8 +46,6 @@ class DaysItem extends ConsumerWidget {
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 physics: const ClampingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
-                primary: false,
-                shrinkWrap: true,
                 itemCount: e.length,
                 itemBuilder: (context, index) {
                   return InkWell(
