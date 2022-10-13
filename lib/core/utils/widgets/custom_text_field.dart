@@ -1,3 +1,4 @@
+import 'package:aquameter/core/utils/widgets/platform_widgets/platform_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../limit_range.dart';
@@ -19,7 +20,7 @@ class CustomTextField extends StatelessWidget {
       paste,
       showCounterTxt;
   final Widget? suffixIcon;
-  final double? height, width;
+  final double? height, width, radius;
   final Function? onChangeCountry, onInit;
   final TextEditingController? controller;
   final Color? fillColor;
@@ -52,14 +53,15 @@ class CustomTextField extends StatelessWidget {
       this.maxRange,
       this.autovalidateMode,
       this.showCounterTxt,
+      this.radius,
       this.suffixIcon})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width ?? Sizes.fullScreenWidth(context) * 0.38,
-      child: TextFormField(
+      width: width ?? Sizes.cTextFieldTitleWidthDefault(context),
+      child: PlatformTextFormField(
         toolbarOptions: ToolbarOptions(
           copy: true,
           cut: true,
@@ -92,65 +94,73 @@ class CustomTextField extends StatelessWidget {
         onChanged: onChange,
         autovalidateMode: autovalidateMode,
         validator: validator,
-        decoration: InputDecoration(
-          counterText: showCounterTxt == true ? null : '',
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: const BorderSide(
-                color: Colors.grey,
-                width: 1.0,
-              )),
-          disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: const BorderSide(
-                color: Colors.grey,
-                width: 1.0,
-              )),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: const BorderSide(
-                color: Colors.grey,
-                width: 1.0,
-              )),
-          focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: const BorderSide(
-                color: Colors.red,
-                width: 1.0,
-              )),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25),
-            borderSide: const BorderSide(
-              color: Colors.red,
-              width: 1.0,
-            ),
-          ),
-          filled: false,
-          helperText: '',
-          prefixIcon: icon != null
-              ? Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Icon(
-                    icon,
-                    color: Colors.grey,
+        material: ((context, platform) => MaterialTextFormFieldData(
+              decoration: InputDecoration(
+                counterText: showCounterTxt == true ? null : '',
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(radius ?? 20),
+                    borderSide: BorderSide(
+                      color: Colors.grey,
+                      width: radius ?? 1.0,
+                    )),
+                disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: const BorderSide(
+                      color: Colors.grey,
+                      width: 1.0,
+                    )),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(radius ?? 20),
+                    borderSide: BorderSide(
+                      color: Colors.grey,
+                      width: radius ?? 1.0,
+                    )),
+                focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: const BorderSide(
+                      color: Colors.red,
+                      width: 1.0,
+                    )),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide: const BorderSide(
+                    color: Colors.red,
+                    width: 1.0,
                   ),
-                )
-              : null,
-          suffixIcon: suffixIcon,
-          hintText: hint,
-          hintStyle: const TextStyle(
-            color: Colors.grey,
-            fontSize: 10,
-            fontWeight: FontWeight.bold,
-          ),
-          floatingLabelBehavior: hint != null
-              ? FloatingLabelBehavior.always
-              : FloatingLabelBehavior.auto,
-          contentPadding: EdgeInsets.only(
-              top: icon != null ? Sizes.fullScreenHeight(context) * 0.02 : 0.0,
-              right: 5),
-          border: InputBorder.none,
-        ),
+                ),
+                filled: false,
+                helperText: '',
+                prefixIcon: icon != null
+                    ? Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: Icon(
+                          icon,
+                          color: Colors.grey,
+                        ),
+                      )
+                    : null,
+                suffixIcon: suffixIcon,
+                hintText: hint,
+                hintStyle: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
+                floatingLabelBehavior: hint != null
+                    ? FloatingLabelBehavior.always
+                    : FloatingLabelBehavior.auto,
+                contentPadding: EdgeInsets.only(
+                    top: icon != null
+                        ? Sizes.fullScreenHeight(context) * 0.02
+                        : 0.0,
+                    right: 5),
+                border: InputBorder.none,
+              ),
+            )),
+        cupertino: ((context, platform) => CupertinoTextFormFieldData(
+                decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+            ))),
         maxLength: maxLength,
         maxLines: maxLines ?? 1,
       ),

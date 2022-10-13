@@ -137,11 +137,6 @@ class ProfileClientScreen extends ConsumerWidget {
 
     return PopUpPage(
       appBar: PlatformAppBar(
-        leading: IconButton(
-            onPressed: () {
-              NavigationService.goBack(context);
-            },
-            icon: const Icon(Icons.arrow_back)),
         title: InkWell(
           onTap: () async {
             await areaAndCites
@@ -155,14 +150,13 @@ class ProfileClientScreen extends ConsumerWidget {
           },
           child: Text(
             client.name!,
-            style: MainTheme.headingTextStyle.copyWith(color: Colors.white),
+            style: MainTheme.appBarTextStyle.copyWith(fontSize: 15),
           ),
         ),
         trailingActions: [
           IconButton(
             icon: const Icon(
               Icons.edit,
-              color: Colors.white,
             ),
             onPressed: () async {
               await areaAndCites
@@ -174,7 +168,6 @@ class ProfileClientScreen extends ConsumerWidget {
           IconButton(
               icon: const Icon(
                 Icons.delete,
-                color: Colors.red,
               ),
               onPressed: () async {
                 await _dialog.showOptionDialog(

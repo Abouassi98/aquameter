@@ -18,7 +18,11 @@ class MainTheme {
     fontSize: 18,
     fontWeight: FontWeight.bold,
   );
-
+  static TextStyle appBarTextStyle = const TextStyle(
+  
+    fontWeight: FontWeight.bold,
+    fontSize: 12,
+  );
   static TextStyle subTextStyle =
       TextStyle(fontSize: 15, color: Colors.grey[200], fontFamily: 'Tajawal');
   static TextStyle subTextStyle2 = const TextStyle(

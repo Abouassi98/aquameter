@@ -1,11 +1,11 @@
 import 'package:aquameter/core/screens/popup_page.dart';
 import 'package:aquameter/core/utils/functions/helper_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:aquameter/core/GlobalApi/AreaAndCities/manager/area_and_cities_notifier.dart';
 import 'package:aquameter/core/GlobalApi/fishTypes/manager/fish_types_notifier.dart';
-import 'package:aquameter/core/utils/widgets/custom_appbar.dart';
 import 'package:aquameter/core/utils/widgets/custom_new_dialog.dart';
 import 'package:aquameter/core/utils/widgets/custom_bottom_sheet.dart';
 import 'package:aquameter/core/utils/widgets/text_button.dart';
@@ -13,10 +13,12 @@ import 'package:aquameter/features/Home/presentation/manager/delete_clients_crea
 import 'package:aquameter/features/Home/presentation/widgets/custom_client.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/add_client.dart';
 import 'package:aquameter/features/profileClient/presentation/pages/profile_client_screen.dart';
+import '../../../../core/utils/constants.dart';
 import '../../../../core/utils/routing/navigation_service.dart';
 import '../../../../core/utils/routing/route_paths.dart';
 import '../../../../core/utils/sizes.dart';
 import '../../../../core/utils/widgets/custom_header_title.dart';
+import '../../../../core/utils/widgets/custom_text_field.dart';
 import '../../Data/clients_model/client_model.dart';
 import 'main_page.dart';
 
@@ -85,24 +87,34 @@ class SearchScreenState extends ConsumerState<SearchScreen> {
           size: 40,
         ),
       ),
-      consumerAppBar: PreferredSize(
-          preferredSize:
-              Size.fromHeight(Sizes.appBarCustomHeight(context) * 0.55),
-          child: CustomAppBar(
-            controller: controller,
-            search: true,
-            back: true,
-            onChanged: (v) {
-              ref.read(selcetedProvider.state).state = [
-                ...widget.clients
-                    .where(
-                      (element) =>
-                          element.name!.startsWith(v.toLowerCase().trim()),
-                    )
-                    .toList()
-              ];
-              debugPrint(selected.toString());
-            },
+      appBar: PlatformAppBar(
+          trailingActions: [
+            Image.asset(
+              kAppLogo,
+              fit: BoxFit.fill,
+            ),
+          ],
+          title: Padding(
+            padding: const EdgeInsets.only(
+              top: 20.0,
+            ),
+            child: CustomTextField(
+         
+              radius: 2,
+              controller: controller,
+              hint: 'بحث',
+              onChange: (v) {
+                ref.read(selcetedProvider.state).state = [
+                  ...widget.clients
+                      .where(
+                        (element) =>
+                            element.name!.startsWith(v.toLowerCase().trim()),
+                      )
+                      .toList()
+                ];
+                debugPrint(selected.toString());
+              },
+            ),
           )),
       body: SingleChildScrollView(
         child: ListView(

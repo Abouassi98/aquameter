@@ -87,25 +87,25 @@ ignoreRetryEvaluatorExceptions: true,
             ],
           ),
         );
-        if (StorageService.instance.restoreUserData().data != null) {
-          _headers.addAll({
-            'Authorization': 'Bearer ${StorageService.instance.restoreToken()}',
-          });
-        }
-        if (get == true) {
-          response = await dio.get(baseUrl + url,
-              options: Options(headers: _headers, receiveTimeout: 3000));
-        } else {
-          response = await dio.post(
-            baseUrl + url,
-            data: body,
-            options: Options(headers: _headers, receiveTimeout: 3000),
-            onSendProgress: (int sent, int total) {
-              final progress = sent / total;
-              debugPrint('progress: $progress ($sent/$total)');
-            },
-          );
-        }
+        // if (StorageService.instance.restoreUserData().data != null) {
+        //   _headers.addAll({
+        //     'Authorization': 'Bearer ${StorageService.instance.restoreToken()}',
+        //   });
+        // }
+        // if (get == true) {
+        //   response = await dio.get(baseUrl + url,
+        //       options: Options(headers: _headers, receiveTimeout: 3000));
+        // } else {
+        //   response = await dio.post(
+        //     baseUrl + url,
+        //     data: body,
+        //     options: Options(headers: _headers, receiveTimeout: 3000),
+        //     onSendProgress: (int sent, int total) {
+        //       final progress = sent / total;
+        //       debugPrint('progress: $progress ($sent/$total)');
+        //     },
+        //   );
+        // }
       }
     }
     return handleResponse(response!);
